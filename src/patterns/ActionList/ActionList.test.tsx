@@ -44,4 +44,10 @@ describe('ActionList', () => {
       'false',
     );
   });
+
+  it('shows a step without a body as a plain row with no expand button', () => {
+    render(<ActionList items={[{ id: 'x', title: 'Only a title' }]} label="Next steps" />);
+    expect(screen.getByText('Only a title')).toBeVisible();
+    expect(screen.queryByRole('button')).toBeNull();
+  });
 });
