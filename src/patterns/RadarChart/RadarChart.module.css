@@ -1,0 +1,54 @@
+.figure {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  max-width: 220px;
+}
+
+.ring,
+.ringHalf,
+.axis,
+.axisMissing {
+  fill: none;
+  stroke: var(--color-line-neutral);
+  stroke-width: 1.2;
+}
+
+.ringHalf {
+  stroke-dasharray: 3 4;
+}
+
+.axisMissing {
+  stroke-dasharray: 2 4;
+  stroke: var(--color-input-border);
+}
+
+.data {
+  fill: var(--color-crimson);
+  fill-opacity: 0.2;
+  stroke: var(--color-crimson);
+  stroke-width: 2.5;
+  stroke-linejoin: round;
+}
+
+.dot {
+  fill: var(--color-crimson);
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-2);
+  justify-content: center;
+  font-size: var(--text-caption-size);
+  line-height: var(--text-caption-line);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text);
+}
