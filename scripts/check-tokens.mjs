@@ -5,7 +5,12 @@ import { join, relative } from 'node:path';
 const root = new URL('../src', import.meta.url).pathname;
 const skip = join(root, 'design');
 const colour = /#[0-9a-fA-F]{3,8}\b|\b(?:rgb|rgba|hsl|hsla)\(/;
-const radiusOrSize = /(border-radius|font-size)\s*:\s*(?![^;]*var\()[^;]*\d/;
+const radiusOrSize = /(border-radius|font-size)\s*:\s*([^;]*)/;
+const literalLength = /(?:^|[^\w.-])\d*[1-9]\d*(?:\.\d+)?(?:px|rem|em)\b/;
+const hasLiteral = (line) => {
+  const m = radiusOrSize.exec(line);
+  return m !== null && literalLength.test(' ' + m[2].replace(/var\([^)]*\)/g, ''));
+};
 
 const files = [];
 (function walk(dir) {
@@ -23,7 +28,7 @@ for (const file of files) {
     .split('\n')
     .forEach((line, i) => {
       if (colour.test(line)) problems.push(`${relative(root, file)}:${i + 1} hard-coded colour`);
-      if (file.endsWith('.css') && radiusOrSize.test(line))
+      if (file.endsWith('.css') && hasLiteral(line))
         problems.push(`${relative(root, file)}:${i + 1} hard-coded radius or font size`);
     });
 }
