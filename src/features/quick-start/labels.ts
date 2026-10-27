@@ -1,5 +1,5 @@
 import { en } from '@/domain/copy';
-import type { QuestionId, StageId } from '@/domain/types';
+import type { StageId } from '@/domain/types';
 import type { ScoreCardLabels, StageCardLabels } from '@/patterns';
 
 /** Replaces each "{name}" placeholder in a copy template with its value. */
@@ -50,10 +50,4 @@ export const rangeLabels: Record<StageId, string> = {
   building: en.stages.building.range,
   growing: en.stages.growing.range,
   established: en.stages.established.range,
-};
-
-/** Question wording for the "still needed" list. Falls back to the id when copy has none. */
-export const questionLabel = (id: QuestionId): string => {
-  const questions: Partial<Record<string, { text: string }>> = en.questions;
-  return questions[id]?.text ?? id;
 };

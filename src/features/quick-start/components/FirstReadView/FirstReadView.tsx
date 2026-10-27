@@ -5,10 +5,10 @@ import { scoreAreaIds } from '@/domain/types';
 import type { QuestionId, ScoreAreaId } from '@/domain/types';
 import { CtaBand, ProgressBar, SampleDataBadge, ScoreCard, StageCard } from '@/patterns';
 import { SectionHeader } from '@/shell';
+import { questionLabel } from '@/features/questions';
 import type { FirstReadResponse } from '../../contract';
 import {
   progressText,
-  questionLabel,
   rangeLabels,
   scoreCardLabels,
   stageCardLabels,
