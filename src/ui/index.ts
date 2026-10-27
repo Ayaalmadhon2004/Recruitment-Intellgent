@@ -24,6 +24,8 @@ export { Select } from './Select';
 export type { SelectOption, SelectProps } from './Select';
 export { Stepper } from './Stepper';
 export type { StepperProps, StepperStep } from './Stepper';
+export { Switch } from './Switch';
+export type { SwitchProps } from './Switch';
 export { Tabs } from './Tabs';
 export type { TabItem, TabsProps } from './Tabs';
 export { cx } from './internal/cx';
