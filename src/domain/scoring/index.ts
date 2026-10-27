@@ -6,3 +6,11 @@ export { forecast } from './forecast';
 export { notScorable, scored, scoredGauge } from './result';
 export { scoreArea, scoreGauge } from './score-area';
 export { pickStage } from './stage';
+export {
+  appliedScholarship,
+  fourYearCost,
+  netAnnualCost,
+  priceBandFor,
+  scholarshipCoverage,
+} from './cost';
+export type { NetAnnualCostInput } from './cost';
