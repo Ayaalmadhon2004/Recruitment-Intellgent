@@ -9,7 +9,7 @@ import {
   type Question,
   type ScoreAreaId,
 } from '@/domain/types';
-import { isRecord, parseAnswerList } from '@/features/quick-start/server';
+import { isRecord, parseAnswerList } from '@/domain/validation/answers';
 import type { ReportArea, ReportEvidence, ReportGap, ReportGauge, ReportModel } from './contract';
 
 /** Server-only: builds the ReportModel from an Audit plus a config. No React, nothing stored. */
@@ -98,7 +98,7 @@ function oneOf<T extends string>(value: unknown, allowed: readonly T[], name: st
   );
 }
 
-/** Strict validation of the request body. Answers reuse the quick-start validation. */
+/** Strict validation of the request body. Answers reuse the shared domain validation. */
 export function parseReportRequest(body: unknown): ReportParseResult {
   if (!isRecord(body)) return fail('Body must be an object with an "audit" object.');
   const raw = body.audit;
