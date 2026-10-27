@@ -8,8 +8,9 @@ import type { Question } from '../types';
  * whole list when Capstone confirms the 40, their types and options, which score each feeds, and which 5
  * are Quick Start.
  *
- * `feeds` is empty on purpose: which score each question feeds is unknown. `quickStart` is false on all:
- * the 5 Quick Start questions are unknown.
+ * `feeds` is empty on purpose: which score each question feeds is unknown. `quickStart` is TEMPORARY on
+ * A1, B1, C1, D1 and F1 only (B1 decides the stage, the others span question types). The real 5 are unknown
+ * (unknown 2): replace this choice when Capstone confirms them.
  */
 export const questionsConfig: readonly Question[] = [
   {
@@ -18,7 +19,7 @@ export const questionsConfig: readonly Question[] = [
     textKey: 'questions.A1.text',
     helpKey: 'questions.A1.help',
     feeds: [],
-    quickStart: false,
+    quickStart: true,
     temporary: true,
     type: 'select',
     controlLabelKey: 'questions.A1.control',
@@ -79,7 +80,7 @@ export const questionsConfig: readonly Question[] = [
     textKey: 'questions.B1.text',
     helpKey: 'questions.B1.help',
     feeds: [],
-    quickStart: false,
+    quickStart: true,
     temporary: true,
     type: 'number',
     controlLabelKey: 'questions.B1.control',
@@ -136,7 +137,7 @@ export const questionsConfig: readonly Question[] = [
     textKey: 'questions.C1.text',
     helpKey: 'questions.C1.help',
     feeds: [],
-    quickStart: false,
+    quickStart: true,
     temporary: true,
     type: 'radio',
     options: [
@@ -200,7 +201,7 @@ export const questionsConfig: readonly Question[] = [
     textKey: 'questions.D1.text',
     helpKey: 'questions.D1.help',
     feeds: [],
-    quickStart: false,
+    quickStart: true,
     temporary: true,
     type: 'toggle',
   },
@@ -317,7 +318,7 @@ export const questionsConfig: readonly Question[] = [
     textKey: 'questions.F1.text',
     helpKey: 'questions.F1.help',
     feeds: [],
-    quickStart: false,
+    quickStart: true,
     temporary: true,
     type: 'radio',
     options: [

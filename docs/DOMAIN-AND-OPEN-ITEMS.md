@@ -34,7 +34,7 @@ Everything below is a stand-in. Nothing here is a confirmed fact or formula.
 |---|---|---|---|
 | Question list | `src/domain/config/questions.config.ts` | TEMPORARY: the 24 questions shown in the Intake design (4 per section A to F), not the 40. Every one has `temporary: true`. Text lives in `copy/en.ts` under `questions.<id>`. | Capstone confirms the 40 (unknown 2) |
 | Which score each question feeds | `feeds` on every question | Empty `[]`. Unknown. NotScorable results list no missing ids until this is filled. | Capstone confirms the mapping (unknown 1, 2) |
-| Quick Start questions | `quickStart` flag | `false` on all. The 5 are unknown. | Capstone picks the 5 (unknown 2) |
+| Quick Start questions | `quickStart` flag | TEMPORARY: `quickStart: true` on A1, B1, C1, D1, F1 (chosen because B1 decides the stage and the others span question types). The real 5 are unknown. | Capstone picks the 5 (unknown 2) |
 | Option ids | question `options[].value` | Slug of the design label, for example `private-university`. Stored in answers. | Real option lists arrive |
 | Stage source question | `stages.config.ts` `source` | TEMPORARY: `B1` (Vietnamese students enrolled this year). The design also has A2 as a stage picker; B1 was chosen because stage is defined by headcount. | Real question list arrives |
 | Scoring formulas | `scoring.config.ts` `formulas` | `null` for all six areas and both gauges. `scoreArea` and `scoreGauge` return `NotScorable` with `reason: 'no-formula'`. | Capstone gives the formulas (unknown 1) |
