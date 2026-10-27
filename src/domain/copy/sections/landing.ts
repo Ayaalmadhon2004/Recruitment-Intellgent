@@ -65,6 +65,7 @@ export const landing = {
     included: 'Included',
     locked: 'Locked',
     priceLabel: 'Price',
+    listLabel: 'What is in this report',
     pricePlaceholder: '[PRICING TO BE CONFIRMED WITH CAPSTONE]',
     free: {
       tab: 'Free report',
@@ -100,6 +101,7 @@ export const landing = {
     label: 'Privacy',
     title: 'Your answers stay private.',
     body: 'Used only for your audit.',
+    policyLink: 'Read the privacy policy',
     policyPlaceholder: '[PRIVACY POLICY TO BE CONFIRMED WITH CAPSTONE]',
   },
   finalCta: {
