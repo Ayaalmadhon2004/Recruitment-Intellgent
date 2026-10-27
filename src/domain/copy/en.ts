@@ -1,3 +1,5 @@
+import { reportPage } from './sections/reportPage';
+
 /** English UI copy. Components never hard-code text; they receive these values by key. */
 export const en = {
   brand: {
@@ -144,6 +146,7 @@ export const en = {
     noAnswersBody: 'Answer the Quick Start questions first and your first read will appear here.',
     noAnswersLink: 'Go to Quick Start',
   },
+  reportPage,
   report: {
     eyebrow: 'YOUR REPORT',
     lead: 'Your Vietnam recruitment report, in one view.',
