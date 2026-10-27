@@ -1,0 +1,51 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.head {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+  font-size: var(--text-small-size);
+  font-weight: var(--font-weight-medium);
+}
+
+.track {
+  overflow: hidden;
+  border-radius: var(--radius-pill);
+  background: var(--color-line-soft);
+}
+
+.md {
+  height: 10px;
+}
+.lg {
+  height: 12px;
+}
+
+.fill {
+  height: 100%;
+  border-radius: var(--radius-pill);
+}
+
+.crimson .fill {
+  background: var(--color-crimson);
+}
+.navy .fill {
+  background: var(--color-navy);
+}
+.strong .fill {
+  background: var(--color-status-strong);
+}
+
+.inverse {
+  color: var(--color-text-inverse);
+}
+.inverse .track {
+  background: var(--color-navy);
+}
+.inverse .fill {
+  background: var(--color-card);
+}
