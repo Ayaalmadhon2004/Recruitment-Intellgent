@@ -1,0 +1,64 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.vertical {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.vertical .list {
+  flex: 0 1 300px;
+  width: 100%;
+  flex-direction: column;
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  min-height: 56px;
+  padding: 0 18px;
+  border: 2px solid var(--color-line-strong);
+  border-radius: var(--radius-pill);
+  background: var(--color-card);
+  color: var(--color-text);
+  font-size: var(--text-label-size);
+  font-weight: var(--font-weight-semibold);
+  text-align: left;
+}
+
+.selected {
+  border-color: var(--color-crimson);
+  background: var(--color-crimson);
+  color: var(--color-text-inverse);
+}
+
+.badge {
+  padding: 2px var(--space-3);
+  border-radius: var(--radius-pill);
+  background: var(--color-page);
+  color: var(--color-text);
+  font-size: var(--text-small-size);
+  font-weight: var(--font-weight-bold);
+}
+
+.selected .badge {
+  background: var(--color-card);
+  color: var(--color-crimson-dark);
+}
+
+.panel {
+  flex: 1 1 560px;
+  min-width: 0;
+}
