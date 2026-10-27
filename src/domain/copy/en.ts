@@ -1,3 +1,4 @@
+import { costCalc } from './sections/costCalc';
 /** English UI copy. Components never hard-code text; they receive these values by key. */
 export const en = {
   brand: {
@@ -104,6 +105,7 @@ export const en = {
     'response-speed': 'Response speed',
     'commission-fit': 'Commission fit',
   },
+  costCalc,
   questions: {
     A1: {
       text: 'What type of institution are you?',
