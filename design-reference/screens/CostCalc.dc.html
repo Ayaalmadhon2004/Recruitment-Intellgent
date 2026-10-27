@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Cost calculator</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'Poppins',sans-serif;color:#333333;background:#FAF5EC}
+a{color:#1E3A5F}a:hover{color:#0D2447}
+a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid #1E3A5F;outline-offset:2px;box-shadow:0 0 0 2px #FFFFFF}
+button{font-family:inherit;cursor:pointer}
+input[type=range]{width:100%;accent-color:#A41034;height:32px;margin:0}
+@keyframes up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+@keyframes ring{from{stroke-dasharray:0 600}}
+@keyframes grow{from{width:0}}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(164,16,52,.45)}100%{box-shadow:0 0 0 16px rgba(164,16,52,0)}}
+@keyframes float{50%{transform:translateY(-10px)}}
+@keyframes drift{50%{transform:translate(10px,-12px) rotate(3deg)}}
+@keyframes pop{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:none}}
+.rv{animation:up .8s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.12s}.d2{animation-delay:.24s}.d3{animation-delay:.36s}
+.fl{animation:float 6s ease-in-out infinite}
+.dr{animation:drift 9s ease-in-out infinite}
+.rg{animation:ring 1.4s cubic-bezier(.2,.7,.2,1) both}
+.gr{animation:grow 1.2s cubic-bezier(.2,.7,.2,1) both}
+.pu{animation:pulse 2s ease-out infinite}
+.pp{animation:pop .45s cubic-bezier(.2,.7,.2,1) both}
+.lift{transition:transform .25s ease,box-shadow .25s ease}
+.lift:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(13,36,71,.14)}
+.btn{transition:transform .2s ease,background .2s ease}
+.btn:hover{transform:translateY(-2px)}
+.tabsel{display:none}
+@media(max-width:760px){.tablist{display:none!important}.tabsel{display:block}.pad{padding-left:20px!important;padding-right:20px!important}.nav a.hide{display:none}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+<div style="width:100%;overflow:hidden;background:#FAF5EC;font-family:'Poppins',sans-serif;color:#333333">
+
+<!-- Header -->
+<header class="pad" style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;padding:14px 48px;background:#FFFFFF;border-bottom:1px solid #E8DFCF">
+<div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+<img src="../assets/logo.png" alt="Capstone Education" style="height:44px;width:auto;display:block">
+<span style="font-size:14px;font-weight:600;color:#333333;border-left:2px solid #A41034;padding-left:16px">Vietnam Recruitment Intelligence</span>
+</div>
+<nav class="nav" aria-label="Main" style="display:flex;flex-wrap:wrap;align-items:center;gap:24px">
+<a class="hide" href="Main.dc.html" style="font-size:14px;font-weight:500;text-decoration:none;color:#1E3A5F;min-height:44px;display:inline-flex;align-items:center">Report</a>
+<a class="hide" href="ScoreDetail.dc.html" style="font-size:14px;font-weight:500;text-decoration:none;color:#1E3A5F;min-height:44px;display:inline-flex;align-items:center">Score detail</a>
+<a class="hide" href="AgentStrategy.dc.html" style="font-size:14px;font-weight:500;text-decoration:none;color:#1E3A5F;min-height:44px;display:inline-flex;align-items:center">Agent strategy</a>
+<a class="btn" href="ScoreDetail.dc.html" style="min-height:44px;box-sizing:border-box;padding:0 22px;border-radius:999px;background:#A41034;color:#FFFFFF;font-size:14px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center">Affordability detail</a>
+</nav>
+</header>
+
+<!-- Hero -->
+<section style="position:relative;background:#0D2447;color:#FFFFFF;overflow:hidden">
+<div class="pad" style="position:relative;max-width:1200px;margin:0 auto;padding:28px 48px 88px;display:flex;flex-direction:column;gap:24px;box-sizing:border-box">
+<nav aria-label="Breadcrumb">
+<ol style="list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:14px;font-weight:500">
+<li><a href="Main.dc.html" style="color:#FFFFFF;min-height:44px;display:inline-flex;align-items:center">Interactive report</a></li>
+<li aria-hidden="true">/</li>
+<li aria-current="page" style="font-weight:600">Cost calculator</li>
+</ol>
+</nav>
+<div class="rv" style="display:flex;flex-direction:column;gap:16px;max-width:640px">
+<span style="align-self:flex-start;font-size:13px;font-weight:600;padding:5px 14px;border-radius:999px;background:#A41034;color:#FFFFFF">Sample data - illustrative only</span>
+<h1 style="margin:0;font-size:40px;line-height:48px;font-weight:700">What does a year really cost?</h1>
+<p style="margin:0;font-size:20px;line-height:30px">Change the numbers. See the net price and where it lands.</p>
+</div>
+</div>
+<svg aria-hidden="true" viewBox="0 0 1440 70" preserveAspectRatio="none" style="position:absolute;bottom:-1px;left:0;width:100%;height:70px;display:block"><polygon points="0,70 1440,0 1440,70" fill="#FAF5EC"/></svg>
+</section>
+
+<main class="pad" style="max-width:1200px;margin:0 auto;padding:24px 48px 72px;display:flex;flex-direction:column;gap:72px;box-sizing:border-box">
+
+<!-- Calculator -->
+<section aria-labelledby="h-calc" style="display:flex;flex-direction:column;gap:24px">
+<div style="display:flex;flex-direction:column;gap:4px">
+<span style="font-size:13px;font-weight:600;letter-spacing:.08em;color:#A41034">YOUR NUMBERS</span>
+<h2 id="h-calc" style="margin:0;font-size:22px;line-height:30px;font-weight:600">Yearly cost in US dollars</h2>
+</div>
+
+<div style="display:flex;flex-wrap:wrap;gap:32px;align-items:stretch">
+<form onSubmit="{{noSubmit}}" style="flex:1 1 440px;min-width:0;background:#FFFFFF;border-radius:28px;padding:32px;box-shadow:0 10px 30px rgba(13,36,71,.08);display:flex;flex-direction:column;gap:22px;box-sizing:border-box">
+
+<div style="display:flex;flex-direction:column;gap:6px">
+<label for="tuition" style="font-size:14px;font-weight:600">Tuition per year (USD)</label>
+<input id="tuition" type="number" inputmode="numeric" min="0" step="500" value="{{tuitionStr}}" onChange="{{onTuition}}" style="width:100%;min-height:48px;box-sizing:border-box;padding:0 14px;font-size:16px;font-family:inherit;border:2px solid #818285;border-radius:12px;background:#FFFFFF;color:#333333">
+</div>
+
+<div style="display:flex;flex-direction:column;gap:6px">
+<label for="living" style="font-size:14px;font-weight:600">Living costs per year (USD)</label>
+<input id="living" type="number" inputmode="numeric" min="0" step="500" value="{{livingStr}}" onChange="{{onLiving}}" style="width:100%;min-height:48px;box-sizing:border-box;padding:0 14px;font-size:16px;font-family:inherit;border:2px solid #818285;border-radius:12px;background:#FFFFFF;color:#333333">
+</div>
+
+<div style="display:flex;align-items:center;justify-content:space-between;gap:16px">
+<span id="lbl-liv" style="font-size:14px;font-weight:600">Include living costs in the net price</span>
+<button type="button" role="switch" aria-checked="{{inclLiving}}" aria-labelledby="lbl-liv" onClick="{{toggleLiving}}" style="{{switchStyle}}"><span style="{{knobStyle}}"></span></button>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:6px">
+<div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px">
+<label for="schol" style="font-size:14px;font-weight:600">Scholarship amount per year</label>
+<output for="schol" style="font-size:16px;font-weight:700;color:#A41034">{{scholFmt}}</output>
+</div>
+<input id="schol" type="range" min="0" max="{{scholMax}}" step="500" value="{{scholVal}}" onChange="{{onSchol}}" aria-valuetext="{{scholFmt}}">
+<div style="display:flex;justify-content:space-between;font-size:13px;color:#525252"><span>$0</span><span>{{scholMaxFmt}} (full tuition)</span></div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:6px">
+<label for="fx" style="font-size:14px;font-weight:600">Approximate amount in VND</label>
+<input id="fx" type="text" readonly="readonly" placeholder="[VND EQUIVALENT - RATE TO BE CONFIRMED WITH CAPSTONE]" style="width:100%;min-height:48px;box-sizing:border-box;padding:0 14px;font-size:14px;font-family:inherit;border:2px dashed #818285;border-radius:12px;background:#FAF5EC;color:#333333">
+<span style="font-size:13px;color:#525252">Placeholder. No exchange rate is used in the sums.</span>
+</div>
+</form>
+
+<div class="pp" style="flex:1 1 360px;min-width:0;background:#1E3A5F;color:#FFFFFF;border-radius:28px;padding:32px;display:flex;flex-direction:column;gap:20px;box-sizing:border-box">
+<span style="font-size:13px;font-weight:600;letter-spacing:.08em">NET ANNUAL COST</span>
+<div style="display:flex;flex-wrap:wrap;gap:24px;align-items:center">
+<div style="position:relative;line-height:0;width:160px;max-width:100%;flex:0 0 auto"><svg viewBox="0 0 180 180" width="160" height="160" role="img" aria-label="{{ringAria}}" style="display:block;flex:0 0 auto">
+<circle cx="90" cy="90" r="70" fill="none" stroke="#3D5780" stroke-width="16"/>
+<circle class="rg" cx="90" cy="90" r="70" fill="none" stroke="#FFFFFF" stroke-width="16" stroke-linecap="round" stroke-dasharray="{{ringDash}}" transform="rotate(-90 90 90)"/>
+
+
+</svg><div aria-hidden="true" style="position:absolute;left:0;right:0;top:0;bottom:0;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.15;font-family:'Poppins',sans-serif;text-align:center"><span style="font-size:30.2px;font-weight:700;color:#FFFFFF">{{coverPct}}%</span><span style="font-size:10.7px;font-weight:400;color:#FFFFFF">tuition covered</span></div></div>
+<div style="flex:1 1 160px;min-width:0;display:flex;flex-direction:column;gap:4px">
+<span style="font-size:44px;line-height:52px;font-weight:700">{{netFmt}}</span>
+<span style="font-size:14px;line-height:22px">per year, after the scholarship</span>
+</div>
+</div>
+<dl style="margin:0;display:flex;flex-direction:column;gap:8px;font-size:15px">
+<div style="display:flex;justify-content:space-between;gap:12px"><dt>Tuition</dt><dd style="margin:0;font-weight:600">{{tuitionFmt}}</dd></div>
+<div style="display:flex;justify-content:space-between;gap:12px"><dt>Living costs</dt><dd style="margin:0;font-weight:600">{{livingShown}}</dd></div>
+<div style="display:flex;justify-content:space-between;gap:12px"><dt>Scholarship</dt><dd style="margin:0;font-weight:600">{{scholMinus}}</dd></div>
+<div style="display:flex;justify-content:space-between;gap:12px;padding-top:10px;border-top:1px solid #FFFFFF"><dt style="font-weight:600">Net per year</dt><dd style="margin:0;font-weight:700">{{netFmt}}</dd></div>
+</dl>
+<div style="display:flex;flex-wrap:wrap;gap:10px;font-size:14px;font-weight:600">
+<span style="padding:6px 16px;border-radius:999px;background:#FFFFFF;color:#8F0728">Price band: {{bandLabel}}</span>
+<span style="padding:6px 16px;border-radius:999px;border:1px solid #FFFFFF">Four years: {{fourFmt}}</span>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Price band -->
+<section aria-labelledby="h-band" style="display:flex;flex-direction:column;gap:24px">
+<div style="display:flex;flex-direction:column;gap:4px">
+<span style="font-size:13px;font-weight:600;letter-spacing:.08em;color:#A41034">PRICE BAND</span>
+<h2 id="h-band" style="margin:0;font-size:22px;line-height:30px;font-weight:600">Where your net price sits</h2>
+</div>
+<ol style="list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px">
+<sc-for list="{{bands}}" as="b" hint-placeholder-count="5">
+<li style="{{b.style}}">
+<span style="display:flex;align-items:center;gap:8px;font-size:16px;font-weight:600">
+<sc-if value="{{b.here}}" hint-placeholder-val="{{false}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.7 2.7L16 9.5"/></svg></sc-if>
+{{b.label}}</span>
+<span style="font-size:13px;font-weight:500">{{b.note}}</span>
+</li>
+</sc-for>
+</ol>
+</section>
+
+<!-- Comparison chart -->
+<section aria-labelledby="h-cmp" style="display:flex;flex-direction:column;gap:24px">
+<div style="display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end;justify-content:space-between">
+<div style="display:flex;flex-direction:column;gap:4px">
+<span style="font-size:13px;font-weight:600;letter-spacing:.08em;color:#A41034">COMPARE</span>
+<h2 id="h-cmp" style="margin:0;font-size:22px;line-height:30px;font-weight:600">You and three peers</h2>
+</div>
+<span style="font-size:13px;font-weight:600;padding:5px 14px;border-radius:999px;background:#FFFFFF;border:2px solid #A41034;color:#8F0728">Sample data - peer values are not real</span>
+</div>
+<div style="background:#FFFFFF;border-radius:28px;padding:32px;box-shadow:0 10px 30px rgba(13,36,71,.08);display:flex;flex-direction:column;gap:16px">
+<ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px">
+<sc-for list="{{bars}}" as="r" hint-placeholder-count="4">
+<li style="display:flex;flex-wrap:wrap;align-items:center;gap:6px 16px">
+<span style="flex:0 0 150px;font-size:15px;font-weight:{{r.weight}};color:#333333">{{r.name}}</span>
+<span style="flex:1 1 200px;min-width:0;display:block;height:22px;border-radius:999px;background:#EFE7D8;overflow:hidden"><span class="gr" style="{{r.fill}}"></span></span>
+<span style="flex:0 0 80px;font-size:15px;font-weight:600;text-align:right">{{r.val}}</span>
+</li>
+</sc-for>
+</ul>
+<p style="margin:0;font-size:14px;line-height:22px;color:#525252">{{peerNote}}</p>
+</div>
+</section>
+
+<!-- CTA -->
+<section style="position:relative;overflow:hidden;border-radius:32px;background:#A41034;color:#FFFFFF;padding:40px;display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:space-between">
+<div style="flex:1 1 400px;min-width:0;display:flex;flex-direction:column;gap:6px">
+<h2 style="margin:0;font-size:24px;line-height:32px;font-weight:600">Want to move the price band?</h2>
+<p style="margin:0;font-size:16px;line-height:26px">See which fixes lift your Affordability score most.</p>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:12px">
+<a class="btn" href="ScoreDetail.dc.html" style="min-height:48px;box-sizing:border-box;padding:0 26px;border-radius:999px;background:#FFFFFF;color:#8F0728;font-size:15px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center">Open score detail</a>
+<a class="btn" href="Main.dc.html" style="min-height:48px;box-sizing:border-box;padding:0 26px;border-radius:999px;border:2px solid #FFFFFF;color:#FFFFFF;font-size:15px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center">Back to report</a>
+</div>
+</section>
+
+</main>
+
+<footer style="position:relative;background:#0D2447;color:#FFFFFF;padding:36px 48px">
+<div style="max-width:1200px;margin:0 auto;display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center;font-size:14px">
+<span style="display:inline-flex;align-items:center;gap:12px"><svg aria-hidden="true" viewBox="0 0 100 100" width="36" height="36"><polygon points="6,66 54,4 54,50" fill="#3D5780"/><polygon points="6,66 54,50 32,94" fill="#2A4770"/><polygon points="58,4 94,52 36,92" fill="#A41034"/><polygon points="58,4 36,92 58,56" fill="#8F0728"/></svg>Vietnam Recruitment Intelligence by Capstone Education</span>
+<a href="https://capstonevietnam.com" style="color:#FFFFFF;font-weight:600;min-height:44px;display:inline-flex;align-items:center">capstonevietnam.com</a>
+</div>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":2450}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { tuition: '34000', living: '9000', schol: 6000, incl: true }; }
+  renderVals() {
+    const num = (s) => { const n = parseFloat(s); return isFinite(n) && n > 0 ? n : 0; };
+    const usd = (n) => '$' + Math.round(n).toLocaleString('en-US');
+    const tuition = num(this.state.tuition);
+    const living = num(this.state.living);
+    const incl = this.state.incl;
+    const scholMax = Math.max(500, Math.ceil(tuition / 500) * 500);
+    const schol = Math.min(this.state.schol, scholMax);
+    const applied = Math.min(schol, tuition);
+    const net = Math.max(0, tuition + (incl ? living : 0) - applied);
+    const cover = tuition > 0 ? Math.round(applied / tuition * 100) : 0;
+
+    const labels = ['Under $20k', '$20-30k', '$30-40k', '$40-50k', '$50k+'];
+    const notes = ['Lowest band', 'Lower middle', 'Middle', 'Upper middle', 'Highest band'];
+    const bi = net < 20000 ? 0 : net < 30000 ? 1 : net < 40000 ? 2 : net < 50000 ? 3 : 4;
+    const bands = labels.map((l, i) => {
+      const here = i === bi;
+      return {
+        label: l, here, note: here ? 'Your band' : notes[i],
+        style: 'flex:1 1 150px;min-height:76px;box-sizing:border-box;padding:12px 18px;display:flex;flex-direction:column;justify-content:center;gap:2px;border-radius:' + (i === 0 ? '999px 20px 20px 999px' : (i === 4 ? '20px 999px 999px 20px' : '20px')) + ';' +
+          (here ? 'background:#A41034;color:#FFFFFF;border:2px solid #A41034;box-shadow:0 10px 24px rgba(164,16,52,.3)' : 'background:#FFFFFF;color:#333333;border:2px solid #E3D8C4')
+      };
+    });
+
+    const sample = [
+      { name: 'Peer A (sample)', v: 27000 },
+      { name: 'Peer B (sample)', v: 36000 },
+      { name: 'Peer C (sample)', v: 44000 }
+    ];
+    const rows = [{ name: 'You', v: net, me: true }].concat(sample.map(s => ({ name: s.name, v: s.v, me: false })));
+    const mx = Math.max(50000, ...rows.map(r => r.v));
+    const bars = rows.map(r => ({
+      name: r.name, val: usd(r.v), weight: r.me ? 700 : 500,
+      fill: 'display:block;height:100%;border-radius:999px;width:' + (r.v / mx * 100).toFixed(1) + '%;background:' + (r.me ? '#A41034' : '#1E3A5F')
+    }));
+    const lower = sample.filter(s => net < s.v).length;
+    const peerNote = 'Your net price is lower than ' + lower + ' of 3 sample peers. Peer values are sample data, not real institutions.';
+
+    return {
+      noSubmit: (e) => { if (e && e.preventDefault) e.preventDefault(); },
+      tuitionStr: this.state.tuition, livingStr: this.state.living,
+      onTuition: (e) => this.setState({ tuition: e.target.value }),
+      onLiving: (e) => this.setState({ living: e.target.value }),
+      onSchol: (e) => this.setState({ schol: num(e.target.value) }),
+      toggleLiving: () => this.setState({ incl: !incl }),
+      inclLiving: incl,
+      switchStyle: 'flex:0 0 auto;width:56px;height:32px;border-radius:999px;border:2px solid ' + (incl ? '#A41034' : '#818285') + ';background:' + (incl ? '#A41034' : '#FFFFFF') + ';padding:0;position:relative;transition:all .2s ease;min-width:56px',
+      knobStyle: 'position:absolute;top:3px;left:' + (incl ? 27 : 3) + 'px;width:22px;height:22px;border-radius:999px;background:' + (incl ? '#FFFFFF' : '#818285') + ';transition:left .2s ease',
+      scholMax, scholVal: schol, scholFmt: usd(schol), scholMaxFmt: usd(scholMax),
+      netFmt: usd(net), tuitionFmt: usd(tuition),
+      livingShown: incl ? usd(living) : 'Not included',
+      scholMinus: schol > 0 ? '- ' + usd(schol) : '$0',
+      fourFmt: usd(net * 4),
+      coverPct: cover,
+      ringDash: (Math.min(cover, 100) / 100 * 439.8).toFixed(1) + ' 600',
+      ringAria: 'Scholarship covers ' + cover + ' percent of tuition',
+      bandLabel: labels[bi], bands, bars, peerNote
+    };
+  }
+}
+</script>
+</body>
+</html>

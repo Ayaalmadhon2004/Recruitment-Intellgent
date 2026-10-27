@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Interactive report</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'Poppins',sans-serif;color:#333333;background:#FAF5EC}
+a{color:#1E3A5F}a:hover{color:#0D2447}
+a:focus-visible,button:focus-visible,select:focus-visible{outline:2px solid #1E3A5F;outline-offset:2px;box-shadow:0 0 0 2px #FFFFFF}
+button{font-family:inherit;cursor:pointer}
+@keyframes up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+@keyframes ring{from{stroke-dasharray:0 600}}
+@keyframes grow{from{width:0}}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(164,16,52,.45)}100%{box-shadow:0 0 0 16px rgba(164,16,52,0)}}
+@keyframes float{50%{transform:translateY(-10px)}}
+@keyframes drift{50%{transform:translate(10px,-12px) rotate(3deg)}}
+@keyframes pop{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:none}}
+.rv{animation:up .8s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.12s}.d2{animation-delay:.24s}.d3{animation-delay:.36s}
+.fl{animation:float 6s ease-in-out infinite}
+.dr{animation:drift 9s ease-in-out infinite}
+.rg{animation:ring 1.4s cubic-bezier(.2,.7,.2,1) both}
+.gr{animation:grow 1.2s cubic-bezier(.2,.7,.2,1) both}
+.pu{animation:pulse 2s ease-out infinite}
+.pp{animation:pop .45s cubic-bezier(.2,.7,.2,1) both}
+.lift{transition:transform .25s ease,box-shadow .25s ease}
+.lift:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(13,36,71,.14)}
+.btn{transition:transform .2s ease,background .2s ease}
+.btn:hover{transform:translateY(-2px)}
+.tabsel{display:none}
+@media(max-width:760px){.hmark{display:none}.hbrand{font-size:12px!important;padding-left:10px!important}.hlogo{height:34px!important}.tablist{display:none!important}.tabsel{display:block}.pad{padding-left:20px!important;padding-right:20px!important}.nav a.hide{display:none}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+<div style="width:100%;overflow:hidden;background:#FAF5EC;font-family:'Poppins',sans-serif;color:#333333">
+
+<!-- Header -->
+<header class="pad" style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;padding:14px 48px;background:#FFFFFF;border-bottom:1px solid #E8DFCF">
+<div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+<img src="../assets/logo.png" alt="Capstone Education" class="hlogo" style="height:44px;width:auto;display:block">
+<span class="hbrand" style="font-size:14px;font-weight:600;color:#333333;border-left:2px solid #A41034;padding-left:16px">Vietnam Recruitment Intelligence</span>
+</div>
+<nav class="nav" style="display:flex;flex-wrap:wrap;align-items:center;gap:24px">
+<a class="hide" href="#scores" style="font-size:14px;font-weight:500;text-decoration:none;color:#1E3A5F">Scores</a>
+<a class="hide" href="#actions" style="font-size:14px;font-weight:500;text-decoration:none;color:#1E3A5F">Next steps</a>
+<a class="hide" href="#advisor" style="font-size:14px;font-weight:500;text-decoration:none;color:#1E3A5F">Advisor</a>
+<a class="btn" href="#pdf" style="min-height:44px;box-sizing:border-box;padding:0 22px;border-radius:999px;background:#A41034;color:#FFFFFF;font-size:14px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center">Download PDF</a>
+</nav>
+</header>
+
+<!-- Hero -->
+<section style="position:relative;background:#0D2447;color:#FFFFFF;overflow:hidden">
+
+<div class="pad" style="position:relative;max-width:1200px;margin:0 auto;padding:64px 48px 96px;display:flex;flex-wrap:wrap;gap:48px;align-items:center;justify-content:space-between;box-sizing:border-box">
+<div class="rv" style="flex:1 1 480px;min-width:0;display:flex;flex-direction:column;gap:20px">
+<span style="align-self:flex-start;font-size:13px;font-weight:600;padding:5px 14px;border-radius:999px;background:#A41034;color:#FFFFFF">Sample data - illustrative only</span>
+<h1 style="margin:0;font-size:40px;line-height:48px;font-weight:700">Northbridge University</h1>
+<p style="margin:0;font-size:20px;line-height:30px;font-weight:400;max-width:520px">Your Vietnam recruitment report, in one view.</p>
+<div style="display:flex;flex-wrap:wrap;gap:10px;font-size:14px;font-weight:500">
+<span style="padding:7px 16px;border-radius:999px;border:1px solid #FFFFFF">Stage: Building</span>
+<span style="padding:7px 16px;border-radius:999px;border:1px solid #FFFFFF">28 of 40 questions answered</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px;max-width:420px;margin-top:8px">
+<div style="display:flex;justify-content:space-between;font-size:14px;font-weight:500"><span>Audit completeness</span><span>70%</span></div>
+<div style="height:10px;border-radius:999px;background:#1E3A5F;overflow:hidden"><div class="gr" style="width:70%;height:100%;border-radius:999px;background:#FFFFFF"></div></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:8px">
+<a class="btn" href="#" style="min-height:48px;box-sizing:border-box;padding:0 28px;border-radius:999px;background:#A41034;color:#FFFFFF;font-size:15px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center">Continue the audit</a>
+<a class="btn" href="#scores" style="min-height:48px;box-sizing:border-box;padding:0 28px;border-radius:999px;border:2px solid #FFFFFF;color:#FFFFFF;font-size:15px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center">See my scores</a>
+</div>
+</div>
+<div class="rv d2" style="flex:0 1 400px;position:relative;height:460px;width:100%;max-width:400px">
+<svg aria-hidden="true" class="dr hmark" viewBox="0 0 100 100" style="position:absolute;top:6px;left:8px;width:130px;height:130px"><polygon points="6,66 54,4 54,50" fill="#3D5780"/><polygon points="6,66 54,50 32,94" fill="#2A4770"/><polygon points="58,4 94,52 36,92" fill="#A41034"/><polygon points="58,4 36,92 58,56" fill="#8F0728"/></svg>
+<img src="../assets/temp-graduate.jpg" alt="Smiling graduate holding a diploma (temporary photo)" style="position:absolute;top:0;right:0;width:300px;height:400px;object-fit:cover;border-radius:150px 150px 16px 16px;border:6px solid #FFFFFF;box-sizing:border-box">
+<div class="fl" style="position:absolute;left:0;bottom:0;width:240px;background:#FFFFFF;border-radius:20px;padding:12px 12px 8px;box-shadow:0 18px 40px rgba(0,0,0,.28);box-sizing:border-box">
+<svg viewBox="60 40 200 220" width="100%" role="img" aria-label="Radar chart of five scored areas: Readiness 68, Competitiveness 54, Affordability 62, Digital Visibility 78, Trust Network 49" style="display:block;width:150px;margin:0 auto">
+<polygon points="{{radar.ring100}}" fill="none" stroke="#DCDCDC" stroke-width="1.2"/>
+<polygon points="{{radar.ring50}}" fill="none" stroke="#DCDCDC" stroke-width="1.2" stroke-dasharray="3 4"/>
+<sc-for list="{{radar.axes}}" as="ax" hint-placeholder-count="5"><line x1="160" y1="150" x2="{{ax.x}}" y2="{{ax.y}}" stroke="#DCDCDC" stroke-width="1"/></sc-for>
+<polygon points="{{radar.data}}" fill="#A41034" fill-opacity="0.2" stroke="#A41034" stroke-width="2.5" stroke-linejoin="round"/>
+<sc-for list="{{radar.dots}}" as="d" hint-placeholder-count="5"><circle cx="{{d.x}}" cy="{{d.y}}" r="5" fill="#A41034"/></sc-for>
+</svg><div style="display:flex;flex-wrap:wrap;gap:4px 8px;justify-content:center;padding:4px 4px 8px;font-size:11px;line-height:16px;font-weight:500;color:#333333"><sc-for list="{{radar.legend}}" as="l" hint-placeholder-count="5"><span>{{l.text}}</span></sc-for></div>
+</div>
+</div>
+</div>
+<svg aria-hidden="true" viewBox="0 0 1440 70" preserveAspectRatio="none" style="position:absolute;bottom:-1px;left:0;width:100%;height:70px;display:block"><polygon points="0,70 1440,0 1440,70" fill="#FAF5EC"/></svg>
+</section>
+
+<main class="pad" style="max-width:1200px;margin:0 auto;padding:24px 48px 72px;display:flex;flex-direction:column;gap:80px;box-sizing:border-box">
+
+<!-- Timeline: stage -->
+<section aria-label="Recruitment stage" style="display:flex;flex-direction:column;gap:24px">
+<div style="display:flex;flex-direction:column;gap:4px">
+<span style="font-size:13px;font-weight:600;letter-spacing:.08em;color:#A41034">WHERE YOU ARE</span>
+<h2 style="margin:0;font-size:22px;line-height:30px;font-weight:600">Your recruitment stage</h2>
+</div>
+<div style="position:relative;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px">
+<div aria-hidden="true" style="position:absolute;left:12.5%;right:12.5%;top:19px;height:4px;background:#E3D8C4;border-radius:2px"></div>
+<div aria-hidden="true" class="gr" style="position:absolute;left:12.5%;width:25%;top:19px;height:4px;background:#A41034;border-radius:2px"></div>
+<sc-for list="{{stages}}" as="st" hint-placeholder-count="4">
+<div style="position:relative;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center">
+<span class="{{st.cls}}" style="{{st.dot}}">{{st.n}}</span>
+<span style="font-size:15px;font-weight:600;color:#333333">{{st.range}}</span>
+<span style="font-size:13px;font-weight:500;color:#525252">{{st.note}}</span>
+</div>
+</sc-for>
+</div>
+</section>
+
+<!-- Scores explorer -->
+<section id="scores" style="display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;flex-direction:column;gap:4px">
+<span style="font-size:13px;font-weight:600;letter-spacing:.08em;color:#A41034">YOUR SCORES</span>
+<h2 style="margin:0;font-size:22px;line-height:30px;font-weight:600">Pick an area to explore</h2>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:32px;align-items:stretch">
+<div style="flex:0 1 300px;min-width:0;width:100%">
+<div class="tablist" role="group" aria-label="Score areas" style="display:flex;flex-direction:column;gap:8px">
+<sc-for list="{{tabs}}" as="t" hint-placeholder-count="6">
+<button onClick="{{t.pick}}" aria-pressed="{{t.pressed}}" style="{{t.style}}">
+<span style="font-size:15px;font-weight:600;text-align:left">{{t.name}}</span>
+<span style="{{t.chip}}">{{t.value}}</span>
+</button>
+</sc-for>
+</div>
+<div class="tabsel">
+<label for="areasel" style="display:block;font-size:14px;font-weight:600;margin-bottom:6px">Score area</label>
+<select id="areasel" value="{{selVal}}" onChange="{{onSelect}}" style="width:100%;min-height:48px;box-sizing:border-box;padding:0 14px;font-size:16px;font-family:inherit;border:2px solid #818285;border-radius:12px;background:#FFFFFF;color:#333333">
+<sc-for list="{{tabs}}" as="t" hint-placeholder-count="6"><option value="{{t.i}}">{{t.name}}</option></sc-for>
+</select>
+</div>
+</div>
+
+<div class="pp" style="flex:1 1 560px;min-width:0;background:#FFFFFF;border-radius:24px;padding:32px;box-shadow:0 10px 30px rgba(13,36,71,.08);display:flex;flex-wrap:wrap;gap:32px;align-items:center;box-sizing:border-box">
+<div style="flex:0 0 190px;display:flex;flex-direction:column;align-items:center;gap:8px;margin:0 auto">
+<sc-if value="{{cur.scorable}}" hint-placeholder-val="{{true}}">
+<div style="position:relative;line-height:0;width:190px;max-width:100%;flex:0 0 auto"><svg viewBox="0 0 180 180" width="190" height="190" role="img" aria-label="{{cur.aria}}" style="display:block">
+<circle cx="90" cy="90" r="70" fill="none" stroke="#EFE7D8" stroke-width="16"/>
+<circle class="rg" cx="90" cy="90" r="70" fill="none" stroke="{{cur.color}}" stroke-width="16" stroke-linecap="round" stroke-dasharray="{{cur.dash}}" transform="rotate(-90 90 90)"/>
+
+
+</svg><div aria-hidden="true" style="position:absolute;left:0;right:0;top:0;bottom:0;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.15;font-family:'Poppins',sans-serif;text-align:center"><span style="font-size:46.4px;font-weight:700;color:#333333">{{cur.value}}</span><span style="font-size:13.7px;font-weight:400;color:#525252">out of 100</span></div></div>
+</sc-if>
+<sc-if value="{{cur.notScorable}}" hint-placeholder-val="{{false}}">
+<svg viewBox="0 0 180 180" width="190" height="190" role="img" aria-label="Not yet scorable">
+<circle cx="90" cy="90" r="70" fill="none" stroke="#BDBDBD" stroke-width="3" stroke-dasharray="6 8"/>
+<text x="90" y="96" text-anchor="middle" font-size="16" font-weight="600" fill="#525252" font-family="Poppins,sans-serif">Not yet</text>
+<text x="90" y="116" text-anchor="middle" font-size="16" font-weight="600" fill="#525252" font-family="Poppins,sans-serif">scorable</text>
+</svg>
+</sc-if>
+</div>
+<div style="flex:1 1 280px;min-width:0;display:flex;flex-direction:column;gap:14px">
+<h3 style="margin:0;font-size:22px;line-height:30px;font-weight:600">{{cur.name}}</h3>
+<sc-if value="{{cur.scorable}}" hint-placeholder-val="{{true}}">
+<div style="display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600;color:{{cur.color}}">
+<sc-if value="{{cur.isStrong}}" hint-placeholder-val="{{true}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.7 2.7L16 9.5"/></svg></sc-if>
+<sc-if value="{{cur.isCaution}}" hint-placeholder-val="{{false}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l10 17H2z"/><path d="M12 10v5M12 18v.01"/></svg></sc-if>
+<sc-if value="{{cur.isConcern}}" hint-placeholder-val="{{false}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5v.01"/></svg></sc-if>
+<span>{{cur.band}}</span>
+</div>
+</sc-if>
+<p style="margin:0;font-size:16px;line-height:26px;color:#333333">{{cur.reason}}</p>
+<div style="display:flex;flex-wrap:wrap;gap:8px;font-size:13px;font-weight:500">
+<span style="padding:4px 12px;border-radius:999px;background:#F7F7F7;border:1px solid #818285">{{cur.evidence}}</span>
+<span style="padding:4px 12px;border-radius:999px;background:#F7F7F7;border:1px solid #818285">Confidence: {{cur.confidence}}</span>
+</div>
+<div style="padding:14px 16px;border-radius:12px;background:#FAF5EC;font-size:14px;line-height:22px"><strong style="color:#A41034">Next:</strong> {{cur.next}}</div>
+<a class="btn" href="#" style="align-self:flex-start;min-height:44px;box-sizing:border-box;padding:0 22px;border-radius:999px;background:#A41034;color:#FFFFFF;font-size:14px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center">{{cur.cta}}</a>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Gauges -->
+<section style="display:flex;flex-direction:column;gap:24px">
+<div style="display:flex;flex-direction:column;gap:4px">
+<span style="font-size:13px;font-weight:600;letter-spacing:.08em;color:#A41034">FIT AND AGENTS</span>
+<h2 style="margin:0;font-size:22px;line-height:30px;font-weight:600">Two quick reads</h2>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px">
+<sc-for list="{{gauges}}" as="g" hint-placeholder-count="2">
+<article class="lift" style="background:#FFFFFF;border-radius:24px;padding:28px;display:flex;flex-wrap:wrap;gap:20px;align-items:center;box-shadow:0 6px 20px rgba(13,36,71,.06)">
+<div style="position:relative;line-height:0;width:170px;max-width:100%;flex:0 0 auto"><svg viewBox="0 0 160 100" width="170" role="img" aria-label="{{g.aria}}" style="display:block">
+<path d="M 20 85 A 60 60 0 0 1 140 85" fill="none" stroke="#EFE7D8" stroke-width="14" stroke-linecap="round"/>
+<path class="rg" d="M 20 85 A 60 60 0 0 1 140 85" fill="none" stroke="{{g.color}}" stroke-width="14" stroke-linecap="round" stroke-dasharray="{{g.dash}}"/>
+
+
+</svg><div aria-hidden="true" style="position:absolute;left:0;right:0;top:0;bottom:3%;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;line-height:1.15;font-family:'Poppins',sans-serif;text-align:center"><span style="font-size:31.9px;font-weight:700;color:#333333">{{g.value}}</span><span style="font-size:11.7px;font-weight:400;color:#525252">out of 10</span></div></div>
+<div style="flex:1 1 180px;display:flex;flex-direction:column;gap:6px">
+<h3 style="margin:0;font-size:18px;line-height:26px;font-weight:600">{{g.name}}</h3>
+<p style="margin:0;font-size:14px;line-height:22px;color:#525252">{{g.reason}}</p>
+<span style="font-size:13px;font-weight:500;color:#525252">{{g.meta}}</span>
+</div>
+</article>
+</sc-for>
+</div>
+</section>
+
+<!-- Photo band -->
+<section aria-label="Photo banner" style="position:relative;display:flex;flex-wrap:wrap;gap:40px;align-items:center;background:#1E3A5F;color:#FFFFFF;border-radius:32px;padding:40px;overflow:hidden;box-sizing:border-box">
+
+<div style="position:relative;flex:0 1 380px;width:100%;height:280px">
+<img src="../assets/temp-campus.jpg" alt="Aerial view of a school campus (temporary photo)" style="position:absolute;left:0;top:0;width:78%;height:78%;object-fit:cover;border-radius:24px 24px 24px 120px;border:4px solid #FFFFFF;box-sizing:border-box">
+<img src="../assets/temp-graduate.jpg" alt="Graduate smiling (temporary photo)" style="position:absolute;right:0;bottom:0;width:46%;height:60%;object-fit:cover;border-radius:999px;border:4px solid #FFFFFF;box-sizing:border-box">
+</div>
+<div style="position:relative;flex:1 1 360px;min-width:0;display:flex;flex-direction:column;gap:12px">
+<h2 style="margin:0;font-size:24px;line-height:32px;font-weight:600">Small steps. Real momentum.</h2>
+<p style="margin:0;font-size:16px;line-height:26px">Most institutions improve by fixing two or three things well.</p>
+</div>
+</section>
+
+<!-- Vertical timeline + accordion -->
+<section id="actions" style="display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;flex-direction:column;gap:4px">
+<span style="font-size:13px;font-weight:600;letter-spacing:.08em;color:#A41034">NEXT STEPS</span>
+<h2 style="margin:0;font-size:22px;line-height:30px;font-weight:600">Where to start</h2>
+</div>
+<div style="position:relative;display:flex;flex-direction:column;gap:20px;padding-left:8px">
+<div aria-hidden="true" style="position:absolute;left:27px;top:20px;bottom:20px;width:3px;background:#E3D8C4;border-radius:2px"></div>
+<sc-for list="{{actions}}" as="a" hint-placeholder-count="3">
+<div style="position:relative;display:flex;gap:20px;align-items:flex-start">
+<span style="flex:0 0 40px;height:40px;border-radius:999px;background:#A41034;color:#FFFFFF;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:600;position:relative;z-index:1">{{a.n}}</span>
+<div class="lift" style="flex:1 1 auto;min-width:0;background:#FFFFFF;border-radius:20px;box-shadow:0 6px 20px rgba(13,36,71,.06);overflow:hidden">
+<button onClick="{{a.toggle}}" aria-expanded="{{a.open}}" style="width:100%;min-height:64px;box-sizing:border-box;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;background:none;border:0;text-align:left;color:#333333">
+<span style="display:flex;flex-direction:column;gap:2px"><span style="font-size:17px;line-height:24px;font-weight:600">{{a.title}}</span><span style="font-size:13px;font-weight:500;color:#525252">{{a.effort}}</span></span>
+<span aria-hidden="true" style="{{a.chev}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#A41034" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+</button>
+<sc-if value="{{a.open}}" hint-placeholder-val="{{false}}">
+<div class="pp" style="padding:0 20px 20px;font-size:15px;line-height:24px;color:#525252">{{a.body}}</div>
+</sc-if>
+</div>
+</div>
+</sc-for>
+</div>
+</section>
+
+<!-- Carousel -->
+<section style="display:flex;flex-direction:column;gap:24px">
+<div style="display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;justify-content:space-between">
+<div style="display:flex;flex-direction:column;gap:4px">
+<span style="font-size:13px;font-weight:600;letter-spacing:.08em;color:#A41034">FULL REPORT PREVIEW</span>
+<h2 style="margin:0;font-size:22px;line-height:30px;font-weight:600">Your 6-month agent pilot</h2>
+</div>
+<div style="display:flex;gap:10px">
+<button onClick="{{car.prev}}" aria-label="Previous slide" style="width:48px;height:48px;border-radius:999px;border:2px solid #A41034;background:#FFFFFF;display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#A41034" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button>
+<button onClick="{{car.next}}" aria-label="Next slide" style="width:48px;height:48px;border-radius:999px;border:0;background:#A41034;display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+</div>
+</div>
+<div style="overflow:hidden;border-radius:28px">
+<div style="{{car.track}}">
+<sc-for list="{{slides}}" as="s" hint-placeholder-count="3">
+<div style="flex:0 0 100%;box-sizing:border-box;padding:40px;background:{{s.bg}};color:{{s.fg}};min-height:240px;display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:space-between">
+<div style="flex:1 1 320px;display:flex;flex-direction:column;gap:12px">
+<span style="font-size:14px;font-weight:600">{{s.months}}</span>
+<h3 style="margin:0;font-size:26px;line-height:34px;font-weight:700">{{s.title}}</h3>
+<p style="margin:0;font-size:16px;line-height:26px">{{s.body}}</p>
+</div>
+
+</div>
+</sc-for>
+</div>
+</div>
+<div style="display:flex;gap:8px;justify-content:center" role="group" aria-label="Slide position">
+<sc-for list="{{car.dots}}" as="d" hint-placeholder-count="3"><button onClick="{{d.go}}" aria-label="{{d.label}}" style="{{d.style}}"></button></sc-for>
+</div>
+</section>
+
+<!-- Locked -->
+<section style="display:flex;flex-wrap:wrap;gap:32px;align-items:center;justify-content:space-between;background:#FFFFFF;border-radius:28px;padding:36px;box-shadow:0 10px 30px rgba(13,36,71,.08)">
+<div style="flex:1 1 400px;min-width:0;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:#A41034">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg>
+<span>Full report</span>
+</div>
+<h2 style="margin:0;font-size:22px;line-height:30px;font-weight:600">See the whole plan</h2>
+<p style="margin:0;font-size:16px;line-height:26px;color:#525252">Agent matrix, cost breakdown and a full PDF.</p>
+</div>
+<div style="flex:0 1 280px;display:flex;flex-direction:column;gap:10px">
+<a class="btn" href="#" style="min-height:48px;box-sizing:border-box;padding:0 28px;border-radius:999px;background:#A41034;color:#FFFFFF;font-size:15px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;justify-content:center">Unlock full report</a>
+<span style="font-size:13px;line-height:20px;color:#525252;text-align:center">[UNLOCK PATH TO BE CONFIRMED WITH CAPSTONE]</span>
+</div>
+</section>
+
+<!-- Advisor -->
+<section id="advisor" style="position:relative;overflow:hidden;border-radius:32px;background:#A41034;color:#FFFFFF;padding:40px;display:flex;flex-wrap:wrap;gap:32px;align-items:center;justify-content:space-between">
+<svg aria-hidden="true" viewBox="0 0 100 100" style="position:absolute;right:24px;top:50%;margin-top:-90px;width:180px;height:180px;opacity:.18"><polygon points="6,66 54,4 54,50" fill="#FFFFFF"/><polygon points="6,66 54,50 32,94" fill="#FFFFFF"/><polygon points="58,4 94,52 36,92" fill="#FFFFFF"/><polygon points="58,4 36,92 58,56" fill="#FFFFFF"/></svg>
+<div style="position:relative;flex:1 1 400px;min-width:0;display:flex;align-items:center;gap:20px">
+<div style="flex:0 0 88px;height:88px;border-radius:999px;background:#FFFFFF;border:3px solid #FFFFFF;display:flex;align-items:center;justify-content:center;text-align:center;font-size:11px;font-weight:500;color:#525252;padding:6px;box-sizing:border-box">[ADVISOR PHOTO]</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<h2 style="margin:0;font-size:24px;line-height:32px;font-weight:600">Talk it through with a person</h2>
+<p style="margin:0;font-size:16px;line-height:26px">A Capstone advisor will walk you through your results.</p>
+</div>
+</div>
+<div style="position:relative;display:flex;flex-wrap:wrap;gap:12px">
+<a class="btn" href="#" style="min-height:48px;box-sizing:border-box;padding:0 26px;border-radius:999px;background:#FFFFFF;color:#8F0728;font-size:15px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center">WhatsApp</a>
+<a class="btn" href="#" style="min-height:48px;box-sizing:border-box;padding:0 26px;border-radius:999px;border:2px solid #FFFFFF;color:#FFFFFF;font-size:15px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center">Email</a>
+</div>
+</section>
+
+<!-- PDF -->
+<section id="pdf" style="display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;padding:20px 28px;border:2px dashed #CDBFA6;border-radius:24px">
+<div style="display:flex;flex-direction:column;gap:2px">
+<span style="font-size:16px;font-weight:600">Save this report</span>
+<span style="font-size:14px;color:#525252">Progress is saved to your account.</span>
+</div>
+<a class="btn" href="#" style="min-height:48px;box-sizing:border-box;padding:0 26px;border-radius:999px;border:2px solid #A41034;color:#A41034;font-size:15px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center">Download PDF</a>
+</section>
+
+</main>
+
+<footer style="position:relative;background:#0D2447;color:#FFFFFF;padding:36px 48px">
+
+<div style="max-width:1200px;margin:0 auto;display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center;font-size:14px">
+<span style="display:inline-flex;align-items:center;gap:12px"><svg aria-hidden="true" viewBox="0 0 100 100" width="36" height="36"><polygon points="6,66 54,4 54,50" fill="#3D5780"/><polygon points="6,66 54,50 32,94" fill="#2A4770"/><polygon points="58,4 94,52 36,92" fill="#A41034"/><polygon points="58,4 36,92 58,56" fill="#8F0728"/></svg>Vietnam Recruitment Intelligence by Capstone Education</span>
+<a href="https://capstonevietnam.com" style="color:#FFFFFF;font-weight:600;min-height:44px;display:inline-flex;align-items:center">capstonevietnam.com</a>
+</div>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":3600}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { sel: 0, open: 0, slide: 0 }; }
+  renderVals() {
+    const C = { strong: ['#1E7A4C', 'Strong'], caution: ['#8A5A00', 'Developing'], concern: ['#B4470C', 'Needs attention'] };
+    const areas = [
+      { name: 'Readiness', v: 68, tone: 'caution', ev: 'Institution-reported', conf: 'Medium', reason: 'Core processes exist, but visa support and offer timelines are not written down.', next: 'Document your visa and offer timeline.', cta: 'Open Readiness detail' },
+      { name: 'Competitiveness', v: 54, tone: 'concern', ev: 'Estimate', conf: 'Low', reason: 'Few Vietnamese students enrolled, and similar institutions price lower.', next: 'Add a Vietnam-specific price comparison.', cta: 'Open Competitiveness detail' },
+      { name: 'Affordability and ROI', v: 62, tone: 'caution', ev: 'Verified', conf: 'High', reason: 'Net annual cost sits in the $30-40k band with limited scholarship access.', next: 'Publish scholarship examples for Vietnamese applicants.', cta: 'Open Affordability detail' },
+      { name: 'Digital Visibility', v: 78, tone: 'strong', ev: 'Verified', conf: 'High', reason: 'Vietnamese-language pages and fast replies support the whole enquiry funnel.', next: 'Keep reply time under 48 hours.', cta: 'Open Visibility detail' },
+      { name: 'Trust Network', v: 49, tone: 'concern', ev: 'Judgement', conf: 'Low', reason: 'Few alumni or agent references that Vietnamese families can contact.', next: 'Add two alumni contacts families can reach.', cta: 'Open Trust detail' },
+      { name: 'Community Influence', v: null, ev: 'Unknown', conf: 'None yet', reason: 'We need your alumni and parent engagement answers. We will not guess.', next: 'Answer 4 questions in Section E.', cta: 'Answer 4 questions' }
+    ];
+    const sel = this.state.sel;
+    const tabs = areas.map((a, i) => {
+      const on = i === sel;
+      return {
+        i, name: a.name, value: a.v === null ? 'n/a' : String(a.v), pressed: on,
+        pick: () => this.setState({ sel: i }),
+        style: 'display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:56px;box-sizing:border-box;padding:0 18px;border-radius:999px;border:2px solid ' + (on ? '#A41034' : '#E3D8C4') + ';background:' + (on ? '#A41034' : '#FFFFFF') + ';color:' + (on ? '#FFFFFF' : '#333333') + ';transition:all .2s ease',
+        chip: 'font-size:14px;font-weight:700;padding:2px 12px;border-radius:999px;background:' + (on ? '#FFFFFF' : '#FAF5EC') + ';color:' + (on ? '#8F0728' : '#333333')
+      };
+    });
+    const a = areas[sel];
+    const sc = a.v !== null;
+    const col = sc ? C[a.tone][0] : '#525252';
+    const cur = {
+      name: a.name, scorable: sc, notScorable: !sc, value: sc ? a.v : '', color: col,
+      dash: sc ? (a.v / 100 * 439.8).toFixed(1) + ' 600' : '0 600',
+      band: sc ? C[a.tone][1] : '', isStrong: sc && a.tone === 'strong', isCaution: sc && a.tone === 'caution', isConcern: sc && a.tone === 'concern',
+      reason: a.reason, evidence: a.ev, confidence: a.conf, next: a.next, cta: a.cta,
+      aria: a.name + ' score ' + a.v + ' out of 100'
+    };
+    const stNames = [['0-5', 'Starting'], ['6-15', 'Building'], ['16-30', 'Growing'], ['31+', 'Established']];
+    const stages = stNames.map((s, i) => {
+      const here = i === 1, done = i < 1;
+      return {
+        n: i + 1, range: s[0] + ' students', note: here ? 'You are here' : (done ? 'Passed' : 'Ahead'),
+        cls: here ? 'pu' : '',
+        dot: 'width:40px;height:40px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;box-sizing:border-box;position:relative;z-index:1;' + (here ? 'background:#A41034;color:#FFFFFF;border:3px solid #FFFFFF' : (done ? 'background:#1E3A5F;color:#FFFFFF' : 'background:#FFFFFF;color:#525252;border:2px solid #CDBFA6'))
+      };
+    });
+    const acts = [
+      { title: 'Document your visa and offer timeline', effort: 'Quick win', body: 'Agents and families ask about this first. One clear page is enough.' },
+      { title: 'Publish a scholarship guide for Vietnamese applicants', effort: '2-4 weeks', body: 'Show what is attainable, with real examples and deadlines.' },
+      { title: 'Start a 6-month pilot with three agents', effort: '6 months', body: 'Non-exclusive, 10-15% commission benchmark, reviewed monthly.' }
+    ];
+    const open = this.state.open;
+    const actions = acts.map((x, i) => ({
+      n: i + 1, title: x.title, effort: x.effort, body: x.body, open: i === open,
+      toggle: () => this.setState({ open: i === open ? -1 : i }),
+      chev: 'display:flex;transition:transform .25s ease;transform:rotate(' + (i === open ? 180 : 0) + 'deg)'
+    }));
+    const sl = [
+      { months: 'Months 1-2', title: 'Choose three agents', body: 'Use the selection matrix. Keep it non-exclusive.', bg: '#1E3A5F', fg: '#FFFFFF', shape: '#A41034' },
+      { months: 'Months 3-4', title: 'Run the pilot', body: 'Share clear scholarships. Reply within 48 hours.', bg: '#A41034', fg: '#FFFFFF', shape: '#0D2447' },
+      { months: 'Months 5-6', title: 'Review and decide', body: 'Compare applications, offers and enrolments.', bg: '#FFFFFF', fg: '#333333', shape: '#A41034' }
+    ];
+    const n = sl.length, cs = this.state.slide;
+    const car = {
+      track: 'display:flex;transition:transform .6s cubic-bezier(.2,.7,.2,1);transform:translateX(-' + (cs * 100) + '%)',
+      prev: () => this.setState({ slide: (cs + n - 1) % n }),
+      next: () => this.setState({ slide: (cs + 1) % n }),
+      dots: sl.map((s, i) => ({ label: 'Go to slide ' + (i + 1), go: () => this.setState({ slide: i }), style: 'height:10px;border:0;padding:0;border-radius:999px;transition:all .25s ease;width:' + (i === cs ? 28 : 10) + 'px;background:' + (i === cs ? '#A41034' : '#CDBFA6') }))
+    };
+    const gauges = [
+      { name: 'School Fit', v: 7.0, color: '#1E7A4C', reason: 'Strong match for business and engineering applicants.', meta: 'Confidence: Medium', aria: 'School Fit 7.0 out of 10' },
+      { name: 'Agent Attractiveness', v: 5.5, color: '#8A5A00', reason: 'Competitive commission. Agents will want faster replies.', meta: 'Confidence: Low', aria: 'Agent Attractiveness 5.5 out of 10' }
+    ].map(g => ({ ...g, value: g.v.toFixed(1), dash: (g.v / 10 * 188.5).toFixed(1) + ' 400' }));
+    const cx = 160, cy = 150, R = 100;
+    const names = ['Readiness', 'Competitiveness', 'Affordability', 'Digital Visibility', 'Trust Network'];
+    const vals = [68, 54, 62, 78, 49];
+    const pt = (i, f) => { const an = -Math.PI / 2 + i * 2 * Math.PI / 5; return [cx + R * f * Math.cos(an), cy + R * f * Math.sin(an)]; };
+    const ps = (f) => names.map((nm, i) => pt(i, f).map(v => v.toFixed(1)).join(',')).join(' ');
+    const radar = {
+      ring100: ps(1), ring50: ps(0.5),
+      data: vals.map((v, i) => pt(i, v / 100).map(x => x.toFixed(1)).join(',')).join(' '),
+      axes: names.map((nm, i) => { const p = pt(i, 1); return { x: p[0].toFixed(1), y: p[1].toFixed(1) }; }),
+      dots: vals.map((v, i) => { const p = pt(i, v / 100); return { x: p[0].toFixed(1), y: p[1].toFixed(1) }; }),
+      legend: names.map((nm, i) => ({ text: nm.split(' ')[0] + ' ' + vals[i] }))
+    };
+    return {
+      tabs, cur, stages, actions, car, slides: sl, gauges, radar,
+      selVal: String(sel),
+      onSelect: (e) => this.setState({ sel: parseInt(e.target.value, 10) })
+    };
+  }
+}
+</script>
+</body>
+</html>

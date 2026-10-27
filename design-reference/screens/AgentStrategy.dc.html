@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Agent strategy</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'Poppins',sans-serif;color:#333333;background:#FAF5EC}
+a{color:#1E3A5F}a:hover{color:#0D2447}
+a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible,div:focus-visible{outline:2px solid #1E3A5F;outline-offset:2px;box-shadow:0 0 0 2px #FFFFFF}
+button{font-family:inherit;cursor:pointer}
+table{border-collapse:separate;border-spacing:0}
+.mrow:hover>*{background:#FAF5EC!important}
+@keyframes up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+@keyframes ring{from{stroke-dasharray:0 600}}
+@keyframes grow{from{width:0}}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(164,16,52,.45)}100%{box-shadow:0 0 0 16px rgba(164,16,52,0)}}
+@keyframes float{50%{transform:translateY(-10px)}}
+@keyframes drift{50%{transform:translate(10px,-12px) rotate(3deg)}}
+@keyframes pop{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:none}}
+.rv{animation:up .8s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.12s}.d2{animation-delay:.24s}.d3{animation-delay:.36s}
+.fl{animation:float 6s ease-in-out infinite}
+.dr{animation:drift 9s ease-in-out infinite}
+.rg{animation:ring 1.4s cubic-bezier(.2,.7,.2,1) both}
+.gr{animation:grow 1.2s cubic-bezier(.2,.7,.2,1) both}
+.pu{animation:pulse 2s ease-out infinite}
+.pp{animation:pop .45s cubic-bezier(.2,.7,.2,1) both}
+.lift{transition:transform .25s ease,box-shadow .25s ease}
+.lift:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(13,36,71,.14)}
+.btn{transition:transform .2s ease,background .2s ease}
+.btn:hover{transform:translateY(-2px)}
+.tabsel{display:none}
+@media(max-width:760px){.tablist{display:none!important}.tabsel{display:block}.pad{padding-left:20px!important;padding-right:20px!important}.nav a.hide{display:none}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+<div style="width:100%;overflow:hidden;background:#FAF5EC;font-family:'Poppins',sans-serif;color:#333333">
+
+<!-- Header -->
+<header class="pad" style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;padding:14px 48px;background:#FFFFFF;border-bottom:1px solid #E8DFCF">
+<div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+<img src="../assets/logo.png" alt="Capstone Education" style="height:44px;width:auto;display:block">
+<span style="font-size:14px;font-weight:600;color:#333333;border-left:2px solid #A41034;padding-left:16px">Vietnam Recruitment Intelligence</span>
+</div>
+<nav class="nav" aria-label="Main" style="display:flex;flex-wrap:wrap;align-items:center;gap:24px">
+<a class="hide" href="Main.dc.html" style="font-size:14px;font-weight:500;text-decoration:none;color:#1E3A5F;min-height:44px;display:inline-flex;align-items:center">Report</a>
+<a class="hide" href="ScoreDetail.dc.html" style="font-size:14px;font-weight:500;text-decoration:none;color:#1E3A5F;min-height:44px;display:inline-flex;align-items:center">Score detail</a>
+<a class="hide" href="CostCalc.dc.html" style="font-size:14px;font-weight:500;text-decoration:none;color:#1E3A5F;min-height:44px;display:inline-flex;align-items:center">Cost calculator</a>
+<a class="btn" href="#forecast" style="min-height:44px;box-sizing:border-box;padding:0 22px;border-radius:999px;background:#A41034;color:#FFFFFF;font-size:14px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center">Try the forecast</a>
+</nav>
+</header>
+
+<!-- Hero -->
+<section style="position:relative;background:#0D2447;color:#FFFFFF;overflow:hidden">
+<div class="pad" style="position:relative;max-width:1200px;margin:0 auto;padding:28px 48px 88px;display:flex;flex-direction:column;gap:24px;box-sizing:border-box">
+<nav aria-label="Breadcrumb">
+<ol style="list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:14px;font-weight:500">
+<li><a href="Main.dc.html" style="color:#FFFFFF;min-height:44px;display:inline-flex;align-items:center">Interactive report</a></li>
+<li aria-hidden="true">/</li>
+<li aria-current="page" style="font-weight:600">Agent strategy</li>
+</ol>
+</nav>
+<div class="rv" style="display:flex;flex-direction:column;gap:16px;max-width:680px">
+<span style="align-self:flex-start;font-size:13px;font-weight:600;padding:5px 14px;border-radius:999px;background:#A41034;color:#FFFFFF">Sample data - illustrative only</span>
+<h1 style="margin:0;font-size:40px;line-height:48px;font-weight:700">Choose agents. Run a pilot. Forecast the result.</h1>
+<p style="margin:0;font-size:20px;line-height:30px">Three agents, six months, no exclusivity.</p>
+<div style="display:flex;flex-wrap:wrap;gap:10px;font-size:14px;font-weight:500">
+<span style="padding:7px 16px;border-radius:999px;border:1px solid #FFFFFF">6-month pilot</span>
+<span style="padding:7px 16px;border-radius:999px;border:1px solid #FFFFFF">3 agents</span>
+<span style="padding:7px 16px;border-radius:999px;border:1px solid #FFFFFF">Non-exclusive</span>
+<span style="padding:7px 16px;border-radius:999px;border:1px solid #FFFFFF">10-15% commission benchmark</span>
+</div>
+</div>
+</div>
+<svg aria-hidden="true" viewBox="0 0 1440 70" preserveAspectRatio="none" style="position:absolute;bottom:-1px;left:0;width:100%;height:70px;display:block"><polygon points="0,70 1440,0 1440,70" fill="#FAF5EC"/></svg>
+</section>
+
+<main class="pad" style="max-width:1200px;margin:0 auto;padding:24px 48px 72px;display:flex;flex-direction:column;gap:72px;box-sizing:border-box">
+
+<!-- Weights donut -->
+<section aria-labelledby="h-w" style="display:flex;flex-direction:column;gap:24px">
+<div style="display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end;justify-content:space-between">
+<div style="display:flex;flex-direction:column;gap:4px">
+<span style="font-size:13px;font-weight:600;letter-spacing:.08em;color:#A41034">WHAT MATTERS</span>
+<h2 id="h-w" style="margin:0;font-size:22px;line-height:30px;font-weight:600">Seven factors for choosing agents</h2>
+</div>
+<span style="font-size:13px;font-weight:600;padding:5px 14px;border-radius:999px;background:#FFFFFF;border:2px solid #A41034;color:#8F0728">Sample weights [TO BE CONFIRMED WITH CAPSTONE]</span>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:32px;align-items:center;background:#FFFFFF;border-radius:28px;padding:32px;box-shadow:0 10px 30px rgba(13,36,71,.08)">
+<div style="flex:0 1 300px;width:100%;max-width:300px;margin:0 auto">
+<div style="position:relative;line-height:0;width:100%;max-width:190px;flex:0 0 auto"><svg viewBox="0 0 180 180" width="100%" role="img" aria-label="Donut chart of seven factor weights: {{weightAria}}" style="display:block;width:100%">
+<circle cx="90" cy="90" r="70" fill="none" stroke="#EFE7D8" stroke-width="20"/>
+<sc-for list="{{segs}}" as="s" hint-placeholder-count="7"><circle class="rg" cx="90" cy="90" r="70" fill="none" stroke="{{s.color}}" stroke-width="{{s.sw}}" opacity="{{s.op}}" stroke-dasharray="{{s.dash}}" stroke-dashoffset="{{s.off}}" transform="rotate(-90 90 90)"/></sc-for>
+
+
+</svg><div aria-hidden="true" style="position:absolute;left:0;right:0;top:0;bottom:0;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.15;font-family:'Poppins',sans-serif;text-align:center"><span style="font-size:35.9px;font-weight:700;color:#333333">{{centerBig}}</span><span style="font-size:11.6px;font-weight:400;color:#525252">{{centerSmall}}</span></div></div>
+</div>
+<div style="flex:1 1 320px;min-width:0;display:flex;flex-direction:column;gap:10px">
+<span style="font-size:14px;color:#525252">Pick a factor to highlight it.</span>
+<ul style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:8px">
+<sc-for list="{{legend}}" as="l" hint-placeholder-count="7">
+<li><button onClick="{{l.pick}}" aria-pressed="{{l.on}}" style="{{l.style}}">
+<span aria-hidden="true" style="{{l.chip}}"></span>
+<span style="flex:1 1 auto;text-align:left;font-size:15px;font-weight:600">{{l.name}}</span>
+<span style="font-size:15px;font-weight:700">{{l.w}}%</span>
+</button></li>
+</sc-for>
+</ul>
+</div>
+</div>
+</section>
+
+<!-- Matrix -->
+<section aria-labelledby="h-m" style="display:flex;flex-direction:column;gap:24px">
+<div style="display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end;justify-content:space-between">
+<div style="display:flex;flex-direction:column;gap:4px">
+<span style="font-size:13px;font-weight:600;letter-spacing:.08em;color:#A41034">AGENT SELECTION MATRIX</span>
+<h2 id="h-m" style="margin:0;font-size:22px;line-height:30px;font-weight:600">Rate each agent from 1 to 5</h2>
+</div>
+<span style="font-size:13px;font-weight:600;padding:5px 14px;border-radius:999px;background:#FFFFFF;border:2px solid #A41034;color:#8F0728">Sample data - agents and ratings are not real</span>
+</div>
+
+<div role="region" aria-label="Agent selection matrix, scrolls sideways on small screens" tabindex="0" style="overflow-x:auto;background:#FFFFFF;border-radius:28px;box-shadow:0 10px 30px rgba(13,36,71,.08)">
+<table style="width:100%;min-width:900px;font-size:15px">
+<caption style="text-align:left;padding:20px 24px 8px;font-size:14px;color:#525252">Weight in brackets. Weighted score is out of 5.</caption>
+<thead>
+<tr>
+<th scope="col" style="position:sticky;left:0;z-index:2;background:#FFFFFF;text-align:left;padding:12px 20px;font-size:14px;font-weight:600;border-bottom:2px solid #E3D8C4;min-width:140px">Agent</th>
+<th scope="col" style="text-align:left;padding:12px 10px;font-size:14px;font-weight:600;border-bottom:2px solid #E3D8C4">{{h.f0}}</th>
+<th scope="col" style="text-align:left;padding:12px 10px;font-size:14px;font-weight:600;border-bottom:2px solid #E3D8C4">{{h.f1}}</th>
+<th scope="col" style="text-align:left;padding:12px 10px;font-size:14px;font-weight:600;border-bottom:2px solid #E3D8C4">{{h.f2}}</th>
+<th scope="col" style="text-align:left;padding:12px 10px;font-size:14px;font-weight:600;border-bottom:2px solid #E3D8C4">{{h.f3}}</th>
+<th scope="col" style="text-align:left;padding:12px 10px;font-size:14px;font-weight:600;border-bottom:2px solid #E3D8C4">{{h.f4}}</th>
+<th scope="col" style="text-align:left;padding:12px 10px;font-size:14px;font-weight:600;border-bottom:2px solid #E3D8C4">{{h.f5}}</th>
+<th scope="col" style="text-align:left;padding:12px 10px;font-size:14px;font-weight:600;border-bottom:2px solid #E3D8C4">{{h.f6}}</th>
+<th scope="col" style="text-align:left;padding:12px 20px 12px 10px;font-size:14px;font-weight:700;border-bottom:2px solid #E3D8C4;color:#8F0728">Weighted score</th>
+</tr>
+</thead>
+<tbody>
+<sc-for list="{{agents}}" as="r" hint-placeholder-count="3">
+<tr class="mrow">
+<th scope="row" style="{{r.th}}">
+<button onClick="{{r.pick}}" aria-pressed="{{r.on}}" style="{{r.btn}}"><span style="font-size:15px;font-weight:600">{{r.name}}</span><span style="font-size:12px;font-weight:500">{{r.state}}</span></button>
+</th>
+<td style="{{r.td}}"><span style="font-weight:600">{{r.v0}}</span><span style="display:block;height:6px;border-radius:999px;background:#EFE7D8;margin-top:4px;overflow:hidden"><span style="{{r.b0}}"></span></span></td>
+<td style="{{r.td}}"><span style="font-weight:600">{{r.v1}}</span><span style="display:block;height:6px;border-radius:999px;background:#EFE7D8;margin-top:4px;overflow:hidden"><span style="{{r.b1}}"></span></span></td>
+<td style="{{r.td}}"><span style="font-weight:600">{{r.v2}}</span><span style="display:block;height:6px;border-radius:999px;background:#EFE7D8;margin-top:4px;overflow:hidden"><span style="{{r.b2}}"></span></span></td>
+<td style="{{r.td}}"><span style="font-weight:600">{{r.v3}}</span><span style="display:block;height:6px;border-radius:999px;background:#EFE7D8;margin-top:4px;overflow:hidden"><span style="{{r.b3}}"></span></span></td>
+<td style="{{r.td}}"><span style="font-weight:600">{{r.v4}}</span><span style="display:block;height:6px;border-radius:999px;background:#EFE7D8;margin-top:4px;overflow:hidden"><span style="{{r.b4}}"></span></span></td>
+<td style="{{r.td}}"><span style="font-weight:600">{{r.v5}}</span><span style="display:block;height:6px;border-radius:999px;background:#EFE7D8;margin-top:4px;overflow:hidden"><span style="{{r.b5}}"></span></span></td>
+<td style="{{r.td}}"><span style="font-weight:600">{{r.v6}}</span><span style="display:block;height:6px;border-radius:999px;background:#EFE7D8;margin-top:4px;overflow:hidden"><span style="{{r.b6}}"></span></span></td>
+<td style="{{r.tdTotal}}">{{r.total}} / 5</td>
+</tr>
+</sc-for>
+</tbody>
+</table>
+</div>
+
+<div class="pp" style="display:flex;flex-wrap:wrap;gap:16px 32px;align-items:center;justify-content:space-between;padding:20px 28px;border-radius:24px;background:#FFFFFF;border:2px solid #A41034">
+<div style="display:flex;flex-direction:column;gap:2px">
+<span style="font-size:13px;font-weight:600;letter-spacing:.08em;color:#A41034">SELECTED</span>
+<span style="font-size:18px;line-height:26px;font-weight:600">{{pick.name}} - {{pick.total}} out of 5</span>
+</div>
+<span style="font-size:15px;line-height:24px;color:#525252">Strongest: {{pick.best}}. Weakest: {{pick.worst}}.</span>
+</div>
+</section>
+
+<!-- Pilot timeline -->
+<section aria-labelledby="h-p" style="display:flex;flex-direction:column;gap:24px">
+<div style="display:flex;flex-direction:column;gap:4px">
+<span style="font-size:13px;font-weight:600;letter-spacing:.08em;color:#A41034">THE PILOT</span>
+<h2 id="h-p" style="margin:0;font-size:22px;line-height:30px;font-weight:600">Six months, month by month</h2>
+</div>
+<div role="region" aria-label="Pilot timeline, scrolls sideways on small screens" tabindex="0" style="overflow-x:auto;padding-bottom:8px">
+<div style="position:relative;min-width:760px;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;padding-top:8px">
+<div aria-hidden="true" style="position:absolute;left:8.33%;right:8.33%;top:32px;height:4px;background:#E3D8C4;border-radius:2px"></div>
+<sc-for list="{{months}}" as="m" hint-placeholder-count="6">
+<div style="position:relative;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center">
+<button onClick="{{m.pick}}" aria-pressed="{{m.on}}" aria-label="{{m.aria}}" class="{{m.cls}}" style="{{m.node}}">{{m.n}}</button>
+<span style="font-size:15px;font-weight:600">{{m.title}}</span>
+<span style="font-size:13px;font-weight:500;color:#525252">{{m.phase}}</span>
+</div>
+</sc-for>
+</div>
+</div>
+<div class="pp" style="background:#A41034;color:#FFFFFF;border-radius:28px;padding:28px 32px;display:flex;flex-direction:column;gap:6px">
+<span style="font-size:14px;font-weight:600">{{mon.label}}</span>
+<span style="font-size:20px;line-height:28px;font-weight:600">{{mon.title}}</span>
+<span style="font-size:16px;line-height:26px">{{mon.body}}</span>
+</div>
+</section>
+
+<!-- Forecast -->
+<section id="forecast" aria-labelledby="h-f" style="display:flex;flex-direction:column;gap:24px">
+<div style="display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end;justify-content:space-between">
+<div style="display:flex;flex-direction:column;gap:4px">
+<span style="font-size:13px;font-weight:600;letter-spacing:.08em;color:#A41034">FORECAST</span>
+<h2 id="h-f" style="margin:0;font-size:22px;line-height:30px;font-weight:600">From applications to enrolments</h2>
+</div>
+<span style="font-size:13px;font-weight:600;padding:5px 14px;border-radius:999px;background:#FFFFFF;border:2px solid #A41034;color:#8F0728">Sample inputs - not a prediction</span>
+</div>
+<p style="margin:0;font-size:16px;line-height:26px;color:#525252">Qualified applications x offer rate x enrolment yield x visa and retention adjustment.</p>
+
+<div style="display:flex;flex-wrap:wrap;gap:12px;align-items:stretch">
+<sc-for list="{{steps}}" as="s" hint-placeholder-count="4">
+<div style="flex:1 1 210px;min-width:0;display:flex;align-items:center;gap:12px">
+<sc-if value="{{s.showOp}}" hint-placeholder-val="{{false}}"><span aria-hidden="true" style="flex:0 0 40px;height:40px;border-radius:999px;background:#A41034;color:#FFFFFF;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700">x</span></sc-if>
+<div class="lift" style="flex:1 1 auto;min-width:0;background:#FFFFFF;border-radius:24px;padding:20px;box-shadow:0 6px 20px rgba(13,36,71,.06);display:flex;flex-direction:column;gap:8px;box-sizing:border-box">
+<span style="font-size:13px;font-weight:600;letter-spacing:.08em;color:#A41034">STEP {{s.n}}</span>
+<label for="{{s.id}}" style="font-size:14px;font-weight:600;line-height:20px">{{s.label}}</label>
+<div style="display:flex;align-items:center;gap:8px">
+<input id="{{s.id}}" type="number" inputmode="numeric" min="0" value="{{s.value}}" onChange="{{s.onChange}}" style="width:100%;min-width:0;min-height:48px;box-sizing:border-box;padding:0 12px;font-size:16px;font-family:inherit;border:2px solid #818285;border-radius:12px;background:#FFFFFF;color:#333333">
+<span style="font-size:14px;font-weight:600">{{s.unit}}</span>
+</div>
+<span style="font-size:14px;color:#525252">{{s.running}}</span>
+</div>
+</div>
+</sc-for>
+</div>
+
+<div class="pp" style="display:flex;flex-wrap:wrap;gap:20px 32px;align-items:center;justify-content:space-between;background:#1E3A5F;color:#FFFFFF;border-radius:28px;padding:32px">
+<div style="display:flex;flex-direction:column;gap:4px">
+<span style="font-size:13px;font-weight:600;letter-spacing:.08em">FORECAST ENROLMENTS</span>
+<span style="font-size:48px;line-height:56px;font-weight:700">{{resultBig}}</span>
+<span style="font-size:15px;line-height:24px">{{resultLine}}</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px;font-size:14px;line-height:22px;max-width:340px">
+<span>{{calcLine}}</span>
+<span style="font-weight:600">Sample data. Replace with your own numbers.</span>
+</div>
+</div>
+</section>
+
+<!-- CTA -->
+<section style="position:relative;overflow:hidden;border-radius:32px;background:#A41034;color:#FFFFFF;padding:40px;display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:space-between">
+<div style="flex:1 1 400px;min-width:0;display:flex;flex-direction:column;gap:6px">
+<h2 style="margin:0;font-size:24px;line-height:32px;font-weight:600">Plan the pilot with a person</h2>
+<p style="margin:0;font-size:16px;line-height:26px">A Capstone advisor can help you pick three agents.</p>
+<span style="font-size:13px">[ADVISOR CHANNELS TO BE CONFIRMED WITH CAPSTONE]</span>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:12px">
+<a class="btn" href="Main.dc.html" style="min-height:48px;box-sizing:border-box;padding:0 26px;border-radius:999px;background:#FFFFFF;color:#8F0728;font-size:15px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center">Back to report</a>
+<a class="btn" href="ScoreDetail.dc.html" style="min-height:48px;box-sizing:border-box;padding:0 26px;border-radius:999px;border:2px solid #FFFFFF;color:#FFFFFF;font-size:15px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center">Score detail</a>
+</div>
+</section>
+
+</main>
+
+<footer style="position:relative;background:#0D2447;color:#FFFFFF;padding:36px 48px">
+<div style="max-width:1200px;margin:0 auto;display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center;font-size:14px">
+<span style="display:inline-flex;align-items:center;gap:12px"><svg aria-hidden="true" viewBox="0 0 100 100" width="36" height="36"><polygon points="6,66 54,4 54,50" fill="#3D5780"/><polygon points="6,66 54,50 32,94" fill="#2A4770"/><polygon points="58,4 94,52 36,92" fill="#A41034"/><polygon points="58,4 36,92 58,56" fill="#8F0728"/></svg>Vietnam Recruitment Intelligence by Capstone Education</span>
+<a href="https://capstonevietnam.com" style="color:#FFFFFF;font-weight:600;min-height:44px;display:inline-flex;align-items:center">capstonevietnam.com</a>
+</div>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":3350}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { factor: -1, agent: 0, month: 0, apps: '120', offer: '55', yld: '30', adj: '85' }; }
+  renderVals() {
+    const num = (s) => { const n = parseFloat(s); return isFinite(n) && n > 0 ? n : 0; };
+    const pct = (s) => Math.min(100, num(s));
+    const fmt1 = (n) => (Math.round(n * 10) / 10).toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+
+    const factors = [
+      { name: 'Student fit', w: 20, color: '#1E3A5F' },
+      { name: 'Market presence', w: 18, color: '#A41034' },
+      { name: 'City coverage', w: 15, color: '#2F5FA8' },
+      { name: 'Counselling', w: 14, color: '#8F0728' },
+      { name: 'Compliance', w: 13, color: '#1E7A4C' },
+      { name: 'Response speed', w: 10, color: '#8A5A00' },
+      { name: 'Commission fit', w: 10, color: '#3D5780' }
+    ];
+    const C = 439.8;
+    const fs = this.state.factor;
+    let cum = 0;
+    const segs = factors.map((f, i) => {
+      const len = f.w / 100 * C;
+      const s = {
+        color: f.color, dash: Math.max(0, len - 2).toFixed(1) + ' 600', off: (-cum).toFixed(1),
+        sw: i === fs ? 26 : 20, op: fs === -1 || i === fs ? 1 : 0.35
+      };
+      cum += len;
+      return s;
+    });
+    const legend = factors.map((f, i) => {
+      const on = i === fs;
+      return {
+        name: f.name, w: f.w, on,
+        pick: () => this.setState({ factor: on ? -1 : i }),
+        style: 'width:100%;min-height:48px;box-sizing:border-box;padding:0 16px;display:flex;align-items:center;gap:12px;border-radius:999px;border:2px solid ' + (on ? '#A41034' : '#E3D8C4') + ';background:' + (on ? '#A41034' : '#FFFFFF') + ';color:' + (on ? '#FFFFFF' : '#333333') + ';transition:all .2s ease',
+        chip: 'flex:0 0 14px;height:14px;border-radius:999px;background:' + f.color + ';border:2px solid #FFFFFF;box-shadow:0 0 0 1px #818285'
+      };
+    });
+    const centerBig = fs === -1 ? '100' : String(factors[fs].w);
+    const centerSmall = fs === -1 ? 'total weight' : factors[fs].name;
+    const weightAria = factors.map(f => f.name + ' ' + f.w + ' percent').join(', ');
+
+    const ag = [
+      { name: 'Agent A', r: [4, 3, 4, 5, 4, 3, 4] },
+      { name: 'Agent B', r: [3, 5, 3, 3, 5, 4, 3] },
+      { name: 'Agent C', r: [5, 2, 2, 4, 3, 5, 5] }
+    ];
+    const as = this.state.agent;
+    const h = {};
+    factors.forEach((f, i) => { h['f' + i] = f.name + ' (' + f.w + ')'; });
+    const calc = ag.map((a) => a.r.reduce((sum, v, i) => sum + v * factors[i].w, 0) / 100);
+    const agents = ag.map((a, i) => {
+      const on = i === as;
+      const o = {
+        name: a.name, on, state: on ? 'Selected' : 'Select',
+        pick: () => this.setState({ agent: i }),
+        th: 'position:sticky;left:0;z-index:1;text-align:left;padding:10px 16px;border-bottom:1px solid #EFE7D8;background:' + (on ? '#F7DCE3' : '#FFFFFF'),
+        btn: 'min-height:48px;min-width:112px;box-sizing:border-box;padding:4px 16px;border-radius:999px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;border:2px solid ' + (on ? '#A41034' : '#E3D8C4') + ';background:' + (on ? '#A41034' : '#FFFFFF') + ';color:' + (on ? '#FFFFFF' : '#333333'),
+        td: 'padding:10px;min-width:96px;border-bottom:1px solid #EFE7D8;color:#333333;background:' + (on ? '#F7DCE3' : '#FFFFFF'),
+        tdTotal: 'padding:10px 20px 10px 10px;border-bottom:1px solid #EFE7D8;font-weight:700;font-size:17px;color:#8F0728;background:' + (on ? '#F7DCE3' : '#FFFFFF'),
+        total: calc[i].toFixed(2)
+      };
+      a.r.forEach((v, k) => {
+        o['v' + k] = v + ' / 5';
+        o['b' + k] = 'display:block;height:100%;border-radius:999px;background:' + (on ? '#A41034' : '#1E3A5F') + ';width:' + (v / 5 * 100) + '%';
+      });
+      return o;
+    });
+    const sa = ag[as];
+    let bi = 0, wi = 0;
+    sa.r.forEach((v, i) => { if (v > sa.r[bi]) bi = i; if (v < sa.r[wi]) wi = i; });
+    const pick = { name: sa.name, total: calc[as].toFixed(2), best: factors[bi].name + ' (' + sa.r[bi] + ')', worst: factors[wi].name + ' (' + sa.r[wi] + ')' };
+
+    const ms = [
+      { t: 'Shortlist', p: 'Choose', body: 'Score candidate agents with the matrix. Pick three.' },
+      { t: 'Sign terms', p: 'Choose', body: 'Agree non-exclusive terms. Use the 10-15% commission benchmark.' },
+      { t: 'Launch', p: 'Run', body: 'Brief each agent. Share scholarship examples and your visa and offer timeline.' },
+      { t: 'Reply fast', p: 'Run', body: 'Answer agent leads within 24-48 hours. Log every enquiry.' },
+      { t: 'Compare', p: 'Review', body: 'Compare applications, offers and enrolments for each agent.' },
+      { t: 'Decide', p: 'Review', body: 'Keep, expand or end each agent. Write down why.' }
+    ];
+    const mi = this.state.month;
+    const months = ms.map((m, i) => {
+      const on = i === mi;
+      return {
+        n: i + 1, title: 'Month ' + (i + 1), phase: m.p, on, cls: on ? 'pu' : '',
+        aria: 'Month ' + (i + 1) + ': ' + m.t,
+        pick: () => this.setState({ month: i }),
+        node: 'width:48px;height:48px;border-radius:999px;box-sizing:border-box;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;position:relative;z-index:1;border:3px solid #A41034;background:' + (on ? '#A41034' : '#FFFFFF') + ';color:' + (on ? '#FFFFFF' : '#A41034')
+      };
+    });
+    const mon = { label: 'Month ' + (mi + 1) + ' - ' + ms[mi].p, title: ms[mi].t, body: ms[mi].body };
+
+    const apps = num(this.state.apps), offer = pct(this.state.offer), yld = pct(this.state.yld), adj = pct(this.state.adj);
+    const offers = apps * offer / 100;
+    const enrolled = offers * yld / 100;
+    const result = enrolled * adj / 100;
+    const mk = (id, label, unit, key, p, running) => ({
+      id, label, unit, value: this.state[key], running,
+      onChange: (e) => this.setState({ [key]: e.target.value })
+    });
+    const raw = [
+      mk('fq-apps', 'Qualified applications', 'apps', 'apps', 0, 'Start: ' + Math.round(apps)),
+      mk('fq-offer', 'Offer rate', '%', 'offer', 1, 'Offers: ' + fmt1(offers)),
+      mk('fq-yield', 'Enrolment yield', '%', 'yld', 1, 'Enrolled: ' + fmt1(enrolled)),
+      mk('fq-adj', 'Visa and retention adjustment', '%', 'adj', 1, 'Kept: ' + fmt1(result))
+    ];
+    const steps = raw.map((s, i) => ({ ...s, n: i + 1, showOp: i > 0 }));
+
+    return {
+      segs, legend, centerBig, centerSmall, weightAria,
+      h, agents, pick, months, mon, steps,
+      resultBig: fmt1(result),
+      resultLine: 'About ' + Math.round(result) + ' students from the sample pilot',
+      calcLine: Math.round(apps) + ' x ' + offer + '% x ' + yld + '% x ' + adj + '% = ' + fmt1(result)
+    };
+  }
+}
+</script>
+</body>
+</html>
