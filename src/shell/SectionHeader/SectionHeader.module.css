@@ -1,0 +1,33 @@
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.eyebrow {
+  font-size: var(--text-eyebrow-size);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--text-eyebrow-tracking);
+  color: var(--color-crimson);
+}
+
+.title {
+  margin: 0;
+  font-weight: var(--font-weight-semibold);
+}
+
+.h1 {
+  font-size: var(--text-h1-size);
+  line-height: var(--text-h1-line);
+  font-weight: var(--font-weight-bold);
+}
+
+.h2 {
+  font-size: var(--text-h2-size);
+  line-height: var(--text-h2-line);
+}
+
+.h3 {
+  font-size: var(--text-h3-size);
+  line-height: var(--text-h3-line);
+}
