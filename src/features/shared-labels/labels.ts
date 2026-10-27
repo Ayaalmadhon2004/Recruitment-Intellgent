@@ -9,7 +9,7 @@ export const fill = (template: string, values: Record<string, string | number>):
     template,
   );
 
-/** Label bundles for the Quick Start feature, built from copy. */
+/** Label bundles for the score patterns, built from copy. Shared by Quick Start and Report. */
 export const notScorableLabels = {
   title: en.status.notScorable,
   reasons: en.notScorable.reasons,
