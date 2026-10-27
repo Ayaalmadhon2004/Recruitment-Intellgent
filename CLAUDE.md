@@ -28,7 +28,13 @@ Next.js (App Router) + TypeScript strict + pnpm. CSS variables for tokens (CSS M
 ## Working style
 Plan first (short), then implement. If something needed is unknown, do not guess: add it to the open items list, use a clearly marked placeholder, and continue. Ask me only when blocked.
 
-## Git workflow
-- Every feature goes on its own new branch (e.g. `feat/<feature-name>`), branched from `main`.
-- Commits are authored by the repository owner (Aya almadhon) only. Do not add `Co-Authored-By` or any Claude attribution to commits.
-- One logical change per commit, each with a clear, conventional message (`feat:`, `fix:`, `chore:`, `docs:`...).
+## Git workflow (strict, applies to Claude and to every sub-agent)
+- **Every feature starts from the latest `main`**: `git fetch origin && git checkout -b feat/<name> origin/main`. Never branch from another feature branch, and never from an old local `main`.
+- **One feature per branch, one pull request per branch, and the pull request always targets `main`.** Never open a PR whose base is another feature branch (no stacked PRs).
+- **If a feature needs code from a feature that is not merged yet, stop.** Do not branch from the unmerged branch and do not copy its commits. Say so, and wait until that PR is merged into `main`, then branch from `main`. (A pull request may be opened early as a draft against `main` only if the description names the PR it waits for.)
+- **When another PR merges while yours is open**, bring it in with `git merge origin/main` into your branch (no rebase, no force-push once a PR is open), re-run `pnpm check`, then push.
+- **Sub-agents** use the same rules: each works on its own branch cut from the latest `main` (or from the branch of the feature it is part of, merged back into that feature branch by the lead before the PR), never pushes to `main`, and never opens a PR itself.
+- **Merging into `main` happens only through a reviewed pull request.** Nothing is pushed straight to `main`.
+- **Commits are authored by the repository owner (Aya almadhon) only.** Do not add `Co-Authored-By` or any Claude/AI attribution to commits or pull request text.
+- **One logical change per commit**, each with a clear, conventional message (`feat:`, `fix:`, `chore:`, `docs:`, `test:`, `refactor:`).
+- **Do not commit local tooling folders** (`.claude/`, `storybook-static/`, `.next/`, `coverage/`).
