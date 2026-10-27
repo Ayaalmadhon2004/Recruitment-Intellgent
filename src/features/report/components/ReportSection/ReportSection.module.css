@@ -1,0 +1,64 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-10);
+  print-color-adjust: exact;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.summary {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-7);
+}
+
+.pdf {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-5);
+  align-items: center;
+  justify-content: space-between;
+}
+
+.pdfText {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  color: var(--color-text-secondary);
+}
+
+.pdfText strong {
+  color: var(--color-text);
+}
+
+/* Print is white and linear. The cover is its own page. */
+.root[data-mode='print'] {
+  gap: var(--space-8);
+  background: var(--color-card);
+}
+
+@media (max-width: 760px) {
+  .root {
+    gap: var(--space-9);
+  }
+}
+
+@media print {
+  .root {
+    gap: var(--space-6);
+    background: var(--color-card);
+  }
+
+  .cover {
+    break-after: page;
+  }
+
+  .pdf {
+    display: none;
+  }
+}
