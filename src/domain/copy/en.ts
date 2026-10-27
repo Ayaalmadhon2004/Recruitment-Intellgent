@@ -1,5 +1,8 @@
+import { landing } from './sections/landing';
+
 /** English UI copy. Components never hard-code text; they receive these values by key. */
 export const en = {
+  landing,
   brand: {
     productName: 'Vietnam Recruitment Intelligence',
     logoAlt: 'Capstone Education',
