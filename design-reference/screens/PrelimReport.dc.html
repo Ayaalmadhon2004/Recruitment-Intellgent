@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Preliminary report</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'Poppins',sans-serif;color:#333333;background:#FAF5EC}
+a{color:#1E3A5F}a:hover{color:#0D2447}
+a:focus-visible,button:focus-visible,select:focus-visible{outline:2px solid #1E3A5F;outline-offset:2px;box-shadow:0 0 0 2px #FFFFFF}
+button{font-family:inherit;cursor:pointer}
+@keyframes up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+@keyframes ring{from{stroke-dasharray:0 600}}
+@keyframes grow{from{width:0}}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(164,16,52,.45)}100%{box-shadow:0 0 0 16px rgba(164,16,52,0)}}
+@keyframes float{50%{transform:translateY(-10px)}}
+@keyframes drift{50%{transform:translate(10px,-12px) rotate(3deg)}}
+@keyframes pop{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:none}}
+.rv{animation:up .8s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.12s}.d2{animation-delay:.24s}.d3{animation-delay:.36s}
+.fl{animation:float 6s ease-in-out infinite}
+.dr{animation:drift 9s ease-in-out infinite}
+.rg{animation:ring 1.4s cubic-bezier(.2,.7,.2,1) both}
+.gr{animation:grow 1.2s cubic-bezier(.2,.7,.2,1) both}
+.pu{animation:pulse 2s ease-out infinite}
+.pp{animation:pop .45s cubic-bezier(.2,.7,.2,1) both}
+.lift{transition:transform .25s ease,box-shadow .25s ease}
+.lift:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(13,36,71,.14)}
+.btn{transition:transform .2s ease,background .2s ease}
+.btn:hover{transform:translateY(-2px)}
+.tabsel{display:none}
+@media(max-width:760px){.tablist{display:none!important}.tabsel{display:block}.pad{padding-left:20px!important;padding-right:20px!important}.nav a.hide{display:none}
+.cta{padding:32px 24px!important}
+h1.big{font-size:30px!important;line-height:38px!important}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+<div style="width:100%;overflow:hidden;background:#FAF5EC;font-family:'Poppins',sans-serif;color:#333333">
+
+<!-- Header -->
+<header class="pad" style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;padding:14px 48px;background:#FFFFFF;border-bottom:1px solid #E8DFCF">
+<div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+<img src="../assets/logo.png" alt="Capstone Education" style="height:44px;width:auto;display:block">
+<span style="font-size:14px;font-weight:600;color:#333333;border-left:2px solid #A41034;padding-left:16px">Vietnam Recruitment Intelligence</span>
+</div>
+<nav class="nav" style="display:flex;flex-wrap:wrap;align-items:center;gap:24px">
+<a class="hide" href="#stage" style="font-size:14px;font-weight:500;text-decoration:none;color:#1E3A5F">Stage</a>
+<a class="hide" href="#scores" style="font-size:14px;font-weight:500;text-decoration:none;color:#1E3A5F">Scores</a>
+<a class="hide" href="SignIn.dc.html" style="font-size:14px;font-weight:500;text-decoration:none;color:#1E3A5F">Sign in</a>
+<a class="btn" href="Intake.dc.html" style="min-height:44px;box-sizing:border-box;padding:0 22px;border-radius:999px;background:#A41034;color:#FFFFFF;font-size:14px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center">Complete full audit</a>
+</nav>
+</header>
+
+<!-- Hero -->
+<section style="position:relative;background:#0D2447;color:#FFFFFF;overflow:hidden">
+<div class="pad" style="position:relative;max-width:1200px;margin:0 auto;padding:56px 48px 108px;display:flex;flex-wrap:wrap;gap:48px;align-items:center;justify-content:space-between;box-sizing:border-box">
+<div class="rv" style="flex:1 1 460px;min-width:0;display:flex;flex-direction:column;gap:18px">
+<span style="align-self:flex-start;font-size:13px;font-weight:600;padding:5px 14px;border-radius:999px;background:#A41034;color:#FFFFFF">Sample data - illustrative only</span>
+<span style="font-size:13px;font-weight:600;letter-spacing:.08em">YOUR FREE FIRST READ</span>
+<h1 class="big" style="margin:0;font-size:40px;line-height:48px;font-weight:700">Northbridge University</h1>
+<p style="margin:0;font-size:20px;line-height:30px;max-width:520px">Here is where you stand after 5 questions.</p>
+<div style="display:flex;flex-wrap:wrap;gap:10px;font-size:14px;font-weight:500">
+<span style="padding:7px 16px;border-radius:999px;border:1px solid #FFFFFF">Stage: Building</span>
+<span style="padding:7px 16px;border-radius:999px;border:1px solid #FFFFFF">Preliminary result</span>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:8px">
+<a class="btn" href="Intake.dc.html" style="min-height:48px;box-sizing:border-box;padding:0 28px;border-radius:999px;background:#A41034;color:#FFFFFF;font-size:15px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center">Complete the full audit</a>
+<a class="btn" href="QuickStart.dc.html" style="min-height:48px;box-sizing:border-box;padding:0 28px;border-radius:999px;border:2px solid #FFFFFF;color:#FFFFFF;font-size:15px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center">Change my answers</a>
+</div>
+</div>
+<div class="rv d2" style="flex:0 1 300px;display:flex;flex-direction:column;align-items:center;gap:10px;margin:0 auto">
+<svg viewBox="0 0 180 180" width="220" height="220" role="img" aria-label="5 of 40 questions answered, 13 percent">
+<circle cx="90" cy="90" r="70" fill="none" stroke="#1E3A5F" stroke-width="16"/>
+<circle class="rg" cx="90" cy="90" r="70" fill="none" stroke="#FFFFFF" stroke-width="16" stroke-linecap="round" stroke-dasharray="55 600" transform="rotate(-90 90 90)"/>
+<text x="90" y="92" text-anchor="middle" font-size="40" font-weight="700" fill="#FFFFFF" font-family="Poppins,sans-serif">5 of 40</text>
+<text x="90" y="116" text-anchor="middle" font-size="13" fill="#FFFFFF" font-family="Poppins,sans-serif">questions answered</text>
+</svg>
+</div>
+</div>
+<svg aria-hidden="true" viewBox="0 0 1440 70" preserveAspectRatio="none" style="position:absolute;bottom:-1px;left:0;width:100%;height:70px;display:block"><polygon points="0,70 1440,0 1440,70" fill="#FAF5EC"/></svg>
+</section>
+
+<main class="pad" style="max-width:1200px;margin:0 auto;padding:24px 48px 72px;display:flex;flex-direction:column;gap:80px;box-sizing:border-box">
+
+<!-- Stage -->
+<section id="stage" aria-label="Recruitment stage" style="display:flex;flex-direction:column;gap:24px">
+<div style="display:flex;flex-direction:column;gap:4px">
+<span style="font-size:13px;font-weight:600;letter-spacing:.08em;color:#A41034">YOUR STAGE</span>
+<h2 style="margin:0;font-size:22px;line-height:30px;font-weight:600">You are building</h2>
+</div>
+<div style="position:relative;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px">
+<div aria-hidden="true" style="position:absolute;left:12.5%;right:12.5%;top:19px;height:4px;background:#E3D8C4;border-radius:2px"></div>
+<div aria-hidden="true" class="gr" style="position:absolute;left:12.5%;width:25%;top:19px;height:4px;background:#A41034;border-radius:2px"></div>
+<sc-for list="{{stages}}" as="st" hint-placeholder-count="4">
+<div style="position:relative;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center">
+<span class="{{st.cls}}" style="{{st.dot}}">{{st.n}}</span>
+<span style="font-size:15px;font-weight:600;color:#333333">{{st.range}}</span>
+<span style="font-size:13px;font-weight:500;color:#525252">{{st.note}}</span>
+</div>
+</sc-for>
+</div>
+</section>
+
+<!-- Preview scores -->
+<section id="scores" style="display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;flex-direction:column;gap:4px">
+<span style="font-size:13px;font-weight:600;letter-spacing:.08em;color:#A41034">PREVIEW SCORES</span>
+<h2 style="margin:0;font-size:22px;line-height:30px;font-weight:600">3 areas we can read already</h2>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px">
+<sc-for list="{{scores}}" as="s" hint-placeholder-count="3">
+<article class="lift" style="background:#FFFFFF;border-radius:28px;padding:28px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px;box-shadow:0 6px 20px rgba(13,36,71,.06)">
+<div style="position:relative;line-height:0;width:160px;max-width:100%;flex:0 0 auto"><svg viewBox="0 0 180 180" width="160" height="160" role="img" aria-label="{{s.aria}}" style="display:block">
+<circle cx="90" cy="90" r="70" fill="none" stroke="#EFE7D8" stroke-width="16"/>
+<circle class="rg" cx="90" cy="90" r="70" fill="none" stroke="{{s.color}}" stroke-width="16" stroke-linecap="round" stroke-dasharray="{{s.dash}}" transform="rotate(-90 90 90)"/>
+
+
+</svg><div aria-hidden="true" style="position:absolute;left:0;right:0;top:0;bottom:0;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.15;font-family:'Poppins',sans-serif;text-align:center"><span style="font-size:39.1px;font-weight:700;color:#333333">{{s.value}}</span><span style="font-size:11.6px;font-weight:400;color:#525252">out of 100</span></div></div>
+<h3 style="margin:0;font-size:18px;line-height:26px;font-weight:600">{{s.name}}</h3>
+<div style="display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600;color:{{s.color}}">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{s.icon}}"/></svg>
+<span>{{s.band}}</span>
+</div>
+<p style="margin:0;font-size:14px;line-height:22px;color:#525252">{{s.reason}}</p>
+<div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;font-size:13px;font-weight:500">
+<span style="padding:4px 12px;border-radius:999px;background:#F7F7F7;border:1px solid #818285">{{s.evidence}}</span>
+<span style="padding:4px 12px;border-radius:999px;background:#F7F7F7;border:1px solid #818285">Confidence: {{s.conf}}</span>
+</div>
+</article>
+</sc-for>
+</div>
+</section>
+
+<!-- Locked areas -->
+<section aria-label="Areas still to score" style="display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;flex-direction:column;gap:4px">
+<span style="font-size:13px;font-weight:600;letter-spacing:.08em;color:#A41034">STILL TO SCORE</span>
+<h2 style="margin:0;font-size:22px;line-height:30px;font-weight:600">3 areas need more answers</h2>
+<p style="margin:0;font-size:16px;line-height:26px;color:#525252">We show no number until we have the evidence. We will not guess.</p>
+</div>
+<ul style="margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px">
+<sc-for list="{{locked}}" as="l" hint-placeholder-count="3">
+<li style="background:#FFFFFF;border:2px dashed #CDBFA6;border-radius:28px;padding:24px;display:flex;align-items:center;gap:18px">
+<svg viewBox="0 0 90 90" width="76" height="76" role="img" aria-label="{{l.status}}" style="flex:0 0 76px">
+<circle cx="45" cy="45" r="36" fill="#FAF5EC" stroke="#BDBDBD" stroke-width="3" stroke-dasharray="6 8"/>
+<rect x="33" y="43" width="24" height="18" rx="4" fill="none" stroke="#525252" stroke-width="3"/>
+<path d="M38 43v-5a7 7 0 0114 0v5" fill="none" stroke="#525252" stroke-width="3" stroke-linecap="round"/>
+</svg>
+<div style="display:flex;flex-direction:column;gap:4px;min-width:0">
+<h3 style="margin:0;font-size:18px;line-height:26px;font-weight:600">{{l.name}}</h3>
+<span style="font-size:14px;font-weight:600;color:#525252">{{l.status}}</span>
+<span style="font-size:13px;line-height:20px;color:#525252">{{l.need}}</span>
+</div>
+</li>
+</sc-for>
+</ul>
+</section>
+
+<!-- CTA card -->
+<section class="cta" aria-label="Next step" style="position:relative;overflow:hidden;border-radius:32px;background:#A41034;color:#FFFFFF;padding:44px 40px;display:flex;flex-wrap:wrap;gap:32px;align-items:center;justify-content:space-between">
+<div style="position:relative;flex:1 1 400px;min-width:0;display:flex;flex-direction:column;gap:10px">
+<span style="font-size:13px;font-weight:600;letter-spacing:.08em">NEXT STEP</span>
+<h2 style="margin:0;font-size:26px;line-height:34px;font-weight:700">Finish the audit to see every score.</h2>
+<p style="margin:0;font-size:16px;line-height:26px">35 more questions. Your 5 answers are kept.</p>
+</div>
+<div style="position:relative;display:flex;flex-wrap:wrap;gap:12px">
+<a class="btn" href="Intake.dc.html" style="min-height:52px;box-sizing:border-box;padding:0 30px;border-radius:999px;background:#FFFFFF;color:#8F0728;font-size:16px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center">Complete the full audit</a>
+<a class="btn" href="SignIn.dc.html" style="min-height:52px;box-sizing:border-box;padding:0 28px;border-radius:999px;border:2px solid #FFFFFF;color:#FFFFFF;font-size:16px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center">Sign in to save</a>
+</div>
+</section>
+
+</main>
+
+<footer style="position:relative;background:#0D2447;color:#FFFFFF;padding:36px 48px">
+<div style="max-width:1200px;margin:0 auto;display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center;font-size:14px">
+<span style="display:inline-flex;align-items:center;gap:12px"><svg aria-hidden="true" viewBox="0 0 100 100" width="36" height="36"><polygon points="6,66 54,4 54,50" fill="#3D5780"/><polygon points="6,66 54,50 32,94" fill="#2A4770"/><polygon points="58,4 94,52 36,92" fill="#A41034"/><polygon points="58,4 36,92 58,56" fill="#8F0728"/></svg>Vietnam Recruitment Intelligence by Capstone Education</span>
+<a href="https://capstonevietnam.com" style="color:#FFFFFF;font-weight:600;min-height:44px;display:inline-flex;align-items:center">capstonevietnam.com</a>
+</div>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":2350}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const C = {
+      strong: ['#1E7A4C', 'Strong', 'M12 3a9 9 0 100 18 9 9 0 000-18z M8 12.5l2.7 2.7L16 9.5'],
+      caution: ['#8A5A00', 'Developing', 'M12 3l10 17H2z M12 10v5 M12 18v.01'],
+      concern: ['#B4470C', 'Needs attention', 'M12 3a9 9 0 100 18 9 9 0 000-18z M12 7.5v5.5 M12 16.5v.01']
+    };
+    const raw = [
+      { name: 'Digital Visibility', v: 78, tone: 'strong', reason: 'Fast replies support your enquiry funnel.', ev: 'Institution-reported', conf: 'Low' },
+      { name: 'Readiness', v: 68, tone: 'caution', reason: 'Good start. Visa and offer steps need writing down.', ev: 'Estimate', conf: 'Low' },
+      { name: 'Affordability and ROI', v: 62, tone: 'caution', reason: 'Your price band is mid-range for this market.', ev: 'Institution-reported', conf: 'Medium' }
+    ];
+    const scores = raw.map(s => ({
+      name: s.name, value: s.v, color: C[s.tone][0], band: C[s.tone][1], icon: C[s.tone][2],
+      dash: (s.v / 100 * 439.8).toFixed(1) + ' 600', reason: s.reason, evidence: s.ev, conf: s.conf,
+      aria: s.name + ' preview score ' + s.v + ' out of 100'
+    }));
+    const locked = [
+      { name: 'Competitiveness', status: 'Locked', need: 'Needs Sections B and C of the full audit.' },
+      { name: 'Trust Network', status: 'Locked', need: 'Needs Sections D and E of the full audit.' },
+      { name: 'Community Influence', status: 'Not yet scorable', need: 'Needs Section E: parents, students and alumni.' }
+    ];
+    const names = [['0-5', 'Starting'], ['6-15', 'Building'], ['16-30', 'Growing'], ['31+', 'Established']];
+    const stages = names.map((s, i) => {
+      const here = i === 1, done = i < 1;
+      return {
+        n: i + 1, range: s[0] + ' students', note: here ? 'You are here' : (done ? 'Passed' : 'Ahead'), cls: here ? 'pu' : '',
+        dot: 'width:40px;height:40px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;box-sizing:border-box;position:relative;z-index:1;' + (here ? 'background:#A41034;color:#FFFFFF;border:3px solid #FFFFFF' : (done ? 'background:#1E3A5F;color:#FFFFFF' : 'background:#FFFFFF;color:#525252;border:2px solid #CDBFA6'))
+      };
+    });
+    return { scores, locked, stages };
+  }
+}
+</script>
+</body>
+</html>
