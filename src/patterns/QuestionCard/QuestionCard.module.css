@@ -91,8 +91,10 @@
   transition: opacity 0.2s ease;
 }
 
+/* Dimmed, not faded: opacity below ~0.85 would drop the text under 4.5:1 contrast. */
 .dimmed {
-  opacity: 0.55;
+  opacity: 0.85;
+  filter: grayscale(1);
 }
 
 .numberRow {
