@@ -9,7 +9,7 @@
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint .",
+    "lint": "eslint . --max-warnings 0",
     "boundaries": "depcruise src --config .dependency-cruiser.cjs",
     "test": "vitest run",
     "check": "pnpm typecheck && pnpm lint && pnpm tokens && pnpm boundaries && pnpm test",

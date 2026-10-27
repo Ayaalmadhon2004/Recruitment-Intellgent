@@ -7,6 +7,14 @@ const eslintConfig = [
   ...nextTs,
   prettier,
   {
+    rules: {
+      '@typescript-eslint/no-unused-vars': [
+        'warn',
+        { varsIgnorePattern: '^_', ignoreRestSiblings: true },
+      ],
+    },
+  },
+  {
     ignores: [
       '.next/**',
       'storybook-static/**',
