@@ -17,6 +17,7 @@ Built bottom-up, in the order the architecture requires (merge order, oldest fir
 7. Report section building blocks in `src/features/report` (PRs 12 and 15).
 8. Git workflow rule added to `CLAUDE.md` (PR 13).
 9. Full Intake: 24 temporary questions in sections A to F, evidence tags, save on this device (PR 14).
+10. Cost Calculator: pure cost functions, a Switch primitive, and the `/cost-calc` page (PR 17).
 
 Shared code: `src/features/questions` (answer state and question views, used by Quick Start and Intake), `src/features/shared-labels` (label bundles for score patterns).
 
@@ -30,6 +31,7 @@ Pages (`src/app/**/page.tsx`):
 - `/quick-start` five-question flow
 - `/first-read` the First Read result
 - `/intake` the full audit
+- `/cost-calc` the cost calculator
 
 Route handlers (`route.ts`):
 
