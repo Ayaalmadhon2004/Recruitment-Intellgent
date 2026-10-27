@@ -1,2 +1,2 @@
-export { en, t } from './en';
+export { en, fill, t } from './en';
 export type { CopyKey } from './en';
