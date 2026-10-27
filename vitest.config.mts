@@ -22,5 +22,11 @@ export default defineConfig({
     setupFiles: ['./vitest.setup.ts'],
     include: ['src/**/*.test.{ts,tsx}', 'tests/**/*.test.{ts,tsx}'],
     passWithNoTests: true,
+    coverage: {
+      provider: 'v8',
+      include: ['src/domain/scoring/**/*.ts'],
+      exclude: ['**/*.test.ts', '**/index.ts'],
+      thresholds: { lines: 95, functions: 95, branches: 90, statements: 95 },
+    },
   },
 });
