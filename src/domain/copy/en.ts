@@ -1,5 +1,8 @@
+import { agentStrategy } from './sections/agentStrategy';
+
 /** English UI copy. Components never hard-code text; they receive these values by key. */
 export const en = {
+  agentStrategy,
   brand: {
     productName: 'Vietnam Recruitment Intelligence',
     logoAlt: 'Capstone Education',
