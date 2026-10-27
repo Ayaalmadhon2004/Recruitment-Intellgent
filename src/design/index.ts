@@ -1,1 +1,1 @@
-export {};
+export { poppins } from './fonts';
