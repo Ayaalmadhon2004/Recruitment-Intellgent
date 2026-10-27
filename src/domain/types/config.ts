@@ -1,11 +1,7 @@
 import type { CopyKey } from '../copy';
 import type { AgentFactor, PilotPlan } from './agent';
-import type {
-  AffordabilityComponentId,
-  GaugeId,
-  PriceBandId,
-  ScoreAreaId,
-} from './ids';
+import type { Confidence, KnownEvidenceTag } from './answer';
+import type { AffordabilityComponentId, GaugeId, PriceBandId, ScoreAreaId } from './ids';
 import type { Question } from './question';
 import type { Band, Gauge, ScoreArea } from './score';
 import type { Stage, StageSource } from './stage';
@@ -57,6 +53,20 @@ export type AgentsConfig = {
   readonly rating: { readonly min: number; readonly max: number };
 };
 
+export type EvidenceConfig = {
+  readonly status: ConfigStatus;
+  /** Confidence an answer gets from its evidence tag. The real rule is an open item (unknown 1). */
+  readonly confidenceByTag: Readonly<Record<KnownEvidenceTag, Confidence>>;
+  /** Tag given to an answer collected where no tag is asked (Quick Start). */
+  readonly defaultTag: KnownEvidenceTag;
+};
+
+export type AccessConfig = {
+  readonly status: ConfigStatus;
+  /** Areas the free preview hides. Empty while the free vs locked line is unknown. */
+  readonly lockedWhenFree: readonly ScoreAreaId[];
+};
+
 /** What the scoring functions read. Passed in explicitly so tests can swap any part. */
 export type DomainConfig = {
   readonly version: string;
@@ -64,4 +74,6 @@ export type DomainConfig = {
   readonly scoring: ScoringConfig;
   readonly stages: StagesConfig;
   readonly agents: AgentsConfig;
+  readonly evidence: EvidenceConfig;
+  readonly access: AccessConfig;
 };

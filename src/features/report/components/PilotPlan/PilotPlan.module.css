@@ -1,0 +1,99 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fact {
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-navy);
+  font-size: var(--text-small-size);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-navy);
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  height: 100%;
+  padding: var(--space-8);
+  border-radius: var(--radius-card-lg);
+  box-sizing: border-box;
+}
+
+.navy {
+  background: var(--color-navy);
+  color: var(--color-text-inverse);
+}
+
+.crimson {
+  background: var(--color-crimson);
+  color: var(--color-text-inverse);
+}
+
+.plain {
+  background: var(--color-card);
+  color: var(--color-text);
+  box-shadow: var(--shadow-card);
+}
+
+.months {
+  font-size: var(--text-eyebrow-size);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--text-eyebrow-tracking);
+}
+
+.stepTitle {
+  margin: 0;
+  font-size: var(--text-h2-size);
+  line-height: var(--text-h2-line);
+  font-weight: var(--font-weight-bold);
+}
+
+.stepBody {
+  margin: 0;
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-line);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* In print the steps are plain text on white: no fills, so the page uses little ink. */
+.section[data-mode='print'] .step {
+  height: auto;
+  padding: var(--space-4) var(--space-5);
+  background: var(--color-card);
+  color: var(--color-text);
+  border: 1px solid var(--color-line-neutral);
+  box-shadow: none;
+}
+
+@media (max-width: 760px) {
+  .step {
+    padding: var(--space-6) var(--space-5);
+  }
+}
+
+@media print {
+  .listItem {
+    break-inside: avoid;
+  }
+}

@@ -7,7 +7,8 @@ export type ActionItem = {
   title: string;
   /** For example "Quick win" or "2-4 weeks". */
   effort?: string;
-  body: string;
+  /** Optional. Without a body the step is a plain row with nothing to expand. */
+  body?: string;
 };
 
 export type ActionListProps = {
@@ -29,17 +30,24 @@ export function ActionList({ items, label, openFirst = true }: ActionListProps):
             {index + 1}
           </span>
           <div className={styles.body}>
-            <Accordion
-              items={[
-                {
-                  id: item.id,
-                  title: item.title,
-                  subtitle: item.effort,
-                  content: item.body,
-                },
-              ]}
-              defaultOpenIds={openFirst && index === 0 ? [item.id] : []}
-            />
+            {item.body ? (
+              <Accordion
+                items={[
+                  {
+                    id: item.id,
+                    title: item.title,
+                    subtitle: item.effort,
+                    content: item.body,
+                  },
+                ]}
+                defaultOpenIds={openFirst && index === 0 ? [item.id] : []}
+              />
+            ) : (
+              <div className={styles.plain}>
+                <span className={styles.plainTitle}>{item.title}</span>
+                {item.effort ? <span className={styles.plainEffort}>{item.effort}</span> : null}
+              </div>
+            )}
           </div>
         </li>
       ))}
