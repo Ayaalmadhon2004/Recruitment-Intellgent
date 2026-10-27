@@ -61,6 +61,12 @@ export type EvidenceConfig = {
   readonly defaultTag: KnownEvidenceTag;
 };
 
+export type AccessConfig = {
+  readonly status: ConfigStatus;
+  /** Areas the free preview hides. Empty while the free vs locked line is unknown. */
+  readonly lockedWhenFree: readonly ScoreAreaId[];
+};
+
 /** What the scoring functions read. Passed in explicitly so tests can swap any part. */
 export type DomainConfig = {
   readonly version: string;
@@ -69,4 +75,5 @@ export type DomainConfig = {
   readonly stages: StagesConfig;
   readonly agents: AgentsConfig;
   readonly evidence: EvidenceConfig;
+  readonly access: AccessConfig;
 };

@@ -1,7 +1,8 @@
 import type { ReactNode } from 'react';
 import { en } from '@/domain/copy';
 import type { QuestionId } from '@/domain/types';
-import { notScorableLabels, questionLabel, scoreCardLabels } from '@/features/shared-labels';
+import { questionLabel } from '@/features/questions';
+import { notScorableLabels, scoreCardLabels } from '@/features/shared-labels';
 import { ConfidenceMeter, EvidenceTag, NotScorableState, ScoreRing, StatusBadge } from '@/patterns';
 import type { ReportArea } from '../../contract';
 import { areaName } from '../../labels';

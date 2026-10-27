@@ -26,6 +26,8 @@ export { ScoreRing } from './ScoreRing';
 export type { ScoreRingProps } from './ScoreRing';
 export { StageCard } from './StageCard';
 export type { StageCardLabels, StageCardProps } from './StageCard';
+export { bandTone } from './internal/tone';
+export type { StatusTone } from './internal/tone';
 export { StatusBadge } from './StatusBadge';
 export type { StatusBadgeProps } from './StatusBadge';
 export { TbcValue } from './TbcValue';
