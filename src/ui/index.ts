@@ -26,3 +26,4 @@ export { Stepper } from './Stepper';
 export type { StepperProps, StepperStep } from './Stepper';
 export { Tabs } from './Tabs';
 export type { TabItem, TabsProps } from './Tabs';
+export { cx } from './internal/cx';
