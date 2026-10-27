@@ -9,7 +9,7 @@ export type RadioCardOption = {
   value: string;
   label: string;
   description?: string;
-  detail?: string;
+  detail?: ReactNode;
   icon?: IconName;
 };
 
