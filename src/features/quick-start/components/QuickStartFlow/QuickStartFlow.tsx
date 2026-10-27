@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import type { ReactNode } from 'react';
 import { domainConfig, questionsConfig } from '@/domain/config';
-import { en } from '@/domain/copy';
+import { en, fill } from '@/domain/copy';
 import type { Answer, AnswerValue } from '@/domain/types';
 import {
   answerFor,
@@ -17,7 +17,6 @@ import {
 } from '@/features/questions';
 import { FlowShell, QuestionCard } from '@/patterns';
 import type { FirstReadResponse } from '../../contract';
-import { fill } from '@/features/shared-labels';
 import { saveFirstRead } from '../../session';
 import { useStoredAnswers } from '../../useStoredAnswers';
 import styles from './QuickStartFlow.module.css';
