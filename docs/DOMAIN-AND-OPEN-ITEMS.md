@@ -34,7 +34,7 @@ Everything below is a stand-in. Nothing here is a confirmed fact or formula.
 |---|---|---|---|
 | Question list | `src/domain/config/questions.config.ts` | TEMPORARY: the 24 questions shown in the Intake design (4 per section A to F), not the 40. Every one has `temporary: true`. Text lives in `copy/en.ts` under `questions.<id>`. | Capstone confirms the 40 (unknown 2) |
 | Which score each question feeds | `feeds` on every question | Empty `[]`. Unknown. NotScorable results list no missing ids until this is filled. | Capstone confirms the mapping (unknown 1, 2) |
-| Quick Start questions | `quickStart` flag | `false` on all. The 5 are unknown. | Capstone picks the 5 (unknown 2) |
+| Quick Start questions | `quickStart` flag | TEMPORARY: `quickStart: true` on A1, B1, C1, D1, F1 (chosen because B1 decides the stage and the others span question types). The real 5 are unknown. | Capstone picks the 5 (unknown 2) |
 | Option ids | question `options[].value` | Slug of the design label, for example `private-university`. Stored in answers. | Real option lists arrive |
 | Stage source question | `stages.config.ts` `source` | TEMPORARY: `B1` (Vietnamese students enrolled this year). The design also has A2 as a stage picker; B1 was chosen because stage is defined by headcount. | Real question list arrives |
 | Scoring formulas | `scoring.config.ts` `formulas` | `null` for all six areas and both gauges. `scoreArea` and `scoreGauge` return `NotScorable` with `reason: 'no-formula'`. | Capstone gives the formulas (unknown 1) |
@@ -44,6 +44,7 @@ Everything below is a stand-in. Nothing here is a confirmed fact or formula.
 | Gauge bands | none | Gauges (0-10) have no bands. | If bands are wanted for gauges |
 | Recommendation impact scale | `types/recommendation.ts` | Type only. `impact` is relative, larger first. No scale or ranking function. | Report feature (08) |
 | Sample audit | `tests/fixtures/northbridge.ts` | `isSample: true`. 13 answers from the Intake design. Per-answer confidence follows the tag for the fixture only (verified high, institution-reported medium, estimate low). The design numbers (68, 54, 62, 78, 49, n/a, 7.0, 5.5; 28 of 40) are kept as display fixtures, not expected outputs. | A worked sample audit with expected scores (unknown 3) |
+| Evidence tag to confidence | `evidence.config.ts` | PLACEHOLDER: verified high, institution-reported medium, estimate low, judgement low. The design says the tag "sets your confidence" but gives no mapping. `defaultTag: institution-reported` is given to answers collected where no tag is asked (Quick Start). `evidence.status: 'placeholder'`. | Capstone confirms how confidence is derived (unknown 1) |
 | Config version | `config/version.ts` | `vri-config-0.1.0`. Stored with every audit. | Bump on any config change |
 | Every unknown | `config/tbc.config.ts` | All `null`: formulas, 40 questions, Quick Start ids, sample audit, bands, free/locked line, unlock paths, pricing, advisor channels and photo, hosting, retention, privacy, database, auth, web research, brand assets, VND rate, report date. | Each is filled only when Capstone confirms it |
 | Stored shape | `types/audit.ts` | `Audit` holds answers and `configVersion`. There is no field for a score. | n/a |

@@ -14,6 +14,8 @@ export { NotScorableState } from './NotScorableState';
 export type { NotScorableLabels, NotScorableStateProps } from './NotScorableState';
 export { ProgressBar } from './ProgressBar';
 export type { ProgressBarProps } from './ProgressBar';
+export { QuestionCard } from './QuestionCard';
+export type { QuestionCardLabels, QuestionCardProps, QuestionView } from './QuestionCard';
 export { RadarChart } from './RadarChart';
 export type { RadarAxis, RadarChartLabels, RadarChartProps } from './RadarChart';
 export { SampleDataBadge } from './SampleDataBadge';

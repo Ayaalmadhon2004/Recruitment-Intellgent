@@ -100,8 +100,10 @@ describe('placeholders are never taken for real values', () => {
     }
   });
 
-  it('no Quick Start question is chosen yet', () => {
-    expect(questionsConfig.some((q) => q.quickStart)).toBe(false);
+  it('the temporary Quick Start questions are exactly A1, B1, C1, D1 and F1', () => {
+    const quick = questionsConfig.filter((q) => q.quickStart);
+    expect(quick.map((q) => q.id)).toEqual(['A1', 'B1', 'C1', 'D1', 'F1']);
+    expect(quick.every((q) => q.temporary)).toBe(true);
   });
 });
 
