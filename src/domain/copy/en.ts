@@ -127,6 +127,19 @@ export const en = {
     'response-speed': 'Response speed',
     'commission-fit': 'Commission fit',
   },
+  questionCard: {
+    status: { answered: 'Answered', unknown: 'Unknown', todo: 'To do' },
+    notSure: 'Not sure',
+    notSureActive: 'Marked Unknown. Undo',
+    unknownNote: 'Saved as Unknown. We will not guess a score. Answer later to improve it.',
+    todoHint: 'Answer above, or choose Not sure.',
+    choose: 'Choose one',
+    yes: 'Yes',
+    no: 'No',
+    notAnswered: 'Not answered',
+    evidenceHeading: 'How do you know this?',
+    evidenceMissing: 'Pick one tag. It sets your confidence.',
+  },
   questions: {
     A1: {
       text: 'What type of institution are you?',
