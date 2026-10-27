@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>PDF export preview</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'Poppins',sans-serif;color:#333333;background:#FAF5EC}
+a{color:#1E3A5F}a:hover{color:#0D2447}
+a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid #1E3A5F;outline-offset:2px;box-shadow:0 0 0 2px #FFFFFF}
+button{font-family:inherit;cursor:pointer}
+@keyframes up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+@keyframes ring{from{stroke-dasharray:0 600}}
+@keyframes grow{from{width:0}}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(164,16,52,.45)}100%{box-shadow:0 0 0 16px rgba(164,16,52,0)}}
+@keyframes float{50%{transform:translateY(-10px)}}
+@keyframes drift{50%{transform:translate(10px,-12px) rotate(3deg)}}
+@keyframes pop{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:none}}
+.rv{animation:up .8s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.12s}.d2{animation-delay:.24s}.d3{animation-delay:.36s}
+.fl{animation:float 6s ease-in-out infinite}
+.dr{animation:drift 9s ease-in-out infinite}
+.rg{animation:ring 1.4s cubic-bezier(.2,.7,.2,1) both}
+.gr{animation:grow 1.2s cubic-bezier(.2,.7,.2,1) both}
+.pu{animation:pulse 2s ease-out infinite}
+.pp{animation:pop .45s cubic-bezier(.2,.7,.2,1) both}
+.lift{transition:transform .25s ease,box-shadow .25s ease}
+.lift:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(13,36,71,.14)}
+.btn{transition:transform .2s ease,background .2s ease}
+.btn:hover{transform:translateY(-2px)}
+.tabsel{display:none}
+@media(max-width:760px){.tablist{display:none!important}.tabsel{display:block}.pad{padding-left:20px!important;padding-right:20px!important}.nav a.hide{display:none}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+<div style="width:100%;overflow:hidden;background:#FAF5EC;font-family:'Poppins',sans-serif;color:#333333">
+
+<!-- Header -->
+<header class="pad" style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;padding:14px 48px;background:#FFFFFF;border-bottom:1px solid #E8DFCF">
+<div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+<img src="../assets/logo.png" alt="Capstone Education" style="height:44px;width:auto;display:block">
+<span style="font-size:14px;font-weight:600;color:#333333;border-left:2px solid #A41034;padding-left:16px">Vietnam Recruitment Intelligence</span>
+</div>
+<nav class="nav" style="display:flex;flex-wrap:wrap;align-items:center;gap:24px">
+<a class="hide" href="Main.dc.html" style="font-size:14px;font-weight:500;text-decoration:none;color:#1E3A5F">My report</a>
+<a class="hide" href="Advisor.dc.html" style="font-size:14px;font-weight:500;text-decoration:none;color:#1E3A5F">Advisor</a>
+<a class="btn" href="Main.dc.html" style="min-height:44px;box-sizing:border-box;padding:0 22px;border-radius:999px;background:#A41034;color:#FFFFFF;font-size:14px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center">Back to report</a>
+</nav>
+</header>
+
+<main class="pad" style="max-width:1200px;margin:0 auto;padding:48px 48px 72px;display:flex;flex-direction:column;gap:36px;box-sizing:border-box">
+
+<section style="display:flex;flex-direction:column;gap:12px">
+<span style="align-self:flex-start;font-size:13px;font-weight:600;padding:5px 14px;border-radius:999px;background:#A41034;color:#FFFFFF">Sample data - illustrative only</span>
+<span style="font-size:13px;font-weight:600;letter-spacing:.08em;color:#A41034">PDF EXPORT</span>
+<h1 style="margin:0;font-size:40px;line-height:48px;font-weight:700">Preview your PDF</h1>
+<p style="margin:0;font-size:18px;line-height:28px;color:#525252;max-width:520px">Pick what goes in. The pages update as you go.</p>
+</section>
+
+<section style="display:flex;flex-wrap:wrap;gap:32px;align-items:flex-start">
+
+<!-- Canvas -->
+<div style="flex:1 1 560px;min-width:0;background:#E8DFCF;border-radius:28px;padding:28px 24px 28px;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;gap:28px">
+<div role="group" aria-label="Page shown" style="display:flex;gap:4px;padding:4px;border-radius:999px;background:#FFFFFF;border:2px solid #CDBFA6">
+<sc-for list="{{pageTabs}}" as="t" hint-placeholder-count="2"><button onClick="{{t.go}}" aria-pressed="{{t.on}}" style="{{t.style}}">{{t.name}}</button></sc-for>
+</div>
+
+<div role="img" aria-label="{{previewAria}}" style="position:relative;width:100%;max-width:460px;aspect-ratio:210/297;container-type:inline-size;margin:0 auto 12px">
+
+<!-- Page 2 -->
+<div style="{{p2Style}}">
+<div style="position:relative;height:100%;display:flex;flex-direction:column;padding:6cqw 7cqw 5cqw;box-sizing:border-box;gap:3.2cqw">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:3cqw">
+<div style="display:flex;align-items:center;gap:3cqw">
+<img src="../assets/logo.png" alt="" style="height:5.5cqw;width:auto;display:block">
+<sc-if value="{{logoOn}}" hint-placeholder-val="{{false}}"><span style="height:5.5cqw;padding:0 2cqw;border:.4cqw dashed #525252;display:flex;align-items:center;font-size:2cqw;font-weight:600;color:#525252;box-sizing:border-box">[LOGO]</span></sc-if>
+</div>
+<span style="font-size:2.3cqw;font-weight:600;color:#525252">Page 2</span>
+</div>
+<div style="border-top:.5cqw solid #A41034;padding-top:2.4cqw;display:flex;align-items:baseline;justify-content:space-between;gap:2cqw">
+<span style="font-size:5cqw;line-height:6cqw;font-weight:700">Scores summary</span>
+<span style="font-size:2.3cqw;font-weight:600;color:#525252">Northbridge University</span>
+</div>
+
+<sc-if value="{{scoresOn}}" hint-placeholder-val="{{true}}">
+<div style="display:flex;flex-direction:column;gap:2.4cqw">
+<sc-for list="{{scoreRows}}" as="r" hint-placeholder-count="6">
+<div style="display:flex;flex-direction:column;gap:.9cqw">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:2cqw;font-size:2.6cqw;line-height:3.4cqw">
+<span style="font-weight:600">{{r.name}}</span>
+<span style="{{r.metaStyle}}"><svg viewBox="0 0 24 24" style="width:2.9cqw;height:2.9cqw" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{r.icon}}"/></svg>{{r.meta}}</span>
+</div>
+<div style="{{r.track}}"><div class="gr" style="{{r.fill}}"></div></div>
+</div>
+</sc-for>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:2cqw;font-size:2.4cqw;font-weight:600">
+<span style="padding:.8cqw 2.4cqw;border-radius:999px;border:.3cqw solid #525252">School Fit 7.0 / 10</span>
+<span style="padding:.8cqw 2.4cqw;border-radius:999px;border:.3cqw solid #525252">Agent Attractiveness 5.5 / 10</span>
+</div>
+</sc-if>
+<sc-if value="{{scoresOff}}" hint-placeholder-val="{{false}}">
+<div style="border:.4cqw dashed #818285;border-radius:2cqw;padding:5cqw 3cqw;text-align:center;font-size:2.8cqw;font-weight:600;color:#525252">Scores summary is not included.</div>
+</sc-if>
+
+<sc-if value="{{hasAlso}}" hint-placeholder-val="{{true}}">
+<div style="display:flex;flex-direction:column;gap:1.4cqw">
+<span style="font-size:2.3cqw;font-weight:600;letter-spacing:.08em;color:#A41034">ALSO IN THIS PDF</span>
+<sc-for list="{{alsoRows}}" as="a" hint-placeholder-count="4">
+<div style="display:flex;align-items:center;gap:2.4cqw;font-size:2.6cqw;font-weight:600">
+<span style="flex:0 0 4cqw;height:4cqw;border-radius:999px;background:#A41034;color:#FFFFFF;display:flex;align-items:center;justify-content:center;font-size:2.2cqw">{{a.n}}</span>
+<span style="flex:0 0 auto">{{a.name}}</span>
+<span style="flex:1 1 auto;height:.5cqw;background:#E3D8C4"></span>
+</div>
+</sc-for>
+</div>
+</sc-if>
+
+<div style="margin-top:auto;display:flex;justify-content:space-between;gap:2cqw;border-top:.3cqw solid #DCDCDC;padding-top:2cqw;font-size:2.2cqw;font-weight:600;color:#525252">
+<span>Sample data - illustrative only</span>
+<span>{{langName}}</span>
+</div>
+<div aria-hidden="true" style="position:absolute;left:0;right:0;top:46%;text-align:center;font-size:12cqw;font-weight:700;color:#A41034;opacity:.08;transform:rotate(-28deg);pointer-events:none;white-space:nowrap">SAMPLE DATA</div>
+</div>
+</div>
+
+<!-- Cover -->
+<div style="{{coverStyle}}">
+<div style="position:relative;height:100%;display:flex;flex-direction:column;box-sizing:border-box">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:3cqw;padding:6cqw 7cqw 0">
+<div style="display:flex;align-items:center;gap:3cqw">
+<img src="../assets/logo.png" alt="" style="height:8cqw;width:auto;display:block">
+<sc-if value="{{logoOn}}" hint-placeholder-val="{{false}}"><span style="height:8cqw;padding:0 2.4cqw;border:.4cqw dashed #525252;display:flex;align-items:center;font-size:2.2cqw;font-weight:600;color:#525252;box-sizing:border-box">[LOGO]</span></sc-if>
+</div>
+<span style="font-size:2.4cqw;font-weight:600;padding:.9cqw 2.6cqw;border-radius:999px;background:#A41034;color:#FFFFFF">Sample data</span>
+</div>
+<div style="margin-top:10cqw;background:#0D2447;color:#FFFFFF;padding:9cqw 7cqw;display:flex;flex-direction:column;gap:2.6cqw">
+<span style="font-size:2.4cqw;font-weight:600;letter-spacing:.08em">VIETNAM RECRUITMENT INTELLIGENCE</span>
+<span style="font-size:7cqw;line-height:8.4cqw;font-weight:700">Northbridge University</span>
+<span style="font-size:3.4cqw;line-height:5cqw">Readiness report</span>
+<div style="display:flex;flex-wrap:wrap;gap:2cqw;font-size:2.4cqw;font-weight:500;margin-top:1.4cqw">
+<span style="padding:.9cqw 2.6cqw;border-radius:999px;border:.3cqw solid #FFFFFF">Stage: Building</span>
+<span style="padding:.9cqw 2.6cqw;border-radius:999px;border:.3cqw solid #FFFFFF">28 of 40 answered</span>
+</div>
+</div>
+<div style="display:flex;align-items:center;gap:5cqw;padding:8cqw 7cqw 0">
+<svg viewBox="0 0 180 180" style="flex:0 0 27cqw;width:27cqw;height:27cqw" aria-hidden="true">
+<circle cx="90" cy="90" r="70" fill="none" stroke="#EFE7D8" stroke-width="16"/>
+<circle cx="90" cy="90" r="70" fill="none" stroke="#8A5A00" stroke-width="16" stroke-linecap="round" stroke-dasharray="299 600" transform="rotate(-90 90 90)"/>
+<text x="90" y="104" text-anchor="middle" font-size="52" font-weight="700" fill="#333333" font-family="Poppins,sans-serif">68</text>
+</svg>
+<div style="display:flex;flex-direction:column;gap:1cqw;font-size:2.8cqw;line-height:4cqw">
+<span style="font-size:3.6cqw;font-weight:700">Readiness 68 / 100</span>
+<span style="font-weight:600;color:#8A5A00;display:flex;align-items:center;gap:1cqw"><svg viewBox="0 0 24 24" style="width:3cqw;height:3cqw" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l10 17H2z M12 10v5 M12 18v.01"/></svg>Developing</span>
+<span style="color:#525252">Language: {{langName}}</span>
+<span style="color:#525252">Sections included: {{countText}}</span>
+<span style="color:#525252">Date: [REPORT DATE]</span>
+</div>
+</div>
+<div style="margin-top:auto;padding:0 7cqw 5cqw">
+<div style="display:flex;justify-content:space-between;gap:2cqw;border-top:.3cqw solid #DCDCDC;padding-top:2cqw;font-size:2.2cqw;font-weight:600;color:#525252">
+<span>Sample data - illustrative only</span>
+<span>capstonevietnam.com</span>
+</div>
+</div>
+<div aria-hidden="true" style="position:absolute;left:0;right:0;top:56%;text-align:center;font-size:12cqw;font-weight:700;color:#A41034;opacity:.08;transform:rotate(-28deg);pointer-events:none;white-space:nowrap">SAMPLE DATA</div>
+</div>
+</div>
+
+</div>
+<span aria-live="polite" style="font-size:14px;font-weight:500;color:#333333">{{caption}}</span>
+</div>
+
+<!-- Side panel -->
+<aside aria-label="PDF options" style="flex:0 1 380px;min-width:0;width:100%;background:#FFFFFF;border-radius:28px;padding:28px;box-shadow:0 10px 30px rgba(13,36,71,.08);display:flex;flex-direction:column;gap:24px;box-sizing:border-box">
+<div style="display:flex;flex-direction:column;gap:4px">
+<span style="font-size:13px;font-weight:600;letter-spacing:.08em;color:#A41034">OPTIONS</span>
+<h2 style="margin:0;font-size:22px;line-height:30px;font-weight:600">Make it yours</h2>
+</div>
+
+<div role="group" aria-labelledby="inclabel" style="display:flex;flex-direction:column;gap:4px">
+<span id="inclabel" style="font-size:14px;font-weight:600">Include sections ({{countText}})</span>
+<sc-for list="{{toggles}}" as="t" hint-placeholder-count="5">
+<button role="switch" aria-checked="{{t.on}}" onClick="{{t.flip}}" style="display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:48px;box-sizing:border-box;padding:6px 0;background:none;border:0;border-bottom:1px solid #EFE7D8;text-align:left;color:#333333">
+<span style="font-size:15px;font-weight:500">{{t.name}}</span>
+<span aria-hidden="true" style="{{t.track}}"><span style="{{t.knob}}"></span></span>
+</button>
+</sc-for>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:6px">
+<label for="lang" style="font-size:14px;font-weight:600">Language</label>
+<select id="lang" value="{{lang}}" onChange="{{onLang}}" style="min-height:48px;box-sizing:border-box;padding:0 14px;font-size:16px;font-family:inherit;border:2px solid #818285;border-radius:12px;background:#FFFFFF;color:#333333">
+<option value="en">English</option>
+<option value="vi" disabled>Vietnamese [TO BE CONFIRMED]</option>
+</select>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:8px">
+<button role="switch" aria-checked="{{logoOn}}" onClick="{{flipLogo}}" style="display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:48px;box-sizing:border-box;padding:6px 0;background:none;border:0;text-align:left;color:#333333">
+<span style="font-size:15px;font-weight:600">Add institution logo</span>
+<span aria-hidden="true" style="{{logoTrack}}"><span style="{{logoKnob}}"></span></span>
+</button>
+<sc-if value="{{logoOn}}" hint-placeholder-val="{{false}}">
+<div class="pp" style="min-height:72px;border:2px dashed #525252;border-radius:16px;display:flex;align-items:center;justify-content:center;text-align:center;padding:12px;font-size:14px;font-weight:600;color:#525252;box-sizing:border-box">[INSTITUTION LOGO: upload to be confirmed]</div>
+</sc-if>
+</div>
+
+<sc-if value="{{isDone}}" hint-placeholder-val="{{false}}">
+<div class="pp" style="display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:16px;background:#E8F3EC;color:#1E7A4C;font-size:14px;line-height:22px;font-weight:600">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:0 0 auto"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.7 2.7L16 9.5"/></svg>
+<span>PDF ready. Northbridge-VRI-report-SAMPLE.pdf</span>
+</div>
+</sc-if>
+
+<sc-if value="{{isGen}}" hint-placeholder-val="{{false}}">
+<div class="pp" style="display:flex;flex-direction:column;gap:12px;padding:18px;border-radius:20px;background:#FAF5EC">
+<div style="display:flex;justify-content:space-between;gap:12px;font-size:14px;font-weight:600"><span>Generating your PDF</span><span>{{pct}}%</span></div>
+<div role="progressbar" aria-label="PDF progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{pct}}" style="height:12px;border-radius:999px;background:#E3D8C4;overflow:hidden"><div style="{{barStyle}}"></div></div>
+<span aria-live="polite" style="font-size:14px;color:#525252">{{stepText}}</span>
+<button class="btn" onClick="{{cancel}}" style="align-self:flex-start;min-height:44px;box-sizing:border-box;padding:0 22px;border-radius:999px;border:2px solid #A41034;background:#FFFFFF;color:#A41034;font-size:14px;font-weight:600">Cancel</button>
+</div>
+</sc-if>
+
+<sc-if value="{{notGen}}" hint-placeholder-val="{{true}}">
+<button class="btn" onClick="{{start}}" style="min-height:52px;box-sizing:border-box;padding:0 28px;border-radius:999px;border:0;background:#A41034;color:#FFFFFF;font-size:16px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:10px">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>
+<span>Download PDF</span>
+</button>
+</sc-if>
+</aside>
+
+</section>
+</main>
+
+<footer style="position:relative;background:#0D2447;color:#FFFFFF;padding:36px 48px">
+<div style="max-width:1200px;margin:0 auto;display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center;font-size:14px">
+<span style="display:inline-flex;align-items:center;gap:12px"><svg aria-hidden="true" viewBox="0 0 100 100" width="36" height="36"><polygon points="6,66 54,4 54,50" fill="#3D5780"/><polygon points="6,66 54,50 32,94" fill="#2A4770"/><polygon points="58,4 94,52 36,92" fill="#A41034"/><polygon points="58,4 36,92 58,56" fill="#8F0728"/></svg>Vietnam Recruitment Intelligence by Capstone Education</span>
+<a href="https://capstonevietnam.com" style="color:#FFFFFF;font-weight:600;min-height:44px;display:inline-flex;align-items:center">capstonevietnam.com</a>
+</div>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1500}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { page: 0, on: { scores: true, steps: true, afford: true, pilot: true, evidence: false }, logo: false, lang: 'en', gen: false, pct: 0, done: false };
+  }
+  componentWillUnmount() { if (this._t) clearInterval(this._t); }
+  renderVals() {
+    const s = this.state;
+    const pageTabs = ['Cover', 'Page 2'].map((n, i) => {
+      const on = s.page === i;
+      return { name: n, on, go: () => this.setState({ page: i }), style: 'min-height:44px;box-sizing:border-box;padding:0 22px;border-radius:999px;border:0;font-size:14px;font-weight:600;background:' + (on ? '#A41034' : 'transparent') + ';color:' + (on ? '#FFFFFF' : '#333333') + ';transition:all .2s ease' };
+    });
+    const paper = 'position:absolute;left:0;top:0;width:100%;height:100%;background:#FFFFFF;box-shadow:0 20px 50px rgba(13,36,71,.22);overflow:hidden;transition:transform .5s cubic-bezier(.2,.7,.2,1);';
+    const coverFront = s.page === 0;
+    const coverStyle = paper + (coverFront ? 'z-index:2;transform:none' : 'z-index:1;transform:translate(-4%,2%) rotate(-2deg)');
+    const p2Style = paper + (coverFront ? 'z-index:1;transform:translate(4%,2%) rotate(2deg)' : 'z-index:2;transform:none');
+    const secs = [['scores', 'Scores summary'], ['steps', 'Next steps'], ['afford', 'Affordability and ROI breakdown'], ['pilot', '6-month agent pilot'], ['evidence', 'Evidence and confidence notes']];
+    const switchTrack = (on) => 'flex:0 0 auto;width:52px;height:30px;border-radius:999px;box-sizing:border-box;position:relative;transition:all .2s ease;border:2px solid ' + (on ? '#A41034' : '#818285') + ';background:' + (on ? '#A41034' : '#FFFFFF');
+    const switchKnob = (on) => 'position:absolute;top:3px;left:' + (on ? 25 : 3) + 'px;width:20px;height:20px;border-radius:999px;transition:left .2s ease;background:' + (on ? '#FFFFFF' : '#525252');
+    const toggles = secs.map(x => {
+      const on = s.on[x[0]];
+      return { name: x[1], on, track: switchTrack(on), knob: switchKnob(on), flip: () => { const n = Object.assign({}, this.state.on); n[x[0]] = !n[x[0]]; this.setState({ on: n }); } };
+    });
+    const count = secs.filter(x => s.on[x[0]]).length;
+    const also = secs.filter(x => x[0] !== 'scores' && s.on[x[0]]).map((x, i) => ({ n: i + 1, name: x[1] }));
+    const T = { strong: ['#1E7A4C', 'Strong', 'M3 12a9 9 0 1018 0 9 9 0 10-18 0z M8 12.5l2.7 2.7L16 9.5'], caution: ['#8A5A00', 'Developing', 'M12 3l10 17H2z M12 10v5 M12 18v.01'], concern: ['#B4470C', 'Needs attention', 'M3 12a9 9 0 1018 0 9 9 0 10-18 0z M7.5 12h9'] };
+    const areas = [['Readiness', 68, 'caution'], ['Competitiveness', 54, 'concern'], ['Affordability and ROI', 62, 'caution'], ['Digital Visibility', 78, 'strong'], ['Trust Network', 49, 'concern'], ['Community Influence', null, null]];
+    const scoreRows = areas.map(a => {
+      if (a[1] === null) {
+        return { name: a[0], meta: 'Not yet scorable', icon: 'M3 12a9 9 0 1018 0 9 9 0 10-18 0z M12 8v4', metaStyle: 'display:flex;align-items:center;gap:.8cqw;font-weight:600;color:#525252', track: 'height:1.8cqw;border-radius:999px;border:.3cqw dashed #818285;box-sizing:border-box', fill: 'width:0' };
+      }
+      const t = T[a[2]];
+      return { name: a[0], meta: a[1] + ' ' + t[1], icon: t[2], metaStyle: 'display:flex;align-items:center;gap:.8cqw;font-weight:600;color:' + t[0], track: 'height:1.8cqw;border-radius:999px;background:#EFE7D8;overflow:hidden', fill: 'height:100%;border-radius:999px;background:' + t[0] + ';width:' + a[1] + '%' };
+    });
+    const pct = s.pct;
+    const stepText = pct < 35 ? 'Collecting your scores' : (pct < 70 ? 'Laying out the pages' : 'Adding the Sample data mark');
+    const start = () => {
+      if (this._t) clearInterval(this._t);
+      this.setState({ gen: true, done: false, pct: 0 });
+      let p = 0;
+      this._t = setInterval(() => {
+        p = Math.min(100, p + 6 + Math.round(Math.random() * 6));
+        if (p >= 100) { clearInterval(this._t); this._t = null; this.setState({ pct: 100, gen: false, done: true }); }
+        else this.setState({ pct: p });
+      }, 380);
+    };
+    const cancel = () => { if (this._t) { clearInterval(this._t); this._t = null; } this.setState({ gen: false, pct: 0, done: false }); };
+    return {
+      pageTabs, coverStyle, p2Style, toggles, scoreRows,
+      alsoRows: also, hasAlso: also.length > 0,
+      scoresOn: s.on.scores, scoresOff: !s.on.scores,
+      logoOn: s.logo, flipLogo: () => this.setState({ logo: !this.state.logo }),
+      logoTrack: switchTrack(s.logo), logoKnob: switchKnob(s.logo),
+      lang: s.lang, onLang: (e) => this.setState({ lang: e.target.value }), langName: 'English',
+      countText: count + ' of 5',
+      previewAria: 'A4 preview of the PDF for Northbridge University, Sample data. Cover page and scores summary page.',
+      caption: s.page === 0 ? 'Showing: cover. A4 size. Sample data.' : 'Showing: page 2. A4 size. Sample data.',
+      isGen: s.gen, notGen: !s.gen, isDone: s.done && !s.gen,
+      pct: pct, stepText,
+      barStyle: 'height:100%;border-radius:999px;background:#A41034;transition:width .35s ease;width:' + pct + '%',
+      start, cancel
+    };
+  }
+}
+</script>
+</body>
+</html>
