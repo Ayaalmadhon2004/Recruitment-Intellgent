@@ -1,0 +1,36 @@
+.meter {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-pill);
+  background: var(--color-neutral-tint);
+  border: 1px solid var(--color-input-border);
+  font-size: var(--text-caption-size);
+  font-weight: var(--font-weight-medium);
+}
+
+.bars {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.bar {
+  width: 4px;
+  height: 10px;
+  border-radius: var(--radius-hairline);
+  background: var(--color-line-dashed);
+}
+
+.bar:nth-child(2) {
+  height: 13px;
+}
+
+.bar:nth-child(3) {
+  height: 16px;
+}
+
+.on {
+  background: var(--color-navy);
+}
