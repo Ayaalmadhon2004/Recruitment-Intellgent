@@ -25,9 +25,9 @@ describe('netAnnualCost', () => {
     );
   });
   it('keeps living costs when tuition is zero and they are included', () => {
-    expect(netAnnualCost({ tuition: 0, living: 5000, includeLiving: true, scholarship: 3000 })).toBe(
-      5000,
-    );
+    expect(
+      netAnnualCost({ tuition: 0, living: 5000, includeLiving: true, scholarship: 3000 }),
+    ).toBe(5000);
   });
   it('caps the scholarship at tuition', () => {
     expect(netAnnualCost({ ...base, scholarship: 99999 })).toBe(9000);
