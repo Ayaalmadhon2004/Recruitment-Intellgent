@@ -278,6 +278,66 @@ export const en = {
     'response-speed': 'Response speed',
     'commission-fit': 'Commission fit',
   },
+  sections: {
+    A: 'Institution info',
+    B: 'Current Vietnam performance',
+    C: 'Tuition, scholarships and affordability',
+    D: 'Recruitment infrastructure',
+    E: 'Parents, students and alumni',
+    F: 'Strategic objectives',
+  },
+  intake: {
+    pageTitle: 'Audit intake',
+    eyebrow: 'THE {total}-QUESTION AUDIT',
+    title: 'Your audit',
+    lead: 'Six short sections. Answer what you know. Skip what you do not.',
+    resumed: 'Resumed at Section {section}',
+    loading: 'Loading your saved answers...',
+    overviewLabel: 'Audit overview',
+    completenessLabel: 'Audit completeness',
+    answeredText: '{done} of {total} answered',
+    unknownText: '{count} marked Unknown. Unknown is fine.',
+    save: {
+      idle: 'Your answers are saved on this device as you go.',
+      saving: 'Saving...',
+      saved: 'Saved on this device',
+      saveNow: 'Save now',
+    },
+    versionNotice:
+      'The audit questions have been updated since you last saved. Your answers are kept. Please review them.',
+    sectionsLabel: 'Audit sections',
+    sectionsGroup: 'Sections A to F',
+    sectionSelect: 'Section',
+    sectionCount: '{done} of {total}',
+    sectionSrPrefix: 'Section {key}:',
+    sectionSrSuffix: 'answered',
+    sectionOption: '{key}. {name} ({done} of {total})',
+    stepStates: { done: 'Complete', current: 'Viewing' },
+    evidenceHelp: {
+      title: 'What do the evidence tags mean?',
+      verified: 'You hold a document or record.',
+      'institution-reported': 'From your own team, not checked.',
+      estimate: 'Your best guess.',
+      judgement: 'Your professional view, without hard data.',
+      unknown: 'Not sure. We do not guess a score.',
+    },
+    sectionEyebrow: 'SECTION {key}',
+    sectionProgress: 'Section progress',
+    questionsLabel: 'Questions in this section',
+    nav: {
+      label: 'Section navigation',
+      back: 'Back to Section {key}',
+      next: 'Save and continue to Section {key}',
+      seeReport: 'See my report',
+    },
+    pause: {
+      label: 'Save and resume',
+      title: 'Need a break?',
+      body: 'Everything is saved on this device. Pick up where you stopped.',
+      exit: 'Save and exit',
+      report: 'Open report',
+    },
+  },
   questionCard: {
     status: { answered: 'Answered', unknown: 'Unknown', todo: 'To do' },
     notSure: 'Not sure',
@@ -510,6 +570,14 @@ type Paths<T, P extends string = ''> = {
 }[keyof T & string];
 
 export type CopyKey = Paths<typeof en>;
+
+/** Replaces each "{name}" placeholder in a copy template with its value. */
+export function fill(template: string, values: Readonly<Record<string, string | number>>): string {
+  return Object.entries(values).reduce(
+    (text, [key, value]) => text.split(`{${key}}`).join(String(value)),
+    template,
+  );
+}
 
 export function t(key: CopyKey): string {
   return key
