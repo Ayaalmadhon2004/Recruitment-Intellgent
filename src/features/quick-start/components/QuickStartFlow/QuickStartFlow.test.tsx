@@ -122,7 +122,8 @@ describe('QuickStartFlow', () => {
 
     render(<FirstReadPage />);
     expect(await screen.findByRole('heading', { name: /^You are / })).toBeInTheDocument();
-    expect(screen.getByRole('heading', { level: 1, name: en.firstRead.title })).toHaveFocus();
+    const title = screen.getByRole('heading', { level: 1, name: en.firstRead.title });
+    await waitFor(() => expect(title).toHaveFocus());
   });
 
   it('can be completed with the keyboard only', async () => {
