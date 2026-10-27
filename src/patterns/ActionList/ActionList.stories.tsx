@@ -39,3 +39,11 @@ type Story = StoryObj<typeof meta>;
 export const FirstOpen: Story = {};
 export const Collapsed: Story = { args: { openFirst: false } };
 export const SingleStep: Story = { args: { items: items.slice(0, 1) } };
+export const WithoutBody: Story = {
+  args: {
+    items: [
+      { id: 'a', title: 'Document your visa timeline' },
+      { id: 'b', title: 'Start a pilot', effort: '2-4 weeks' },
+    ],
+  },
+};

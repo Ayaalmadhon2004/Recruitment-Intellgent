@@ -8,6 +8,7 @@ const shapes = {
       <path d="M8 12.5l2.7 2.7L16 9.5" />
     </>
   ),
+  'circle-dashed': <circle cx="12" cy="12" r="9" strokeDasharray="3 3" />,
   alert: (
     <>
       <path d="M12 3l10 17H2z" />
