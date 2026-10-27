@@ -3,13 +3,13 @@ import type { QuestionId, StageId } from '@/domain/types';
 import type { ScoreCardLabels, StageCardLabels } from '@/patterns';
 
 /** Replaces each "{name}" placeholder in a copy template with its value. */
-const fill = (template: string, values: Record<string, string | number>): string =>
+export const fill = (template: string, values: Record<string, string | number>): string =>
   Object.entries(values).reduce(
     (text, [key, value]) => text.split(`{${key}}`).join(String(value)),
     template,
   );
 
-/** Label bundles for the Quick Start feature, built from copy. */
+/** Label bundles for the score patterns, built from copy. Shared by Quick Start and Report. */
 export const notScorableLabels = {
   title: en.status.notScorable,
   reasons: en.notScorable.reasons,

@@ -118,6 +118,107 @@ export const en = {
     ctaContinue: 'Complete the full audit',
     ctaChange: 'Change my answers',
   },
+  report: {
+    eyebrow: 'YOUR REPORT',
+    lead: 'Your Vietnam recruitment report, in one view.',
+    printEyebrow: 'VIETNAM RECRUITMENT INTELLIGENCE',
+    printTitle: 'Readiness report',
+    stageNotScorableChip: 'Stage: not yet scorable',
+    completenessLabel: 'Audit completeness',
+    continueAudit: 'Continue the audit',
+    seeScores: 'See my scores',
+    downloadPdf: 'Download PDF',
+    stageEyebrow: 'WHERE YOU ARE',
+    scoresEyebrow: 'YOUR SCORES',
+    scoresTitle: 'Pick an area to explore',
+    printScoresTitle: 'Scores summary',
+    previewScoresEyebrow: 'YOUR AREAS',
+    previewScoresTitle: 'Your six areas',
+    areasTabsLabel: 'Score areas',
+    tabNotScorable: 'n/a',
+    radar: {
+      title: 'Scores across the six areas',
+      areaHeader: 'Area',
+      scoreHeader: 'Score',
+      valueText: '{value} out of 100',
+    },
+    area: {
+      evidenceHeading: 'Evidence',
+      noEvidence: 'No answer feeds this area yet.',
+      gapsHeading: 'Missing evidence',
+    },
+    locked: {
+      word: 'Locked',
+      body: 'This area is in the full report.',
+    },
+    gauges: {
+      eyebrow: 'FIT AND AGENTS',
+      title: 'Two quick reads',
+      outOf: 'out of 10',
+      aria: '{name} {value} out of 10',
+    },
+    recommendations: {
+      eyebrow: 'NEXT STEPS',
+      title: 'Where to start',
+      listLabel: 'Next steps, most impact first',
+      area: 'Affects: {area}',
+    },
+    pilot: {
+      eyebrow: 'FULL REPORT PREVIEW',
+      title: 'Your {months}-month agent pilot',
+      summaryMonths: '{months} months',
+      summaryAgents: '{agents} agents',
+      exclusive: 'Exclusive',
+      nonExclusive: 'Non-exclusive',
+      commission: 'Commission benchmark: {min}-{max}%',
+      carouselLabel: 'Agent pilot plan',
+      previous: 'Previous slide',
+      next: 'Next slide',
+      dots: 'Slide position',
+      goTo: 'Go to slide {position}',
+      slide: 'Slide {position} of {total}',
+      steps: {
+        first: {
+          months: 'Months 1-2',
+          title: 'Choose three agents',
+          body: 'Use the selection matrix. Keep it non-exclusive.',
+        },
+        second: {
+          months: 'Months 3-4',
+          title: 'Run the pilot',
+          body: 'Share clear scholarships. Reply within 48 hours.',
+        },
+        third: {
+          months: 'Months 5-6',
+          title: 'Review and decide',
+          body: 'Compare applications, offers and enrolments.',
+        },
+      },
+    },
+    unlock: {
+      eyebrow: 'FULL REPORT',
+      title: 'See the whole plan',
+      body: 'Agent matrix, cost breakdown and a full PDF.',
+      cta: 'Unlock full report',
+      pathLabel: 'Unlock path',
+      priceLabel: 'Price',
+    },
+    advisor: {
+      title: 'Talk it through with a person',
+      body: 'A Capstone advisor will walk you through your results.',
+      photoPlaceholder: '[ADVISOR PHOTO]',
+      whatsapp: 'WhatsApp',
+      email: 'Email',
+    },
+    pdf: {
+      title: 'Save this report',
+      body: 'Download a copy to keep or share.',
+    },
+    print: {
+      dateLabel: 'Date',
+      pilotHeading: 'Agent pilot',
+    },
+  },
   agentFactors: {
     'student-fit': 'Student fit',
     'market-presence': 'Market presence',
@@ -429,9 +530,7 @@ export function fill(template: string, values: Readonly<Record<string, string | 
 }
 
 export function t(key: CopyKey): string {
-  let node: unknown = en;
-  for (const part of key.split('.')) {
-    node = (node as Record<string, unknown>)[part];
-  }
-  return node as string;
+  return key
+    .split('.')
+    .reduce<unknown>((node, part) => (node as Record<string, unknown>)[part], en) as string;
 }
