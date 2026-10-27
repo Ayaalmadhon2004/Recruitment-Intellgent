@@ -13,7 +13,7 @@ import {
   scoreCardLabels,
   stageCardLabels,
   stageChipText,
-} from '../../labels';
+} from '@/features/shared-labels';
 import styles from './FirstReadView.module.css';
 
 export type FirstReadViewProps = {
