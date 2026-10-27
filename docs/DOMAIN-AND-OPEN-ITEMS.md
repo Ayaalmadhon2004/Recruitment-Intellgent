@@ -47,3 +47,8 @@ Everything below is a stand-in. Nothing here is a confirmed fact or formula.
 | Config version | `config/version.ts` | `vri-config-0.1.0`. Stored with every audit. | Bump on any config change |
 | Every unknown | `config/tbc.config.ts` | All `null`: formulas, 40 questions, Quick Start ids, sample audit, bands, free/locked line, unlock paths, pricing, advisor channels and photo, hosting, retention, privacy, database, auth, web research, brand assets, VND rate, report date. | Each is filled only when Capstone confirms it |
 | Stored shape | `types/audit.ts` | `Audit` holds answers and `configVersion`. There is no field for a score. | n/a |
+| Landing: full report price | `tbc.config.ts` `pricing`, shown by `features/landing` FreeOrFull | `null`. Renders `[PRICING TO BE CONFIRMED WITH CAPSTONE]` through `TbcValue`. | Pricing is confirmed (unknown 5) |
+| Landing: privacy policy | `tbc.config.ts` `privacyPolicyUrl`, shown by the landing privacy strip | `null`. Renders `[PRIVACY POLICY TO BE CONFIRMED WITH CAPSTONE]`; becomes a link once set. | Privacy policy exists (unknown 7) |
+| Landing: sample illustrations | `features/landing` Hero chip (Readiness 68 of 100) and the three "What you get" cards (score 78, stage step 2 of 4, 2 of 3 steps done) | SAMPLE: design illustrations, labelled "Sample data". Not outputs of the scoring engine. | Real previews are chosen |
+| Landing: photo | `public/temp-assets/temp-graduate.jpg` in the hero | TEMPORARY: alt text says so. | Real photos supplied (unknown 9) |
+| Landing: claims | `domain/copy/sections/landing.ts` ("about 3 minutes", 5 / 40 questions, free and full row lists) | Design content, not validated. The free/full line is not confirmed. | Free vs locked line is confirmed (unknown 5) |
