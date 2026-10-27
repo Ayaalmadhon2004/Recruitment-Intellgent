@@ -1,0 +1,78 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": false,
+    "skipLibCheck": true,
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@/design": [
+        "src/design"
+      ],
+      "@/design/*": [
+        "src/design/*"
+      ],
+      "@/ui": [
+        "src/ui"
+      ],
+      "@/ui/*": [
+        "src/ui/*"
+      ],
+      "@/patterns": [
+        "src/patterns"
+      ],
+      "@/patterns/*": [
+        "src/patterns/*"
+      ],
+      "@/shell": [
+        "src/shell"
+      ],
+      "@/shell/*": [
+        "src/shell/*"
+      ],
+      "@/domain": [
+        "src/domain"
+      ],
+      "@/domain/*": [
+        "src/domain/*"
+      ],
+      "@/features/*": [
+        "src/features/*"
+      ],
+      "@/fixtures/*": [
+        "tests/fixtures/*"
+      ]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    ".storybook/**/*.ts",
+    ".next/dev/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "design-reference"
+  ]
+}
