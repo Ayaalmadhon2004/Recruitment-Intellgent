@@ -7,5 +7,5 @@ export {
   setEvidence,
   toggleUnsure,
 } from './answer-state';
-export { questionCardLabels, questionCardLabelsWithEvidence } from './labels';
+export { questionCardLabels, questionCardLabelsWithEvidence, questionLabel } from './labels';
 export { toQuestionView } from './view';

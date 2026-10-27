@@ -1,7 +1,8 @@
 import type { ReactNode } from 'react';
 import { en } from '@/domain/copy';
 import type { QuestionId } from '@/domain/types';
-import { questionLabel, scoreCardLabels } from '@/features/shared-labels';
+import { questionLabel } from '@/features/questions';
+import { scoreCardLabels } from '@/features/shared-labels';
 import { ScoreCard } from '@/patterns';
 import { Card, Icon } from '@/ui';
 import type { ReportArea, ReportMode } from '../../contract';

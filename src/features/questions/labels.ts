@@ -1,4 +1,5 @@
 import { en } from '@/domain/copy';
+import type { QuestionId } from '@/domain/types';
 import type { QuestionCardLabels } from '@/patterns';
 
 const base = {
@@ -29,4 +30,10 @@ export const questionCardLabelsWithEvidence: QuestionCardLabels = {
       judgement: en.evidenceTags.judgement,
     },
   },
+};
+
+/** Question wording for "still needed" and evidence lists. Falls back to the id when copy has none. */
+export const questionLabel = (id: QuestionId): string => {
+  const questions: Partial<Record<string, { text: string }>> = en.questions;
+  return questions[id]?.text ?? id;
 };

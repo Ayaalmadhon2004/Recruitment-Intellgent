@@ -44,3 +44,27 @@
   flex: 1 1 auto;
   min-width: 0;
 }
+
+.plain {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  min-height: 64px;
+  padding: var(--space-4) var(--space-5);
+  background: var(--color-card);
+  border-radius: var(--radius-card-sm);
+  box-shadow: var(--shadow-card);
+}
+
+.plainTitle {
+  font-size: var(--text-h3-size);
+  line-height: 24px;
+  font-weight: var(--font-weight-semibold);
+}
+
+.plainEffort {
+  font-size: var(--text-caption-size);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+}

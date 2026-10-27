@@ -2,7 +2,6 @@ export {
   fill,
   notScorableLabels,
   progressText,
-  questionLabel,
   rangeLabels,
   scoreCardLabels,
   stageCardLabels,
