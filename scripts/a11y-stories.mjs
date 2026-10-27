@@ -40,11 +40,23 @@ for (const id of targets) {
   await page.goto(`${base}/iframe.html?id=${id}&viewMode=story`);
   await page.waitForTimeout(400);
   await page.addScriptTag({ path: axePath });
-  const result = await page.evaluate(() =>
-    globalThis.axe.run(document.querySelector('#storybook-root') ?? document.body, {
-      runOnly: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'],
-    }),
-  );
+  const run = () =>
+    page.evaluate(() =>
+      globalThis.axe.run(document.querySelector('#storybook-root') ?? document.body, {
+        runOnly: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'],
+      }),
+    );
+  // Storybook's own a11y addon may be mid-run on the same page; wait and retry.
+  let result;
+  for (let attempt = 0; attempt < 10 && !result; attempt += 1) {
+    try {
+      result = await run();
+    } catch (error) {
+      if (!String(error).includes('already running')) throw error;
+      await page.waitForTimeout(500);
+    }
+  }
+  if (!result) throw new Error(`axe never became available for ${id}`);
   if (result.violations.length) {
     bad += 1;
     console.log(`VIOLATIONS ${id}`);

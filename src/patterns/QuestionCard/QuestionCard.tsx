@@ -1,3 +1,5 @@
+'use client';
+
 import { useId, useState } from 'react';
 import type { ChangeEvent, ReactNode } from 'react';
 import type { AnswerValue, KnownEvidenceTag, QuestionId } from '@/domain/types';
