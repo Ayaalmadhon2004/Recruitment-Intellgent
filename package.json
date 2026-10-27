@@ -12,10 +12,11 @@
     "lint": "eslint .",
     "boundaries": "depcruise src --config .dependency-cruiser.cjs",
     "test": "vitest run",
-    "check": "pnpm typecheck && pnpm lint && pnpm boundaries && pnpm test",
+    "check": "pnpm typecheck && pnpm lint && pnpm tokens && pnpm boundaries && pnpm test",
     "format": "prettier --write .",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "tokens": "node scripts/check-tokens.mjs"
   },
   "dependencies": {
     "next": "^16.4.3",
