@@ -48,3 +48,14 @@ Everything below is a stand-in. Nothing here is a confirmed fact or formula.
 | Config version | `config/version.ts` | `vri-config-0.1.0`. Stored with every audit. | Bump on any config change |
 | Every unknown | `config/tbc.config.ts` | All `null`: formulas, 40 questions, Quick Start ids, sample audit, bands, free/locked line, unlock paths, pricing, advisor channels and photo, hosting, retention, privacy, database, auth, web research, brand assets, VND rate, report date. | Each is filled only when Capstone confirms it |
 | Stored shape | `types/audit.ts` | `Audit` holds answers and `configVersion`. There is no field for a score. | n/a |
+
+## What the Full Intake stubs (feature 3)
+| Item | Where | State | Replace when |
+|---|---|---|---|
+| Persistence | `features/intake/store` | `AnswerStore` interface (`load`, `save`) with a `localStorage` implementation (key `vri.intake.v1`). Stores `{ configVersion, answers, confirmedTagIds, sectionIndex }`, never scores. Shape is validated on load; invalid or foreign data is dropped. Status text says "Saved on this device". A saved audit from another config version keeps its answers and shows a notice. | Feature 5 (accounts) supplies a database-backed `AnswerStore` and passes it to `IntakePage`; no component changes |
+| Evidence tag confirmation | `confirmedTagIds` in the stored audit | The domain `Answer` needs a tag, but the design wants the person to pick one. Until they do, the answer holds the config default tag (`evidence.defaultTag`) and the picker shows no selection with "Pick one tag". Picking one adds the question to `confirmedTagIds`. Marking Not sure removes it. Open: should an answer with an unconfirmed tag count towards confidence or completeness? Today completeness ignores tags. | Capstone confirms how tags and confidence relate (unknown 1) |
+| Question totals | `questionsConfig.length` | Every count and the "THE n-QUESTION AUDIT" eyebrow come from config: 24 today, 40 when the real list lands. Nothing is hard-coded. | Real 40 questions (unknown 2) |
+| Section names | `copy/en.ts` `sections` | From the brief (A to F). | Capstone confirms wording |
+| Evidence help wording | `copy/en.ts` `intake.evidenceHelp` | Verified, Institution-reported, Estimate and Unknown come from the design. The Judgement line is an unconfirmed stand-in. | Capstone confirms |
+| Report link | `/intake` page | "See my report" and "Open report" point to `/first-read` until the Report feature exists. "Save and exit" goes to `/` until the Dashboard exists. | Features 4 and 5 |
+| Number questions | `QuestionCard` | A number cannot be cleared once entered (use Not sure). | Pattern change if wanted |
