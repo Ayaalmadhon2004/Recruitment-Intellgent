@@ -25,6 +25,8 @@ export const SAVE_DELAY_MS = 600;
 export type UseIntake = {
   /** An earlier audit was found and loaded. */
   resumed: boolean;
+  /** Zero-based section the saved audit was at when it was loaded. */
+  resumedSectionIndex: number;
   /** The saved audit was made under another config version. */
   versionChanged: boolean;
   state: IntakeState;
@@ -96,6 +98,7 @@ export function useIntake(
 
   return {
     resumed: initial !== null,
+    resumedSectionIndex: initial?.state.sectionIndex ?? 0,
     versionChanged: initial?.versionChanged ?? false,
     state,
     sections,
