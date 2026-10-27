@@ -43,5 +43,5 @@
     ".storybook/**/*.ts",
     ".next/dev/types/**/*.ts"
   ],
-  "exclude": ["node_modules", "design-reference"]
+  "exclude": ["node_modules", "design-reference", ".claude"]
 }

@@ -16,6 +16,7 @@ const eslintConfig = [
   },
   {
     ignores: [
+      '.claude/**',
       '.next/**',
       'storybook-static/**',
       'design-reference/**',
