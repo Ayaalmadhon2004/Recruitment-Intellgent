@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import { tbcConfig } from '@/domain/config';
 import { en } from '@/domain/copy';
 import { CtaBand, TbcValue } from '@/patterns';
+import styles from './UnlockPrompt.module.css';
 
 export type UnlockPromptProps = {
   /** Where "Unlock full report" goes. Without it the button is not shown. */
@@ -18,12 +19,12 @@ export function UnlockPrompt({ unlockHref }: UnlockPromptProps): ReactNode {
       title={copy.title}
       body={copy.body}
       note={
-        <>
+        <span className={styles.note}>
           {copy.pathLabel}:{' '}
           <TbcValue value={tbcConfig.unlockPaths?.join(', ')} placeholder={en.status.tbc} />
           {'. '}
           {copy.priceLabel}: <TbcValue value={tbcConfig.pricing} placeholder={en.status.tbc} />
-        </>
+        </span>
       }
       actions={unlockHref ? [{ label: copy.cta, href: unlockHref }] : []}
     />
