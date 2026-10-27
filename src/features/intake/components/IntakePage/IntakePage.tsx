@@ -54,9 +54,10 @@ function IntakeBody({ reportHref, exitHref, store }: BodyProps): ReactNode {
   }, [sectionIndex]);
 
   // Back and Next sit under the questions, so the new section's heading takes focus and scrolls into view.
-  const step = (index: number): void => {
+  const step = (index: number, save: boolean): void => {
     focusHeading.current = true;
-    intake.goToSection(index);
+    if (save) intake.saveAndGoToSection(index);
+    else intake.goToSection(index);
   };
 
   if (!progress) return null;
@@ -96,11 +97,8 @@ function IntakeBody({ reportHref, exitHref, store }: BodyProps): ReactNode {
         <IntakeNav
           previous={previous}
           next={next}
-          onPrevious={() => step(sectionIndex - 1)}
-          onNext={() => {
-            intake.saveNow();
-            step(sectionIndex + 1);
-          }}
+          onPrevious={() => step(sectionIndex - 1, false)}
+          onNext={() => step(sectionIndex + 1, true)}
           reportHref={reportHref}
         />
       </IntakeSection>

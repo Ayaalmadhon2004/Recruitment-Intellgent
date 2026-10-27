@@ -37,6 +37,8 @@ export type UseIntake = {
   toggleNotSure: (id: QuestionId) => void;
   pickEvidence: (id: QuestionId, tag: KnownEvidenceTag) => void;
   goToSection: (index: number) => void;
+  /** Moves to a section and writes right away, so a reload resumes there. */
+  saveAndGoToSection: (index: number) => void;
   /** Writes right away instead of waiting for the delay. */
   saveNow: () => void;
 };
@@ -108,6 +110,11 @@ export function useIntake(
     toggleNotSure: (id) => setState((s) => toggleNotSure(s, id)),
     pickEvidence: (id, tag) => setState((s) => confirmEvidence(s, id, tag, config)),
     goToSection: (index) => setState((s) => goToSection(s, index)),
+    saveAndGoToSection: (index) => {
+      const next = goToSection(state, index);
+      setState(next);
+      write(next);
+    },
     saveNow: () => write(state),
   };
 }
