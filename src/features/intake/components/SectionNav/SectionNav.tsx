@@ -33,12 +33,6 @@ export function SectionNav({ sections, current, onSelect }: SectionNavProps): Re
               key={s.id}
               type="button"
               aria-pressed={isCurrent}
-              aria-label={fill(copy.sectionAria, {
-                key: s.id,
-                name,
-                done: s.handled,
-                total: s.total,
-              })}
               className={cx(styles.card, isCurrent && styles.current)}
               onClick={() => onSelect(i)}
             >
@@ -46,19 +40,26 @@ export function SectionNav({ sections, current, onSelect }: SectionNavProps): Re
                 <span className={cx(styles.dot, s.complete && styles.dotDone)} aria-hidden="true">
                   {s.complete ? <Icon name="check" size={18} strokeWidth={2.8} /> : s.id}
                 </span>
-                <span className={styles.name}>{name}</span>
-              </span>
+                <span className={styles.name}>
+                  <span className="visually-hidden">
+                    {fill(copy.sectionSrPrefix, { key: s.id })}
+                  </span>{' '}
+                  {name}
+                </span>
+              </span>{' '}
               <span className={styles.bar} aria-hidden="true">
                 <span className={styles.fill} style={{ width: `${pct}%` }} />
               </span>
               <span className={styles.meta}>
-                <span>{countText(s)}</span>
+                <span>
+                  {countText(s)} <span className="visually-hidden">{copy.sectionSrSuffix}</span>
+                </span>{' '}
                 {s.complete ? (
                   <span className={cx(styles.state, styles.stateDone)}>
                     <Icon name="check-circle" size={14} strokeWidth={2.6} />
                     {copy.stepStates.done}
                   </span>
-                ) : null}
+                ) : null}{' '}
                 {isCurrent ? (
                   <span className={styles.state}>
                     <Icon name="arrow-right" size={14} strokeWidth={2.6} />

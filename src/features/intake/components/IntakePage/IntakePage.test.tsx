@@ -2,7 +2,7 @@ import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it } from 'vitest';
 import { CONFIG_VERSION, questionsConfig } from '@/domain/config';
-import { en, fill } from '@/domain/copy';
+import { en } from '@/domain/copy';
 import { known } from '@/fixtures/builders';
 import { createMemoryStore } from '../../store';
 import type { AnswerStore, StoredAudit } from '../../store';
@@ -91,16 +91,11 @@ describe('IntakePage sections', () => {
     expect(sectionHeading('E')).toBeInTheDocument();
   });
 
-  it('names each section with its progress for assistive technology', () => {
+  it('names each section with its letter and progress for assistive technology', () => {
     start(createMemoryStore(saved({ answers: [known('A1', 'x')] })));
     expect(
       screen.getByRole('button', {
-        name: fill(en.intake.sectionAria, {
-          key: 'A',
-          name: en.sections.A,
-          done: 1,
-          total: perSection,
-        }),
+        name: `Section A: ${en.sections.A} 1 of ${perSection} answered Viewing`,
       }),
     ).toBeInTheDocument();
   });

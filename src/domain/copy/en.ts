@@ -158,7 +158,8 @@ export const en = {
     sectionsGroup: 'Sections A to F',
     sectionSelect: 'Section',
     sectionCount: '{done} of {total}',
-    sectionAria: 'Section {key}: {name}, {done} of {total} answered',
+    sectionSrPrefix: 'Section {key}:',
+    sectionSrSuffix: 'answered',
     sectionOption: '{key}. {name} ({done} of {total})',
     stepStates: { done: 'Complete', current: 'Viewing' },
     evidenceHelp: {

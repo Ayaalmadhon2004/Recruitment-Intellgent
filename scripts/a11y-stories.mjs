@@ -10,7 +10,16 @@ const { chromium } = require('playwright');
 const axePath = require.resolve('axe-core/axe.min.js');
 
 const root = new URL('../storybook-static', import.meta.url).pathname;
-const types = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.svg': 'image/svg+xml', '.png': 'image/png', '.jpg': 'image/jpeg', '.woff2': 'font/woff2' };
+const types = {
+  '.html': 'text/html',
+  '.js': 'text/javascript',
+  '.css': 'text/css',
+  '.json': 'application/json',
+  '.svg': 'image/svg+xml',
+  '.png': 'image/png',
+  '.jpg': 'image/jpeg',
+  '.woff2': 'font/woff2',
+};
 
 const server = createServer((req, res) => {
   const path = normalize(join(root, decodeURIComponent((req.url ?? '/').split('?')[0])));
@@ -26,7 +35,9 @@ await new Promise((resolve) => server.listen(0, resolve));
 const base = `http://localhost:${server.address().port}`;
 
 const index = JSON.parse(readFileSync(join(root, 'index.json'), 'utf8'));
-const ids = Object.values(index.entries).filter((e) => e.type === 'story').map((e) => e.id);
+const ids = Object.values(index.entries)
+  .filter((e) => e.type === 'story')
+  .map((e) => e.id);
 const only = process.argv[2];
 const targets = only ? ids.filter((id) => id.includes(only)) : ids;
 
@@ -40,16 +51,30 @@ for (const id of targets) {
   await page.goto(`${base}/iframe.html?id=${id}&viewMode=story`);
   await page.waitForTimeout(400);
   await page.addScriptTag({ path: axePath });
-  const result = await page.evaluate(() =>
-    globalThis.axe.run(document.querySelector('#storybook-root') ?? document.body, {
-      runOnly: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'],
-    }),
-  );
+  // Storybook's own a11y addon may still be running axe in the page. Wait and try again instead of crashing.
+  let result;
+  for (let attempt = 0; result === undefined; attempt += 1) {
+    try {
+      result = await page.evaluate(() =>
+        globalThis.axe.run(document.querySelector('#storybook-root') ?? document.body, {
+          runOnly: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'],
+        }),
+      );
+    } catch (error) {
+      if (attempt >= 20 || !String(error).includes('already running')) throw error;
+      await page.waitForTimeout(250);
+    }
+  }
   if (result.violations.length) {
     bad += 1;
     console.log(`VIOLATIONS ${id}`);
     for (const v of result.violations) {
-      console.log(`  ${v.id} (${v.impact}) ${v.nodes.slice(0, 2).map((n) => n.target.join(' ')).join(' | ')} - ${v.help}`);
+      console.log(
+        `  ${v.id} (${v.impact}) ${v.nodes
+          .slice(0, 2)
+          .map((n) => n.target.join(' '))
+          .join(' | ')} - ${v.help}`,
+      );
     }
   }
 }
