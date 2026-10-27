@@ -1,0 +1,83 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.controls {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-3);
+}
+
+.prev,
+.next {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-pill);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--color-crimson);
+}
+
+.prev {
+  background: var(--color-card);
+  color: var(--color-crimson);
+}
+
+.next {
+  background: var(--color-crimson);
+  color: var(--color-text-inverse);
+}
+
+.viewport {
+  overflow: hidden;
+  border-radius: var(--radius-card-lg);
+  touch-action: pan-y;
+}
+
+.track {
+  display: flex;
+  transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.slide {
+  flex: 0 0 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.dots {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-2);
+}
+
+.dot {
+  /* 44px tap area with a smaller visible dot drawn by the pseudo-element */
+  position: relative;
+  width: var(--tap-target);
+  height: var(--tap-target);
+  padding: 0;
+  border: 0;
+  background: none;
+}
+
+.dot::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  transform: translate(-50%, -50%);
+  border-radius: var(--radius-pill);
+  background: var(--color-line-dashed);
+  transition: width 0.25s ease;
+}
+
+.dotActive::after {
+  width: 28px;
+  background: var(--color-crimson);
+}
