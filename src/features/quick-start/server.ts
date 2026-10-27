@@ -36,7 +36,7 @@ function fail(message: string): ParseResult {
   return { ok: false, message };
 }
 
-function isRecord(value: unknown): value is Record<string, unknown> {
+export function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
 
@@ -60,7 +60,8 @@ function parseAnswer(item: unknown, at: string): Answer | string {
   if (!isRecord(item)) return `${at} must be an object.`;
 
   const id = item.questionId;
-  if (typeof id !== 'string' || !questionIdPattern.test(id)) return `${at}.questionId must look like "A1".`;
+  if (typeof id !== 'string' || !questionIdPattern.test(id))
+    return `${at}.questionId must look like "A1".`;
   if (!knownQuestionIds.has(id)) return `${at}.questionId "${id}" is not a known question.`;
   const questionId = id as QuestionId;
 
@@ -71,7 +72,10 @@ function parseAnswer(item: unknown, at: string): Answer | string {
   if (value === undefined) {
     return `${at}.value must be a finite number, boolean, string or non-empty string array.`;
   }
-  if (typeof item.evidence !== 'string' || !knownEvidence.includes(item.evidence as KnownEvidenceTag)) {
+  if (
+    typeof item.evidence !== 'string' ||
+    !knownEvidence.includes(item.evidence as KnownEvidenceTag)
+  ) {
     return `${at}.evidence is not a valid evidence tag.`;
   }
   if (typeof item.confidence !== 'string' || !confidences.includes(item.confidence as Confidence)) {
@@ -86,17 +90,25 @@ function parseAnswer(item: unknown, at: string): Answer | string {
   };
 }
 
-/** Strict validation of the request body. Duplicates are kept: the domain uses the latest answer. */
-export function parseFirstReadRequest(body: unknown): ParseResult {
-  if (!isRecord(body)) return fail('Body must be an object with an "answers" array.');
-  const raw = body.answers;
-  if (!Array.isArray(raw)) return fail('"answers" must be an array.');
-  if (raw.length === 0) return fail('"answers" must not be empty.');
-  if (raw.length > MAX_ANSWERS) return fail(`"answers" must have at most ${MAX_ANSWERS} items.`);
+/**
+ * Validates a list of answers (shared by every route that accepts answers). `path` prefixes messages.
+ * Duplicates are kept: the domain uses the latest answer. Empty lists are allowed here.
+ */
+export function parseAnswerList(raw: unknown, path: string): ParseResult {
+  if (!Array.isArray(raw)) return fail(`"${path}" must be an array.`);
+  if (raw.length > MAX_ANSWERS) return fail(`"${path}" must have at most ${MAX_ANSWERS} items.`);
 
-  const parsed = (raw as unknown[]).map((item, index) => parseAnswer(item, `answers[${index}]`));
+  const parsed = (raw as unknown[]).map((item, index) => parseAnswer(item, `${path}[${index}]`));
   const error = parsed.find((p): p is string => typeof p === 'string');
   return error === undefined ? { ok: true, answers: parsed as Answer[] } : fail(error);
+}
+
+/** Strict validation of the request body. */
+export function parseFirstReadRequest(body: unknown): ParseResult {
+  if (!isRecord(body)) return fail('Body must be an object with an "answers" array.');
+  if (Array.isArray(body.answers) && body.answers.length === 0)
+    return fail('"answers" must not be empty.');
+  return parseAnswerList(body.answers, 'answers');
 }
 
 /** Stage and all six areas from stored answers. Areas without a formula stay NotScorable. */
