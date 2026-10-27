@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": false,
     "skipLibCheck": true,
     "strict": true,
@@ -25,42 +21,18 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@/design": [
-        "src/design"
-      ],
-      "@/design/*": [
-        "src/design/*"
-      ],
-      "@/ui": [
-        "src/ui"
-      ],
-      "@/ui/*": [
-        "src/ui/*"
-      ],
-      "@/patterns": [
-        "src/patterns"
-      ],
-      "@/patterns/*": [
-        "src/patterns/*"
-      ],
-      "@/shell": [
-        "src/shell"
-      ],
-      "@/shell/*": [
-        "src/shell/*"
-      ],
-      "@/domain": [
-        "src/domain"
-      ],
-      "@/domain/*": [
-        "src/domain/*"
-      ],
-      "@/features/*": [
-        "src/features/*"
-      ],
-      "@/fixtures/*": [
-        "tests/fixtures/*"
-      ]
+      "@/design": ["src/design"],
+      "@/design/*": ["src/design/*"],
+      "@/ui": ["src/ui"],
+      "@/ui/*": ["src/ui/*"],
+      "@/patterns": ["src/patterns"],
+      "@/patterns/*": ["src/patterns/*"],
+      "@/shell": ["src/shell"],
+      "@/shell/*": ["src/shell/*"],
+      "@/domain": ["src/domain"],
+      "@/domain/*": ["src/domain/*"],
+      "@/features/*": ["src/features/*"],
+      "@/fixtures/*": ["tests/fixtures/*"]
     }
   },
   "include": [
@@ -71,8 +43,5 @@
     ".storybook/**/*.ts",
     ".next/dev/types/**/*.ts"
   ],
-  "exclude": [
-    "node_modules",
-    "design-reference"
-  ]
+  "exclude": ["node_modules", "design-reference"]
 }

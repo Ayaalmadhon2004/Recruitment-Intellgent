@@ -1,0 +1,115 @@
+/* Motion keyframes and utility classes. Every animation respects prefers-reduced-motion. */
+@keyframes anim-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes anim-ring {
+  from {
+    stroke-dasharray: 0 600;
+  }
+}
+
+@keyframes anim-grow {
+  from {
+    width: 0;
+  }
+}
+
+@keyframes anim-pulse {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-crimson) 45%, transparent);
+  }
+  100% {
+    box-shadow: 0 0 0 16px color-mix(in srgb, var(--color-crimson) 0%, transparent);
+  }
+}
+
+@keyframes anim-float {
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes anim-drift {
+  50% {
+    transform: translate(10px, -12px) rotate(3deg);
+  }
+}
+
+@keyframes anim-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.anim-up {
+  animation: anim-up 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+.anim-ring {
+  animation: anim-ring 1.4s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+.anim-grow {
+  animation: anim-grow 1.2s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+.anim-pulse {
+  animation: anim-pulse 2s ease-out infinite;
+}
+.anim-float {
+  animation: anim-float 6s ease-in-out infinite;
+}
+.anim-drift {
+  animation: anim-drift 9s ease-in-out infinite;
+}
+.anim-pop {
+  animation: anim-pop 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.anim-delay-1 {
+  animation-delay: 0.12s;
+}
+.anim-delay-2 {
+  animation-delay: 0.24s;
+}
+.anim-delay-3 {
+  animation-delay: 0.36s;
+}
+
+.hover-lift {
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.hover-nudge {
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
+}
+.hover-nudge:hover {
+  transform: translateY(-2px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
