@@ -1,0 +1,93 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  border: 2px solid transparent;
+  border-radius: var(--radius-pill);
+  font-family: inherit;
+  font-weight: var(--font-weight-semibold);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.sm {
+  min-height: var(--tap-target);
+  padding: 0 var(--space-5);
+  font-size: var(--text-small-size);
+}
+
+.md {
+  min-height: 48px;
+  padding: 0 var(--space-7);
+  font-size: var(--text-label-size);
+}
+
+.lg {
+  min-height: 52px;
+  padding: 0 var(--space-7);
+  font-size: var(--text-body-size);
+}
+
+.full {
+  width: 100%;
+}
+
+.primary {
+  background: var(--color-crimson);
+  color: var(--color-text-inverse);
+}
+.primary:hover {
+  background: var(--color-crimson-dark);
+  color: var(--color-text-inverse);
+}
+
+.secondary {
+  background: var(--color-card);
+  border-color: var(--color-crimson);
+  color: var(--color-crimson);
+}
+.secondary:hover {
+  background: var(--color-crimson-tint);
+  color: var(--color-crimson);
+}
+
+.inverse {
+  background: var(--color-card);
+  color: var(--color-crimson-dark);
+}
+.inverse:hover {
+  color: var(--color-crimson-dark);
+}
+
+.inverse-outline {
+  background: transparent;
+  border-color: var(--color-text-inverse);
+  color: var(--color-text-inverse);
+}
+.inverse-outline:hover {
+  color: var(--color-text-inverse);
+}
+
+.button:disabled {
+  background: var(--color-line-strong);
+  border-color: var(--color-line-strong);
+  color: var(--color-text);
+  cursor: not-allowed;
+  transform: none;
+}
+
+.spinner {
+  width: 1em;
+  height: 1em;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: var(--radius-pill);
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

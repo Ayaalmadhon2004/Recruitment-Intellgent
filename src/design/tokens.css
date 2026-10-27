@@ -21,12 +21,21 @@
   --color-line-soft: #efe7d8;
   --color-line-neutral: #dcdcdc;
   --color-input-border: #818285;
+  --color-line-dashed: #cdbfa6;
 
   /* Status (always paired with a word and an icon, never colour alone) */
   --color-status-strong: #1e7a4c;
   --color-status-caution: #8a5a00;
   --color-status-concern: #b4470c;
   --color-status-info: #2f5fa8;
+
+  /* Tints used behind status and selection */
+  --color-crimson-tint: #fff6f8;
+  --color-strong-tint: #e8f3ec;
+  --color-info-tint: #e6eef9;
+  --color-concern-tint: #fcebe2;
+  --color-caution-tint: #fff3dc;
+  --color-neutral-tint: #f7f7f7;
 
   /* Typography */
   --font-sans: var(--font-poppins), 'Poppins', system-ui, sans-serif;
@@ -43,6 +52,7 @@
   --text-h3-line: 26px;
   --text-body-size: 16px;
   --text-body-line: 26px;
+  --text-label-size: 15px;
   --text-small-size: 14px;
   --text-small-line: 22px;
   --text-caption-size: 13px;
@@ -52,6 +62,8 @@
 
   /* Radii */
   --radius-pill: 999px;
+  --radius-hairline: 2px;
+  --radius-arch: 150px;
   --radius-field: 12px;
   --radius-card-sm: 20px;
   --radius-card-md: 24px;

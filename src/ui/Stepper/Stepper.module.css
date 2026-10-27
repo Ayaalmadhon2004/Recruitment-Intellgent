@@ -1,0 +1,78 @@
+.list {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(var(--steps), minmax(0, 1fr));
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.track {
+  position: absolute;
+  left: calc(50% / var(--steps));
+  right: calc(50% / var(--steps));
+  top: 19px;
+  height: 4px;
+  border-radius: var(--radius-hairline);
+  background: var(--color-line-strong);
+}
+
+.fill {
+  display: block;
+  height: 100%;
+  border-radius: var(--radius-hairline);
+  background: var(--color-crimson);
+  transition: width 0.5s ease;
+}
+
+.step {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  text-align: center;
+}
+
+.node {
+  position: relative;
+  z-index: 1;
+  width: 40px;
+  height: 40px;
+  box-sizing: border-box;
+  border-radius: var(--radius-pill);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-label-size);
+  font-weight: var(--font-weight-bold);
+}
+
+.done {
+  background: var(--color-navy);
+  color: var(--color-text-inverse);
+}
+
+.current {
+  background: var(--color-crimson);
+  color: var(--color-text-inverse);
+  border: 3px solid var(--color-card);
+}
+
+.upcoming {
+  background: var(--color-card);
+  color: var(--color-text-secondary);
+  border: 2px solid var(--color-line-dashed);
+}
+
+.label {
+  font-size: var(--text-small-size);
+  font-weight: var(--font-weight-semibold);
+}
+
+.state {
+  font-size: var(--text-caption-size);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+}
