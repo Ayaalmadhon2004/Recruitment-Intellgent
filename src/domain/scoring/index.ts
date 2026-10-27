@@ -6,3 +6,5 @@ export { forecast } from './forecast';
 export { notScorable, scored, scoredGauge } from './result';
 export { scoreArea, scoreGauge } from './score-area';
 export { pickStage } from './stage';
+export { assertAgentWeightsSumTo100, strongestAndWeakest, weightedAgentScore } from './agents';
+export type { RatingRange } from './agents';

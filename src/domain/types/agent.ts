@@ -14,3 +14,16 @@ export type PilotPlan = {
   readonly exclusive: boolean;
   readonly commissionBenchmarkPercent: { readonly min: number; readonly max: number };
 };
+
+/** One agent's rating (a whole number within the configured range) for every factor. */
+export type AgentRatings = Readonly<Record<AgentFactorId, number>>;
+
+export type RatedFactor = {
+  readonly id: AgentFactorId;
+  readonly rating: number;
+};
+
+export type StrongestAndWeakest = {
+  readonly strongest: RatedFactor;
+  readonly weakest: RatedFactor;
+};
