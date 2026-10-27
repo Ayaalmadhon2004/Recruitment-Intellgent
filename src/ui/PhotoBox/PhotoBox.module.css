@@ -1,0 +1,36 @@
+.box {
+  position: relative;
+  max-width: 100%;
+  overflow: hidden;
+  border: 6px solid var(--color-card);
+  box-sizing: border-box;
+}
+
+.arch {
+  border-radius: var(--radius-arch) var(--radius-arch) var(--space-4) var(--space-4);
+}
+
+.round {
+  border-radius: var(--radius-pill);
+}
+
+.rounded {
+  border-radius: var(--radius-card-md);
+}
+
+.image {
+  object-fit: cover;
+}
+
+.placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-3);
+  background: var(--color-page);
+  border: 3px dashed var(--color-crimson);
+  color: var(--color-text-secondary);
+  font-size: var(--text-caption-size);
+  font-weight: var(--font-weight-semibold);
+  text-align: center;
+}
