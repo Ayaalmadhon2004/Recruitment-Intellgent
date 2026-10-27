@@ -1,0 +1,92 @@
+.card {
+  flex: 1 1 360px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding: var(--space-7);
+}
+
+.eyebrow {
+  font-size: var(--text-eyebrow-size);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--text-eyebrow-tracking);
+}
+
+.headline {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.net {
+  font-size: var(--text-h1-size);
+  line-height: var(--text-h1-line);
+  font-weight: var(--font-weight-bold);
+  overflow-wrap: anywhere;
+}
+
+.per {
+  font-size: var(--text-small-size);
+  line-height: var(--text-small-line);
+}
+
+.list {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  font-size: var(--text-label-size);
+}
+
+.row,
+.total {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.row dd,
+.total dd {
+  margin: 0;
+  font-weight: var(--font-weight-semibold);
+}
+
+.total {
+  padding-top: 10px;
+  border-top: 1px solid var(--color-text-inverse);
+  font-weight: var(--font-weight-semibold);
+}
+
+.total dd {
+  font-weight: var(--font-weight-bold);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: var(--text-small-size);
+  font-weight: var(--font-weight-semibold);
+}
+
+.bandChip,
+.chip {
+  padding: 6px var(--space-4);
+  border-radius: var(--radius-pill);
+}
+
+.bandChip {
+  background: var(--color-card);
+  color: var(--color-crimson-dark);
+}
+
+.chip {
+  border: 1px solid var(--color-text-inverse);
+}
+
+@media (max-width: 760px) {
+  .card {
+    padding: var(--space-6) var(--space-5);
+  }
+}

@@ -1,3 +1,4 @@
+import { costCalc } from './sections/costCalc';
 /** English UI copy. Components never hard-code text; they receive these values by key. */
 export const en = {
   brand: {
@@ -351,6 +352,7 @@ export const en = {
     evidenceHeading: 'How do you know this?',
     evidenceMissing: 'Pick one tag. It sets your confidence.',
   },
+  costCalc,
   questions: {
     A1: {
       text: 'What type of institution are you?',
