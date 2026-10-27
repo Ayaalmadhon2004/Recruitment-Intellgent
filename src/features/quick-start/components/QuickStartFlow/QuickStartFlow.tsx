@@ -8,6 +8,7 @@ import { en, fill } from '@/domain/copy';
 import type { Answer, AnswerValue } from '@/domain/types';
 import {
   answerFor,
+  clearAnswer,
   isUnsure,
   knownFor,
   questionCardLabels,
@@ -109,6 +110,10 @@ export function QuickStartFlow({
     setStatus('idle');
     setEdited(setAnswer(answers, question.id, value, domainConfig));
   };
+  const clear = (): void => {
+    setStatus('idle');
+    setEdited(clearAnswer(answers, question.id));
+  };
   const unsure = (): void => {
     setStatus('idle');
     setEdited(toggleUnsure(answers, question.id));
@@ -151,6 +156,7 @@ export function QuickStartFlow({
           value={knownFor(answers, question.id)?.value}
           unsure={isUnsure(answers, question.id)}
           onChange={change}
+          onClear={clear}
           onUnsure={unsure}
           labels={questionCardLabels}
           headingLevel="h2"

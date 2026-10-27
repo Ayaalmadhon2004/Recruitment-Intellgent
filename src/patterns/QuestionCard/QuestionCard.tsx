@@ -42,6 +42,8 @@ export type QuestionCardProps = {
   /** The answer is "Not sure". */
   unsure?: boolean;
   onChange: (value: AnswerValue) => void;
+  /** Number questions. Called when the person empties the field, so the stored answer can be removed. */
+  onClear?: () => void;
   /** When provided, the "Not sure" button is shown (it toggles). */
   onUnsure?: () => void;
   /** Only the full Intake passes this. Omit for no evidence picker. */
@@ -77,6 +79,7 @@ type ControlProps = {
   question: QuestionView;
   value: AnswerValue | undefined;
   onChange: (value: AnswerValue) => void;
+  onClear?: () => void;
   labels: QuestionCardLabels;
   titleId: string;
 };
@@ -154,7 +157,7 @@ function ChipsControl({ question, value, onChange, titleId }: ControlProps): Rea
 // Accepts a non-negative decimal being typed: "12", "1.", ".5" or "". Rejects "-5", "1e3" and "abc".
 const numberPattern = /^\d*\.?\d*$/;
 
-function NumberControl({ question, value, onChange }: ControlProps): ReactNode {
+function NumberControl({ question, value, onChange, onClear }: ControlProps): ReactNode {
   const [draft, setDraft] = useState(typeof value === 'number' ? String(value) : '');
   const [seen, setSeen] = useState(value);
   // Follow an outside change (reset, loaded answer) without fighting what the person is typing.
@@ -167,6 +170,10 @@ function NumberControl({ question, value, onChange }: ControlProps): ReactNode {
     const next = e.target.value;
     if (!numberPattern.test(next)) return;
     setDraft(next);
+    if (next === '') {
+      onClear?.();
+      return;
+    }
     const n = Number(next);
     if (next !== '' && next !== '.' && Number.isFinite(n) && n >= 0) onChange(n);
   };
@@ -273,6 +280,7 @@ export function QuestionCard({
   value,
   unsure = false,
   onChange,
+  onClear,
   onUnsure,
   evidence,
   labels,
@@ -309,6 +317,7 @@ export function QuestionCard({
           question={question}
           value={value}
           onChange={onChange}
+          onClear={onClear}
           labels={labels}
           titleId={titleId}
         />
