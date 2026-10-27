@@ -32,6 +32,9 @@ const targets = only ? ids.filter((id) => id.includes(only)) : ids;
 
 const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width: 1000, height: 800 } });
+// Entrance animations start semi-transparent; axe would read that as low contrast. Real users who see them
+// are not affected, and users who ask for reduced motion get no animation at all.
+await page.emulateMedia({ reducedMotion: 'reduce' });
 let bad = 0;
 for (const id of targets) {
   await page.goto(`${base}/iframe.html?id=${id}&viewMode=story`);
