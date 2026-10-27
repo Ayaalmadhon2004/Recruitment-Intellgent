@@ -17,7 +17,7 @@ import {
 } from '@/features/questions';
 import { FlowShell, QuestionCard } from '@/patterns';
 import type { FirstReadResponse } from '../../contract';
-import { fill } from '../../labels';
+import { fill } from '@/features/shared-labels';
 import { saveFirstRead } from '../../session';
 import { useStoredAnswers } from '../../useStoredAnswers';
 import styles from './QuickStartFlow.module.css';
