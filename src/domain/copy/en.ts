@@ -160,7 +160,7 @@ export const en = {
     sectionCount: '{done} of {total}',
     sectionAria: 'Section {key}: {name}, {done} of {total} answered',
     sectionOption: '{key}. {name} ({done} of {total})',
-    stepStates: { done: 'Complete', current: 'Viewing', upcoming: 'In progress' },
+    stepStates: { done: 'Complete', current: 'Viewing' },
     evidenceHelp: {
       title: 'What do the evidence tags mean?',
       verified: 'You hold a document or record.',
