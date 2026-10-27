@@ -1,4 +1,5 @@
 import type { DomainConfig } from '../types';
+import { accessConfig } from './access.config';
 import { agentsConfig } from './agents.config';
 import { evidenceConfig } from './evidence.config';
 import { questionsConfig } from './questions.config';
@@ -8,6 +9,7 @@ import { tbcConfig } from './tbc.config';
 import { CONFIG_VERSION } from './version';
 
 export {
+  accessConfig,
   agentsConfig,
   evidenceConfig,
   questionsConfig,
@@ -25,4 +27,5 @@ export const domainConfig: DomainConfig = {
   stages: stagesConfig,
   agents: agentsConfig,
   evidence: evidenceConfig,
+  access: accessConfig,
 };

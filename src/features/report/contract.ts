@@ -47,7 +47,10 @@ export type ReportGauge = {
 
 /** Everything the report renders. Built on the server from an Audit and a config. Never stored. */
 export type ReportModel = {
+  /** The config version the scores were computed with (the server's current config). */
   readonly configVersion: string;
+  /** Present and true when the audit was stored under a different config version than the one used to score it. */
+  readonly configVersionMismatch?: true;
   readonly institutionName: string;
   /** True when the audit is the Northbridge sample: the UI must show the sample badge. */
   readonly isSample: boolean;
