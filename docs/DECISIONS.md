@@ -28,3 +28,23 @@ dependency-cruiser does not support TypeScript 7 yet (it needs the compiler API,
 ## 4. Temporary design assets
 
 `design-reference/assets` is copied to `public/temp-assets/`: the logo and two stock photos (graduate, campus). These are placeholders. The logo is a low-resolution PNG. Replace with the supplied SVG logo and real photos once Capstone confirms them (open item 9 in `docs/DOMAIN-AND-OPEN-ITEMS.md`). Until then photos are labelled temporary.
+
+## 5. PDF export: print-CSS route and the browser's print dialog
+
+**Decision.** The PDF is made from a dedicated route, `/report/pdf`, that renders `ReportSection` in `print` mode on A4 pages styled with `@page` and `@media print`. The "Download PDF" button calls `window.print()`; the person chooses "Save as PDF". No PDF library and no server-side renderer.
+
+**Why.**
+
+- It needs no new infrastructure. Hosting, runtime limits and a headless browser are still unconfirmed (open item 7), so a server renderer (Puppeteer or Playwright on a route handler) would depend on facts we do not have.
+- One `ReportSection` serves interactive, preview and print (ARCHITECTURE, duplicate 1). A PDF library would need a second layout of the same report, which breaks the no-duplication rule.
+- Scores still come from the server: the print route reads the same report model as `/report`.
+- Text stays real text (selectable, accessible, searchable) and tokens apply as they do on screen.
+
+**Trade-offs.**
+
+- The person controls the final step (browser dialog, margins, headers and footers). Output varies a little between browsers. We fix page size and margins with `@page`, and hide chrome with `@media print`.
+- No file name is set by the app; the browser suggests one from the page title.
+- Cannot be emailed or generated in the background. If Capstone needs that, a server renderer can be added later behind the same route without changing `ReportSection`.
+- The design's "Generating your PDF" progress bar and "PDF ready" file name imply a server job. With the print dialog there is no job to track, so those states are not built. Noted as a change from the design.
+
+**Options.** Included sections are toggles stored in the URL query (`?sections=...`) so the print route and the options screen agree. Language is English only; Vietnamese stays disabled and marked to be confirmed. Institution logo upload is not built (upload storage is unconfirmed); the toggle shows the design's placeholder box.
