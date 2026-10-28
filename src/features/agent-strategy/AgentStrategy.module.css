@@ -437,7 +437,7 @@
   flex: 1 1 210px;
   min-width: 0;
   display: flex;
-  align-items: center;
+  align-items: stretch;
   gap: var(--space-3);
 }
 .stepCard {
@@ -450,6 +450,7 @@
 .operator {
   display: flex;
   flex: 0 0 40px;
+  align-self: center;
   align-items: center;
   justify-content: center;
   height: 40px;
@@ -504,5 +505,15 @@
   .monthPanel,
   .result {
     padding: var(--space-5);
+  }
+  .stepWrap {
+    flex: 1 1 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .operator {
+    flex: 0 0 auto;
+    width: 40px;
+    align-self: center;
   }
 }
