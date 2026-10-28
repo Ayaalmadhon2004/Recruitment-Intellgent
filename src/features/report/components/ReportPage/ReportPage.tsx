@@ -30,7 +30,7 @@ const questionHrefTo = (href: string) => (): string => href;
 /** The report page: loads this device's answers, asks the server for the report and draws it. */
 export function ReportPage({
   intakeHref = '/intake',
-  pdfHref = '/report/pdf',
+  pdfHref = routes.reportPdf,
   quickStartHref = '/quick-start',
   loadAudit,
   previewState,

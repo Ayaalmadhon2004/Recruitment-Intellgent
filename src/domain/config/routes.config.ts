@@ -5,6 +5,7 @@ export const routes = {
   firstRead: '/first-read',
   intake: '/intake',
   report: '/report',
+  reportPdf: '/report/pdf',
   costCalc: '/cost-calc',
   agentStrategy: '/agent-strategy',
   advisor: '/advisor',

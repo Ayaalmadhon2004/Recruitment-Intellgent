@@ -392,7 +392,6 @@ export const en = {
   landing,
   advisor,
   agentStrategy,
-  advisor: advisorPage,
   questions: {
     A1: {
       text: 'What type of institution are you?',
