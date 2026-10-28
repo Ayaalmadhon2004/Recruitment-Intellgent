@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { POST } from '../../../../app/api/first-read/route';
@@ -202,6 +202,18 @@ describe('QuickStartFlow', () => {
     render(<QuickStartFlow />);
     expect(screen.getByRole('combobox')).toHaveValue('private-university');
     expect(nextButton()).toBeEnabled();
+  });
+
+  it('clearing a number returns the step to To do and disables Next', async () => {
+    const user = userEvent.setup();
+    saveFirstRead([b1Nine]);
+    render(<QuickStartFlow initialStep={1} />);
+    const card = screen.getByRole('article');
+    expect(within(card).getByText(en.questionCard.status.answered)).toBeInTheDocument();
+    expect(nextButton()).toBeEnabled();
+    await user.clear(screen.getByRole('textbox'));
+    expect(within(card).getByText(en.questionCard.status.todo)).toBeInTheDocument();
+    expect(nextButton()).toBeDisabled();
   });
 
   it('shows the submitting state on the last step', () => {

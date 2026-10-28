@@ -19,6 +19,8 @@ export type IntakeSectionProps = {
   questions: readonly Question[];
   state: IntakeState;
   onAnswer: (id: QuestionId, value: AnswerValue) => void;
+  /** A number field was emptied: remove the answer. */
+  onClear?: (id: QuestionId) => void;
   onNotSure: (id: QuestionId) => void;
   onEvidence: (id: QuestionId, tag: KnownEvidenceTag) => void;
   /** Receives focus when the section changes, so keyboard and screen reader users land on it. */
@@ -35,6 +37,7 @@ export function IntakeSection({
   questions,
   state,
   onAnswer,
+  onClear,
   onNotSure,
   onEvidence,
   headingRef,
@@ -68,6 +71,7 @@ export function IntakeSection({
               value={knownFor(state.answers, q.id)?.value}
               unsure={isUnsure(state.answers, q.id)}
               onChange={(value) => onAnswer(q.id, value)}
+              onClear={onClear ? () => onClear(q.id) : undefined}
               onUnsure={() => onNotSure(q.id)}
               evidence={{
                 value: confirmedTagFor(state, q.id),

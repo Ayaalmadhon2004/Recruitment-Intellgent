@@ -146,6 +146,21 @@ describe('QuestionCard number', () => {
     expect(onChange).not.toHaveBeenCalled();
   });
 
+  it('calls onClear when the field is emptied', async () => {
+    const onClear = vi.fn();
+    const { onChange } = setup('number', { value: LOADED, onClear });
+    await userEvent.clear(screen.getByRole('textbox'));
+    expect(onClear).toHaveBeenCalledTimes(ONCE);
+    expect(onChange).not.toHaveBeenCalled();
+  });
+
+  it('does not break when emptied without onClear', async () => {
+    const { onChange } = setup('number', { value: LOADED });
+    await userEvent.clear(screen.getByRole('textbox'));
+    expect(screen.getByRole('textbox')).toHaveValue('');
+    expect(onChange).not.toHaveBeenCalled();
+  });
+
   it('shows an outside value', () => {
     setup('number', { value: LOADED });
     expect(screen.getByRole('textbox')).toHaveValue(String(LOADED));
