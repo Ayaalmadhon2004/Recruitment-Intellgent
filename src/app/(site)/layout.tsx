@@ -18,6 +18,7 @@ export default function SiteLayout({ children }: { children: ReactNode }): React
   return (
     <>
       <SiteHeader
+        homeHref={routes.home}
         logoSrc="/temp-assets/logo.png"
         logoAlt={en.brand.logoAlt}
         productName={en.brand.productName}
