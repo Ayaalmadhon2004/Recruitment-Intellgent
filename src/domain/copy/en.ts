@@ -1,6 +1,7 @@
 import { landing } from './sections/landing';
 import { reportPage } from './sections/reportPage';
 import { costCalc } from './sections/costCalc';
+import { pdfExport } from './sections/pdfExport';
 /** English UI copy. Components never hard-code text; they receive these values by key. */
 export const en = {
   brand: {
@@ -246,6 +247,25 @@ export const en = {
     print: {
       dateLabel: 'Date',
       pilotHeading: 'Agent pilot',
+      noSections: 'No sections are included. Turn one on to fill this page.',
+      sections: {
+        scores: 'Scores summary',
+        steps: 'Next steps',
+        afford: 'Affordability and ROI breakdown',
+        pilot: '6-month agent pilot',
+        evidence: 'Evidence and confidence notes',
+      },
+      afford: {
+        eyebrow: 'AFFORDABILITY AND ROI',
+        title: 'How Affordability is weighted',
+        listLabel: 'Affordability components and weights',
+        total: 'Total weight',
+        mappingLabel: 'How your answers feed each component:',
+      },
+      evidence: {
+        eyebrow: 'EVIDENCE',
+        title: 'Evidence and confidence notes',
+      },
     },
   },
   scoreDetail: {
@@ -355,6 +375,7 @@ export const en = {
     evidenceMissing: 'Pick one tag. It sets your confidence.',
   },
   costCalc,
+  pdfExport,
   reportPage,
   landing,
   questions: {

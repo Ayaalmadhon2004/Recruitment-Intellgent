@@ -206,7 +206,8 @@ describe('ReportSection: print', () => {
 
   it('puts the report date through the placeholder because it is not confirmed', () => {
     view(scoredModel(), 'print');
-    expect(screen.getByText(en.status.tbc)).toBeVisible();
+    const date = screen.getByText(`${en.report.print.dateLabel}:`, { exact: false });
+    expect(within(date).getByText(en.status.tbc)).toBeVisible();
   });
 });
 

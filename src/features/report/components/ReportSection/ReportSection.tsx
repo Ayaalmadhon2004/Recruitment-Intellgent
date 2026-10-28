@@ -6,6 +6,8 @@ import { Button, Card } from '@/ui';
 import { CtaBand, RadarChart, StageCard } from '@/patterns';
 import { SectionHeader } from '@/shell';
 import type { ReportMode, ReportModel } from '../../contract';
+import { defaultPrintSections } from '../../printOptions';
+import type { PrintOptions } from '../../printOptions';
 import { areaName, radarLabels } from '../../labels';
 import { AdvisorSection } from '../AdvisorSection';
 import { AreaExplorer } from '../AreaExplorer';
@@ -13,6 +15,8 @@ import { AreaGrid } from '../AreaGrid';
 import { GaugePair } from '../GaugePair';
 import { NextSteps } from '../NextSteps';
 import { PilotPlan } from '../PilotPlan';
+import { PrintAffordability } from '../PrintAffordability';
+import { PrintEvidence } from '../PrintEvidence';
 import { ReportHero } from '../ReportHero';
 import type { ReportLinks } from '../types';
 import { UnlockPrompt } from '../UnlockPrompt';
@@ -23,6 +27,8 @@ export type ReportSectionProps = {
   model: ReportModel;
   mode: ReportMode;
   links?: ReportLinks;
+  /** Print mode only: which parts to print and the brand bar. Ignored in the other modes. */
+  print?: PrintOptions;
 };
 
 /** The stage block, shared by the interactive report and the free preview. */
@@ -39,7 +45,12 @@ function Stage({ model, eyebrow }: { model: ReportModel; eyebrow: string }): Rea
 }
 
 /** One report, three modes: interactive (tabs, carousel), preview (free first read) and print (static). */
-export function ReportSection({ model, mode, links = {} }: ReportSectionProps): ReactNode {
+export function ReportSection({
+  model,
+  mode,
+  links = {},
+  print = {},
+}: ReportSectionProps): ReactNode {
   const radar = (
     <Card radius="lg">
       <RadarChart
@@ -50,16 +61,29 @@ export function ReportSection({ model, mode, links = {} }: ReportSectionProps): 
   );
 
   if (mode === 'print') {
+    const { sections = defaultPrintSections, brand } = print;
+    const on = (id: (typeof sections)[number]): boolean => sections.includes(id);
     return (
       <div className={styles.root} data-mode={mode}>
-        <div className={styles.cover}>
+        <div className={styles.cover} data-part="cover">
+          {brand}
           <ReportHero model={model} mode={mode} links={links} />
         </div>
-        <div className={styles.summary}>
-          <SectionHeader eyebrow={model.institutionName} title={en.report.printScoresTitle} />
-          <AreaGrid areas={model.areas} mode={mode} />
-          <GaugePair gauges={model.gauges} />
-          <PilotPlan pilot={model.pilot} mode={mode} />
+        <div className={styles.summary} data-part="content">
+          {on('scores') ? (
+            <>
+              <SectionHeader eyebrow={model.institutionName} title={en.report.printScoresTitle} />
+              <AreaGrid areas={model.areas} mode={mode} />
+              <GaugePair gauges={model.gauges} />
+            </>
+          ) : null}
+          {on('steps') ? <NextSteps recommendations={model.recommendations} mode={mode} /> : null}
+          {on('afford') ? <PrintAffordability /> : null}
+          {on('pilot') ? <PilotPlan pilot={model.pilot} mode={mode} /> : null}
+          {on('evidence') ? <PrintEvidence areas={model.areas} /> : null}
+          {sections.length === 0 ? (
+            <p className={styles.none}>{en.report.print.noSections}</p>
+          ) : null}
         </div>
       </div>
     );

@@ -68,3 +68,26 @@ export function useReportModel({
   if (outcome.kind === 'ready') return { status: 'ready', model: outcome.model, retry };
   return { status: outcome.kind, model: undefined, retry };
 }
+
+export type ReportSourceOptions = UseReportModelOptions & {
+  /** Fixed state for stories. Skips storage and the network. */
+  previewState?: 'loading' | 'error' | 'empty';
+  /** A ready report for stories. Skips storage and the network. */
+  previewModel?: ReportModel;
+};
+
+const noAudit = (): null => null;
+const ignore = (): void => undefined;
+
+/** The live report state, or the fixed one a story asks for. Shared by every page that shows the report. */
+export function useReportState({
+  loadAudit,
+  previewState,
+  previewModel,
+}: ReportSourceOptions): ReportModelState {
+  const preview = previewState !== undefined || previewModel !== undefined;
+  const live = useReportModel({ loadAudit: preview ? noAudit : loadAudit });
+  if (previewModel) return { status: 'ready', model: previewModel, retry: ignore };
+  if (previewState) return { status: previewState, model: undefined, retry: ignore };
+  return live;
+}
