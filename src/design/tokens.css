@@ -90,7 +90,23 @@
   /* Elevation */
   --shadow-card: 0 6px 20px color-mix(in srgb, var(--color-navy-deep) 6%, transparent);
   --shadow-card-raised: 0 10px 30px color-mix(in srgb, var(--color-navy-deep) 8%, transparent);
-  --shadow-card-hover: 0 14px 30px color-mix(in srgb, var(--color-navy-deep) 14%, transparent);
+  --shadow-card-hover: 0 12px 28px color-mix(in srgb, var(--color-navy-deep) 11%, transparent);
+  --shadow-button-hover: 0 4px 12px color-mix(in srgb, var(--color-navy-deep) 14%, transparent);
+
+  /* Motion: one curve, three speeds. Nothing interactive runs longer than --dur-enter. */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 150ms;
+  --dur-base: 200ms;
+  --dur-enter: 300ms;
+  --dur-data: 600ms; /* charts and progress fills only */
+  --lift-card: -2px;
+  --lift-button: -1px;
+  --enter-distance: 16px;
+  --transition-interactive:
+    background-color var(--dur-base) var(--ease-standard), color var(--dur-base) var(--ease-standard),
+    border-color var(--dur-base) var(--ease-standard), box-shadow var(--dur-base) var(--ease-standard),
+    transform var(--dur-base) var(--ease-standard);
 
   /* Select chevron (navy). Lives here because it is a colour inside a data URI. */
   --select-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%231e3a5f' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");

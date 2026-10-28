@@ -24,7 +24,7 @@
   color: var(--color-text);
   font-size: var(--text-label-size);
   font-weight: var(--font-weight-semibold);
-  transition: background 0.2s ease;
+  transition: background var(--dur-base) var(--ease-standard);
 }
 
 .option[aria-pressed='true'] {

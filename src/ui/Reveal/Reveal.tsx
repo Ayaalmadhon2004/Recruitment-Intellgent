@@ -27,12 +27,16 @@ export function Reveal({ children, delay = 0, className }: RevealProps): ReactNo
       return;
     }
     setPhase('pending');
-    const observer = new IntersectionObserver((entries) => {
-      if (entries.some((e) => e.isIntersecting)) {
-        setPhase('shown');
-        observer.disconnect();
-      }
-    });
+    // Trigger slightly inside the viewport so the entrance is seen, not missed at the edge.
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          setPhase('shown');
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '0px 0px -8% 0px' },
+    );
     observer.observe(el);
     return () => observer.disconnect();
   }, []);

@@ -76,8 +76,8 @@
   color: color-mix(in srgb, var(--color-text-inverse) 88%, var(--color-navy-deep));
   text-decoration: none;
   transition:
-    color 0.2s ease,
-    transform 0.2s ease;
+    color var(--dur-base) var(--ease-standard),
+    transform var(--dur-base) var(--ease-standard);
 }
 
 .link:hover {
