@@ -1,5 +1,6 @@
 export {
   answerFor,
+  clearAnswer,
   countHandled,
   isUnsure,
   knownFor,
