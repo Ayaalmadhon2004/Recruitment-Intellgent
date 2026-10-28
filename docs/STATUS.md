@@ -57,6 +57,7 @@ Run `find src/app -name page.tsx -o -name route.ts` to refresh this list.
 - `pnpm install`
 - `pnpm dev` starts the app on http://localhost:3000
 - `pnpm check` runs typecheck, lint, token check, boundaries and tests. It must pass before every commit.
+- `pnpm build && pnpm start`, then `pnpm e2e` runs the browser smoke test (every page at 390px and 1440px: one `<main>`, no horizontal scroll, no console errors; Quick Start reaches the First Read). Set `BASE_URL` for another port.
 - `pnpm storybook` starts Storybook on http://localhost:6006
 - `pnpm build-storybook && pnpm a11y` builds Storybook and runs axe on every story (needs Chromium: `npx playwright install chromium`)
 
