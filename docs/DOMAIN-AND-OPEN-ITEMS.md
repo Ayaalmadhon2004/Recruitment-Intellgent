@@ -68,5 +68,18 @@ Everything below is a stand-in. Nothing here is a confirmed fact or formula.
 | Question totals | `questionsConfig.length` | Every count and the "THE n-QUESTION AUDIT" eyebrow come from config: 24 today, 40 when the real list lands. Nothing is hard-coded. | Real 40 questions (unknown 2) |
 | Section names | `copy/en.ts` `sections` | From the brief (A to F). | Capstone confirms wording |
 | Evidence help wording | `copy/en.ts` `intake.evidenceHelp` | Verified, Institution-reported, Estimate and Unknown come from the design. The Judgement line is an unconfirmed stand-in. | Capstone confirms |
+| Report link | `/intake` page | "See my report" and "Open report" point to `/report`. "Save and exit" goes to `/` until the Dashboard exists. | Feature 5 |
+| Number questions | `QuestionCard` | A number cannot be cleared once entered (use Not sure). | Pattern change if wanted |
+
+## What the Report pages stub (feature 4, pages)
+| Item | Where | State | Replace when |
+|---|---|---|---|
+| Institution name | `copy/en.ts` `reportPage.institutionName`, `loadStoredAudit` | PLACEHOLDER "Your institution". The Intake and Quick Start do not ask for a name, so the report shows this neutral label as its heading. | A name question is added, or Accounts hold a profile |
+| Entitlement | `loadStoredAudit` in `features/intake/store/load-audit.ts` | Fixed to `free` for every stored audit. Nothing can unlock yet. | Accounts and Unlock (features 5 and 6) |
+| Audit status | `deriveAuditStatus` | `complete` only when every configured question has an answer or a Not sure mark, otherwise `in-progress`. Our own rule, not a confirmed one. | Capstone defines when an audit is finished |
+| Audit id | `LOCAL_AUDIT_ID` | Constant `local-audit`: one audit per device, no accounts. | Feature 5 (accounts) |
+| Quick Start fallback | `features/report/storedAudit.ts` | The report uses the Quick Start tab answers only when the Intake store holds none. The two are never merged. Quick Start answers are stored without a config version, so they take the current one. | Quick Start answers move into the same store |
+| Report links | `ReportPage`, `ScoreDetailPage` | "Answer this question", "Change answers" and "Complete the audit" all go to `/intake` (no per-question anchor yet). No PDF link: `/report/pdf` does not exist. | Feature 11 (PDF); Intake question anchors |
+| First Read | `features/quick-start` | Still uses `FirstReadView` and `/api/first-read`. `ReportSection` preview differs in the page title (institution name, not "Your first read") and in the progress meaning (answered of all audit questions, not of the 5 Quick Start questions). | Capstone confirms the First Read design, or a Quick Start flavour of the report model is added |
 | Report link | `/intake` page | "See my report" and "Open report" point to `/first-read` until the Report feature exists. "Save and exit" goes to `/` until the Dashboard exists. | Features 4 and 5 |
 | Number questions | `QuestionCard` | Emptying a number field calls the optional `onClear`; Quick Start and Intake use it to remove the stored answer (and the Intake confirmed tag). | n/a |

@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { Answer } from '@/domain/types';
 import type { FirstReadResponse } from './contract';
 import { computeFirstRead } from './server';
-import { clear, loadAnswers, loadFirstRead, saveFirstRead } from './session';
+import { clear, loadAnswers, loadFirstRead, peekAnswers, saveFirstRead } from './session';
 
 const answers: Answer[] = [
   { kind: 'known', questionId: 'B1', value: 9, evidence: 'estimate', confidence: 'low' },
@@ -48,6 +48,17 @@ describe('quick start session', () => {
     window.sessionStorage.setItem('vri.quick-start', raw);
     expect(loadAnswers()).toBeUndefined();
     expect(loadFirstRead()).toBeUndefined();
+  });
+
+  it('peekAnswers reads without touching storage, even for invalid data', () => {
+    const removeItem = vi.spyOn(Storage.prototype, 'removeItem');
+    expect(peekAnswers()).toBeUndefined();
+    saveFirstRead(answers);
+    expect(peekAnswers()).toEqual(answers);
+    window.sessionStorage.setItem('vri.quick-start', '{oops');
+    expect(peekAnswers()).toBeUndefined();
+    expect(window.sessionStorage.getItem('vri.quick-start')).toBe('{oops');
+    expect(removeItem).not.toHaveBeenCalled();
   });
 
   it('clear removes the stored data', () => {

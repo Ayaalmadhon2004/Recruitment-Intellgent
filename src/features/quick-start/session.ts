@@ -54,6 +54,11 @@ export function parseStoredAnswers(raw: string | null): Answer[] | undefined {
   }
 }
 
+/** Read-only: stored answers, or undefined when missing or invalid. Writes nothing. */
+export function peekAnswers(): Answer[] | undefined {
+  return parseStoredAnswers(readRaw());
+}
+
 /** Stored answers. Invalid data is dropped from storage. */
 export function loadAnswers(): Answer[] | undefined {
   const raw = readRaw();
