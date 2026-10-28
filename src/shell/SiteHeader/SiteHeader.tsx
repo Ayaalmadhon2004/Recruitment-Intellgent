@@ -9,6 +9,24 @@ import styles from './SiteHeader.module.css';
 
 export type NavItem = { href: string; label: string };
 
+export type HeaderAccount = {
+  signIn: NavItem;
+  /** The signed-in person, or null when signed out. */
+  user: { email: string } | null;
+  menuLabel: string;
+  signedInAsLabel: string;
+  myAudits: NavItem;
+  signOutLabel: string;
+  onSignOut: () => void;
+};
+
+/** Up to two initials from the part of the email before the @ (`jane.doe@x.edu` becomes JD). */
+export function initialsOf(email: string): string {
+  const parts = email.split('@')[0]?.split(/[^a-z0-9]+/i).filter(Boolean) ?? [];
+  const letters = parts.length > 1 ? `${parts[0]![0]}${parts[1]![0]}` : (parts[0] ?? '').slice(0, 2);
+  return letters.toUpperCase();
+}
+
 export type SiteHeaderProps = {
   homeHref: string;
   logoSrc: string;
@@ -19,6 +37,8 @@ export type SiteHeaderProps = {
   cta: NavItem;
   menuOpenLabel: string;
   menuCloseLabel: string;
+  /** Leave out while the session is loading or the account feature is off: no auth controls render. */
+  account?: HeaderAccount;
 };
 
 export function SiteHeader({
@@ -31,10 +51,15 @@ export function SiteHeader({
   cta,
   menuOpenLabel,
   menuCloseLabel,
+  account,
 }: SiteHeaderProps): ReactNode {
   const [open, setOpen] = useState(false);
   const toggleRef = useRef<HTMLButtonElement>(null);
+  const [accountOpen, setAccountOpen] = useState(false);
+  const accountRef = useRef<HTMLDivElement>(null);
+  const accountToggleRef = useRef<HTMLButtonElement>(null);
   const navId = useId();
+  const accountMenuId = useId();
 
   useEffect(() => {
     if (!open) return;
@@ -46,6 +71,30 @@ export function SiteHeader({
     document.addEventListener('keydown', onKeyDown);
     return () => document.removeEventListener('keydown', onKeyDown);
   }, [open]);
+
+  useEffect(() => {
+    if (!accountOpen) return;
+    const onKeyDown = (event: KeyboardEvent): void => {
+      if (event.key !== 'Escape') return;
+      setAccountOpen(false);
+      accountToggleRef.current?.focus();
+    };
+    const onPointerDown = (event: PointerEvent): void => {
+      if (!accountRef.current?.contains(event.target as Node)) setAccountOpen(false);
+    };
+    document.addEventListener('keydown', onKeyDown);
+    document.addEventListener('pointerdown', onPointerDown);
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+      document.removeEventListener('pointerdown', onPointerDown);
+    };
+  }, [accountOpen]);
+
+  const signOut = (): void => {
+    setOpen(false);
+    setAccountOpen(false);
+    account?.onSignOut();
+  };
 
   return (
     <header className={styles.header} data-print="hide">
@@ -78,11 +127,70 @@ export function SiteHeader({
               </li>
             ))}
           </ul>
+          {account ? (
+            <div className={styles.drawerAccount}>
+              {account.user ? (
+                <>
+                  <p className={styles.drawerEmail}>
+                    <span className={styles.muted}>{account.signedInAsLabel}</span>{' '}
+                    {account.user.email}
+                  </p>
+                  <button type="button" className={styles.drawerButton} onClick={signOut}>
+                    {account.signOutLabel}
+                  </button>
+                </>
+              ) : (
+                <Link
+                  href={account.signIn.href}
+                  className={styles.drawerButton}
+                  onClick={() => setOpen(false)}
+                >
+                  {account.signIn.label}
+                </Link>
+              )}
+            </div>
+          ) : null}
         </nav>
         <div className={styles.actions}>
+          {account && !account.user ? (
+            <Link href={account.signIn.href} className={styles.signIn}>
+              {account.signIn.label}
+            </Link>
+          ) : null}
           <Link href={cta.href} className={`${styles.cta} hover-nudge`}>
             {cta.label}
           </Link>
+          {account?.user ? (
+            <div ref={accountRef} className={styles.account}>
+              <button
+                ref={accountToggleRef}
+                type="button"
+                className={styles.avatar}
+                aria-expanded={accountOpen}
+                aria-controls={accountMenuId}
+                aria-label={`${account.menuLabel}: ${account.user.email}`}
+                onClick={() => setAccountOpen((value) => !value)}
+              >
+                <span aria-hidden="true">{initialsOf(account.user.email)}</span>
+              </button>
+              <div id={accountMenuId} className={styles.accountMenu} hidden={!accountOpen}>
+                <p className={styles.accountEmail}>
+                  <span className={styles.muted}>{account.signedInAsLabel}</span>
+                  {account.user.email}
+                </p>
+                <Link
+                  href={account.myAudits.href}
+                  className={styles.accountItem}
+                  onClick={() => setAccountOpen(false)}
+                >
+                  {account.myAudits.label}
+                </Link>
+                <button type="button" className={styles.accountItem} onClick={signOut}>
+                  {account.signOutLabel}
+                </button>
+              </div>
+            </div>
+          ) : null}
           <button
             ref={toggleRef}
             type="button"

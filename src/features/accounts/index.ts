@@ -6,6 +6,8 @@ export { SignInPage } from './components/SignInPage';
 export type { SignInPageProps } from './components/SignInPage';
 export { createDefaultRuntime, getDefaultRuntime } from './runtime';
 export type { AccountsRuntime } from './runtime';
+export { useAccountSession } from './useAccountSession';
+export type { AccountSession } from './useAccountSession';
 export { createDevAccountService } from './service/dev-service';
 export { createActiveAuditPointer } from './service/active-audit';
 export type { ActiveAuditPointer } from './service/active-audit';
