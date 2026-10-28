@@ -3,6 +3,8 @@
  * "[TO BE CONFIRMED WITH CAPSTONE]". Never replace a null with a guess.
  * Numbers refer to docs/DOMAIN-AND-OPEN-ITEMS.md. Fill a value only when Capstone confirms it.
  */
+import type { UnlockPath } from '../types/unlock';
+
 export type Tbc<T> = T | null;
 
 export const tbcConfig = {
@@ -17,7 +19,8 @@ export const tbcConfig = {
   finalBandCutoffs: null as Tbc<string>,
   /** 5. Free vs locked line, unlock path and pricing. */
   freeVsLockedLine: null as Tbc<string>,
-  unlockPaths: null as Tbc<readonly string[]>,
+  /** Each way to unlock, once confirmed. While null the screen shows three labelled placeholder options. */
+  unlockPaths: null as Tbc<readonly UnlockPath[]>,
   pricing: null as Tbc<string>,
   unlockTiming: null as Tbc<string>,
   /** 6. Advisor channels, name and photo. */

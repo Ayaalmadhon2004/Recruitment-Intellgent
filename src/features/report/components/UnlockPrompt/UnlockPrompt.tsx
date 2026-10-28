@@ -21,7 +21,7 @@ export function UnlockPrompt({ unlockHref }: UnlockPromptProps): ReactNode {
       note={
         <span className={styles.note}>
           {copy.pathLabel}:{' '}
-          <TbcValue value={tbcConfig.unlockPaths?.join(', ')} placeholder={en.status.tbc} />
+          <TbcValue value={tbcConfig.unlockPaths?.map((p) => p.label).join(', ')} placeholder={en.status.tbc} />
           {'. '}
           {copy.priceLabel}: <TbcValue value={tbcConfig.pricing} placeholder={en.status.tbc} />
         </span>

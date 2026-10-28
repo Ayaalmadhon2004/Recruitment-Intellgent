@@ -8,6 +8,7 @@ import { scoringConfig } from './scoring.config';
 import { stagesConfig } from './stages.config';
 import { routes } from './routes.config';
 import { tbcConfig } from './tbc.config';
+import { unlockConfig } from './unlock.config';
 import { CONFIG_VERSION } from './version';
 
 export {
@@ -20,9 +21,15 @@ export {
   scoringConfig,
   stagesConfig,
   tbcConfig,
+  unlockConfig,
   CONFIG_VERSION,
 };
 export type { Tbc, TbcConfig } from './tbc.config';
+export type {
+  PlaceholderUnlockPath,
+  UnlockConfig,
+  UnlockExampleItem,
+} from './unlock.config';
 
 export const domainConfig: DomainConfig = {
   version: CONFIG_VERSION,

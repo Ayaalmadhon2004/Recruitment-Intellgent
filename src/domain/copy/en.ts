@@ -3,6 +3,7 @@ import { advisor } from './sections/advisor';
 import { agentStrategy } from './sections/agentStrategy';
 import { landing } from './sections/landing';
 import { reportPage } from './sections/reportPage';
+import { unlock } from './sections/unlock';
 import { costCalc } from './sections/costCalc';
 import { pdfExport } from './sections/pdfExport';
 /** English UI copy. Components never hard-code text; they receive these values by key. */
@@ -389,6 +390,7 @@ export const en = {
     evidenceMissing: 'Pick one tag. It sets your confidence.',
   },
   accounts,
+  unlock,
   costCalc,
   pdfExport,
   reportPage,

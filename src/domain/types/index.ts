@@ -8,3 +8,4 @@ export * from './question';
 export * from './recommendation';
 export * from './score';
 export * from './stage';
+export * from './unlock';
