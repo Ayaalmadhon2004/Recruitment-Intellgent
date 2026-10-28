@@ -1,0 +1,143 @@
+.page {
+  width: 100%;
+  overflow-x: clip;
+}
+
+.hero {
+  background: var(--color-navy-deep);
+  color: var(--color-text-inverse);
+}
+
+.heroInner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  padding-top: var(--space-7);
+  padding-bottom: var(--space-10);
+}
+
+.crumbs {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--text-small-size);
+  font-weight: var(--font-weight-medium);
+}
+
+.crumbLink,
+.crumbLink:hover {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-target);
+  color: var(--color-text-inverse);
+}
+
+.crumbCurrent {
+  font-weight: var(--font-weight-semibold);
+}
+
+.heroText {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-4);
+  max-width: 640px;
+}
+
+.title {
+  margin: 0;
+  font-size: var(--text-h1-size);
+  line-height: var(--text-h1-line);
+  font-weight: var(--font-weight-bold);
+}
+
+.lead {
+  margin: 0;
+  font-size: var(--text-h3-size);
+  line-height: var(--text-h3-line);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-10);
+  padding-top: var(--space-9);
+  padding-bottom: var(--space-10);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.split {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-7);
+  align-items: stretch;
+}
+
+.form {
+  flex: 1 1 440px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding: var(--space-7);
+}
+
+.vnd {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.vndLabel {
+  font-size: var(--text-small-size);
+  font-weight: var(--font-weight-semibold);
+}
+
+.vndBox {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  border: 2px dashed var(--color-input-border);
+  border-radius: var(--radius-field);
+  background: var(--color-page);
+  font-size: var(--text-small-size);
+}
+
+.vndNote {
+  font-size: var(--text-caption-size);
+  color: var(--color-text-secondary);
+}
+
+.peersHead {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+@media (max-width: 760px) {
+  .heroInner {
+    padding-bottom: var(--space-9);
+  }
+
+  .content {
+    gap: var(--space-9);
+    padding-top: var(--space-7);
+  }
+
+  .form {
+    flex-basis: 100%;
+    padding: var(--space-6) var(--space-5);
+  }
+}

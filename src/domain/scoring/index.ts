@@ -9,3 +9,11 @@ export { scoreArea, scoreGauge } from './score-area';
 export { pickStage } from './stage';
 export { assertAgentWeightsSumTo100, strongestAndWeakest, weightedAgentScore } from './agents';
 export type { RatingRange } from './agents';
+export {
+  appliedScholarship,
+  fourYearCost,
+  netAnnualCost,
+  priceBandFor,
+  scholarshipCoverage,
+} from './cost';
+export type { NetAnnualCostInput } from './cost';
