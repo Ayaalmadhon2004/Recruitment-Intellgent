@@ -45,6 +45,8 @@ const steps = [
   { id: 'confirm', label: copy.flow.stepConfirm },
 ];
 
+const finalStep = { id: 'done', label: copy.flow.stepDone };
+
 const flowLabels = {
   stepperLabel: copy.flow.stepperLabel,
   stateLabels: {
@@ -287,6 +289,7 @@ export function UnlockPage({
             onNext={onNext}
             nextDisabled={step === 0 && pathId === null}
             submitting={submitting}
+            finalStep={finalStep}
             success={justUnlocked ? donePanel : undefined}
           >
             {step === 0 ? optionsStep : confirmStep}

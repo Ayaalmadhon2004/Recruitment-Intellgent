@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { useState } from 'react';
 import { describe, expect, it, vi } from 'vitest';
@@ -108,5 +108,25 @@ describe('FlowShell', () => {
     expect(screen.getByRole('button', { name: 'Continue' })).toHaveFocus();
     await userEvent.keyboard('{Enter}');
     expect(screen.getByText('Content of step 2')).toBeInTheDocument();
+  });
+
+  it('lists a final step and keeps the stepper on the success state', async () => {
+    render(
+      <FlowShell
+        steps={steps}
+        current={1}
+        labels={labels}
+        onBack={() => {}}
+        onNext={() => {}}
+        finalStep={{ id: 'z', label: 'Done' }}
+        success={<p>Thank you</p>}
+      >
+        x
+      </FlowShell>,
+    );
+    const list = screen.getByRole('list', { name: 'Steps' });
+    expect(within(list).getAllByRole('listitem')).toHaveLength(3);
+    expect(within(list).getByRole('listitem', { current: 'step' })).toHaveTextContent('Done');
+    expect(screen.getByText('Thank you')).toBeInTheDocument();
   });
 });

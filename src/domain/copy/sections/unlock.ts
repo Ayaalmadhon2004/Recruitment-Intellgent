@@ -51,6 +51,7 @@ export const unlock = {
     stepperLabel: 'Unlock steps',
     stepChoose: 'Choose',
     stepConfirm: 'Confirm',
+    stepDone: 'Done',
     stateDone: 'Complete',
     stateCurrent: 'Now',
     stateUpcoming: 'Next',

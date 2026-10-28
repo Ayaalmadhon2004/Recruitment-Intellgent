@@ -55,6 +55,11 @@ describe('UnlockPage', () => {
     await user.click(screen.getByRole('button', { name: copy.flow.next }));
     await user.click(screen.getByRole('button', { name: copy.flow.submit }));
     expect(await screen.findByRole('heading', { name: copy.done.title })).toBeVisible();
+    const stepper = screen.getByRole('list', { name: copy.flow.stepperLabel });
+    expect(within(stepper).getAllByRole('listitem')).toHaveLength(3);
+    expect(within(stepper).getByRole('listitem', { current: 'step' })).toHaveTextContent(
+      copy.flow.stepDone,
+    );
     expect(screen.getByRole('link', { name: copy.done.openReport })).toHaveAttribute(
       'href',
       routes.report,
