@@ -6,11 +6,11 @@ import { PageContainer } from '@/shell';
 
 export const metadata: Metadata = { title: en.intake.pageTitle };
 
-/** Composes the Intake feature. The report feature does not exist yet, so the report link goes to the First Read. */
+/** Composes the Intake feature. */
 export default function Page(): ReactNode {
   return (
     <PageContainer as="main">
-      <IntakePage reportHref="/first-read" exitHref="/" />
+      <IntakePage reportHref="/report" exitHref="/" />
     </PageContainer>
   );
 }

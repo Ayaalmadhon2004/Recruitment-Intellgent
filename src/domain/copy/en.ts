@@ -1,4 +1,5 @@
 import { landing } from './sections/landing';
+import { reportPage } from './sections/reportPage';
 import { costCalc } from './sections/costCalc';
 /** English UI copy. Components never hard-code text; they receive these values by key. */
 export const en = {
@@ -354,6 +355,7 @@ export const en = {
     evidenceMissing: 'Pick one tag. It sets your confidence.',
   },
   costCalc,
+  reportPage,
   landing,
   questions: {
     A1: {
