@@ -1,0 +1,1 @@
+export { WhatYouGet } from './WhatYouGet';
