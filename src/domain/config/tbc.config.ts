@@ -33,6 +33,8 @@ export const tbcConfig = {
   privacyPolicyUrl: null as Tbc<string>,
   database: null as Tbc<string>,
   authProvider: null as Tbc<string>,
+  /** How long a sign-in link works (minutes or words, as Capstone states it). Shown on the check-your-inbox step. */
+  signInLinkExpiry: null as Tbc<string>,
   /** 8. Whether live web research is part of the report. */
   liveWebResearch: null as Tbc<boolean>,
   /** 9. Brand assets. */

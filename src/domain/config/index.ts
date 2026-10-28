@@ -1,4 +1,5 @@
 import type { DomainConfig } from '../types';
+import { accountsConfig } from './accounts.config';
 import { accessConfig } from './access.config';
 import { agentsConfig } from './agents.config';
 import { evidenceConfig } from './evidence.config';
@@ -11,6 +12,7 @@ import { CONFIG_VERSION } from './version';
 
 export {
   accessConfig,
+  accountsConfig,
   agentsConfig,
   evidenceConfig,
   questionsConfig,
