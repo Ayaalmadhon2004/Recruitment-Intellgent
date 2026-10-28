@@ -27,7 +27,7 @@ export function FreeVsFull({ unlocked }: FreeVsFullProps): ReactNode {
         <TbcValue value={tbcConfig.freeVsLockedLine} placeholder={en.status.tbc} />
       </p>
       <div className={styles.grid}>
-        <Card as="article" radius="lg" lift className={styles.card}>
+        <Card as="article" aria-label={copy.freeTitle} radius="lg" lift className={styles.card}>
           <div className={styles.head}>
             <h3 className={styles.name}>{copy.freeTitle}</h3>
             <span className={styles.tagFree}>
@@ -47,7 +47,14 @@ export function FreeVsFull({ unlocked }: FreeVsFullProps): ReactNode {
             ))}
           </ul>
         </Card>
-        <Card as="article" tone="navy" radius="lg" lift className={styles.card}>
+        <Card
+          as="article"
+          aria-label={copy.fullTitle}
+          tone="navy"
+          radius="lg"
+          lift
+          className={styles.card}
+        >
           <div className={styles.head}>
             <h3 className={styles.name}>{copy.fullTitle}</h3>
             <span className={styles.tagFull}>

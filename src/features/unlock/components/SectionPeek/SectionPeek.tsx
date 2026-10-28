@@ -35,7 +35,10 @@ export function SectionPeek({
     <section aria-labelledby="unlock-peek-title" className={styles.section}>
       <SectionHeader id="unlock-peek-title" eyebrow={copy.eyebrow} title={copy.title} />
       <div className={styles.frame}>
-        <div aria-hidden="true" className={cx(styles.bars, unlocked ? styles.clear : styles.blurred)}>
+        <div
+          aria-hidden="true"
+          className={cx(styles.bars, unlocked ? styles.clear : styles.blurred)}
+        >
           <div className={styles.heading} />
           {rows.map((r, i) => (
             <div key={r.title} className={styles.row}>

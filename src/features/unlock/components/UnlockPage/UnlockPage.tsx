@@ -205,10 +205,7 @@ export function UnlockPage({
 
   const optionsStep = (
     <div className={styles.stepBlock}>
-      <SectionHeader
-        eyebrow={fill(copy.flow.stepEyebrow, { n: 1 })}
-        title={copy.choose.title}
-      />
+      <SectionHeader eyebrow={fill(copy.flow.stepEyebrow, { n: 1 })} title={copy.choose.title} />
       <RadioCardGroup
         legend={copy.choose.legend}
         name="unlock-path"
@@ -232,10 +229,7 @@ export function UnlockPage({
   const confirmStep = (
     <div className={styles.confirmRow}>
       <div className={styles.confirmMain}>
-        <SectionHeader
-          eyebrow={fill(copy.flow.stepEyebrow, { n: 2 })}
-          title={copy.confirm.title}
-        />
+        <SectionHeader eyebrow={fill(copy.flow.stepEyebrow, { n: 2 })} title={copy.confirm.title} />
         {failed ? (
           <p role="alert" className={styles.problemLine}>
             <Icon name="concern" size={20} strokeWidth={2.4} />

@@ -44,7 +44,7 @@ export const unlock = {
     lockedName: 'Agent selection matrix',
     lockedBody: 'Part of the full report. Locked.',
     unlockedNote: 'Unlocked. This section is in your full report.',
-    openReport: 'Open full report',
+    openReport: 'Read it in the report',
   },
   flow: {
     sectionLabel: 'Unlock steps',

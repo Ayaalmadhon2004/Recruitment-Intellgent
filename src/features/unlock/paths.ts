@@ -20,7 +20,12 @@ export function resolveUnlockPaths(
   config: Pick<UnlockConfig, 'placeholderPaths'> = unlockConfig,
 ): readonly ResolvedUnlockPath[] {
   if (tbc.unlockPaths !== null && tbc.unlockPaths.length > 0) {
-    return tbc.unlockPaths.map((p) => ({ id: p.id, label: p.label, note: p.note, confirmed: true }));
+    return tbc.unlockPaths.map((p) => ({
+      id: p.id,
+      label: p.label,
+      note: p.note,
+      confirmed: true,
+    }));
   }
   return config.placeholderPaths.map((p) => ({
     id: p.id,

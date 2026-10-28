@@ -29,7 +29,11 @@ function parseGrants(raw: unknown): Grants {
   if (!isRecord(raw) || !isRecord(raw.grants)) return {};
   const out: Record<string, Grant> = {};
   for (const [key, value] of Object.entries(raw.grants)) {
-    if (isRecord(value) && typeof value.pathId === 'string' && typeof value.grantedAt === 'string') {
+    if (
+      isRecord(value) &&
+      typeof value.pathId === 'string' &&
+      typeof value.grantedAt === 'string'
+    ) {
       out[key] = { pathId: value.pathId, grantedAt: value.grantedAt };
     }
   }
@@ -46,9 +50,7 @@ function readGrants(storage: KeyValueStorage, key: string): Grants {
 }
 
 const recordOf = (grant: Grant | undefined): EntitlementRecord =>
-  grant
-    ? { entitlement: 'unlocked', pathId: grant.pathId, grantedAt: grant.grantedAt }
-    : free;
+  grant ? { entitlement: 'unlocked', pathId: grant.pathId, grantedAt: grant.grantedAt } : free;
 
 /**
  * Synchronous read of one audit's entitlement from a device storage. The Report loads its audit
