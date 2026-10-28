@@ -2,7 +2,7 @@ import { agentsConfig } from '@/domain/config';
 import { notScorable, scored, scoredGauge } from '@/domain/scoring';
 import { scoreAreaIds } from '@/domain/types';
 import type { NotScorable, QuestionId, ScoreAreaId, ScoreResult } from '@/domain/types';
-import type { ReportArea, ReportModel } from '../contract';
+import type { OpenReportArea, ReportModel } from '../contract';
 
 /**
  * Report models for stories and tests, built with the domain helpers.
@@ -17,8 +17,8 @@ const noFormula = (missing: readonly QuestionId[]): NotScorable =>
 const area = (
   id: ScoreAreaId,
   result: ScoreResult,
-  extra: Partial<ReportArea> = {},
-): ReportArea => ({
+  extra: Partial<OpenReportArea> = {},
+): OpenReportArea => ({
   id,
   result,
   evidence: [],
@@ -84,7 +84,7 @@ export const lockedPreviewModel = (): ReportModel => {
   ];
   return {
     ...base,
-    areas: base.areas.map((a) => ({ ...a, locked: hidden.includes(a.id) })),
+    areas: base.areas.map((a) => (hidden.includes(a.id) ? { id: a.id, locked: true } : a)),
   };
 };
 

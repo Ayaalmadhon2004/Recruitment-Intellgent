@@ -26,20 +26,31 @@ export type ReportGap = {
   readonly questionId: QuestionId;
 };
 
-export type ReportArea = {
+/** An area the viewer may see: its result, what backs it and what is missing. */
+export type OpenReportArea = {
   readonly id: ScoreAreaId;
+  readonly locked: false;
   readonly result: ScoreResult;
   /** Answers that feed this area (empty while no question is mapped to it). */
   readonly evidence: readonly ReportEvidence[];
   /** "Missing evidence": questions that feed this area and are unanswered or marked Not sure. */
   readonly gaps: readonly ReportGap[];
-  /**
-   * True when this audit is free and the area is in `config.access.lockedWhenFree`. The server then sends no
-   * real result, evidence or gaps for it: `result` is a stand-in that must never be drawn. Which areas are
-   * hidden is unknown (open item 5), so this is false everywhere until the config lists areas.
-   */
-  readonly locked: boolean;
 };
+
+/**
+ * An area hidden from this audit: it is free and the area is in `config.access.lockedWhenFree`. The server
+ * sends nothing else about it (no result, evidence or gaps), so there is nothing a UI could draw by mistake.
+ * Which areas are hidden is unknown (open item 5), so no area is locked until the config lists areas.
+ */
+export type LockedReportArea = {
+  readonly id: ScoreAreaId;
+  readonly locked: true;
+};
+
+export type ReportArea = OpenReportArea | LockedReportArea;
+
+/** Narrows an area to the one that has a result. */
+export const isOpenArea = (area: ReportArea): area is OpenReportArea => !area.locked;
 
 export type ReportGauge = {
   readonly id: GaugeId;
