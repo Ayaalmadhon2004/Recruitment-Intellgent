@@ -29,6 +29,19 @@
   border-radius: var(--radius-card-md);
   background: var(--color-card);
   cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transition: none;
+  }
+}
+
+.card:hover {
+  border-color: var(--color-navy-mid);
 }
 
 .card:focus-within {
@@ -37,9 +50,10 @@
   box-shadow: var(--focus-ring-halo);
 }
 
-.selected {
-  border-color: var(--color-crimson);
-  background: var(--color-crimson-tint);
+.selected,
+.selected:hover {
+  border-color: var(--color-navy);
+  background: var(--color-page);
 }
 
 .row {
@@ -57,19 +71,54 @@
   align-items: center;
   justify-content: center;
   background: var(--color-page);
-  color: var(--color-crimson-dark);
+  color: var(--color-navy);
 }
 
 .selected .badge {
-  background: var(--color-crimson);
+  background: var(--color-navy);
   color: var(--color-text-inverse);
 }
 
 .radio {
+  appearance: none;
+  flex: none;
   width: 24px;
   height: 24px;
   margin: 0;
-  accent-color: var(--color-crimson);
+  border: 2px solid var(--color-input-border);
+  border-radius: var(--radius-pill);
+  background: var(--color-card);
+  display: grid;
+  place-content: center;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.radio::after {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: var(--radius-pill);
+  background: var(--color-text-inverse);
+  transform: scale(0);
+  transition: transform 0.2s ease;
+}
+
+.radio:checked {
+  border-color: var(--color-crimson);
+  background: var(--color-crimson);
+}
+
+.radio:checked::after {
+  transform: scale(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .radio,
+  .radio::after {
+    transition: none;
+  }
 }
 
 .label {
@@ -88,5 +137,5 @@
   font-size: var(--text-caption-size);
   line-height: var(--text-caption-line);
   font-weight: var(--font-weight-medium);
-  color: var(--color-crimson-dark);
+  color: var(--color-navy);
 }

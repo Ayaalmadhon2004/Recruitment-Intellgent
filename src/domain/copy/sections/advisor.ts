@@ -14,6 +14,19 @@ export const advisor = {
       price: { title: 'You need a price view', body: 'Talk through price bands and scholarships.' },
     },
   },
+  team: {
+    eyebrow: 'YOUR ADVISORS',
+    title: 'Meet our advisors',
+    lead: 'Real people who read your report before they reply.',
+    sampleNote: 'Sample data - illustrative only',
+    availabilityLabel: 'Availability',
+    availability: {
+      whatsapp: 'Available on WhatsApp',
+      email: 'Replies by email',
+      call: 'Available for calls',
+    },
+    avatarLabel: 'Photo of {name}, to be supplied by Capstone',
+  },
   flow: {
     sectionLabel: 'Request an advisor',
     stepperLabel: 'Request steps',

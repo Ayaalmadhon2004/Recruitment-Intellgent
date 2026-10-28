@@ -9,6 +9,7 @@ import { PageContainer, SectionHeader } from '@/shell';
 import { Field, Icon, PaperFoldMark, RadioCardGroup, Select } from '@/ui';
 import { AdvisorAside } from './AdvisorAside';
 import { AdvisorSuccess } from './AdvisorSuccess';
+import { AdvisorTeam } from './AdvisorTeam';
 import { ReasonCards } from './ReasonCards';
 import { channelById, channels, fill, timeWindows } from './channels';
 import { errorMessages } from './errors';
@@ -176,6 +177,7 @@ export function AdvisorRequest({
       </section>
       <PageContainer className={styles.main}>
         <ReasonCards />
+        <AdvisorTeam />
         <section aria-label={copy.flow.sectionLabel} className={styles.flow}>
           <FlowShell
             steps={steps}
