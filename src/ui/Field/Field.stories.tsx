@@ -21,6 +21,8 @@ export const WithHint: Story = { args: { hint: 'We email you a one-time link. No
 export const WithError: Story = {
   args: { error: 'That email does not look right. Check it and try again.', defaultValue: 'name@' },
 };
+/** The message is shown elsewhere (a banner): the field only carries the red border and aria-invalid. */
+export const Invalid: Story = { args: { invalid: true, defaultValue: 'name@' } };
 export const Disabled: Story = { args: { disabled: true } };
 export const Multiline: Story = {
   args: {

@@ -26,4 +26,10 @@ describe('Field', () => {
     render(<Field label="Message" multiline />);
     expect(screen.getByLabelText('Message').tagName).toBe('TEXTAREA');
   });
+
+  it('marks the field invalid without a message of its own', () => {
+    render(<Field label="Work email" invalid />);
+    expect(screen.getByLabelText('Work email')).toHaveAttribute('aria-invalid', 'true');
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+  });
 });
