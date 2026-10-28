@@ -17,6 +17,8 @@ const meta = {
       { href: '#advisor', label: en.nav.advisor },
     ],
     cta: { href: '#', label: en.header.cta },
+    menuOpenLabel: en.header.menuOpen,
+    menuCloseLabel: en.header.menuClose,
   },
 } satisfies Meta<typeof SiteHeader>;
 export default meta;

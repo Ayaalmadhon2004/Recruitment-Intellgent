@@ -56,6 +56,8 @@ const shapes = {
   'chevron-left': <path d="M15 6l-6 6 6 6" />,
   'chevron-right': <path d="M9 6l6 6-6 6" />,
   plus: <path d="M12 5v14M5 12h14" />,
+  menu: <path d="M4 7h16M4 12h16M4 17h16" />,
+  close: <path d="M6 6l12 12M18 6L6 18" />,
   download: <path d="M12 4v11M7 11l5 5 5-5M5 20h14" />,
   mail: (
     <>

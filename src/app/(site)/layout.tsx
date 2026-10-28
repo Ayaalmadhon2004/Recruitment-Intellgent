@@ -26,6 +26,8 @@ export default function SiteLayout({ children }: { children: ReactNode }): React
         navLabel={en.nav.label}
         navItems={navItems}
         cta={{ href: routes.quickStart, label: en.header.cta }}
+        menuOpenLabel={en.header.menuOpen}
+        menuCloseLabel={en.header.menuClose}
       />
       <main id="main">{children}</main>
       <SiteFooter
