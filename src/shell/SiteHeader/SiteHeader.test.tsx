@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { SiteHeader } from './SiteHeader';
 
 const props = {
+  homeHref: '/',
   logoSrc: '/logo.png',
   logoAlt: 'Logo alt',
   productName: 'Product name',
@@ -22,6 +23,7 @@ describe('SiteHeader', () => {
     const nav = screen.getByRole('navigation', { name: 'Main nav' });
     expect(nav).toContainElement(screen.getByRole('link', { name: 'First' }));
     expect(screen.getByRole('link', { name: 'Second' })).toHaveAttribute('href', '#b');
+    expect(screen.getByRole('link', { name: 'Logo alt' })).toHaveAttribute('href', '/');
     expect(screen.getByRole('link', { name: 'Go now' })).toHaveAttribute('href', '#go');
   });
 });

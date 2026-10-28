@@ -16,6 +16,12 @@
   flex-wrap: wrap;
 }
 
+.logoLink {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-target);
+}
+
 .logo {
   height: 44px;
   width: auto;

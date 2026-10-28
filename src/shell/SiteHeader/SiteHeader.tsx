@@ -1,10 +1,12 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import type { ReactNode } from 'react';
 import styles from './SiteHeader.module.css';
 
 export type NavItem = { href: string; label: string };
 
 export type SiteHeaderProps = {
+  homeHref: string;
   logoSrc: string;
   logoAlt: string;
   productName: string;
@@ -14,6 +16,7 @@ export type SiteHeaderProps = {
 };
 
 export function SiteHeader({
+  homeHref,
   logoSrc,
   logoAlt,
   productName,
@@ -24,25 +27,27 @@ export function SiteHeader({
   return (
     <header className={styles.header}>
       <div className={styles.brand}>
-        <Image
-          src={logoSrc}
-          alt={logoAlt}
-          width={611}
-          height={139}
-          className={styles.logo}
-          priority
-        />
+        <Link href={homeHref} className={styles.logoLink}>
+          <Image
+            src={logoSrc}
+            alt={logoAlt}
+            width={611}
+            height={139}
+            className={styles.logo}
+            priority
+          />
+        </Link>
         <span className={styles.product}>{productName}</span>
       </div>
       <nav aria-label={navLabel} className={styles.nav}>
         {navItems.map((item) => (
-          <a key={item.href} href={item.href} className={styles.link}>
+          <Link key={item.href} href={item.href} className={styles.link}>
             {item.label}
-          </a>
+          </Link>
         ))}
-        <a href={cta.href} className={`${styles.cta} hover-nudge`}>
+        <Link href={cta.href} className={`${styles.cta} hover-nudge`}>
           {cta.label}
-        </a>
+        </Link>
       </nav>
     </header>
   );

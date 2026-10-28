@@ -6,6 +6,7 @@ const meta = {
   title: 'shell/SiteHeader',
   component: SiteHeader,
   args: {
+    homeHref: '/',
     logoSrc: '/temp-assets/logo.png',
     logoAlt: en.brand.logoAlt,
     productName: en.brand.productName,
