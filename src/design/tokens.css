@@ -92,6 +92,9 @@
   --shadow-card-raised: 0 10px 30px color-mix(in srgb, var(--color-navy-deep) 8%, transparent);
   --shadow-card-hover: 0 14px 30px color-mix(in srgb, var(--color-navy-deep) 14%, transparent);
 
+  /* Select chevron (navy). Lives here because it is a colour inside a data URI. */
+  --select-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%231e3a5f' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+
   /* Focus ring */
   --focus-ring-color: var(--color-navy);
   --focus-ring-width: 2px;

@@ -20,3 +20,43 @@
   align-items: center;
   justify-content: space-between;
 }
+
+/* Bottom navigation: Back stays quiet on the left, Next is the clear primary on the right. */
+.actions {
+  padding-top: var(--space-2);
+}
+
+.actions > button:last-child,
+.actions > a:last-child {
+  min-width: 180px;
+  min-height: 52px;
+  box-shadow: 0 10px 22px color-mix(in srgb, var(--color-crimson) 30%, transparent);
+}
+
+.actions > button:last-child:hover:not(:disabled) {
+  box-shadow: 0 14px 28px color-mix(in srgb, var(--color-crimson) 38%, transparent);
+}
+
+.actions > button:last-child:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 4px 10px color-mix(in srgb, var(--color-crimson) 28%, transparent);
+}
+
+.actions > button:last-child:disabled {
+  box-shadow: none;
+}
+
+@media (max-width: 520px) {
+  .actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .actions > span {
+    display: none;
+  }
+
+  .actions > button {
+    width: 100%;
+  }
+}
