@@ -77,8 +77,6 @@ export const unlock = {
     title: 'Confirm your choice',
     report: 'Report',
     option: 'Unlock option',
-    price: 'Price',
-    timing: 'When it opens',
     asideTitle: 'What opens up',
     asideBody: 'Every item marked Locked above opens up.',
     problem: 'Problem.',
