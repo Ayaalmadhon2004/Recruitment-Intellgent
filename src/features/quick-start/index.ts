@@ -4,3 +4,4 @@ export type { FirstReadPageProps } from './components/FirstReadPage';
 export { QuickStartFlow } from './components/QuickStartFlow';
 export type { QuickStartFlowProps } from './components/QuickStartFlow';
 export { peekAnswers as readQuickStartAnswers } from './session';
+export { clear as clearQuickStartAnswers } from './session';
