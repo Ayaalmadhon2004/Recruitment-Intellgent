@@ -116,7 +116,7 @@ describe('AdvisorRequest', () => {
     expect(screen.getByText('Time: Morning, 9:00 to 12:00')).toBeInTheDocument();
     expect(screen.getByText('You hear back by WhatsApp')).toBeInTheDocument();
     expect(screen.getByText('[TIMING TO BE CONFIRMED WITH CAPSTONE]')).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Back to my report' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Back to my report' })).toHaveAttribute('href', '/report');
     const panel = screen
       .getByRole('heading', { name: 'Thank you, Linh' })
       .closest('[tabindex="-1"]');

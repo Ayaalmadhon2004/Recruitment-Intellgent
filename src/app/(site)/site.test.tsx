@@ -7,6 +7,8 @@ import { en } from '@/domain/copy';
 import SiteLayout from './layout';
 import CostCalcPage from './cost-calc/page';
 import HomePage from './page';
+import AdvisorPage from './advisor/page';
+import AgentStrategyPage from './agent-strategy/page';
 import QuickStartPage from './quick-start/page';
 
 vi.mock('next/navigation', () => ({
@@ -34,6 +36,8 @@ describe('site wiring', () => {
     ['home', HomePage],
     ['quick start', QuickStartPage],
     ['cost calculator', CostCalcPage],
+    ['advisor', AdvisorPage],
+    ['agent strategy', AgentStrategyPage],
   ])('renders exactly one main landmark on the %s page', (_name, Page) => {
     render(
       <SiteLayout>
@@ -55,6 +59,8 @@ describe('site wiring', () => {
       [en.nav.items.intake, routes.intake],
       [en.nav.items.report, routes.report],
       [en.nav.items.costCalc, routes.costCalc],
+      [en.nav.items.agentStrategy, routes.agentStrategy],
+      [en.nav.items.advisor, routes.advisor],
     ] as const;
     const navs = screen.getAllByRole('navigation');
     expect(navs).toHaveLength(2);

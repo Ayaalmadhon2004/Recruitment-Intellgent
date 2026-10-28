@@ -33,6 +33,8 @@ Pages (`src/app/**/page.tsx`):
 - `/intake` the full audit
 - `/cost-calc` the cost calculator
 - `/report` the report
+- `/agent-strategy` agent strategy (sample agents)
+- `/advisor` advisor request
 - `/report/[area]` score detail for one area (for example `/report/affordability`)
 
 Wiring: paths live in `src/domain/config/routes.config.ts`; header and footer nav labels in `en.nav.items`. The `(site)` layout renders the one `<main>`, so pages and features must not render their own.

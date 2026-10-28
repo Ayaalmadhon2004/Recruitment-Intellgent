@@ -1,3 +1,4 @@
+import { advisor as advisorPage } from './sections/advisor';
 import { agentStrategy } from './sections/agentStrategy';
 import { landing } from './sections/landing';
 import { reportPage } from './sections/reportPage';
@@ -25,6 +26,8 @@ export const en = {
       intake: 'Full audit',
       report: 'My report',
       costCalc: 'Cost calculator',
+      agentStrategy: 'Agent strategy',
+      advisor: 'Talk to an advisor',
     },
   },
   header: {
@@ -367,6 +370,7 @@ export const en = {
   reportPage,
   landing,
   agentStrategy,
+  advisor: advisorPage,
   questions: {
     A1: {
       text: 'What type of institution are you?',

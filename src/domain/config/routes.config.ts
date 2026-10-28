@@ -6,5 +6,7 @@ export const routes = {
   intake: '/intake',
   report: '/report',
   costCalc: '/cost-calc',
+  agentStrategy: '/agent-strategy',
+  advisor: '/advisor',
   reportArea: (area: string): string => `/report/${area}`,
 } as const;
