@@ -45,6 +45,11 @@ export const en = {
     cta: 'Start the audit',
     menuOpen: 'Open menu',
     menuClose: 'Close menu',
+    signIn: 'Sign in',
+    accountMenu: 'Account menu',
+    signedInAs: 'Signed in as',
+    myAudits: 'My audits',
+    signOut: 'Sign out',
   },
   foundation: {
     eyebrow: 'FOUNDATION',

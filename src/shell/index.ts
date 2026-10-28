@@ -1,5 +1,5 @@
 export { SiteHeader } from './SiteHeader';
-export type { NavItem, SiteHeaderProps } from './SiteHeader/SiteHeader';
+export type { HeaderAccount, NavItem, SiteHeaderProps } from './SiteHeader/SiteHeader';
 export { SiteFooter } from './SiteFooter';
 export type { FooterColumn, FooterLink, SiteFooterProps } from './SiteFooter';
 export { PageContainer } from './PageContainer';

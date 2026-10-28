@@ -1,7 +1,8 @@
 import type { ReactNode } from 'react';
 import { routes } from '@/domain/config';
 import { en } from '@/domain/copy';
-import { SiteFooter, SiteHeader } from '@/shell';
+import { SiteFooter } from '@/shell';
+import { SiteHeaderWithAccount } from './SiteHeaderWithAccount';
 
 const navItems = [
   { href: routes.home, label: en.nav.items.home },
@@ -23,7 +24,7 @@ const footerColumns = [
 export default function SiteLayout({ children }: { children: ReactNode }): ReactNode {
   return (
     <>
-      <SiteHeader
+      <SiteHeaderWithAccount
         homeHref={routes.home}
         logoSrc="/temp-assets/logo.png"
         logoAlt={en.brand.logoAlt}
