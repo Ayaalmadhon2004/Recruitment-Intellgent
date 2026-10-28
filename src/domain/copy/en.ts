@@ -1,4 +1,5 @@
 import { advisor } from './sections/advisor';
+import { landing } from './sections/landing';
 import { reportPage } from './sections/reportPage';
 import { costCalc } from './sections/costCalc';
 /** English UI copy. Components never hard-code text; they receive these values by key. */
@@ -356,6 +357,7 @@ export const en = {
   },
   costCalc,
   reportPage,
+  landing,
   advisor,
   questions: {
     A1: {

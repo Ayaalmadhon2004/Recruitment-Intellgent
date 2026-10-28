@@ -58,6 +58,11 @@ Everything below is a stand-in. Nothing here is a confirmed fact or formula.
 | Advisor abuse protection | `app/api/advisor-request` | NONE: no rate limiting, no CAPTCHA, no honeypot. Only validation and a 16 KB body cap. | Decided together with the sink and hosting (unknown 7) |
 | Advisor "Back to my report" | `AdvisorRequest` prop `backHref` | Defaults to `/` until the report route exists. | Report route is wired |
 | Stored shape | `types/audit.ts` | `Audit` holds answers and `configVersion`. There is no field for a score. | n/a |
+| Landing: full report price | `tbc.config.ts` `pricing`, shown by `features/landing` FreeOrFull | `null`. Renders `[PRICING TO BE CONFIRMED WITH CAPSTONE]` through `TbcValue`. | Pricing is confirmed (unknown 5) |
+| Landing: privacy policy | `tbc.config.ts` `privacyPolicyUrl`, shown by the landing privacy strip | `null`. Renders `[PRIVACY POLICY TO BE CONFIRMED WITH CAPSTONE]`; becomes a link once set. | Privacy policy exists (unknown 7) |
+| Landing: sample illustrations | `features/landing` Hero chip (Readiness 68 of 100) and the three "What you get" cards (score 78, stage step 2 of 4, 2 of 3 steps done) | SAMPLE: design illustrations, labelled "Sample data". Not outputs of the scoring engine. | Real previews are chosen |
+| Landing: photo | `public/temp-assets/temp-graduate.jpg` in the hero | TEMPORARY: alt text says so. | Real photos supplied (unknown 9) |
+| Landing: claims | `domain/copy/sections/landing.ts` ("about 3 minutes", 5 / 40 questions, free and full row lists) | Design content, not validated. The free/full line is not confirmed. | Free vs locked line is confirmed (unknown 5) |
 | ScoreDetail design | `src/features/report/components/ScoreDetail` | `ScoreDetail.dc.html` was NOT supplied. The view was built from the text of prompt 08 and the visual language of `Main.dc.html`. Check it against the real file when it arrives. Only Affordability shows components and weights (confirmed); every other area shows the TBC placeholder. Recommendations have no body text, so they render as plain titled rows. | `ScoreDetail.dc.html` is supplied |
 
 ## What the Full Intake stubs (feature 3)
