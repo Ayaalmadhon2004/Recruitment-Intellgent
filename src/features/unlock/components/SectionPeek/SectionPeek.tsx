@@ -66,7 +66,7 @@ export function SectionPeek({
           <div className={styles.overlay}>
             <div className={cx(styles.lockCard, 'anim-pop')}>
               <span className={styles.lock} aria-hidden="true">
-                <Icon name="lock" size={24} strokeWidth={2.2} />
+                <Icon name="chart" size={24} strokeWidth={2.2} />
               </span>
               <h3 className={styles.lockTitle}>{copy.lockedName}</h3>
               <p className={styles.lockBody}>{copy.lockedBody}</p>

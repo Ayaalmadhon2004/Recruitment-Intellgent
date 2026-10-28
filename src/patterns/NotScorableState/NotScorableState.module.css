@@ -11,9 +11,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--color-page);
-  border: 3px dashed var(--color-line-dashed);
-  color: var(--color-text-secondary);
+  background: var(--color-info-tint);
+  color: var(--color-navy);
   box-sizing: border-box;
 }
 
@@ -29,6 +28,7 @@
   font-size: var(--text-h3-size);
   line-height: var(--text-h3-line);
   font-weight: var(--font-weight-semibold);
+  color: var(--color-navy);
 }
 
 .reason {
@@ -42,7 +42,7 @@
   margin: var(--space-2) 0 0;
   font-size: var(--text-caption-size);
   font-weight: var(--font-weight-semibold);
-  color: var(--color-text-secondary);
+  color: var(--color-navy);
 }
 
 .list {
