@@ -7,9 +7,5 @@ export const metadata: Metadata = { title: en.pdfExport.meta.title };
 
 /** Composes the feature only. */
 export default function Page(): ReactNode {
-  return (
-    <main>
-      <PdfExportPage />
-    </main>
-  );
+  return <PdfExportPage />;
 }
