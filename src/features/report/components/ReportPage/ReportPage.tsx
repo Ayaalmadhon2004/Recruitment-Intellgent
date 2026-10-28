@@ -17,6 +17,8 @@ export type ReportPageProps = {
   /** Where "Download PDF" goes. */
   pdfHref?: string;
   quickStartHref?: string;
+  /** Where "Unlock full report" and a locked area's "See unlock options" go. */
+  unlockHref?: string;
   /** Replaces the stored audit. For tests and stories. Keep the reference stable. */
   loadAudit?: () => Audit | null;
   /** Fixed state for stories. Skips storage and the network. */
@@ -32,6 +34,7 @@ export function ReportPage({
   intakeHref = '/intake',
   pdfHref = routes.reportPdf,
   quickStartHref = '/quick-start',
+  unlockHref = routes.unlock,
   loadAudit,
   previewState,
   previewModel,
@@ -55,6 +58,7 @@ export function ReportPage({
               changeAnswersHref: intakeHref,
               questionHref: questionHrefTo(intakeHref),
               pdfHref,
+              unlockHref,
             }}
           />
         </>

@@ -5,3 +5,14 @@
   padding-top: var(--space-8);
   padding-bottom: var(--space-10);
 }
+
+.locked {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-5);
+}
+
+.locked > :first-child {
+  align-self: stretch;
+}

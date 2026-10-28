@@ -11,13 +11,18 @@ import styles from './AreaExplorer.module.css';
 export type AreaExplorerProps = {
   areas: readonly ReportArea[];
   questionHref?: (id: QuestionId) => string | undefined;
+  unlockHref?: string;
 };
 
 const tabBadge = (area: ReportArea): string =>
-  area.result.kind === 'scored' ? String(Math.round(area.result.value)) : en.report.tabNotScorable;
+  area.locked
+    ? en.report.locked.word
+    : area.result.kind === 'scored'
+      ? String(Math.round(area.result.value))
+      : en.report.tabNotScorable;
 
 /** Interactive report: pick an area, read its result, evidence and gaps. */
-export function AreaExplorer({ areas, questionHref }: AreaExplorerProps): ReactNode {
+export function AreaExplorer({ areas, questionHref, unlockHref }: AreaExplorerProps): ReactNode {
   return (
     <section id="scores" className={styles.section} aria-labelledby="report-scores-title">
       <SectionHeader
@@ -32,7 +37,7 @@ export function AreaExplorer({ areas, questionHref }: AreaExplorerProps): ReactN
           id: area.id,
           label: areaName(area.id),
           badge: tabBadge(area),
-          content: <AreaDetail area={area} questionHref={questionHref} />,
+          content: <AreaDetail area={area} questionHref={questionHref} unlockHref={unlockHref} />,
         }))}
       />
     </section>
