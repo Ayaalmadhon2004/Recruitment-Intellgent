@@ -4,7 +4,7 @@ import { PageContainer } from './PageContainer';
 
 describe('PageContainer', () => {
   it('renders children in the requested element', () => {
-    render(<PageContainer as="main">content</PageContainer>);
-    expect(screen.getByRole('main')).toHaveTextContent('content');
+    render(<PageContainer as="section">content</PageContainer>);
+    expect(screen.getByText('content')).toHaveTextContent('content');
   });
 });

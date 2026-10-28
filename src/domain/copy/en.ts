@@ -17,6 +17,14 @@ export const en = {
     scores: 'Scores',
     nextSteps: 'Next steps',
     advisor: 'Advisor',
+    footerLabel: 'Footer',
+    items: {
+      home: 'Home',
+      quickStart: 'Quick Start',
+      intake: 'Full audit',
+      report: 'My report',
+      costCalc: 'Cost calculator',
+    },
   },
   header: {
     cta: 'Start the audit',

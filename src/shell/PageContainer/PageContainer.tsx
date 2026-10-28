@@ -3,7 +3,7 @@ import styles from './PageContainer.module.css';
 
 export type PageContainerProps = {
   children: ReactNode;
-  as?: 'div' | 'main' | 'section';
+  as?: 'div' | 'section';
   className?: string;
 };
 

@@ -16,4 +16,17 @@ describe('SiteFooter', () => {
       'https://example.test',
     );
   });
+
+  it('renders an optional labelled nav with real links', () => {
+    render(
+      <SiteFooter
+        brandLine="Brand line"
+        navLabel="Footer nav"
+        navItems={[{ href: '/a', label: 'Page A' }]}
+        link={{ href: 'https://example.test', label: 'example.test' }}
+      />,
+    );
+    const nav = screen.getByRole('navigation', { name: 'Footer nav' });
+    expect(nav).toContainElement(screen.getByRole('link', { name: 'Page A' }));
+  });
 });
