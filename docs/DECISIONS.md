@@ -47,4 +47,4 @@ dependency-cruiser does not support TypeScript 7 yet (it needs the compiler API,
 - Cannot be emailed or generated in the background. If Capstone needs that, a server renderer can be added later behind the same route without changing `ReportSection`.
 - The design's "Generating your PDF" progress bar and "PDF ready" file name imply a server job. With the print dialog there is no job to track, so those states are not built. Noted as a change from the design.
 
-**Options.** Included sections are toggles stored in the URL query (`?sections=...`) so the print route and the options screen agree. Language is English only; Vietnamese stays disabled and marked to be confirmed. Institution logo upload is not built (upload storage is unconfirmed); the toggle shows the design's placeholder box.
+**Options.** Included sections are page state, not stored: the printed output is the same page, with the options hidden. Language is English only; Vietnamese stays disabled and marked to be confirmed. Institution logo upload is not built (upload storage is unconfirmed); the toggle shows the design's placeholder box.

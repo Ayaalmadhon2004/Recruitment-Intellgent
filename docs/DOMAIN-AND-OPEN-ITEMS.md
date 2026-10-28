@@ -82,3 +82,14 @@ Everything below is a stand-in. Nothing here is a confirmed fact or formula.
 | First Read | `features/quick-start` | Still uses `FirstReadView` and `/api/first-read`. `ReportSection` preview differs in the page title (institution name, not "Your first read") and in the progress meaning (answered of all audit questions, not of the 5 Quick Start questions). | Capstone confirms the First Read design, or a Quick Start flavour of the report model is added |
 | Report link | `/intake` page | "See my report" and "Open report" point to `/first-read` until the Report feature exists. "Save and exit" goes to `/` until the Dashboard exists. | Features 4 and 5 |
 | Number questions | `QuestionCard` | Emptying a number field calls the optional `onClear`; Quick Start and Intake use it to remove the stored answer (and the Intake confirmed tag). | n/a |
+
+## What PDF Export stubs (feature 10)
+| Item | Where | State | Replace when |
+|---|---|---|---|
+| PDF method | `/report/pdf`, `docs/DECISIONS.md` 5 | The browser print window ("Save as PDF"). No server renderer, so no generating progress and no file name from the app. | Hosting is confirmed (open item 7) and Capstone wants emailed or background PDFs |
+| Report date | `tbc.config.ts` `reportDate` | `null`, so the cover shows `[TO BE CONFIRMED WITH CAPSTONE]`. | Capstone confirms where the date comes from |
+| Institution logo | `tbc.config.ts` `pdfInstitutionLogoUpload` | `null`. The switch shows a dashed placeholder; no upload exists. | Upload storage is confirmed |
+| Vietnamese | language select | Disabled, marked to be confirmed. | Capstone confirms a Vietnamese version |
+| Affordability breakdown | `PrintAffordability` | Lists the six confirmed weights only. How answers feed each component is a `TbcValue`. | Mapping is confirmed (unknown 1) |
+| Next steps | `NextSteps` print | Empty until recommendation content exists, so the toggle prints nothing. | Report recommendations are confirmed |
+| Cover details | PdfPreview design | The design's "Language" and "Sections included" lines on the cover are not drawn; the count is in the options panel. | If wanted |
