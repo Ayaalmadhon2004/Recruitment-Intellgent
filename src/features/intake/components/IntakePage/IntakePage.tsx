@@ -90,6 +90,7 @@ function IntakeBody({ reportHref, exitHref, store }: BodyProps): ReactNode {
         questions={questionsInSection(domainConfig.questions, sectionId)}
         state={intake.state}
         onAnswer={intake.answer}
+        onClear={intake.clear}
         onNotSure={intake.toggleNotSure}
         onEvidence={intake.pickEvidence}
         headingRef={headingRef}

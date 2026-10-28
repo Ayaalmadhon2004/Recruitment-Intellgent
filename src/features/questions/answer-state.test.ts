@@ -3,6 +3,7 @@ import { known } from '@/fixtures/builders';
 import { domainConfig } from '@/domain/config';
 import {
   answerFor,
+  clearAnswer,
   countHandled,
   isUnsure,
   knownFor,
@@ -90,5 +91,23 @@ describe('countHandled', () => {
   it('counts answered and Not sure, ignores untouched and other questions', () => {
     const answers = [known('A1', 'x'), ...toggleUnsure([], 'B1'), known('D2', 'y')];
     expect(countHandled(answers, ['A1', 'B1', 'C1'])).toBe(2);
+  });
+});
+
+describe('clearAnswer', () => {
+  it('removes a value and leaves other answers alone', () => {
+    const answers = [known('A1', 'private-university'), known('B1', 9)];
+    expect(clearAnswer(answers, 'B1')).toEqual([known('A1', 'private-university')]);
+  });
+
+  it('removes a Not sure mark too', () => {
+    expect(clearAnswer(toggleUnsure([], 'B1'), 'B1')).toEqual([]);
+  });
+
+  it('does nothing for a question without an answer, and does not change its input', () => {
+    const answers = [known('B1', 9)];
+    expect(clearAnswer(answers, 'A1')).toEqual(answers);
+    clearAnswer(answers, 'B1');
+    expect(answers).toEqual([known('B1', 9)]);
   });
 });

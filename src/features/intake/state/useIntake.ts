@@ -6,6 +6,7 @@ import type { AnswerValue, DomainConfig, KnownEvidenceTag, QuestionId } from '@/
 import type { AnswerStore } from '../store';
 import {
   answerQuestion,
+  clearQuestion,
   confirmEvidence,
   emptyIntakeState,
   goToSection,
@@ -34,6 +35,7 @@ export type UseIntake = {
   overall: OverallProgress;
   saveStatus: SaveStatus;
   answer: (id: QuestionId, value: AnswerValue) => void;
+  clear: (id: QuestionId) => void;
   toggleNotSure: (id: QuestionId) => void;
   pickEvidence: (id: QuestionId, tag: KnownEvidenceTag) => void;
   goToSection: (index: number) => void;
@@ -107,6 +109,7 @@ export function useIntake(
     overall,
     saveStatus,
     answer: (id, value) => setState((s) => answerQuestion(s, id, value, config)),
+    clear: (id) => setState((s) => clearQuestion(s, id)),
     toggleNotSure: (id) => setState((s) => toggleNotSure(s, id)),
     pickEvidence: (id, tag) => setState((s) => confirmEvidence(s, id, tag, config)),
     goToSection: (index) => setState((s) => goToSection(s, index)),
