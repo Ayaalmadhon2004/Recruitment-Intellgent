@@ -6,5 +6,15 @@ export { ScoreDetail, rankRecommendations } from './components/ScoreDetail';
 export type { ScoreDetailProps } from './components/ScoreDetail';
 export { ScoreDetailPage } from './components/ScoreDetailPage';
 export type { ScoreDetailPageProps } from './components/ScoreDetailPage';
-export { useReportModel } from './useReportModel';
-export type { ReportModelState, UseReportModelOptions } from './useReportModel';
+export { useReportModel, useReportState } from './useReportModel';
+export type {
+  ReportModelState,
+  ReportSourceOptions,
+  UseReportModelOptions,
+} from './useReportModel';
+export { ReportStateMessage } from './components/ReportStateMessage';
+export type { ReportStateMessageProps } from './components/ReportStateMessage';
+export { useFocusHeading } from './components/useFocusHeading';
+export { defaultPrintSections, printSectionIds } from './printOptions';
+export type { PrintOptions, PrintSectionId } from './printOptions';
+export type { ReportModel } from './contract';

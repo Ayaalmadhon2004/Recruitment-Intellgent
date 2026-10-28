@@ -47,3 +47,14 @@ button {
   clip: rect(0 0 0 0);
   white-space: nowrap;
 }
+
+/* Print: site chrome is hidden and the page is white. Mark chrome with data-print="hide". */
+@media print {
+  body {
+    background: var(--color-card);
+  }
+
+  [data-print='hide'] {
+    display: none !important;
+  }
+}

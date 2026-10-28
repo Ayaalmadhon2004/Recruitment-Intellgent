@@ -17,6 +17,16 @@
   gap: var(--space-7);
 }
 
+.none {
+  margin: 0;
+  padding: var(--space-6);
+  border: 2px dashed var(--color-input-border);
+  border-radius: var(--radius-card-md);
+  text-align: center;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
+}
+
 .pdf {
   display: flex;
   flex-wrap: wrap;

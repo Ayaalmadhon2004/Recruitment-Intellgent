@@ -92,7 +92,7 @@ describe('ReportPage', () => {
     await waitFor(() => expect(heading).toHaveFocus());
   });
 
-  it('links go to the right routes and no PDF link is shown', async () => {
+  it('links go to the right routes, including the PDF page', async () => {
     storeIntake(answers);
     render(<ReportPage />);
     await screen.findByRole('heading', { level: 1, name: copy.institutionName });
@@ -100,7 +100,10 @@ describe('ReportPage', () => {
       'href',
       '/intake',
     );
-    expect(screen.queryByRole('link', { name: en.report.downloadPdf })).not.toBeInTheDocument();
+    expect(screen.getByRole('link', { name: en.report.downloadPdf })).toHaveAttribute(
+      'href',
+      '/report/pdf',
+    );
     const missing = screen
       .getAllByRole('link')
       .filter((link) => link.getAttribute('href') === '/intake');

@@ -37,68 +37,6 @@
   font-weight: var(--font-weight-bold);
 }
 
-.block {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-}
-
-.blockTitle {
-  margin: 0;
-  font-size: var(--text-label-size);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-secondary);
-}
-
-.rows {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2) var(--space-4);
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--space-3) var(--space-4);
-  border-radius: var(--radius-field);
-  background: var(--color-page);
-  font-size: var(--text-small-size);
-  line-height: var(--text-small-line);
-}
-
-.question {
-  flex: 1 1 220px;
-  min-width: 0;
-}
-
-.chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
-  align-items: center;
-}
-
-.plain {
-  margin: 0;
-  font-size: var(--text-small-size);
-  line-height: var(--text-small-line);
-  color: var(--color-text-secondary);
-}
-
-.link {
-  display: inline-flex;
-  align-items: center;
-  min-height: var(--tap-target);
-  color: var(--color-navy);
-  font-weight: var(--font-weight-semibold);
-}
-
 @media (max-width: 760px) {
   .detail {
     padding: var(--space-5);
