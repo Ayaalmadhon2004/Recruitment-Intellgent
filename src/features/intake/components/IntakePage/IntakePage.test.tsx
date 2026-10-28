@@ -12,7 +12,7 @@ const total = questionsConfig.length;
 const perSection = questionsConfig.filter((q) => q.section === 'A').length;
 
 const start = (store: AnswerStore = createMemoryStore()): AnswerStore => {
-  render(<IntakePage store={store} reportHref="/first-read" exitHref="/" />);
+  render(<IntakePage store={store} reportHref="/report" exitHref="/" />);
   return store;
 };
 
@@ -116,7 +116,7 @@ describe('IntakePage sections', () => {
     start(createMemoryStore(saved({ sectionIndex: 5 })));
     expect(screen.getByRole('link', { name: en.intake.nav.seeReport })).toHaveAttribute(
       'href',
-      '/first-read',
+      '/report',
     );
     expect(screen.queryByRole('button', { name: /^Save and continue/ })).not.toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Back to Section E' })).toBeInTheDocument();
@@ -284,7 +284,7 @@ describe('IntakePage pause band', () => {
     expect(screen.getByRole('link', { name: en.intake.pause.exit })).toHaveAttribute('href', '/');
     expect(screen.getByRole('link', { name: en.intake.pause.report })).toHaveAttribute(
       'href',
-      '/first-read',
+      '/report',
     );
   });
 });
