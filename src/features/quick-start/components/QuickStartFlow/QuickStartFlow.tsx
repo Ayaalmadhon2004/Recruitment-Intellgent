@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import type { ReactNode } from 'react';
-import { domainConfig, questionsConfig } from '@/domain/config';
+import { domainConfig, questionsConfig, routes } from '@/domain/config';
 import { en, fill } from '@/domain/copy';
 import type { Answer, AnswerValue } from '@/domain/types';
 import {
@@ -87,7 +87,7 @@ export function QuickStartFlow({
   initialStep = 0,
   initialAnswers,
   initialStatus = 'idle',
-  resultHref = '/first-read',
+  resultHref = routes.firstRead,
 }: QuickStartFlowProps): ReactNode {
   const router = useRouter();
   const [step, setStep] = useState(initialStep);

@@ -8,7 +8,7 @@ export const metadata: Metadata = { title: en.quickStart.firstReadPageTitle };
 
 export default function Page(): ReactNode {
   return (
-    <PageContainer as="main">
+    <PageContainer>
       <FirstReadPage />
     </PageContainer>
   );

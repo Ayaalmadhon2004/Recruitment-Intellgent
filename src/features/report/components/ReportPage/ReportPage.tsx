@@ -1,6 +1,7 @@
 'use client';
 
 import type { ReactNode } from 'react';
+import { routes } from '@/domain/config';
 import type { Audit } from '@/domain/types';
 import type { ReportModel } from '../../contract';
 import { useReportModel } from '../../useReportModel';
@@ -39,8 +40,8 @@ const questionHrefTo = (href: string) => (): string => href;
 
 /** The report page: loads this device's answers, asks the server for the report and draws it. */
 export function ReportPage({
-  intakeHref = '/intake',
-  quickStartHref = '/quick-start',
+  intakeHref = routes.intake,
+  quickStartHref = routes.quickStart,
   loadAudit,
   previewState,
   previewModel,

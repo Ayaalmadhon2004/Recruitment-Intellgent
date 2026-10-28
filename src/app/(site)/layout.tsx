@@ -1,8 +1,17 @@
 import type { ReactNode } from 'react';
+import { routes } from '@/domain/config';
 import { en } from '@/domain/copy';
 import { SiteFooter, SiteHeader } from '@/shell';
 
-/** Header and footer composed once for every public page. */
+const navItems = [
+  { href: routes.home, label: en.nav.items.home },
+  { href: routes.quickStart, label: en.nav.items.quickStart },
+  { href: routes.intake, label: en.nav.items.intake },
+  { href: routes.report, label: en.nav.items.report },
+  { href: routes.costCalc, label: en.nav.items.costCalc },
+] as const;
+
+/** Header, the single <main> landmark and footer, composed once for every public page. */
 export default function SiteLayout({ children }: { children: ReactNode }): ReactNode {
   return (
     <>
@@ -11,12 +20,14 @@ export default function SiteLayout({ children }: { children: ReactNode }): React
         logoAlt={en.brand.logoAlt}
         productName={en.brand.productName}
         navLabel={en.nav.label}
-        navItems={[]}
-        cta={{ href: '/quick-start', label: en.header.cta }}
+        navItems={navItems}
+        cta={{ href: routes.quickStart, label: en.header.cta }}
       />
-      {children}
+      <main id="main">{children}</main>
       <SiteFooter
         brandLine={en.brand.footerLine}
+        navLabel={en.nav.footerLabel}
+        navItems={navItems}
         link={{ href: en.site.url, label: en.site.host }}
       />
     </>
