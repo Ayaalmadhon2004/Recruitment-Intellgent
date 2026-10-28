@@ -1,6 +1,7 @@
 export { UnlockPage } from './components/UnlockPage';
 export type { UnlockPageProps } from './components/UnlockPage';
 export { deviceAuditKey, readDeviceEntitlement } from './deviceAudit';
+export { useDeviceEntitlement } from './useDeviceEntitlement';
 export { resolveUnlockPaths } from './paths';
 export type { ResolvedUnlockPath } from './paths';
 export { createDefaultRuntime, getDefaultRuntime } from './runtime';

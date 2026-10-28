@@ -56,3 +56,13 @@ export const SampleDataMobile: Story = {
   args: { result: threeScoredResult, isSample: true },
   globals: mobile,
 };
+
+/** The audit is free: the route passes the link, so "Unlock full report" shows. Without it (unlocked) the action is absent. */
+export const FreeAuditUnlockActionDesktop: Story = {
+  args: { unlockHref: '#unlock' },
+  globals: desktop,
+};
+export const FreeAuditUnlockActionMobile: Story = {
+  args: { unlockHref: '#unlock' },
+  globals: mobile,
+};

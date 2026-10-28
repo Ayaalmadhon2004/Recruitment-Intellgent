@@ -5,6 +5,7 @@ import { rangeLabels, stageCardLabels } from '@/features/shared-labels';
 import { Button, Card } from '@/ui';
 import { CtaBand, RadarChart, StageCard } from '@/patterns';
 import { SectionHeader } from '@/shell';
+import { isOpenArea } from '../../contract';
 import type { ReportMode, ReportModel } from '../../contract';
 import { defaultPrintSections } from '../../printOptions';
 import type { PrintOptions } from '../../printOptions';
@@ -52,11 +53,11 @@ export function ReportSection({
   print = {},
 }: ReportSectionProps): ReactNode {
   // A radar with a hidden axis would mislead, so it is left out while any area is locked.
-  const anyLocked = model.areas.some((a) => a.locked);
-  const radar = anyLocked ? undefined : (
+  const openAreas = model.areas.filter(isOpenArea);
+  const radar = openAreas.length < model.areas.length ? undefined : (
     <Card radius="lg">
       <RadarChart
-        axes={model.areas.map((a) => ({ id: a.id, label: areaName(a.id), result: a.result }))}
+        axes={openAreas.map((a) => ({ id: a.id, label: areaName(a.id), result: a.result }))}
         labels={radarLabels}
       />
     </Card>
@@ -82,7 +83,7 @@ export function ReportSection({
           {on('steps') ? <NextSteps recommendations={model.recommendations} mode={mode} /> : null}
           {on('afford') ? <PrintAffordability /> : null}
           {on('pilot') ? <PilotPlan pilot={model.pilot} mode={mode} /> : null}
-          {on('evidence') ? <PrintEvidence areas={model.areas.filter((a) => !a.locked)} /> : null}
+          {on('evidence') ? <PrintEvidence areas={openAreas} /> : null}
           {sections.length === 0 ? (
             <p className={styles.none}>{en.report.print.noSections}</p>
           ) : null}

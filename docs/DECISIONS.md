@@ -81,7 +81,7 @@ dependency-cruiser does not support TypeScript 7 yet (it needs the compiler API,
 
 - It is kept next to the audit, never inside the answers and never as a score. Scores still come from stored answers plus `configVersion`, computed on the server (rule 7). Entitlement only decides what the server is allowed to send.
 - The key is the audit it belongs to: the id of the active account audit, or the constant `local-audit` for the anonymous working copy on the device (same keys the Report already uses).
-- The server reads it when it builds the report. For a `free` audit, every area in `access.config.lockedWhenFree` is redacted before it leaves the server: `locked: true`, no result, no evidence, no gaps. The browser cannot reveal what it was never sent. An `unlocked` audit gets everything. An area that cannot be scored is still `Not yet scorable` when unlocked: unlocking opens areas, it never invents a score.
+- The server reads it when it builds the report. For a `free` audit, every area in `access.config.lockedWhenFree` is redacted before it leaves the server: `locked: true`, no result, no evidence, no gaps. The type enforces it: `ReportArea` is a union of `OpenReportArea` (`locked: false`, with result, evidence, gaps) and `LockedReportArea` (`locked: true`, only the id). The browser cannot reveal what it was never sent. An `unlocked` audit gets everything. An area that cannot be scored is still `Not yet scorable` when unlocked: unlocking opens areas, it never invents a score.
 
 **Port.** `EntitlementService` (in `src/features/unlock`) follows the accounts pattern: an interface, a DEVELOPMENT implementation, a runtime object that carries the service so a real one is a drop-in.
 

@@ -1,5 +1,5 @@
 import type { Recommendation } from '@/domain/types';
-import type { ReportArea } from '../../contract';
+import type { OpenReportArea } from '../../contract';
 
 /**
  * SYNTHETIC data for tests and stories only. None of it is a real result: the scoring formulas are
@@ -8,7 +8,7 @@ import type { ReportArea } from '../../contract';
 
 const SCORE = 68;
 
-export const scoredArea: ReportArea = {
+export const scoredArea: OpenReportArea = {
   id: 'readiness',
   result: { kind: 'scored', value: SCORE, band: 'developing', confidence: 'medium' },
   evidence: [
@@ -19,9 +19,9 @@ export const scoredArea: ReportArea = {
   locked: false,
 };
 
-export const scoredAreaNoGaps: ReportArea = { ...scoredArea, gaps: [] };
+export const scoredAreaNoGaps: OpenReportArea = { ...scoredArea, gaps: [] };
 
-export const noFormulaArea: ReportArea = {
+export const noFormulaArea: OpenReportArea = {
   id: 'trust-network',
   result: { kind: 'not-scorable', reason: 'no-formula', missing: [] },
   evidence: [],
@@ -29,7 +29,7 @@ export const noFormulaArea: ReportArea = {
   locked: false,
 };
 
-export const missingAnswersArea: ReportArea = {
+export const missingAnswersArea: OpenReportArea = {
   id: 'digital-visibility',
   result: { kind: 'not-scorable', reason: 'missing-answers', missing: ['D1', 'D2'] },
   evidence: [{ questionId: 'D3', tag: 'institution-reported', confidence: 'medium' }],
@@ -37,7 +37,7 @@ export const missingAnswersArea: ReportArea = {
   locked: false,
 };
 
-export const affordabilityArea: ReportArea = {
+export const affordabilityArea: OpenReportArea = {
   id: 'affordability',
   result: { kind: 'scored', value: SCORE, band: 'developing', confidence: 'low' },
   evidence: [{ questionId: 'C1', tag: 'estimate', confidence: 'low' }],
@@ -45,7 +45,7 @@ export const affordabilityArea: ReportArea = {
   locked: false,
 };
 
-export const emptyEvidenceArea: ReportArea = { ...scoredAreaNoGaps, evidence: [] };
+export const emptyEvidenceArea: OpenReportArea = { ...scoredAreaNoGaps, evidence: [] };
 
 const HIGH_IMPACT = 9;
 const MID_IMPACT = 5;
