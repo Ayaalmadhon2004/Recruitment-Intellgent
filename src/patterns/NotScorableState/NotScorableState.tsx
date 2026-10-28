@@ -34,7 +34,7 @@ export function NotScorableState({
   return (
     <div className={styles.state} data-reason={result.reason}>
       <span className={styles.mark} aria-hidden="true">
-        <Icon name="lock" size={28} strokeWidth={2.4} />
+        <Icon name="circle-dashed" size={28} strokeWidth={2.2} />
       </span>
       <div className={styles.text}>
         <Heading className={styles.title}>{labels.title}</Heading>

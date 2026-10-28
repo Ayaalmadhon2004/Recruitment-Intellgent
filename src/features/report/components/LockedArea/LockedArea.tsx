@@ -10,18 +10,18 @@ export type LockedAreaProps = {
   headingLevel?: 'h3' | 'h4';
 };
 
-/** A hidden area: a lock, the word "Locked" and one line. It never receives the area's result. */
+/** A hidden area: its name, a small "Locked" status pill with the word "Locked" and one line. It never receives the area's result. */
 export function LockedArea({ name, unlockHref, headingLevel = 'h3' }: LockedAreaProps): ReactNode {
   const Heading = headingLevel;
   return (
     <Card as="article" tone="dashed" radius="lg" aria-label={name} data-locked="">
       <div className={styles.locked}>
-        <span className={styles.mark} aria-hidden="true">
-          <Icon name="lock" size={28} strokeWidth={2.4} />
-        </span>
         <div className={styles.lockedText}>
           <Heading className={styles.name}>{name}</Heading>
-          <span className={styles.word}>{en.report.locked.word}</span>
+          <span className={styles.word}>
+            <Icon name="lock" size={14} strokeWidth={2.4} />
+            {en.report.locked.word}
+          </span>
           <p className={styles.body}>{en.report.locked.body}</p>
           {unlockHref ? (
             <Button href={unlockHref} size="sm" variant="secondary">

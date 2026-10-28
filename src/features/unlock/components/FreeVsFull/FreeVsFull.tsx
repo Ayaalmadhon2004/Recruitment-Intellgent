@@ -58,7 +58,7 @@ export function FreeVsFull({ unlocked }: FreeVsFullProps): ReactNode {
           <div className={styles.head}>
             <h3 className={styles.name}>{copy.fullTitle}</h3>
             <span className={styles.tagFull}>
-              <Icon name={unlocked ? 'check' : 'lock'} size={14} strokeWidth={2.6} />
+              <Icon name={unlocked ? 'check' : 'minus'} size={14} strokeWidth={2.6} />
               {unlocked ? copy.unlockedWord : copy.lockedWord}
             </span>
           </div>
@@ -66,7 +66,7 @@ export function FreeVsFull({ unlocked }: FreeVsFullProps): ReactNode {
             {full.map((item) => (
               <li key={item.id} className={styles.row}>
                 <span className={styles.markFull} aria-hidden="true">
-                  <Icon name={unlocked ? 'check' : 'lock'} size={18} strokeWidth={2.2} />
+                  <Icon name={unlocked ? 'check' : 'minus'} size={18} strokeWidth={2.2} />
                 </span>
                 <span className={styles.label}>{t(item.labelKey)}</span>
                 <span className={styles.wordFull}>

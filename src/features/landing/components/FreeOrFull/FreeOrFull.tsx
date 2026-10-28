@@ -68,7 +68,7 @@ export function FreeOrFull({
                 className={`${styles.badge} ${item.included ? styles.on : styles.off}`}
                 aria-hidden="true"
               >
-                <Icon name={item.included ? 'check' : 'lock'} size={BADGE_ICON} />
+                <Icon name={item.included ? 'check' : 'minus'} size={BADGE_ICON} />
               </span>
               <span className={styles.label}>{item.label}</span>
               <span className={styles.state}>{item.included ? copy.included : copy.locked}</span>
