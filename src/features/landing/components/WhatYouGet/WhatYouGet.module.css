@@ -1,0 +1,86 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-7);
+  scroll-margin-top: var(--space-6);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--space-6);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item,
+.reveal {
+  display: flex;
+  min-width: 0;
+}
+
+.reveal {
+  width: 100%;
+}
+
+.card.card {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-7);
+  text-align: center;
+}
+
+.card.arch {
+  padding-top: var(--space-8);
+  border-radius: var(--radius-arch) var(--radius-arch) var(--radius-card-lg) var(--radius-card-lg);
+}
+
+.card.corner {
+  border-bottom-left-radius: var(--radius-arch);
+}
+
+.cardTitle {
+  margin: 0;
+  font-size: var(--text-h3-size);
+  line-height: var(--text-h3-line);
+  font-weight: var(--font-weight-semibold);
+}
+
+.cardBody {
+  margin: 0;
+  font-size: var(--text-small-size);
+  line-height: var(--text-small-line);
+}
+
+.stageOn {
+  fill: var(--color-crimson);
+}
+.stageOff {
+  fill: var(--color-line-strong);
+}
+
+.dotDone {
+  fill: var(--color-crimson);
+}
+.dotTodo {
+  fill: none;
+  stroke: var(--color-text-inverse);
+  stroke-width: 3;
+}
+.tick {
+  fill: none;
+  stroke: var(--color-text-inverse);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.barDone {
+  fill: var(--color-text-inverse);
+}
+.barTodo {
+  fill: var(--color-navy-mid);
+}
