@@ -3,11 +3,15 @@
 import { notFound } from 'next/navigation';
 import type { ReactNode } from 'react';
 import { routes } from '@/domain/config';
+import { en } from '@/domain/copy';
 import { scoreAreaIds } from '@/domain/types';
 import type { Audit, ScoreAreaId } from '@/domain/types';
+import { Button } from '@/ui';
 import type { ReportModel } from '../../contract';
+import { areaName } from '../../labels';
 import { useReportModel } from '../../useReportModel';
 import type { ReportModelState } from '../../useReportModel';
+import { LockedArea } from '../LockedArea';
 import { ReportStateMessage } from '../ReportStateMessage';
 import { ReportVersionNotice } from '../ReportVersionNotice';
 import { ScoreDetail } from '../ScoreDetail';
@@ -20,6 +24,7 @@ export type ScoreDetailPageProps = {
   reportHref?: string;
   intakeHref?: string;
   quickStartHref?: string;
+  unlockHref?: string;
   /** Replaces the stored audit. For tests and stories. Keep the reference stable. */
   loadAudit?: () => Audit | null;
   /** A ready report for stories. Skips storage and the network. */
@@ -38,6 +43,7 @@ export function ScoreDetailPage({
   reportHref = routes.report,
   intakeHref = routes.intake,
   quickStartHref = routes.quickStart,
+  unlockHref = routes.unlock,
   loadAudit,
   previewModel,
 }: ScoreDetailPageProps): ReactNode {
@@ -57,13 +63,22 @@ export function ScoreDetailPage({
           {state.model.configVersionMismatch ? (
             <ReportVersionNotice reviewHref={intakeHref} />
           ) : null}
-          <ScoreDetail
-            area={found}
-            recommendations={state.model.recommendations}
-            sample={state.model.isSample}
-            questionHref={questionHrefTo(intakeHref)}
-            backHref={reportHref}
-          />
+          {found.locked ? (
+            <div className={styles.locked}>
+              <LockedArea name={areaName(found.id)} unlockHref={unlockHref} />
+              <Button href={reportHref} variant="secondary">
+                {en.scoreDetail.back}
+              </Button>
+            </div>
+          ) : (
+            <ScoreDetail
+              area={found}
+              recommendations={state.model.recommendations}
+              sample={state.model.isSample}
+              questionHref={questionHrefTo(intakeHref)}
+              backHref={reportHref}
+            />
+          )}
         </>
       ) : (
         <ReportStateMessage

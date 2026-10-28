@@ -10,6 +10,7 @@ import HomePage from './page';
 import AdvisorPage from './advisor/page';
 import AgentStrategyPage from './agent-strategy/page';
 import DashboardPage from './dashboard/page';
+import UnlockPage from './unlock/page';
 import SignInPage from './sign-in/page';
 import QuickStartPage from './quick-start/page';
 import PdfPage from './report/pdf/page';
@@ -44,6 +45,7 @@ describe('site wiring', () => {
     ['PDF export', PdfPage],
     ['sign in', SignInPage],
     ['dashboard', DashboardPage],
+    ['unlock', UnlockPage],
   ])('renders exactly one main landmark on the %s page', (_name, Page) => {
     render(
       <SiteLayout>

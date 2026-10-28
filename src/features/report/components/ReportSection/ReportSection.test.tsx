@@ -321,3 +321,52 @@ describe('ReportSection: interactive', () => {
     expect(screen.queryByRole('link', { name: en.report.continueAudit })).toBeNull();
   });
 });
+
+describe('ReportSection: locked areas and entitlement', () => {
+  const links = { unlockHref: '/unlock' };
+
+  it('links each locked area in the preview to the unlock screen', () => {
+    render(<ReportSection model={lockedPreviewModel()} mode="preview" links={links} />);
+    const cards = screen.getAllByRole('article').filter((c) => c.hasAttribute('data-locked'));
+    expect(cards).toHaveLength(3);
+    for (const card of cards) {
+      expect(within(card).getByRole('link', { name: en.unlock.cta.seeOptions })).toHaveAttribute(
+        'href',
+        '/unlock',
+      );
+    }
+  });
+
+  it('shows locked areas in the interactive report too, with no radar and no hidden result', () => {
+    render(<ReportSection model={lockedPreviewModel()} mode="interactive" links={links} />);
+    expect(screen.queryByRole('figure')).toBeNull();
+    const tab = screen.getByRole('tab', { name: new RegExp(areaName('trust-network')) });
+    expect(within(tab).getByText(en.report.locked.word)).toBeVisible();
+  });
+
+  it('prints no locked area and no link', () => {
+    render(<ReportSection model={lockedPreviewModel()} mode="print" links={links} />);
+    expect(screen.queryByRole('link', { name: en.unlock.cta.seeOptions })).toBeNull();
+    expect(screen.getAllByText(en.report.locked.word)).toHaveLength(3);
+  });
+
+  it('opens every area when unlocked, and an unscorable one still says Not yet scorable', () => {
+    const base = lockedPreviewModel();
+    const model = {
+      ...base,
+      unlocked: true,
+      areas: base.areas.map((a, i) => ({
+        ...a,
+        locked: false,
+        result:
+          i === 0
+            ? ({ kind: 'not-scorable', reason: 'no-formula', missing: [] } as const)
+            : a.result,
+      })),
+    };
+    render(<ReportSection model={model} mode="preview" links={links} />);
+    expect(screen.queryByText(en.report.locked.word)).toBeNull();
+    expect(screen.getAllByText(en.status.notScorable).length).toBeGreaterThan(0);
+    expect(screen.queryByRole('link', { name: en.report.unlock.cta })).toBeNull();
+  });
+});

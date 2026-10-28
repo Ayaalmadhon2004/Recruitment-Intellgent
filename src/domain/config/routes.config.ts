@@ -11,5 +11,6 @@ export const routes = {
   advisor: '/advisor',
   signIn: '/sign-in',
   dashboard: '/dashboard',
+  unlock: '/unlock',
   reportArea: (area: string): string => `/report/${area}`,
 } as const;

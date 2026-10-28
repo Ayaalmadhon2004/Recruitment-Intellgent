@@ -128,6 +128,25 @@ describe('access and versions', () => {
     expect(free.unlocked).toBe(false);
   });
 
+  it('sends no result, evidence or gaps for a locked area of a free audit', () => {
+    const config = feedingConfig(['readiness']);
+    const free = buildReportModel(audit({ entitlement: 'free' }), { isSample: false }, config);
+    const readiness = free.areas.find((a) => a.id === 'readiness');
+    expect(readiness).toMatchObject({ locked: true, evidence: [], gaps: [] });
+    const open = buildReportModel(audit({ entitlement: 'unlocked' }), { isSample: false }, config);
+    const opened = open.areas.find((a) => a.id === 'readiness');
+    expect(opened?.locked).toBe(false);
+    expect(opened?.evidence.length).toBeGreaterThan(0);
+  });
+
+  it('keeps an unscorable area Not yet scorable once unlocked', () => {
+    const config = feedingConfig(['readiness']);
+    const open = buildReportModel(audit({ entitlement: 'unlocked' }), { isSample: false }, config);
+    const readiness = open.areas.find((a) => a.id === 'readiness');
+    expect(readiness?.result.kind).toBe('not-scorable');
+    expect(readiness?.locked).toBe(false);
+  });
+
   it('flags a config version mismatch and scores with the current config', () => {
     const model = buildReportModel(audit({ configVersion: 'old-version' }), { isSample: false });
     expect(model.configVersionMismatch).toBe(true);

@@ -105,3 +105,23 @@ export const PrintSampleMobile: Story = {
   args: { mode: 'print', model: sampleModel() },
   globals: mobile,
 };
+
+/** Locked areas in the interactive report: tabs say Locked, the panel links to the unlock options. No radar. */
+export const InteractiveLockedDesktop: Story = {
+  args: { model: lockedPreviewModel() },
+  globals: desktop,
+};
+export const InteractiveLockedMobile: Story = {
+  args: { model: lockedPreviewModel() },
+  globals: mobile,
+};
+
+/** Unlocked, but no formula exists: every area still says Not yet scorable. */
+export const PreviewUnlockedNotScorableDesktop: Story = {
+  args: { mode: 'preview', model: { ...realCaseModel(), unlocked: true } },
+  globals: desktop,
+};
+export const PreviewUnlockedNotScorableMobile: Story = {
+  args: { mode: 'preview', model: { ...realCaseModel(), unlocked: true } },
+  globals: mobile,
+};

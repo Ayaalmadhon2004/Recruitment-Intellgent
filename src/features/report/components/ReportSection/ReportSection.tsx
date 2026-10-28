@@ -51,7 +51,9 @@ export function ReportSection({
   links = {},
   print = {},
 }: ReportSectionProps): ReactNode {
-  const radar = (
+  // A radar with a hidden axis would mislead, so it is left out while any area is locked.
+  const anyLocked = model.areas.some((a) => a.locked);
+  const radar = anyLocked ? undefined : (
     <Card radius="lg">
       <RadarChart
         axes={model.areas.map((a) => ({ id: a.id, label: areaName(a.id), result: a.result }))}
@@ -80,7 +82,7 @@ export function ReportSection({
           {on('steps') ? <NextSteps recommendations={model.recommendations} mode={mode} /> : null}
           {on('afford') ? <PrintAffordability /> : null}
           {on('pilot') ? <PilotPlan pilot={model.pilot} mode={mode} /> : null}
-          {on('evidence') ? <PrintEvidence areas={model.areas} /> : null}
+          {on('evidence') ? <PrintEvidence areas={model.areas.filter((a) => !a.locked)} /> : null}
           {sections.length === 0 ? (
             <p className={styles.none}>{en.report.print.noSections}</p>
           ) : null}
@@ -113,7 +115,12 @@ export function ReportSection({
             eyebrow={en.report.previewScoresEyebrow}
             title={en.report.previewScoresTitle}
           />
-          <AreaGrid areas={model.areas} mode={mode} questionHref={links.questionHref} />
+          <AreaGrid
+            areas={model.areas}
+            mode={mode}
+            questionHref={links.questionHref}
+            unlockHref={links.unlockHref}
+          />
         </section>
         <CtaBand
           eyebrow={en.firstRead.ctaEyebrow}
@@ -129,7 +136,11 @@ export function ReportSection({
     <div className={styles.root} data-mode={mode}>
       <ReportHero model={model} mode={mode} links={links} aside={radar} />
       <Stage model={model} eyebrow={en.report.stageEyebrow} />
-      <AreaExplorer areas={model.areas} questionHref={links.questionHref} />
+      <AreaExplorer
+        areas={model.areas}
+        questionHref={links.questionHref}
+        unlockHref={links.unlockHref}
+      />
       <GaugePair gauges={model.gauges} questionHref={links.questionHref} />
       <NextSteps recommendations={model.recommendations} />
       <PilotPlan pilot={model.pilot} mode={mode} />

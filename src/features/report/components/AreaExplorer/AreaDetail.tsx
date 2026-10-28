@@ -6,19 +6,22 @@ import { ConfidenceMeter, NotScorableState, ScoreRing, StatusBadge } from '@/pat
 import type { ReportArea } from '../../contract';
 import { areaName } from '../../labels';
 import { AreaEvidence } from '../AreaEvidence';
+import { LockedArea } from '../LockedArea';
 import { bandTone } from '../bandTone';
 import styles from './AreaExplorer.module.css';
 
 export type AreaDetailProps = {
   area: ReportArea;
   questionHref?: (id: QuestionId) => string | undefined;
+  unlockHref?: string;
 };
 
 const labels = scoreCardLabels;
 
 /** The panel for one area: the result, what it rests on, and what is missing. */
-export function AreaDetail({ area, questionHref }: AreaDetailProps): ReactNode {
+export function AreaDetail({ area, questionHref, unlockHref }: AreaDetailProps): ReactNode {
   const name = areaName(area.id);
+  if (area.locked) return <LockedArea name={name} unlockHref={unlockHref} headingLevel="h3" />;
   const { result } = area;
   return (
     <div className={styles.detail}>

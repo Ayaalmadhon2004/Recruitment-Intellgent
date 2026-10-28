@@ -72,3 +72,27 @@ dependency-cruiser does not support TypeScript 7 yet (it needs the compiler API,
 **Not decided here.** Entitlement (Unlock, feature 6), an institution name (no question asks for it; cards read "Untitled audit"), account deletion, retention, email delivery and link lifetime (`signInLinkExpiry` is a `TbcValue`). All listed in `docs/DOMAIN-AND-OPEN-ITEMS.md`.
 
 **Trade-off.** Two copies of the answers (device and account) can disagree if an account audit is edited on another device while this device holds a stale working copy. Resume always refreshes from the account, and each save overwrites the account copy (last write wins). Conflict handling needs a real provider's versioning.
+
+## 7. Unlock: entitlement is a stored per-audit field, the path is a port, nothing is decided
+
+**Decision.** Feature 6 (Unlock) builds the screen and the entitlement plumbing. It decides nothing the client has not decided. The free vs locked line, the unlock path(s), the price and the timing are unknown (open item 5): they stay `null` in `tbc.config.ts` and render through `TbcValue`. There is no payment integration and no payment provider, currency or price in the code.
+
+**Entitlement.** `Audit.entitlement` (`free | unlocked`) already exists. It is now a stored fact per audit, not a computed one.
+
+- It is kept next to the audit, never inside the answers and never as a score. Scores still come from stored answers plus `configVersion`, computed on the server (rule 7). Entitlement only decides what the server is allowed to send.
+- The key is the audit it belongs to: the id of the active account audit, or the constant `local-audit` for the anonymous working copy on the device (same keys the Report already uses).
+- The server reads it when it builds the report. For a `free` audit, every area in `access.config.lockedWhenFree` is redacted before it leaves the server: `locked: true`, no result, no evidence, no gaps. The browser cannot reveal what it was never sent. An `unlocked` audit gets everything. An area that cannot be scored is still `Not yet scorable` when unlocked: unlocking opens areas, it never invents a score.
+
+**Port.** `EntitlementService` (in `src/features/unlock`) follows the accounts pattern: an interface, a DEVELOPMENT implementation, a runtime object that carries the service so a real one is a drop-in.
+
+- `getEntitlement(auditKey)` and `requestUnlock({ auditKey, pathId })`. Both async, because a real path is (payment, code, advisor approval).
+- `createDevEntitlementService` grants the unlock at once and keeps it in this browser's `localStorage` (`vri.unlock.dev.v1`). No payment is taken, nothing is checked, and anyone at the keyboard can unlock. Screens show a "Development unlock" notice while it is in use (`runtime.isDevelopment`), as accounts do.
+- It is a separate port, not part of `AccountService`: an anonymous visitor can unlock, an entitlement belongs to an audit and not to a user, and `quick-start -> unlock -> accounts -> quick-start` would be a dependency cycle if Quick Start ever needed it.
+
+**Known limit of the development stand-in (must not ship).** With no database there is nothing on the server to check an entitlement against. The Report posts the audit including the entitlement read from the device, and the server believes it. Anyone can edit that claim. A real path replaces this: the server looks the entitlement up by audit id (and signed-in user) from its own store and ignores the claim. The seam is `loadDeviceAudit` (client, to be removed) and `buildReportModel` (server, receives the verified value).
+
+**Paths.** `tbcConfig.unlockPaths` becomes a typed list (`UnlockPath`: id, label, note), `null` today. While it is `null` the screen shows the design's three placeholder options, each labelled "[UNLOCK PATH n: TO BE CONFIRMED WITH CAPSTONE]" through `TbcValue`, so the flow can be walked through. The Free/Full example lists on the screen come from `unlock.config.ts`, are marked as the design's example, and sit beside the unconfirmed line (`freeVsLockedLine`).
+
+**Screen.** One `FlowShell` (steps Choose, Confirm; then the success state). The design's "Preview state" switch is design tooling and is not built. Locked areas link to `/unlock` from the Report, the First Read and the preview grid.
+
+**Not decided here.** Whether PDF export is a locked feature (the design lists it as full-only; `lockedWhenFree` holds areas, not features), what "unlocked" costs or how long it lasts, refunds, whether an unlock transfers when anonymous work joins an account (today it does not), and whether an unlock can be revoked.

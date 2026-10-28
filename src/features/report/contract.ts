@@ -34,8 +34,9 @@ export type ReportArea = {
   /** "Missing evidence": questions that feed this area and are unanswered or marked Not sure. */
   readonly gaps: readonly ReportGap[];
   /**
-   * True when the free preview hides this area. Which areas are hidden is unknown (free vs locked line is an
-   * open item), so this is false everywhere until `config.access.lockedWhenFree` lists areas.
+   * True when this audit is free and the area is in `config.access.lockedWhenFree`. The server then sends no
+   * real result, evidence or gaps for it: `result` is a stand-in that must never be drawn. Which areas are
+   * hidden is unknown (open item 5), so this is false everywhere until the config lists areas.
    */
   readonly locked: boolean;
 };

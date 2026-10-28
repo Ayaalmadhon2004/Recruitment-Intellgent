@@ -23,9 +23,11 @@ Built bottom-up, in the order the architecture requires (merge order, oldest fir
 13. PDF export: options screen and print mode, via the browser's print dialog (PR 24, decision 5).
 14. Accounts + saved audits: Sign in and Dashboard against an abstract `AccountService` with a labelled development implementation (decision 6). No database or auth provider is chosen.
 
+15. Unlock: the Unlock screen, an `EntitlementService` port with a labelled development implementation, and server-side hiding of locked areas for free audits (decision 7). Free vs locked line, unlock paths and price are still unknown.
+
 Shared code: `src/features/questions` (answer state and question views, used by Quick Start and Intake), `src/features/shared-labels` (label bundles for score patterns).
 
-Not built yet: a real database and auth provider (accounts are a development stand-in kept in the browser), the unlock and pricing flows. Scores are only computable where `scoring.config.ts` has a formula, and today none do, so scores show "Not yet scorable" unless a sample fixture is labelled "Sample data".
+Not built yet: a real database and auth provider (accounts are a development stand-in kept in the browser), a real unlock path and pricing (unlocking is a development stand-in kept in the browser, and the server trusts it). Scores are only computable where `scoring.config.ts` has a formula, and today none do, so scores show "Not yet scorable" unless a sample fixture is labelled "Sample data".
 
 ## Routes
 
@@ -41,6 +43,7 @@ Pages (`src/app/**/page.tsx`):
 - `/advisor` talk to an advisor
 - `/sign-in` email one-time-link sign in
 - `/dashboard` saved audits (a sign-in prompt when signed out)
+- `/unlock` unlock the full report (options, price and line to be confirmed)
 - `/report` the report
 - `/agent-strategy` agent strategy (sample agents)
 - `/advisor` advisor request
