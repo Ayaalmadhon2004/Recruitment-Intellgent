@@ -7,7 +7,7 @@ const require = createRequire(import.meta.url);
 const { chromium } = require('playwright');
 
 const base = process.env.BASE_URL ?? 'http://localhost:3000';
-const paths = ['/', '/quick-start', '/intake', '/report', '/report/pdf', '/cost-calc', '/agent-strategy', '/advisor'];
+const paths = ['/', '/quick-start', '/intake', '/report', '/report/pdf', '/cost-calc', '/agent-strategy', '/advisor', '/sign-in', '/dashboard'];
 const viewports = [{ width: 390, height: 844 }, { width: 1440, height: 900 }];
 
 const browser = await chromium.launch();

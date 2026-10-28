@@ -8,6 +8,7 @@ const navItems = [
   { href: routes.quickStart, label: en.nav.items.quickStart },
   { href: routes.intake, label: en.nav.items.intake },
   { href: routes.report, label: en.nav.items.report },
+  { href: routes.dashboard, label: en.nav.items.myAudits },
   { href: routes.costCalc, label: en.nav.items.costCalc },
   { href: routes.agentStrategy, label: en.nav.items.agentStrategy },
   { href: routes.advisor, label: en.nav.items.advisor },
