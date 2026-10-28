@@ -83,4 +83,14 @@ describe('FirstReadView', () => {
     expect(screen.queryByRole('link', { name: en.questions.B2.text })).not.toBeInTheDocument();
     expect(screen.getAllByText(en.questions.B2.text).length).toBeGreaterThan(0);
   });
+
+  it('offers to unlock only when given a place to go', () => {
+    view();
+    expect(screen.queryByRole('link', { name: en.report.unlock.cta })).not.toBeInTheDocument();
+    view({ unlockHref: '/unlock' });
+    expect(screen.getByRole('link', { name: en.report.unlock.cta })).toHaveAttribute(
+      'href',
+      '/unlock',
+    );
+  });
 });

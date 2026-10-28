@@ -30,6 +30,7 @@ export type FirstReadPageProps = {
   previewState?: 'loading' | 'empty' | 'error';
   changeAnswersHref?: string;
   continueHref?: string;
+  unlockHref?: string;
 };
 
 function stateFor(
@@ -65,6 +66,7 @@ export function FirstReadPage({
   previewState,
   changeAnswersHref = routes.quickStart,
   continueHref = routes.intake,
+  unlockHref,
 }: FirstReadPageProps): ReactNode {
   const { answers, raw } = useStoredAnswers();
   const [attempt, setAttempt] = useState(0);
@@ -105,6 +107,7 @@ export function FirstReadPage({
           result={state.result}
           changeAnswersHref={changeAnswersHref}
           continueHref={continueHref}
+          unlockHref={unlockHref}
         />
       </div>
     );

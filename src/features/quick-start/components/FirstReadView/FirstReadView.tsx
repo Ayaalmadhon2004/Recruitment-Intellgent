@@ -24,6 +24,8 @@ export type FirstReadViewProps = {
   questionHref?: (id: QuestionId) => string | undefined;
   changeAnswersHref: string;
   continueHref: string;
+  /** Where "Unlock full report" goes. Without it the button is not shown. */
+  unlockHref?: string;
 };
 
 const copy = en.firstRead;
@@ -41,6 +43,7 @@ export function FirstReadView({
   questionHref,
   changeAnswersHref,
   continueHref,
+  unlockHref,
 }: FirstReadViewProps): ReactNode {
   const scoredAreas = scoreAreaIds.filter((id) => result.areas[id].kind === 'scored');
   const lockedAreas = scoreAreaIds.filter((id) => result.areas[id].kind === 'not-scorable');
@@ -122,6 +125,7 @@ export function FirstReadView({
         body={copy.ctaBody}
         actions={[
           { label: copy.ctaContinue, href: continueHref },
+          ...(unlockHref ? [{ label: en.report.unlock.cta, href: unlockHref }] : []),
           { label: copy.ctaChange, href: changeAnswersHref, variant: 'inverse-outline' },
         ]}
       />
