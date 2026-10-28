@@ -1,3 +1,4 @@
+import { agentStrategy } from './sections/agentStrategy';
 import { landing } from './sections/landing';
 import { reportPage } from './sections/reportPage';
 import { costCalc } from './sections/costCalc';
@@ -365,6 +366,7 @@ export const en = {
   costCalc,
   reportPage,
   landing,
+  agentStrategy,
   questions: {
     A1: {
       text: 'What type of institution are you?',
