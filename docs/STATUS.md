@@ -21,10 +21,11 @@ Built bottom-up, in the order the architecture requires (merge order, oldest fir
 11. Agent Strategy, Advisor, Landing and the Report pages (PRs 18 to 22).
 12. Site wiring: `/` is the landing page, one `<main>` per page, route paths in `routes.config.ts` (PR 23).
 13. PDF export: options screen and print mode, via the browser's print dialog (PR 24, decision 5).
+14. Accounts + saved audits: Sign in and Dashboard against an abstract `AccountService` with a labelled development implementation (decision 6). No database or auth provider is chosen.
 
 Shared code: `src/features/questions` (answer state and question views, used by Quick Start and Intake), `src/features/shared-labels` (label bundles for score patterns).
 
-Not built yet: accounts and a database, the dashboard, the unlock and pricing flows. Scores are only computable where `scoring.config.ts` has a formula, and today none do, so scores show "Not yet scorable" unless a sample fixture is labelled "Sample data".
+Not built yet: a real database and auth provider (accounts are a development stand-in kept in the browser), the unlock and pricing flows. Scores are only computable where `scoring.config.ts` has a formula, and today none do, so scores show "Not yet scorable" unless a sample fixture is labelled "Sample data".
 
 ## Routes
 
@@ -38,6 +39,8 @@ Pages (`src/app/**/page.tsx`):
 - `/cost-calc` the cost calculator
 - `/agent-strategy` agent strategy
 - `/advisor` talk to an advisor
+- `/sign-in` email one-time-link sign in
+- `/dashboard` saved audits (a sign-in prompt when signed out)
 - `/report` the report
 - `/agent-strategy` agent strategy (sample agents)
 - `/advisor` advisor request
@@ -49,6 +52,7 @@ Route handlers (`route.ts`):
 
 - `POST /api/first-read` computes the First Read on the server from stored answers and the config version
 - `/api/report` report data, computed on the server
+- `POST /api/audit-summaries` the stage of each saved audit, computed on the server from posted answers
 
 Run `find src/app -name page.tsx -o -name route.ts` to refresh this list.
 
