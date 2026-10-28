@@ -79,9 +79,9 @@ function ChecklistIllustration(): ReactNode {
 }
 
 const CARDS = [
-  { key: 'scores', art: <ScoreIllustration />, tone: 'default', shape: styles.plain, delay: 0 },
-  { key: 'stage', art: <StageIllustration />, tone: 'default', shape: styles.arch, delay: 1 },
-  { key: 'steps', art: <ChecklistIllustration />, tone: 'navy', shape: styles.corner, delay: 2 },
+  { key: 'scores', art: <ScoreIllustration />, delay: 0 },
+  { key: 'stage', art: <StageIllustration />, delay: 1 },
+  { key: 'steps', art: <ChecklistIllustration />, delay: 2 },
 ] as const;
 
 export function WhatYouGet(): ReactNode {
@@ -92,14 +92,8 @@ export function WhatYouGet(): ReactNode {
         {CARDS.map((c) => (
           <li key={c.key} className={styles.item}>
             <Reveal delay={c.delay} className={styles.reveal}>
-              <Card
-                as="article"
-                tone={c.tone}
-                radius="lg"
-                lift
-                className={`${styles.card} ${c.shape}`}
-              >
-                {c.art}
+              <Card as="article" radius="lg" lift className={styles.card}>
+                <div className={styles.art}>{c.art}</div>
                 <SampleDataBadge label={en.status.sample} variant="outline" />
                 <h3 className={styles.cardTitle}>{copy[c.key].title}</h3>
                 <p className={styles.cardBody}>{copy[c.key].body}</p>
