@@ -1,3 +1,4 @@
+import { advisor } from './sections/advisor';
 import { agentStrategy } from './sections/agentStrategy';
 import { landing } from './sections/landing';
 import { reportPage } from './sections/reportPage';
@@ -379,6 +380,7 @@ export const en = {
   pdfExport,
   reportPage,
   landing,
+  advisor,
   agentStrategy,
   questions: {
     A1: {
