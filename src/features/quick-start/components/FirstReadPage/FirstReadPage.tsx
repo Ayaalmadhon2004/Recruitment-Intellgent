@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
+import { routes } from '@/domain/config';
 import { en } from '@/domain/copy';
 import type { Answer } from '@/domain/types';
 import { Button } from '@/ui';
@@ -62,8 +63,8 @@ async function fetchFirstRead(answers: readonly Answer[]): Promise<FirstReadResp
 /** The First Read page: loads this tab's answers, asks the server for the result and renders it. */
 export function FirstReadPage({
   previewState,
-  changeAnswersHref = '/quick-start',
-  continueHref = '/intake',
+  changeAnswersHref = routes.quickStart,
+  continueHref = routes.intake,
 }: FirstReadPageProps): ReactNode {
   const { answers, raw } = useStoredAnswers();
   const [attempt, setAttempt] = useState(0);

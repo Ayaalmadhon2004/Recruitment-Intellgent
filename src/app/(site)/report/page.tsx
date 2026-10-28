@@ -8,7 +8,7 @@ export const metadata: Metadata = { title: en.reportPage.pageTitle };
 
 export default function Page(): ReactNode {
   return (
-    <PageContainer as="main">
+    <PageContainer>
       <ReportPage />
     </PageContainer>
   );

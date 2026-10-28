@@ -1,3 +1,4 @@
+import { advisor as advisorPage } from './sections/advisor';
 import { agentStrategy } from './sections/agentStrategy';
 import { landing } from './sections/landing';
 import { reportPage } from './sections/reportPage';
@@ -18,6 +19,16 @@ export const en = {
     scores: 'Scores',
     nextSteps: 'Next steps',
     advisor: 'Advisor',
+    footerLabel: 'Footer',
+    items: {
+      home: 'Home',
+      quickStart: 'Quick Start',
+      intake: 'Full audit',
+      report: 'My report',
+      costCalc: 'Cost calculator',
+      agentStrategy: 'Agent strategy',
+      advisor: 'Talk to an advisor',
+    },
   },
   header: {
     cta: 'Start the audit',
@@ -359,6 +370,7 @@ export const en = {
   reportPage,
   landing,
   agentStrategy,
+  advisor: advisorPage,
   questions: {
     A1: {
       text: 'What type of institution are you?',

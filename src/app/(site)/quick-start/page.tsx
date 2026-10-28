@@ -8,7 +8,7 @@ export const metadata: Metadata = { title: en.quickStart.pageTitle };
 
 export default function Page(): ReactNode {
   return (
-    <PageContainer as="main">
+    <PageContainer>
       <QuickStartFlow />
     </PageContainer>
   );
