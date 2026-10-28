@@ -29,7 +29,7 @@ export function ForecastSection({ values, onChange }: ForecastSectionProps): Rea
   ] as const;
 
   return (
-    <>
+    <div className={styles.subBlock}>
       <p className={styles.formula}>{copy.formula}</p>
       <div className={styles.steps}>
         {steps.map((step, index) => (
@@ -73,6 +73,6 @@ export function ForecastSection({ values, onChange }: ForecastSectionProps): Rea
           <strong>{copy.sampleNote}</strong>
         </div>
       </Card>
-    </>
+    </div>
   );
 }

@@ -7,6 +7,7 @@ import { en } from '@/domain/copy';
 import type { AgentFactorId, AgentsConfig } from '@/domain/types';
 import { AdvisorCta, SampleDataBadge } from '@/patterns';
 import { PageContainer, SectionHeader } from '@/shell';
+import { cx } from '@/ui';
 import { AgentMatrix } from './AgentMatrix';
 import { FactorDonut } from './FactorDonut';
 import { ForecastSection } from './ForecastSection';
@@ -122,7 +123,11 @@ export function AgentStrategy({
           <PilotTimeline pilot={pilot} month={month} onSelect={setMonth} />
         </section>
 
-        <section id="forecast" aria-labelledby="as-forecast" className={styles.section}>
+        <section
+          id="forecast"
+          aria-labelledby="as-forecast"
+          className={cx(styles.section, styles.sectionDivided)}
+        >
           <div className={styles.sectionHead}>
             <SectionHeader
               id="as-forecast"
