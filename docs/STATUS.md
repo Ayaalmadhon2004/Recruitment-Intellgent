@@ -18,10 +18,13 @@ Built bottom-up, in the order the architecture requires (merge order, oldest fir
 8. Git workflow rule added to `CLAUDE.md` (PR 13).
 9. Full Intake: 24 temporary questions in sections A to F, evidence tags, save on this device (PR 14).
 10. Cost Calculator: pure cost functions, a Switch primitive, and the `/cost-calc` page (PR 17).
+11. Agent Strategy, Advisor, Landing and the Report pages (PRs 18 to 22).
+12. Site wiring: `/` is the landing page, one `<main>` per page, route paths in `routes.config.ts` (PR 23).
+13. PDF export: options screen and print mode, via the browser's print dialog (PR 24, decision 5).
 
 Shared code: `src/features/questions` (answer state and question views, used by Quick Start and Intake), `src/features/shared-labels` (label bundles for score patterns).
 
-Not built yet: the report pages, accounts and a database, the dashboard, the advisor and pricing flows. Scores are only computable where `scoring.config.ts` has a formula, and today none do, so scores show "Not yet scorable" unless a sample fixture is labelled "Sample data".
+Not built yet: accounts and a database, the dashboard, the unlock and pricing flows. Scores are only computable where `scoring.config.ts` has a formula, and today none do, so scores show "Not yet scorable" unless a sample fixture is labelled "Sample data".
 
 ## Routes
 
@@ -31,7 +34,10 @@ Pages (`src/app/**/page.tsx`):
 - `/quick-start` five-question flow
 - `/first-read` the First Read result
 - `/intake` the full audit
+- `/report` the report, `/report/<area>` score detail, `/report/pdf` PDF export
 - `/cost-calc` the cost calculator
+- `/agent-strategy` agent strategy
+- `/advisor` talk to an advisor
 - `/report` the report
 - `/agent-strategy` agent strategy (sample agents)
 - `/advisor` advisor request
