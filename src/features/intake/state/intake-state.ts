@@ -10,6 +10,7 @@ import type {
   SectionId,
 } from '@/domain/types';
 import {
+  clearAnswer,
   countHandled,
   isUnsure,
   knownFor,
@@ -53,6 +54,13 @@ export const answerQuestion = (
   value: AnswerValue,
   config: DomainConfig,
 ): IntakeState => ({ ...state, answers: setAnswer(state.answers, id, value, config) });
+
+/** Emptying a field removes the answer, and with it any tag the person had picked. */
+export const clearQuestion = (state: IntakeState, id: QuestionId): IntakeState => ({
+  ...state,
+  answers: clearAnswer(state.answers, id),
+  confirmedTagIds: without(state.confirmedTagIds, id),
+});
 
 /** "Not sure" drops the value, and with it any tag the person had picked. */
 export const toggleNotSure = (state: IntakeState, id: QuestionId): IntakeState => ({

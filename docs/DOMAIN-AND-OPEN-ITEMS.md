@@ -63,4 +63,4 @@ Everything below is a stand-in. Nothing here is a confirmed fact or formula.
 | Section names | `copy/en.ts` `sections` | From the brief (A to F). | Capstone confirms wording |
 | Evidence help wording | `copy/en.ts` `intake.evidenceHelp` | Verified, Institution-reported, Estimate and Unknown come from the design. The Judgement line is an unconfirmed stand-in. | Capstone confirms |
 | Report link | `/intake` page | "See my report" and "Open report" point to `/first-read` until the Report feature exists. "Save and exit" goes to `/` until the Dashboard exists. | Features 4 and 5 |
-| Number questions | `QuestionCard` | A number cannot be cleared once entered (use Not sure). | Pattern change if wanted |
+| Number questions | `QuestionCard` | Emptying a number field calls the optional `onClear`; Quick Start and Intake use it to remove the stored answer (and the Intake confirmed tag). | n/a |
