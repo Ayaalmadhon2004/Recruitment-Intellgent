@@ -30,17 +30,21 @@
   flex-direction: column;
   align-items: center;
   gap: var(--space-3);
-  padding: var(--space-7);
+  padding: var(--space-7) var(--space-6);
   text-align: center;
 }
 
-.card.arch {
-  padding-top: var(--space-8);
-  border-radius: var(--radius-arch) var(--radius-arch) var(--radius-card-lg) var(--radius-card-lg);
+.art {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  height: 120px;
+  margin-bottom: var(--space-2);
 }
 
-.card.corner {
-  border-bottom-left-radius: var(--radius-arch);
+.art > svg {
+  display: block;
 }
 
 .cardTitle {
@@ -52,6 +56,7 @@
 
 .cardBody {
   margin: 0;
+  color: var(--color-text-secondary);
   font-size: var(--text-small-size);
   line-height: var(--text-small-line);
 }
@@ -68,7 +73,7 @@
 }
 .dotTodo {
   fill: none;
-  stroke: var(--color-text-inverse);
+  stroke: var(--color-line-neutral);
   stroke-width: 3;
 }
 .tick {
@@ -79,8 +84,8 @@
   stroke-linejoin: round;
 }
 .barDone {
-  fill: var(--color-text-inverse);
+  fill: var(--color-navy);
 }
 .barTodo {
-  fill: var(--color-navy-mid);
+  fill: var(--color-line-strong);
 }
