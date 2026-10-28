@@ -1,2 +1,2 @@
 export { SiteFooter } from './SiteFooter';
-export type { SiteFooterProps } from './SiteFooter';
+export type { FooterColumn, FooterLink, SiteFooterProps } from './SiteFooter';

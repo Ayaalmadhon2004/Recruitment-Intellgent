@@ -13,6 +13,13 @@ export const en = {
     logoAlt: 'Capstone Education',
     footerLine: 'Vietnam Recruitment Intelligence by Capstone Education',
   },
+  footer: {
+    tagline: 'Find out how ready your university is to recruit students in Vietnam.',
+    navigationHeading: 'Navigation',
+    toolsHeading: 'Audit tools',
+    externalHeading: 'Capstone Education',
+    copyright: '© 2026 Capstone Education. All rights reserved.',
+  },
   site: {
     url: 'https://capstonevietnam.com',
     host: 'capstonevietnam.com',

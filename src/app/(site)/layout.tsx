@@ -14,6 +14,11 @@ const navItems = [
   { href: routes.advisor, label: en.nav.items.advisor },
 ] as const;
 
+const footerColumns = [
+  { heading: en.footer.navigationHeading, links: navItems.slice(0, 5) },
+  { heading: en.footer.toolsHeading, links: navItems.slice(5) },
+] as const;
+
 /** Header, the single <main> landmark and footer, composed once for every public page. */
 export default function SiteLayout({ children }: { children: ReactNode }): ReactNode {
   return (
@@ -31,10 +36,18 @@ export default function SiteLayout({ children }: { children: ReactNode }): React
       />
       <main id="main">{children}</main>
       <SiteFooter
-        brandLine={en.brand.footerLine}
+        homeHref={routes.home}
+        logoSrc="/temp-assets/logo.png"
+        logoAlt={en.brand.logoAlt}
+        productName={en.brand.productName}
+        tagline={en.footer.tagline}
         navLabel={en.nav.footerLabel}
-        navItems={navItems}
-        link={{ href: en.site.url, label: en.site.host }}
+        columns={footerColumns}
+        external={{
+          heading: en.footer.externalHeading,
+          link: { href: en.site.url, label: en.site.host },
+        }}
+        copyright={en.footer.copyright}
       />
     </>
   );
