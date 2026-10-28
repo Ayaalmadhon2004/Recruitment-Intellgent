@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { scoringConfig } from '@/domain/config';
-import { en, t } from '@/domain/copy';
+import { en, fill, t } from '@/domain/copy';
 import { affordabilityComponentIds } from '@/domain/types';
 import type { AffordabilityComponentId, QuestionId, Recommendation } from '@/domain/types';
 import { questionLabel } from '@/features/questions';
@@ -37,12 +37,6 @@ export type ScoreDetailProps = {
 
 /** The weights are out of this total. */
 const WEIGHT_SCALE = 100;
-
-const fill = (template: string, values: Record<string, string | number>): string =>
-  Object.entries(values).reduce(
-    (text, [key, value]) => text.split(`{${key}}`).join(String(value)),
-    template,
-  );
 
 const notScorableLabels = {
   title: en.status.notScorable,

@@ -1,7 +1,6 @@
 import { scoringConfig } from '@/domain/config';
-import { en, t } from '@/domain/copy';
+import { en, fill, t } from '@/domain/copy';
 import type { GaugeId, ScoreAreaId } from '@/domain/types';
-import { fill } from '@/features/shared-labels';
 import type { RadarChartLabels } from '@/patterns';
 
 /** Area name from the scoring config's copy key. */
