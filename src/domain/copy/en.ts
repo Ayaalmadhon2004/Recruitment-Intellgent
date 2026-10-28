@@ -36,6 +36,8 @@ export const en = {
   },
   header: {
     cta: 'Start the audit',
+    menuOpen: 'Open menu',
+    menuClose: 'Close menu',
   },
   foundation: {
     eyebrow: 'FOUNDATION',

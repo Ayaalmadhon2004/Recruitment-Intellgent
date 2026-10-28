@@ -30,6 +30,7 @@ Plan first (short), then implement. If something needed is unknown, do not guess
 
 ## Git workflow (strict, applies to Claude and to every sub-agent)
 - **Every feature starts from the latest `main`**: `git fetch origin && git checkout -b feat/<name> origin/main`. Never branch from another feature branch, and never from an old local `main`.
+- **Branch names and pull request titles are descriptive and written for the project, never tool-generated.** Branches use `feat/<name>`, `fix/<name>`, `chore/<name>`, `docs/<name>` or `test/<name>` (for example `feat/responsive-site-header`). Never `claude/...` or random-word names. Pull request titles follow the same conventional style as commits (for example `feat: make the site header responsive with a mobile menu`). If a tool or sub-agent starts a branch with an auto-generated name, rename it before opening the pull request.
 - **One feature per branch, one pull request per branch, and the pull request always targets `main`.** Never open a PR whose base is another feature branch (no stacked PRs).
 - **If a feature needs code from a feature that is not merged yet, stop.** Do not branch from the unmerged branch and do not copy its commits. Say so, and wait until that PR is merged into `main`, then branch from `main`. (A pull request may be opened early as a draft against `main` only if the description names the PR it waits for.)
 - **When another PR merges while yours is open**, bring it in with `git merge origin/main` into your branch (no rebase, no force-push once a PR is open), re-run `pnpm check`, then push.
