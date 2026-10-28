@@ -1,0 +1,53 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label {
+  font-size: var(--text-small-size);
+  font-weight: var(--font-weight-semibold);
+}
+
+.group {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  padding: var(--space-1);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-line-strong);
+  background: var(--color-card);
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--tap-target);
+  padding: 0 var(--space-4);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--color-text);
+  font-size: var(--text-small-size);
+  font-weight: var(--font-weight-semibold);
+}
+
+.on {
+  background: var(--color-crimson);
+  color: var(--color-text-inverse);
+}
+
+.count {
+  padding: 1px var(--space-2);
+  border-radius: var(--radius-pill);
+  background: var(--color-page);
+  color: var(--color-text);
+  font-size: var(--text-caption-size);
+  font-weight: var(--font-weight-bold);
+}
+
+.on .count {
+  background: var(--color-card);
+  color: var(--color-crimson-dark);
+}

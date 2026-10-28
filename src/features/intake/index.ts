@@ -1,4 +1,9 @@
 export { IntakePage } from './components/IntakePage';
 export type { IntakePageProps } from './components/IntakePage';
-export { createLocalStorageStore, createMemoryStore, loadStoredAudit } from './store';
+export {
+  createLocalStorageStore,
+  createMemoryStore,
+  loadStoredAudit,
+  parseStoredAudit,
+} from './store';
 export type { AnswerStore, LoadStoredAuditOptions, StoredAudit } from './store';

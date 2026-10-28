@@ -9,5 +9,7 @@ export const routes = {
   costCalc: '/cost-calc',
   agentStrategy: '/agent-strategy',
   advisor: '/advisor',
+  signIn: '/sign-in',
+  dashboard: '/dashboard',
   reportArea: (area: string): string => `/report/${area}`,
 } as const;

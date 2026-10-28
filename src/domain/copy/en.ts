@@ -1,3 +1,4 @@
+import { accounts } from './sections/accounts';
 import { advisor } from './sections/advisor';
 import { agentStrategy } from './sections/agentStrategy';
 import { landing } from './sections/landing';
@@ -29,6 +30,7 @@ export const en = {
       costCalc: 'Cost calculator',
       agentStrategy: 'Agent strategy',
       advisor: 'Talk to an advisor',
+      myAudits: 'My audits',
     },
   },
   header: {
@@ -386,6 +388,7 @@ export const en = {
     evidenceHeading: 'How do you know this?',
     evidenceMissing: 'Pick one tag. It sets your confidence.',
   },
+  accounts,
   costCalc,
   pdfExport,
   reportPage,

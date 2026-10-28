@@ -1,0 +1,113 @@
+.sent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.who {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.mail {
+  display: flex;
+  flex: 0 0 64px;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-pill);
+  border: 2px solid var(--color-crimson);
+  background: var(--color-page);
+  color: var(--color-crimson);
+}
+
+.address {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.caption {
+  font-size: var(--text-small-size);
+  color: var(--color-text-secondary);
+}
+
+.email {
+  font-size: var(--text-h3-size);
+  line-height: var(--text-h3-line);
+  font-weight: var(--font-weight-semibold);
+  word-break: break-all;
+}
+
+.body {
+  margin: 0;
+}
+
+.resend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  align-items: center;
+}
+
+.countdown {
+  font-size: var(--text-small-size);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+}
+
+.bar {
+  height: 8px;
+  border-radius: var(--radius-pill);
+  background: var(--color-line-soft);
+  overflow: hidden;
+}
+
+.barFill {
+  height: 100%;
+  border-radius: var(--radius-pill);
+  background: var(--color-crimson);
+  transition: width 1s linear;
+}
+
+.dev {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border: 2px dashed var(--color-line-dashed);
+  border-radius: var(--radius-card-sm);
+}
+
+.devBody {
+  margin: 0;
+  font-size: var(--text-small-size);
+  line-height: var(--text-small-line);
+  color: var(--color-text-secondary);
+}
+
+.devError {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+  font-size: var(--text-small-size);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-status-concern);
+}
+
+.change {
+  align-self: flex-start;
+  min-height: var(--tap-target);
+  padding: 0 var(--space-1);
+  border: 0;
+  background: none;
+  color: var(--color-navy);
+  font-size: var(--text-label-size);
+  font-weight: var(--font-weight-semibold);
+  text-decoration: underline;
+}

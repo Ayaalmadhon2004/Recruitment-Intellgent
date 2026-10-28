@@ -9,6 +9,8 @@ import CostCalcPage from './cost-calc/page';
 import HomePage from './page';
 import AdvisorPage from './advisor/page';
 import AgentStrategyPage from './agent-strategy/page';
+import DashboardPage from './dashboard/page';
+import SignInPage from './sign-in/page';
 import QuickStartPage from './quick-start/page';
 import PdfPage from './report/pdf/page';
 
@@ -40,6 +42,8 @@ describe('site wiring', () => {
     ['advisor', AdvisorPage],
     ['agent strategy', AgentStrategyPage],
     ['PDF export', PdfPage],
+    ['sign in', SignInPage],
+    ['dashboard', DashboardPage],
   ])('renders exactly one main landmark on the %s page', (_name, Page) => {
     render(
       <SiteLayout>
@@ -60,6 +64,7 @@ describe('site wiring', () => {
       [en.nav.items.quickStart, routes.quickStart],
       [en.nav.items.intake, routes.intake],
       [en.nav.items.report, routes.report],
+      [en.nav.items.myAudits, routes.dashboard],
       [en.nav.items.costCalc, routes.costCalc],
       [en.nav.items.agentStrategy, routes.agentStrategy],
       [en.nav.items.advisor, routes.advisor],
