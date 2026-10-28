@@ -19,7 +19,7 @@ describe('POST /api/report', () => {
     expect(body.isSample).toBe(true);
     expect(body.stage).toEqual({ kind: 'staged', stage: 'building' });
     expect(body.areas).toHaveLength(6);
-    expect(body.areas.every((a) => a.result.kind === 'not-scorable')).toBe(true);
+    expect(body.areas.every((a) => !a.locked && a.result.kind === 'not-scorable')).toBe(true);
     expect(body.gauges).toHaveLength(2);
   });
 

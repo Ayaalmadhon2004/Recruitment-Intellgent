@@ -17,13 +17,13 @@ import {
   bandTone,
 } from '@/patterns';
 import { Card, Icon } from '@/ui';
-import type { ReportArea } from '../../contract';
+import type { OpenReportArea } from '../../contract';
 import { rankRecommendations } from './rank';
 import styles from './ScoreDetail.module.css';
 
 export type ScoreDetailProps = {
   /** One entry of `ReportModel.areas`. */
-  area: ReportArea;
+  area: OpenReportArea;
   /** The report's recommendations. This view keeps only the ones for this area. */
   recommendations: readonly Recommendation[];
   /** True when the report is the sample audit. */

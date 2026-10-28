@@ -1,5 +1,6 @@
 import { notScorable, scored, scoredGauge } from '@/domain/scoring';
-import type { ReportArea, ReportModel } from '@/features/report/contract';
+import { isOpenArea } from '@/features/report/contract';
+import type { OpenReportArea, ReportModel } from '@/features/report/contract';
 import { buildReportModel } from '@/features/report/server';
 import { northbridge } from './northbridge';
 
@@ -17,6 +18,13 @@ const SYNTHETIC = {
   agentAttractiveness: AGENT_ATTRACTIVENESS,
 } as const;
 
+/** One area of a model that must be open (not locked): throws otherwise, so a test fails loudly. */
+export function openArea(model: ReportModel, id: OpenReportArea['id']): OpenReportArea {
+  const area = model.areas.find((a) => a.id === id);
+  if (area === undefined || !isOpenArea(area)) throw new Error(`No open area ${id}`);
+  return area;
+}
+
 /** The real model for the Northbridge sample under the real config: every score is NotScorable. */
 export function northbridgeReportModel(): ReportModel {
   return buildReportModel(northbridge.audit, { isSample: true });
@@ -29,11 +37,7 @@ export function northbridgeReportModel(): ReportModel {
  */
 export function syntheticScoredReportModel(): ReportModel {
   const base = northbridgeReportModel();
-  const byId = (id: ReportArea['id']): ReportArea => {
-    const area = base.areas.find((a) => a.id === id);
-    if (area === undefined) throw new Error(`Missing area ${id}`);
-    return area;
-  };
+  const byId = (id: OpenReportArea['id']): OpenReportArea => openArea(base, id);
   return {
     ...base,
     areas: [
@@ -44,8 +48,8 @@ export function syntheticScoredReportModel(): ReportModel {
       },
       { ...byId('affordability'), result: scored(SYNTHETIC.affordability, 'strong', 'high') },
       { ...byId('digital-visibility'), result: notScorable('missing-answers', ['D1']) },
-      { ...byId('trust-network'), locked: true },
-      { ...byId('community-influence'), locked: true },
+      { id: 'trust-network', locked: true },
+      { id: 'community-influence', locked: true },
     ],
     gauges: [
       { id: 'school-fit', result: scoredGauge(SYNTHETIC.schoolFit, 'medium') },

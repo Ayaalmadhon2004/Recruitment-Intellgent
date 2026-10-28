@@ -1,13 +1,13 @@
 import type { ReactNode } from 'react';
 import { en } from '@/domain/copy';
 import { SectionHeader } from '@/shell';
-import type { ReportArea } from '../../contract';
+import type { OpenReportArea } from '../../contract';
 import { areaName } from '../../labels';
 import { AreaEvidence } from '../AreaEvidence';
 import styles from './PrintEvidence.module.css';
 
 export type PrintEvidenceProps = {
-  areas: readonly ReportArea[];
+  areas: readonly OpenReportArea[];
 };
 
 const copy = en.report.print.evidence;

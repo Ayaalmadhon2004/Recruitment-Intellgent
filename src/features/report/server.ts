@@ -6,7 +6,6 @@ import {
   type Audit,
   type DomainConfig,
   type GaugeId,
-  type NotScorable,
   type Question,
   type ScoreAreaId,
 } from '@/domain/types';
@@ -32,17 +31,10 @@ function feeds(question: Question, target: ScoreAreaId | GaugeId): boolean {
   return question.feeds.some((f) => f.area === target);
 }
 
-/** Stands in for the result of a hidden area. The UI never draws it: `locked` is checked first. */
-const redactedResult: NotScorable = {
-  kind: 'not-scorable',
-  reason: 'missing-answers',
-  missing: [],
-};
-
 function buildArea(id: ScoreAreaId, audit: Audit, config: DomainConfig): ReportArea {
   // A free audit never receives a hidden area's result, evidence or gaps: the browser cannot reveal them.
   if (audit.entitlement === 'free' && config.access.lockedWhenFree.includes(id)) {
-    return { id, result: redactedResult, evidence: [], gaps: [], locked: true };
+    return { id, locked: true };
   }
   const feeding = config.questions.filter((q) => feeds(q, id));
   const evidence: ReportEvidence[] = feeding.flatMap((q) => {
@@ -56,10 +48,10 @@ function buildArea(id: ScoreAreaId, audit: Audit, config: DomainConfig): ReportA
     .map((q) => ({ questionId: q.id }));
   return {
     id,
+    locked: false,
     result: scoreArea(id, audit.answers, config),
     evidence,
     gaps,
-    locked: false,
   };
 }
 

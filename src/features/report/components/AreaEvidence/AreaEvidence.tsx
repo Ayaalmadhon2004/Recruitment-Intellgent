@@ -4,12 +4,12 @@ import type { QuestionId } from '@/domain/types';
 import { questionLabel } from '@/features/questions';
 import { scoreCardLabels } from '@/features/shared-labels';
 import { ConfidenceMeter, EvidenceTag } from '@/patterns';
-import type { ReportArea } from '../../contract';
+import type { OpenReportArea } from '../../contract';
 import { areaName } from '../../labels';
 import styles from './AreaEvidence.module.css';
 
 export type AreaEvidenceProps = {
-  area: ReportArea;
+  area: OpenReportArea;
   questionHref?: (id: QuestionId) => string | undefined;
   /** Heading level of the two block titles. */
   headingLevel?: 'h3' | 'h4';

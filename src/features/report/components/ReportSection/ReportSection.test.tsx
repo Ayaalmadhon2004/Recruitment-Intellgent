@@ -351,19 +351,7 @@ describe('ReportSection: locked areas and entitlement', () => {
   });
 
   it('opens every area when unlocked, and an unscorable one still says Not yet scorable', () => {
-    const base = lockedPreviewModel();
-    const model = {
-      ...base,
-      unlocked: true,
-      areas: base.areas.map((a, i) => ({
-        ...a,
-        locked: false,
-        result:
-          i === 0
-            ? ({ kind: 'not-scorable', reason: 'no-formula', missing: [] } as const)
-            : a.result,
-      })),
-    };
+    const model = { ...scoredModel(), unlocked: true };
     render(<ReportSection model={model} mode="preview" links={links} />);
     expect(screen.queryByText(en.report.locked.word)).toBeNull();
     expect(screen.getAllByText(en.status.notScorable).length).toBeGreaterThan(0);

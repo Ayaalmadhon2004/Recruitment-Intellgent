@@ -3,7 +3,11 @@ import { domainConfig } from '@/domain/config';
 import { gaugeIds, scoreAreaIds, type Audit, type DomainConfig } from '@/domain/types';
 import { known, unknown } from '../../../tests/fixtures/builders';
 import { northbridge } from '../../../tests/fixtures/northbridge';
-import { northbridgeReportModel, syntheticScoredReportModel } from '../../../tests/fixtures/report';
+import {
+  northbridgeReportModel,
+  openArea,
+  syntheticScoredReportModel,
+} from '../../../tests/fixtures/report';
 import { buildReportModel, parseReportRequest } from './server';
 
 function audit(overrides: Partial<Audit> = {}): Audit {
@@ -38,12 +42,10 @@ describe('buildReportModel with the real config', () => {
 
   it('has six areas in config order, all NotScorable because no formula exists', () => {
     expect(model.areas.map((a) => a.id)).toEqual([...scoreAreaIds]);
-    expect(model.areas.every((a) => a.result.kind === 'not-scorable')).toBe(true);
-    expect(
-      model.areas.every(
-        (a) => a.result.kind === 'not-scorable' && a.result.reason === 'no-formula',
-      ),
-    ).toBe(true);
+    for (const { id } of model.areas) {
+      const { result } = openArea(model, id);
+      expect(result.kind === 'not-scorable' && result.reason === 'no-formula').toBe(true);
+    }
   });
 
   it('has both gauges NotScorable', () => {
@@ -78,20 +80,18 @@ describe('evidence, gaps and completeness with feeding questions', () => {
     const a = audit({
       answers: [known('A1', 'private-university', 'verified', 'high'), unknown('A2')],
     });
-    const readiness = buildReportModel(a, { isSample: false }, config).areas.find(
-      (x) => x.id === 'readiness',
-    );
-    expect(readiness?.evidence).toEqual([
+    const readiness = openArea(buildReportModel(a, { isSample: false }, config), 'readiness');
+    expect(readiness.evidence).toEqual([
       { questionId: 'A1', tag: 'verified', confidence: 'high' },
     ]);
-    expect(readiness?.gaps).toEqual([{ questionId: 'A2' }, { questionId: 'A3' }]);
+    expect(readiness.gaps).toEqual([{ questionId: 'A2' }, { questionId: 'A3' }]);
   });
 
   it('keeps areas with no feeding question empty', () => {
     const model = buildReportModel(audit(), { isSample: false }, config);
-    const trust = model.areas.find((x) => x.id === 'trust-network');
-    expect(trust?.evidence).toEqual([]);
-    expect(trust?.gaps).toEqual([]);
+    const trust = openArea(model, 'trust-network');
+    expect(trust.evidence).toEqual([]);
+    expect(trust.gaps).toEqual([]);
   });
 
   it('counts Not sure as handled and as unknown', () => {
@@ -105,7 +105,7 @@ describe('evidence, gaps and completeness with feeding questions', () => {
   it('uses the latest answer for a question', () => {
     const a = audit({ answers: [unknown('A1'), known('A1', 'other', 'estimate', 'low')] });
     const model = buildReportModel(a, { isSample: false }, config);
-    expect(model.areas[0]?.evidence[0]).toEqual({
+    expect(openArea(model, 'readiness').evidence[0]).toEqual({
       questionId: 'A1',
       tag: 'estimate',
       confidence: 'low',
@@ -132,19 +132,16 @@ describe('access and versions', () => {
     const config = feedingConfig(['readiness']);
     const free = buildReportModel(audit({ entitlement: 'free' }), { isSample: false }, config);
     const readiness = free.areas.find((a) => a.id === 'readiness');
-    expect(readiness).toMatchObject({ locked: true, evidence: [], gaps: [] });
+    // Nothing but the id and the flag: no result, evidence or gaps exist on the object at all.
+    expect(readiness).toStrictEqual({ id: 'readiness', locked: true });
     const open = buildReportModel(audit({ entitlement: 'unlocked' }), { isSample: false }, config);
-    const opened = open.areas.find((a) => a.id === 'readiness');
-    expect(opened?.locked).toBe(false);
-    expect(opened?.evidence.length).toBeGreaterThan(0);
+    expect(openArea(open, 'readiness').evidence.length).toBeGreaterThan(0);
   });
 
   it('keeps an unscorable area Not yet scorable once unlocked', () => {
     const config = feedingConfig(['readiness']);
     const open = buildReportModel(audit({ entitlement: 'unlocked' }), { isSample: false }, config);
-    const readiness = open.areas.find((a) => a.id === 'readiness');
-    expect(readiness?.result.kind).toBe('not-scorable');
-    expect(readiness?.locked).toBe(false);
+    expect(openArea(open, 'readiness').result.kind).toBe('not-scorable');
   });
 
   it('flags a config version mismatch and scores with the current config', () => {
@@ -168,7 +165,7 @@ describe('purity', () => {
 describe('fixtures', () => {
   it('synthetic model has three scored areas and two locked ones', () => {
     const model = syntheticScoredReportModel();
-    expect(model.areas.filter((a) => a.result.kind === 'scored')).toHaveLength(3);
+    expect(model.areas.filter((a) => !a.locked && a.result.kind === 'scored')).toHaveLength(3);
     expect(model.areas.filter((a) => a.locked)).toHaveLength(2);
     expect(model.gauges.every((g) => g.result.kind === 'scored-gauge')).toBe(true);
   });
