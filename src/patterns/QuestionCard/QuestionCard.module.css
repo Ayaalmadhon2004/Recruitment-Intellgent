@@ -110,7 +110,7 @@
 }
 
 .control {
-  transition: opacity 0.2s ease;
+  transition: opacity var(--dur-base) var(--ease-standard);
 }
 
 /* Dimmed, not faded: opacity below ~0.85 would drop the text under 4.5:1 contrast. */
@@ -157,8 +157,8 @@
   box-shadow: 0 1px 2px color-mix(in srgb, var(--color-navy-deep) 8%, transparent);
   cursor: pointer;
   transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
+    border-color var(--dur-base) var(--ease-standard),
+    box-shadow var(--dur-base) var(--ease-standard);
 }
 
 .selectWrap select:hover {
@@ -188,8 +188,8 @@
   background: var(--color-card);
   cursor: pointer;
   transition:
-    border-color 0.2s ease,
-    background 0.2s ease;
+    border-color var(--dur-base) var(--ease-standard),
+    background var(--dur-base) var(--ease-standard);
 }
 
 .radioCardOn {
@@ -300,7 +300,7 @@
   align-items: center;
   background: var(--color-input-border);
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: background var(--dur-base) var(--ease-standard);
 }
 
 .trackOn {
@@ -313,7 +313,7 @@
   height: 26px;
   border-radius: var(--radius-pill);
   background: var(--color-card);
-  transition: transform 0.2s ease;
+  transition: transform var(--dur-base) var(--ease-standard);
 }
 
 .trackOn .knob {
@@ -397,10 +397,10 @@
   font-weight: var(--font-weight-semibold);
   cursor: pointer;
   transition:
-    background 0.2s ease,
-    color 0.2s ease,
-    box-shadow 0.2s ease,
-    transform 0.2s ease;
+    background var(--dur-base) var(--ease-standard),
+    color var(--dur-base) var(--ease-standard),
+    box-shadow var(--dur-base) var(--ease-standard),
+    transform var(--dur-base) var(--ease-standard);
 }
 
 .notSure:hover {

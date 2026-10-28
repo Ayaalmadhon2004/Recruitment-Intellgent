@@ -46,7 +46,7 @@
 .chevron {
   display: flex;
   color: var(--color-crimson);
-  transition: transform 0.25s ease;
+  transition: transform var(--dur-base) var(--ease-standard);
 }
 
 .chevronOpen {
