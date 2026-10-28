@@ -1,9 +1,8 @@
 'use client';
 
 import type { ReactNode } from 'react';
-import { en } from '@/domain/copy';
+import { en, fill } from '@/domain/copy';
 import type { PilotPlan as PilotPlanModel } from '@/domain/types';
-import { fill } from '@/features/shared-labels';
 import { SectionHeader } from '@/shell';
 import { Carousel, cx } from '@/ui';
 import type { ReportMode } from '../../contract';

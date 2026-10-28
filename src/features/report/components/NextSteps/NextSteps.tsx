@@ -1,7 +1,6 @@
 import type { ReactNode } from 'react';
-import { en, t } from '@/domain/copy';
+import { en, fill, t } from '@/domain/copy';
 import type { Recommendation } from '@/domain/types';
-import { fill } from '@/features/shared-labels';
 import { ActionList } from '@/patterns';
 import { SectionHeader } from '@/shell';
 import type { ReportMode } from '../../contract';
