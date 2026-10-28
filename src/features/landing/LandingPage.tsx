@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { tbcConfig } from '@/domain/config';
+import { routes, tbcConfig } from '@/domain/config';
 import { en } from '@/domain/copy';
 import { CtaBand } from '@/patterns';
 import { PageContainer } from '@/shell';
@@ -21,12 +21,12 @@ export type LandingPageProps = {
 };
 
 export function LandingPage({
-  startHref = '/quick-start',
+  startHref = routes.quickStart,
   pricing = tbcConfig.pricing,
   privacyPolicyUrl = tbcConfig.privacyPolicyUrl,
 }: LandingPageProps): ReactNode {
   return (
-    <main>
+    <>
       <Hero startHref={startHref} />
       <PageContainer className={styles.sections}>
         <WhatYouGet />
@@ -42,6 +42,6 @@ export function LandingPage({
           ]}
         />
       </PageContainer>
-    </main>
+    </>
   );
 }

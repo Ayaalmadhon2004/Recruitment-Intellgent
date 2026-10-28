@@ -2,6 +2,7 @@
 
 import { notFound } from 'next/navigation';
 import type { ReactNode } from 'react';
+import { routes } from '@/domain/config';
 import { scoreAreaIds } from '@/domain/types';
 import type { Audit, ScoreAreaId } from '@/domain/types';
 import type { ReportModel } from '../../contract';
@@ -34,9 +35,9 @@ const isScoreAreaId = (value: string): value is ScoreAreaId =>
 /** One area's detail: how it is built, evidence, gaps and recommendations, from the server's report. */
 export function ScoreDetailPage({
   area,
-  reportHref = '/report',
-  intakeHref = '/intake',
-  quickStartHref = '/quick-start',
+  reportHref = routes.report,
+  intakeHref = routes.intake,
+  quickStartHref = routes.quickStart,
   loadAudit,
   previewModel,
 }: ScoreDetailPageProps): ReactNode {

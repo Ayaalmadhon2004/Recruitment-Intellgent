@@ -66,8 +66,8 @@
 }
 
 @media (max-width: 760px) {
-  .link {
-    display: none;
+  .nav {
+    gap: var(--space-4);
   }
 
   .logo {

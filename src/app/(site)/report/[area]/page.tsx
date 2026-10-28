@@ -11,7 +11,7 @@ type PageProps = { params: Promise<{ area: string }> };
 export default async function Page({ params }: PageProps): Promise<ReactNode> {
   const { area } = await params;
   return (
-    <PageContainer as="main">
+    <PageContainer>
       <ScoreDetailPage area={area} />
     </PageContainer>
   );

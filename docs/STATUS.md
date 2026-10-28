@@ -27,11 +27,17 @@ Not built yet: the report pages, accounts and a database, the dashboard, the adv
 
 Pages (`src/app/**/page.tsx`):
 
-- `/` home
+- `/` home, the landing page (no separate `/landing` route)
 - `/quick-start` five-question flow
 - `/first-read` the First Read result
 - `/intake` the full audit
 - `/cost-calc` the cost calculator
+- `/report` the report
+- `/agent-strategy` agent strategy (sample agents)
+- `/advisor` advisor request
+- `/report/[area]` score detail for one area (for example `/report/affordability`)
+
+Wiring: paths live in `src/domain/config/routes.config.ts`; header and footer nav labels in `en.nav.items`. The `(site)` layout renders the one `<main>`, so pages and features must not render their own.
 
 Route handlers (`route.ts`):
 

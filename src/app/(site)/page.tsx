@@ -1,12 +1,14 @@
+import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import { en } from '@/domain/copy';
-import { PageContainer, SectionHeader } from '@/shell';
+import { LandingPage } from '@/features/landing';
 
-/** Temporary home. Replaced by the landing feature. */
+export const metadata: Metadata = {
+  title: en.landing.meta.title,
+  description: en.landing.meta.description,
+};
+
+/** The home page is the landing feature. */
 export default function Page(): ReactNode {
-  return (
-    <PageContainer as="main">
-      <SectionHeader eyebrow={en.foundation.eyebrow} title={en.foundation.title} />
-    </PageContainer>
-  );
+  return <LandingPage />;
 }

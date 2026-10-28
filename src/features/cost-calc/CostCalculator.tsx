@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import type { ReactNode } from 'react';
-import { scoringConfig } from '@/domain/config';
+import { scoringConfig, routes } from '@/domain/config';
 import { en, t } from '@/domain/copy';
 import {
   appliedScholarship,
@@ -48,8 +48,8 @@ const emptyInputs: CostInputs = { tuition: '', living: '', scholarship: 0, inclu
 export function CostCalculator({
   initial,
   peers = [],
-  detailHref = '/report',
-  reportHref = '/report',
+  detailHref = routes.reportArea('affordability'),
+  reportHref = routes.report,
   config = scoringConfig,
 }: CostCalculatorProps): ReactNode {
   const [inputs, setInputs] = useState<CostInputs>({ ...emptyInputs, ...initial });

@@ -4,10 +4,12 @@ import styles from './SiteFooter.module.css';
 
 export type SiteFooterProps = {
   brandLine: string;
+  navLabel?: string;
+  navItems?: readonly { href: string; label: string }[];
   link: { href: string; label: string };
 };
 
-export function SiteFooter({ brandLine, link }: SiteFooterProps): ReactNode {
+export function SiteFooter({ brandLine, navLabel, navItems = [], link }: SiteFooterProps): ReactNode {
   return (
     <footer className={styles.footer} data-print="hide">
       <div className={styles.inner}>
@@ -15,6 +17,15 @@ export function SiteFooter({ brandLine, link }: SiteFooterProps): ReactNode {
           <PaperFoldMark size={36} />
           {brandLine}
         </span>
+        {navItems.length > 0 ? (
+          <nav aria-label={navLabel} className={styles.nav}>
+            {navItems.map((item) => (
+              <a key={item.href} href={item.href} className={styles.link}>
+                {item.label}
+              </a>
+            ))}
+          </nav>
+        ) : null}
         <a href={link.href} className={styles.link}>
           {link.label}
         </a>

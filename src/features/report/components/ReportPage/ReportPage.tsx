@@ -1,6 +1,7 @@
 'use client';
 
 import type { ReactNode } from 'react';
+import { routes } from '@/domain/config';
 import type { Audit } from '@/domain/types';
 import type { ReportModel } from '../../contract';
 import { useReportState } from '../../useReportModel';

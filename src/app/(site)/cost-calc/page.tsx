@@ -9,8 +9,6 @@ export const metadata: Metadata = { title: en.costCalc.meta.title };
 /** Composes the feature only. Start values and peers are labelled sample data. */
 export default function Page(): ReactNode {
   return (
-    <main>
-      <CostCalculator initial={costSample.start} peers={costSample.peers} />
-    </main>
+    <CostCalculator initial={costSample.start} peers={costSample.peers} />
   );
 }

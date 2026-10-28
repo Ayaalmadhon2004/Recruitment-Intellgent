@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import { FlowShell, TbcValue } from '@/patterns';
+import { routes } from '@/domain/config';
 import { en } from '@/domain/copy';
 import { PageContainer, SectionHeader } from '@/shell';
 import { Field, Icon, PaperFoldMark, RadioCardGroup, Select } from '@/ui';
@@ -73,7 +74,7 @@ async function send(values: AdvisorRequestInput): Promise<AdvisorResponseBody | 
 }
 
 export function AdvisorRequest({
-  backHref = '/',
+  backHref = routes.report,
   initialStep = firstStep,
   initialValues,
   initialStatus = 'editing',
@@ -173,7 +174,7 @@ export function AdvisorRequest({
           <p className={styles.heroLead}>{copy.hero.lead}</p>
         </PageContainer>
       </section>
-      <PageContainer as="main" className={styles.main}>
+      <PageContainer className={styles.main}>
         <ReasonCards />
         <section aria-label={copy.flow.sectionLabel} className={styles.flow}>
           <FlowShell
