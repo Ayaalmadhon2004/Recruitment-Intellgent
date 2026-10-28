@@ -18,7 +18,8 @@
     "build-storybook": "storybook build",
     "tokens": "node scripts/check-tokens.mjs",
     "test:coverage": "vitest run --coverage",
-    "a11y": "node scripts/a11y-stories.mjs"
+    "a11y": "node scripts/a11y-stories.mjs",
+    "e2e": "node tests/e2e/smoke.mjs"
   },
   "dependencies": {
     "next": "^16.4.3",

@@ -10,6 +10,7 @@ import HomePage from './page';
 import AdvisorPage from './advisor/page';
 import AgentStrategyPage from './agent-strategy/page';
 import QuickStartPage from './quick-start/page';
+import PdfPage from './report/pdf/page';
 
 vi.mock('next/navigation', () => ({
   useRouter: () => ({ push: vi.fn(), replace: vi.fn() }),
@@ -38,6 +39,7 @@ describe('site wiring', () => {
     ['cost calculator', CostCalcPage],
     ['advisor', AdvisorPage],
     ['agent strategy', AgentStrategyPage],
+    ['PDF export', PdfPage],
   ])('renders exactly one main landmark on the %s page', (_name, Page) => {
     render(
       <SiteLayout>
