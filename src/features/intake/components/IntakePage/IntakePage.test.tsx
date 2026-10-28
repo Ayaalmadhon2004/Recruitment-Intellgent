@@ -165,6 +165,23 @@ describe('IntakePage keyboard use', () => {
   });
 });
 
+describe('IntakePage clearing a number', () => {
+  it('returns the question to To do and lowers the progress count', async () => {
+    const user = userEvent.setup();
+    start(
+      createMemoryStore(
+        saved({ answers: [known('B1', 9)], confirmedTagIds: ['B1'], sectionIndex: 1 }),
+      ),
+    );
+    expect(screen.getAllByText(`1 of ${total} answered`).length).toBeGreaterThan(0);
+    const input = screen.getByRole('textbox');
+    expect(input).toHaveValue('9');
+    await user.clear(input);
+    expect(screen.getAllByText(`0 of ${total} answered`).length).toBeGreaterThan(0);
+    expect(screen.queryByText(en.questionCard.status.answered)).not.toBeInTheDocument();
+  });
+});
+
 describe('IntakePage evidence tags', () => {
   it('starts with no tag selected and asks for one, until the person picks', async () => {
     const user = userEvent.setup();

@@ -1,13 +1,6 @@
-import { en } from '@/domain/copy';
+import { en, fill } from '@/domain/copy';
 import type { StageId } from '@/domain/types';
 import type { ScoreCardLabels, StageCardLabels } from '@/patterns';
-
-/** Replaces each "{name}" placeholder in a copy template with its value. */
-export const fill = (template: string, values: Record<string, string | number>): string =>
-  Object.entries(values).reduce(
-    (text, [key, value]) => text.split(`{${key}}`).join(String(value)),
-    template,
-  );
 
 /** Label bundles for the score patterns, built from copy. Shared by Quick Start and Report. */
 export const notScorableLabels = {

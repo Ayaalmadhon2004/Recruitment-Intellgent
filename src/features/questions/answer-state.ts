@@ -49,6 +49,10 @@ export function setAnswer(
   return [...without(answers, id), next];
 }
 
+/** Remove any answer (a value or "Not sure") for a question. */
+export const clearAnswer = (answers: readonly Answer[], id: QuestionId): Answer[] =>
+  without(answers, id);
+
 /** Change how an existing answer is known. Does nothing if the question has no answer yet. */
 export function setEvidence(
   answers: readonly Answer[],

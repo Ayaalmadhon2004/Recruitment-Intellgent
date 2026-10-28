@@ -4,6 +4,7 @@ import { known } from '@/fixtures/builders';
 import { isUnsure, knownFor } from '@/features/questions';
 import {
   answerQuestion,
+  clearQuestion,
   confirmEvidence,
   confirmedTagFor,
   emptyIntakeState,
@@ -46,6 +47,15 @@ describe('answering', () => {
     const before = { ...answered };
     confirmEvidence(answered, 'A1', 'verified', domainConfig);
     expect(answered).toEqual(before);
+  });
+});
+
+describe('clearing', () => {
+  it('removes the answer and its confirmed tag', () => {
+    const tagged = confirmEvidence(answered, 'A1', 'verified', domainConfig);
+    const next = clearQuestion(tagged, 'A1');
+    expect(next.answers).toEqual([]);
+    expect(next.confirmedTagIds).toEqual([]);
   });
 });
 
