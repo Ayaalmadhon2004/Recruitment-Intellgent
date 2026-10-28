@@ -1,11 +1,13 @@
+/* Static label, not a control: flat, square-ish, no border, so it never reads as a button. */
 .badge {
   display: inline-flex;
   align-items: center;
   align-self: flex-start;
-  padding: 5px 14px;
-  border-radius: var(--radius-pill);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-field);
   font-size: var(--text-caption-size);
   font-weight: var(--font-weight-semibold);
+  cursor: default;
 }
 
 .solid {
@@ -14,7 +16,6 @@
 }
 
 .outline {
-  background: var(--color-card);
-  border: 2px solid var(--color-crimson);
+  background: var(--color-crimson-tint);
   color: var(--color-crimson-dark);
 }
