@@ -33,6 +33,11 @@ export type FlowShellProps = {
   submitting?: boolean;
   /** When given, replaces the steps with the success state. */
   success?: ReactNode;
+  /**
+   * An extra last step that is only the success state, for example "Done". When given, the stepper
+   * lists it after the real steps and, once `success` shows, keeps the stepper above the success state.
+   */
+  finalStep?: FlowStep;
 };
 
 /** Generic multi-step flow: steps, back and next, a success state. No knowledge of any feature. */
@@ -46,6 +51,7 @@ export function FlowShell({
   nextDisabled,
   submitting,
   success,
+  finalStep,
 }: FlowShellProps): ReactNode {
   const panel = useRef<HTMLDivElement>(null);
   const first = useRef(true);
@@ -63,9 +69,20 @@ export function FlowShell({
   const last = current === steps.length - 1;
   const step = steps[current];
 
+  const stepperSteps = finalStep ? [...steps, finalStep] : steps;
+  const stepper = (
+    <Stepper
+      steps={stepperSteps}
+      current={showingSuccess && finalStep ? steps.length : current}
+      label={labels.stepperLabel}
+      stateLabels={labels.stateLabels}
+    />
+  );
+
   if (showingSuccess) {
     return (
       <div className={styles.shell}>
+        {finalStep ? stepper : null}
         <div ref={panel} tabIndex={-1} className={styles.panel}>
           {success}
         </div>
@@ -75,12 +92,7 @@ export function FlowShell({
 
   return (
     <div className={styles.shell}>
-      <Stepper
-        steps={steps}
-        current={current}
-        label={labels.stepperLabel}
-        stateLabels={labels.stateLabels}
-      />
+      {stepper}
       <p className="visually-hidden" aria-live="polite">
         {step ? labels.announce(current + 1, steps.length, step.label) : null}
       </p>

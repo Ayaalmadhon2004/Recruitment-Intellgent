@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
-import { routes, tbcConfig } from '@/domain/config';
+import { routes } from '@/domain/config';
 import { en, fill } from '@/domain/copy';
 import { CtaBand, FlowShell, SampleDataBadge, TbcValue } from '@/patterns';
 import { PageContainer, SectionHeader } from '@/shell';
@@ -44,6 +44,8 @@ const steps = [
   { id: 'choose', label: copy.flow.stepChoose },
   { id: 'confirm', label: copy.flow.stepConfirm },
 ];
+
+const finalStep = { id: 'done', label: copy.flow.stepDone };
 
 const flowLabels = {
   stepperLabel: copy.flow.stepperLabel,
@@ -250,18 +252,6 @@ export function UnlockPage({
             <dt>{copy.confirm.option}</dt>
             <dd>{optionNode(chosen)}</dd>
           </div>
-          <div className={styles.fact}>
-            <dt>{copy.confirm.price}</dt>
-            <dd>
-              <TbcValue value={tbcConfig.pricing} placeholder={en.status.tbc} />
-            </dd>
-          </div>
-          <div className={styles.fact}>
-            <dt>{copy.confirm.timing}</dt>
-            <dd>
-              <TbcValue value={tbcConfig.unlockTiming} placeholder={en.status.tbc} />
-            </dd>
-          </div>
         </dl>
       </div>
       <aside className={styles.aside}>
@@ -299,6 +289,7 @@ export function UnlockPage({
             onNext={onNext}
             nextDisabled={step === 0 && pathId === null}
             submitting={submitting}
+            finalStep={finalStep}
             success={justUnlocked ? donePanel : undefined}
           >
             {step === 0 ? optionsStep : confirmStep}

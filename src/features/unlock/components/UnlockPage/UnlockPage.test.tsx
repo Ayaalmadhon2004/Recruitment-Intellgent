@@ -23,7 +23,7 @@ describe('UnlockPage', () => {
     expect(screen.queryByRole('group', { name: copy.choose.legend })).toBeNull();
   });
 
-  it('shows the unconfirmed free and full line, price and options as placeholders', async () => {
+  it('shows the unconfirmed free and full line and options as placeholders', async () => {
     const user = userEvent.setup();
     await ready();
     expect(screen.getAllByText(en.status.tbc).length).toBeGreaterThan(0);
@@ -33,8 +33,8 @@ describe('UnlockPage', () => {
     expect(within(group).getByText(copy.choose.placeholders.one)).toBeVisible();
     await user.click(within(group).getAllByRole('radio')[0] as HTMLElement);
     await user.click(screen.getByRole('button', { name: copy.flow.next }));
-    const price = screen.getByText(copy.confirm.price).closest('div') as HTMLElement;
-    expect(within(price).getByText(en.status.tbc)).toBeVisible();
+    const option = screen.getByText(copy.confirm.option).closest('div') as HTMLElement;
+    expect(within(option).getByText(copy.choose.placeholders.one)).toBeVisible();
     expect(screen.queryByText(/\$|USD|VND/)).toBeNull();
   });
 
@@ -55,6 +55,11 @@ describe('UnlockPage', () => {
     await user.click(screen.getByRole('button', { name: copy.flow.next }));
     await user.click(screen.getByRole('button', { name: copy.flow.submit }));
     expect(await screen.findByRole('heading', { name: copy.done.title })).toBeVisible();
+    const stepper = screen.getByRole('list', { name: copy.flow.stepperLabel });
+    expect(within(stepper).getAllByRole('listitem')).toHaveLength(3);
+    expect(within(stepper).getByRole('listitem', { current: 'step' })).toHaveTextContent(
+      copy.flow.stepDone,
+    );
     expect(screen.getByRole('link', { name: copy.done.openReport })).toHaveAttribute(
       'href',
       routes.report,

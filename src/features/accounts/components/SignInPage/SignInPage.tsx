@@ -153,11 +153,12 @@ export function SignInPage({
             />
           ) : (
             <form className={styles.form} noValidate onSubmit={(e) => void onSubmit(e)}>
-              {problem === 'unavailable' ? (
+              {problem !== undefined ? (
                 <div role="alert" className={styles.problem}>
                   <Icon name="concern" size={22} strokeWidth={2.2} />
                   <span>
-                    <strong>{copy.problem}</strong> {copy.unavailable}
+                    <strong>{copy.problem}</strong>{' '}
+                    {problem === 'invalid' ? copy.invalidEmail : copy.unavailable}
                   </span>
                 </div>
               ) : null}
@@ -171,7 +172,7 @@ export function SignInPage({
                 hint={copy.emailHint}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                error={problem === 'invalid' ? copy.invalidEmail : undefined}
+                invalid={problem === 'invalid'}
               />
               <Button type="submit" size="lg" loading={sending} loadingLabel={copy.sending}>
                 {problem === undefined ? copy.cta : copy.ctaRetry}

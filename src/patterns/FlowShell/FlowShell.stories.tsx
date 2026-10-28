@@ -23,10 +23,12 @@ function Demo({
   start = 0,
   submitting = false,
   done = false,
+  withFinalStep = false,
 }: {
   start?: number;
   submitting?: boolean;
   done?: boolean;
+  withFinalStep?: boolean;
 }): React.ReactNode {
   const [current, setCurrent] = useState(start);
   const [finished, setFinished] = useState(done);
@@ -37,6 +39,7 @@ function Demo({
         current={current}
         labels={labels}
         submitting={submitting}
+        finalStep={withFinalStep ? { id: 'done', label: 'Done' } : undefined}
         onBack={() => setCurrent((c) => Math.max(0, c - 1))}
         onNext={() => (current === steps.length - 1 ? setFinished(true) : setCurrent((c) => c + 1))}
         success={finished ? <h2>Request sent</h2> : undefined}
@@ -56,3 +59,5 @@ export const MiddleStep: Story = { render: () => <Demo start={1} /> };
 export const LastStep: Story = { render: () => <Demo start={2} /> };
 export const Submitting: Story = { render: () => <Demo start={2} submitting /> };
 export const Success: Story = { render: () => <Demo start={2} done /> };
+/** The stepper lists a Done step and stays above the success state (the Unlock design). */
+export const SuccessWithDoneStep: Story = { render: () => <Demo start={2} done withFinalStep /> };

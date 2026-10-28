@@ -22,7 +22,7 @@ export const LockedMobile: Story = { globals: mobile };
 export const ChooseDesktop: Story = { args: { initialOpen: true }, globals: desktop };
 export const ChooseMobile: Story = { args: { initialOpen: true }, globals: mobile };
 
-/** Step 2: price and timing show as to be confirmed. */
+/** Step 2: report and option only, as in the design. The option shows as to be confirmed. */
 export const ConfirmDesktop: Story = {
   args: { initialOpen: true, initialStep: 1, initialPathId: 'placeholder-1' },
   globals: desktop,
