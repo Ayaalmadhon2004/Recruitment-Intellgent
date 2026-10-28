@@ -1,0 +1,76 @@
+.panel {
+  flex: 0 1 380px;
+  min-width: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  padding: var(--space-7);
+  border-radius: var(--radius-card-lg);
+  background: var(--color-card);
+  box-shadow: var(--shadow-card-raised);
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.eyebrow {
+  font-size: var(--text-eyebrow-size);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--text-eyebrow-tracking);
+  color: var(--color-crimson);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--text-h2-size);
+  line-height: var(--text-h2-line);
+  font-weight: var(--font-weight-semibold);
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.groupLabel {
+  font-size: var(--text-small-size);
+  font-weight: var(--font-weight-semibold);
+}
+
+.logoBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 72px;
+  padding: var(--space-3);
+  border: 2px dashed var(--color-text-secondary);
+  border-radius: var(--radius-card-sm);
+  text-align: center;
+  font-size: var(--text-small-size);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
+}
+
+.action {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.hint {
+  margin: 0;
+  font-size: var(--text-small-size);
+  line-height: var(--text-small-line);
+  color: var(--color-text-secondary);
+}
+
+@media (max-width: 760px) {
+  .panel {
+    padding: var(--space-5);
+  }
+}

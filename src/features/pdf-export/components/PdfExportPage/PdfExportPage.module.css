@@ -1,0 +1,145 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  max-width: var(--layout-max-width);
+  margin: 0 auto;
+  padding: var(--space-9) var(--layout-gutter) var(--space-10);
+}
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+.eyebrow {
+  font-size: var(--text-eyebrow-size);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--text-eyebrow-tracking);
+  color: var(--color-crimson);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--text-h1-size);
+  line-height: var(--text-h1-line);
+  font-weight: var(--font-weight-bold);
+}
+
+.lead {
+  margin: 0;
+  max-width: 520px;
+  font-size: var(--text-h3-size);
+  line-height: var(--text-h3-line);
+  color: var(--color-text-secondary);
+}
+
+.workspace {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-7);
+  align-items: flex-start;
+}
+
+.canvas {
+  flex: 1 1 560px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-6);
+  padding: var(--space-7) var(--space-6);
+  border-radius: var(--radius-card-lg);
+  background: var(--color-line-strong);
+}
+
+.pages {
+  display: flex;
+  gap: var(--space-1);
+  padding: var(--space-1);
+  border: 2px solid var(--color-line-dashed);
+  border-radius: var(--radius-pill);
+  background: var(--color-card);
+}
+
+.pageButton {
+  min-height: var(--tap-target);
+  padding: 0 var(--space-5);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--color-text);
+  font-size: var(--text-small-size);
+  font-weight: var(--font-weight-semibold);
+}
+
+.pageOn {
+  background: var(--color-crimson);
+  color: var(--color-text-inverse);
+}
+
+.caption {
+  margin: 0;
+  font-size: var(--text-small-size);
+  font-weight: var(--font-weight-medium);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+.logo {
+  height: var(--space-9);
+  width: auto;
+}
+
+.logoBox {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--space-9);
+  padding: 0 var(--space-3);
+  border: 2px dashed var(--color-text-secondary);
+  font-size: var(--text-caption-size);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
+}
+
+@media (max-width: 760px) {
+  .root {
+    padding-top: var(--space-7);
+  }
+
+  .canvas {
+    padding: var(--space-5) var(--space-3);
+  }
+}
+
+@media print {
+  .root {
+    display: block;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .intro,
+  .pages,
+  .caption {
+    display: none;
+  }
+
+  .workspace {
+    display: block;
+  }
+
+  .canvas {
+    display: block;
+    padding: 0;
+    background: none;
+  }
+}
