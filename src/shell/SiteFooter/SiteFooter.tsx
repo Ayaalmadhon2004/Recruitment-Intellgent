@@ -9,7 +9,7 @@ export type SiteFooterProps = {
 
 export function SiteFooter({ brandLine, link }: SiteFooterProps): ReactNode {
   return (
-    <footer className={styles.footer}>
+    <footer className={styles.footer} data-print="hide">
       <div className={styles.inner}>
         <span className={styles.brand}>
           <PaperFoldMark size={36} />

@@ -4,7 +4,7 @@ import { cx } from '../internal/cx';
 import { describedBy, FieldShell } from '../Field/FieldShell';
 import fieldStyles from '../Field/Field.module.css';
 
-export type SelectOption = { value: string; label: string };
+export type SelectOption = { value: string; label: string; disabled?: boolean };
 
 export type SelectProps = Omit<SelectHTMLAttributes<HTMLSelectElement>, 'id' | 'children'> & {
   id?: string;
@@ -39,7 +39,7 @@ export function Select({
       >
         {placeholder !== undefined ? <option value="">{placeholder}</option> : null}
         {options.map((o) => (
-          <option key={o.value} value={o.value}>
+          <option key={o.value} value={o.value} disabled={o.disabled}>
             {o.label}
           </option>
         ))}

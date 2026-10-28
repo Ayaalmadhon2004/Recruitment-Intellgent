@@ -22,7 +22,7 @@ export function SiteHeader({
   cta,
 }: SiteHeaderProps): ReactNode {
   return (
-    <header className={styles.header}>
+    <header className={styles.header} data-print="hide">
       <div className={styles.brand}>
         <Image
           src={logoSrc}
