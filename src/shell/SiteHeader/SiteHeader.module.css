@@ -191,7 +191,7 @@
 }
 
 /* Single cohesive row: inline links, no drawer, no burger. */
-@media (min-width: 1280px) {
+@media (min-width: 1400px) {
   .bar {
     gap: var(--space-6);
   }
@@ -295,7 +295,8 @@
   }
 }
 
-@media (min-width: 1440px) {
+/* Eight links plus the account controls need the room, so the product name waits for a wider screen. */
+@media (min-width: 1680px) {
   .product {
     display: block;
   }
