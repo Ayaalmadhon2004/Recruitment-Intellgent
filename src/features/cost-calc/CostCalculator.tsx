@@ -13,7 +13,7 @@ import {
 } from '@/domain/scoring';
 import type { ScoringConfig } from '@/domain/types';
 import { CtaBand, SampleDataBadge, TbcValue } from '@/patterns';
-import { PageContainer, SectionHeader } from '@/shell';
+import { PageContainer, SectionHeader, WaveDivider } from '@/shell';
 import { Card, Field, RangeSlider, Switch } from '@/ui';
 import { AffordabilityWeights } from './components/AffordabilityWeights';
 import { PeerChart, PeerSampleBadge } from './components/PeerChart';
@@ -101,6 +101,7 @@ export function CostCalculator({
           </div>
         </PageContainer>
       </section>
+      <WaveDivider from="navy" to="page" />
 
       <PageContainer className={styles.content}>
         <section aria-labelledby="cc-inputs" className={styles.section}>

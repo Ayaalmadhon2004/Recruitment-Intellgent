@@ -26,7 +26,7 @@ export function PeerChart({ youNetUsd, peers, scaleMinUsd }: PeerChartProps): Re
   const scale = Math.max(scaleMinUsd, ...rows.map((r) => r.netUsd));
   const lower = peers.filter((p) => youNetUsd < p.netUsd).length;
   return (
-    <Card radius="lg" className={styles.card}>
+    <Card tone="open" radius="lg" className={styles.card}>
       <ul className={styles.list} aria-label={en.costCalc.peers.listLabel}>
         {rows.map((r) => (
           <li key={r.id} className={styles.item}>

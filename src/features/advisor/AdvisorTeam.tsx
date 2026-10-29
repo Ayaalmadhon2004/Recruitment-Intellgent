@@ -20,7 +20,7 @@ export function AdvisorTeam(): ReactNode {
       <ul className={styles.team}>
         {sampleAdvisors.map((a) => (
           <li key={a.id} className={styles.teamItem}>
-            <Card as="article" radius="lg" className={styles.advisor}>
+            <Card as="article" tone="open" radius="lg" className={styles.advisor}>
               <span
                 role="img"
                 aria-label={fill(copy.avatarLabel, { name: a.name })}

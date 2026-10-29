@@ -17,6 +17,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
+export const Open: Story = { args: { tone: 'open' } };
 export const Lift: Story = { args: { lift: true } };
 export const Navy: Story = { args: { tone: 'navy', radius: 'lg' } };
 export const Dashed: Story = { args: { tone: 'dashed', radius: 'lg' } };

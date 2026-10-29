@@ -9,7 +9,7 @@
 .hero {
   background: var(--color-navy-deep);
   color: var(--color-text-inverse);
-  padding-bottom: var(--space-10);
+  padding-bottom: var(--space-8);
 }
 .heroInner {
   display: flex;

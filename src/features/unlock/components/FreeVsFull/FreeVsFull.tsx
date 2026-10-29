@@ -22,7 +22,7 @@ export function FreeVsFull({ unlocked }: FreeVsFullProps): ReactNode {
     <section aria-labelledby="unlock-split-title" className={styles.section}>
       <SectionHeader id="unlock-split-title" eyebrow={copy.eyebrow} title={copy.title} />
       <div className={styles.grid}>
-        <Card as="article" aria-label={copy.freeTitle} radius="lg" lift className={styles.card}>
+        <Card as="article" aria-label={copy.freeTitle} tone="open" radius="lg" lift className={styles.card}>
           <div className={styles.head}>
             <h3 className={styles.name}>{copy.freeTitle}</h3>
             <span className={styles.tagFree}>

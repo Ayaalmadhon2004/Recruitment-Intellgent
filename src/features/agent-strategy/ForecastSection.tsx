@@ -33,7 +33,7 @@ export function ForecastSection({ values, onChange }: ForecastSectionProps): Rea
       <p className={styles.formula}>{copy.formula}</p>
       <div className={styles.steps}>
         {steps.map((step, index) => (
-          <Card key={step.key} radius="md" className={styles.stepCard}>
+          <Card key={step.key} tone="open" radius="md" className={styles.stepCard}>
             <div className={styles.stepHead}>
               <span className={styles.eyebrow}>{fill(copy.step, { n: index + 1 })}</span>
               {index > 0 ? (
