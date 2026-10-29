@@ -23,10 +23,23 @@ describe('UnlockPage', () => {
     expect(screen.queryByRole('group', { name: copy.choose.legend })).toBeNull();
   });
 
-  it('shows the unconfirmed free and full line and options as placeholders', async () => {
+  it('lists the same free and full items as Home, with no developer wording', async () => {
+    await ready();
+    const { free, full } = en.landing.compare;
+    const freeCard = screen.getByRole('article', { name: copy.split.freeTitle });
+    for (const item of free.items.filter((i) => i.included)) {
+      expect(within(freeCard).getByText(item.label)).toBeVisible();
+    }
+    expect(within(freeCard).queryByText(free.items.find((i) => !i.included)!.label)).toBeNull();
+    const fullCard = screen.getByRole('article', { name: copy.split.fullTitle });
+    for (const item of full.items) expect(within(fullCard).getByText(item.label)).toBeVisible();
+    expect(screen.queryByText(/example from the design/i)).toBeNull();
+    expect(screen.queryByText(/your institution/i)).toBeNull();
+  });
+
+  it('shows the unconfirmed unlock options as placeholders', async () => {
     const user = userEvent.setup();
     await ready();
-    expect(screen.getAllByText(en.status.tbc).length).toBeGreaterThan(0);
     await user.click(screen.getByRole('button', { name: copy.cta.seeOptions }));
     const group = screen.getByRole('group', { name: copy.choose.legend });
     expect(within(group).getAllByRole('radio')).toHaveLength(3);
@@ -112,6 +125,12 @@ describe('UnlockPage', () => {
     render(<UnlockPage runtime={createMemoryRuntime({ fail: 'load' })} />);
     expect(await screen.findByRole('alert')).toHaveTextContent(copy.state.errorTitle);
     expect(screen.getByRole('button', { name: copy.state.retry })).toBeVisible();
+  });
+
+  it('hides the development notice outside development', async () => {
+    await ready({ ...createMemoryRuntime(), isDevelopment: false });
+    expect(screen.queryByRole('note')).toBeNull();
+    expect(screen.queryByText(copy.dev.heading)).toBeNull();
   });
 
   it('labels sample data and the development service', async () => {

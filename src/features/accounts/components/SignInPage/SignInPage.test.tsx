@@ -24,6 +24,12 @@ describe('SignInPage', () => {
     expect(screen.queryByRole('main')).not.toBeInTheDocument();
   });
 
+  it('hides the development notice outside development', () => {
+    render(<SignInPage runtime={{ ...createMemoryRuntime(), isDevelopment: false }} />);
+    expect(screen.queryByRole('note')).not.toBeInTheDocument();
+    expect(screen.queryByText(en.accounts.dev.heading)).not.toBeInTheDocument();
+  });
+
   it('says what is wrong with an email that does not look right, and asks nothing of the service', async () => {
     const runtime = createMemoryRuntime();
     const spy = vi.spyOn(runtime.service, 'requestSignInLink');

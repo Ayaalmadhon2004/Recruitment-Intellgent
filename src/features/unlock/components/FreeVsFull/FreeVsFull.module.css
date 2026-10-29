@@ -4,13 +4,6 @@
   gap: var(--space-5);
 }
 
-.note {
-  margin: 0;
-  font-size: var(--text-small-size);
-  line-height: var(--text-small-line);
-  color: var(--color-text-secondary);
-}
-
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));

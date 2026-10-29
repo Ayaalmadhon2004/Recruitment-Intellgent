@@ -3,6 +3,7 @@ import { accountsConfig } from './accounts.config';
 import { accessConfig } from './access.config';
 import { agentsConfig } from './agents.config';
 import { auditScope } from './audit.config';
+import { isDevelopmentBuild } from './environment';
 import { evidenceConfig } from './evidence.config';
 import { questionsConfig } from './questions.config';
 import { scoringConfig } from './scoring.config';
@@ -18,6 +19,7 @@ export {
   agentsConfig,
   auditScope,
   evidenceConfig,
+  isDevelopmentBuild,
   questionsConfig,
   routes,
   scoringConfig,
@@ -30,7 +32,6 @@ export type { Tbc, TbcConfig } from './tbc.config';
 export type {
   PlaceholderUnlockPath,
   UnlockConfig,
-  UnlockExampleItem,
 } from './unlock.config';
 
 export const domainConfig: DomainConfig = {

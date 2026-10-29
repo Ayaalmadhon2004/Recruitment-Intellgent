@@ -75,7 +75,7 @@ const optionNode = (path: ResolvedUnlockPath | undefined): ReactNode =>
  */
 export function UnlockPage({
   runtime: runtimeProp,
-  institutionName = en.reportPage.institutionName,
+  institutionName,
   isSample = false,
   initialOpen = false,
   initialStep = 0,
@@ -123,7 +123,9 @@ export function UnlockPage({
       {isSample ? <SampleDataBadge label={en.status.sample} /> : null}
       <span className={styles.eyebrow}>{copy.hero.eyebrow}</span>
       <h1 className={styles.title}>{copy.hero.title}</h1>
-      <p className={styles.lead}>{fill(copy.hero.lead, { name: institutionName })}</p>
+      <p className={styles.lead}>
+        {institutionName ? fill(copy.hero.leadNamed, { name: institutionName }) : copy.hero.lead}
+      </p>
     </header>
   );
 
@@ -244,7 +246,7 @@ export function UnlockPage({
           <div className={styles.fact}>
             <dt>{copy.confirm.report}</dt>
             <dd>
-              {institutionName}
+              {institutionName ?? copy.confirm.reportDefault}
               {isSample ? ` (${en.status.sample})` : ''}
             </dd>
           </div>
