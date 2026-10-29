@@ -6,6 +6,8 @@ import styles from './NotScorableState.module.css';
 export type NotScorableLabels = {
   /** "Not yet scorable" */
   title: string;
+  /** One friendly sentence saying what the title means, shown under it. */
+  explainer: string;
   /** Plain explanation for each reason. */
   reasons: Record<NotScorable['reason'], string>;
   /** Heading above the list, for example "Needs these answers". */
@@ -38,6 +40,7 @@ export function NotScorableState({
       </span>
       <div className={styles.text}>
         <Heading className={styles.title}>{labels.title}</Heading>
+        <p className={styles.explainer}>{labels.explainer}</p>
         <p className={styles.reason}>{labels.reasons[result.reason]}</p>
         {result.missing.length > 0 ? (
           <div>

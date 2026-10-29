@@ -31,6 +31,13 @@
   color: var(--color-navy);
 }
 
+.explainer {
+  margin: 0;
+  font-size: var(--text-caption-size);
+  line-height: var(--text-caption-line);
+  color: var(--color-text-secondary);
+}
+
 .reason {
   margin: 0;
   font-size: var(--text-small-size);

@@ -23,7 +23,11 @@ export type ScoreCardLabels = {
   /** For example (name, value) => "Readiness score 68 out of 100". */
   ringAria: (name: string, value: number) => string;
   evidenceTags: Record<EvidenceTagId, string>;
+  /** Plain-English meaning of each tag, shown as a tooltip. */
+  evidenceHints?: Record<EvidenceTagId, string>;
   confidence: string;
+  /** Plain-English meaning of confidence, shown as a tooltip. */
+  confidenceHint?: string;
   confidenceLevels: Record<Confidence, string>;
   notScorable: NotScorableLabels;
 };
@@ -82,11 +86,18 @@ export function ScoreCard({
       <StatusBadge tone={bandTone(result.band)} label={labels.bands[result.band]} />
       {reason ? <p className={styles.reason}>{reason}</p> : null}
       <div className={styles.chips}>
-        {evidence ? <EvidenceTag tag={evidence} label={labels.evidenceTags[evidence]} /> : null}
+        {evidence ? (
+          <EvidenceTag
+            tag={evidence}
+            label={labels.evidenceTags[evidence]}
+            hint={labels.evidenceHints?.[evidence]}
+          />
+        ) : null}
         <ConfidenceMeter
           level={result.confidence}
           label={labels.confidence}
           levelLabel={labels.confidenceLevels[result.confidence]}
+          hint={labels.confidenceHint}
         />
       </div>
     </Card>

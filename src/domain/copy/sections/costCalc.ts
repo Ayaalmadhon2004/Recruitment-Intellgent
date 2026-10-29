@@ -60,10 +60,10 @@ export const costCalc = {
   },
   weights: {
     eyebrow: 'AFFORDABILITY',
-    title: 'How Affordability is weighed',
+    title: 'What goes into Affordability',
     intro:
-      'Affordability and ROI is scored from six components. This calculator shows the cost side only. It does not produce an Affordability score.',
-    listLabel: 'Affordability components and weights',
+      'Your Affordability and ROI score is built from six parts. This calculator looks at the cost side only, so it does not give you that score on its own.',
+    listLabel: 'The six parts of Affordability and how much each counts',
     total: 'Total',
     mappingLabel: 'How your answers become component scores:',
   },

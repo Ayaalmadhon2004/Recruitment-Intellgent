@@ -68,7 +68,7 @@ describe('AgentStrategy', () => {
     it('is a real table with a caption and headers', () => {
       setup();
       const table = screen.getByRole('table');
-      expect(within(table).getByText(/Weight in brackets/)).toBeInTheDocument();
+      expect(within(table).getByText(/The number in brackets shows how much each factor counts/)).toBeInTheDocument();
       expect(within(table).getAllByRole('columnheader')).toHaveLength(9);
       expect(
         within(table).getByRole('columnheader', { name: 'Student fit (20)' }),

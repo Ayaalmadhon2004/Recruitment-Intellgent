@@ -12,7 +12,7 @@ const counts = { quickStart: auditScope.quickStartQuestions, total: auditScope.t
 describe('LandingPage question counts', () => {
   it('quote the same totals the Quick Start and Intake use, from config', () => {
     render(<LandingPage />);
-    expect(screen.getByText(`${auditScope.totalQuestions} questions`)).toBeInTheDocument();
+    expect(screen.getByText(`${auditScope.totalQuestions} questions, at your own pace`)).toBeInTheDocument();
     expect(screen.queryByText(/\b40 questions/)).not.toBeInTheDocument();
   });
 });

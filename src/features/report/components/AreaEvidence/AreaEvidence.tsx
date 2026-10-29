@@ -42,16 +42,24 @@ export function AreaEvidence({
       <section className={styles.block} aria-label={`${name}: ${en.report.area.evidenceHeading}`}>
         <Heading className={styles.blockTitle}>{en.report.area.evidenceHeading}</Heading>
         {area.evidence.length > 0 ? (
+          <p className={styles.plain}>{en.report.area.evidenceLead}</p>
+        ) : null}
+        {area.evidence.length > 0 ? (
           <ul className={styles.rows}>
             {area.evidence.map((item) => (
               <li key={item.questionId} className={styles.row}>
                 <span className={styles.question}>{questionLabel(item.questionId)}</span>
                 <span className={styles.chips}>
-                  <EvidenceTag tag={item.tag} label={labels.evidenceTags[item.tag]} />
+                  <EvidenceTag
+                    tag={item.tag}
+                    label={labels.evidenceTags[item.tag]}
+                    hint={labels.evidenceHints?.[item.tag]}
+                  />
                   <ConfidenceMeter
                     level={item.confidence}
                     label={labels.confidence}
                     levelLabel={labels.confidenceLevels[item.confidence]}
+                    hint={labels.confidenceHint}
                   />
                 </span>
               </li>

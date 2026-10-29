@@ -4,6 +4,7 @@ import type { StageId } from '@/domain/types';
 /** Label bundles for pattern stories and tests, built from copy so no test invents its own wording. */
 export const notScorableLabels = {
   title: en.status.notScorable,
+  explainer: en.notScorable.explainer,
   reasons: en.notScorable.reasons,
   missingHeading: en.notScorable.missingHeading,
 };

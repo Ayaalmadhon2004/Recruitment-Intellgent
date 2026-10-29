@@ -31,7 +31,7 @@ export const unlock = {
     eyebrow: 'PREVIEW',
     title: 'A peek at a full section',
     lockedName: 'Agent selection matrix',
-    lockedBody: 'Part of the full report. Locked.',
+    lockedBody: 'This part opens with the full report.',
     unlockedNote: 'Unlocked. This section is in your full report.',
     openReport: 'Read it in the report',
   },
@@ -83,7 +83,7 @@ export const unlock = {
   },
   empty: {
     title: 'Nothing to unlock yet',
-    body: 'An unlock opens the full report for your audit. Answer the Quick Start first, then come back.',
+    body: 'The full report is built from your answers. Complete the Quick Start first, then come back and open it.',
     cta: 'Start the Quick Start',
   },
   state: {
