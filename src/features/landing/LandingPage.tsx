@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
-import { routes, tbcConfig } from '@/domain/config';
-import { en } from '@/domain/copy';
+import { auditScope, routes, tbcConfig } from '@/domain/config';
+import { en, fill } from '@/domain/copy';
 import { CtaBand } from '@/patterns';
 import { PageContainer } from '@/shell';
 import { FreeOrFull } from './components/FreeOrFull';
@@ -35,7 +35,7 @@ export function LandingPage({
         <PrivacyStrip privacyPolicyUrl={privacyPolicyUrl} />
         <CtaBand
           title={copy.title}
-          body={copy.body}
+          body={fill(copy.body, { quickStart: auditScope.quickStartQuestions })}
           actions={[
             { label: copy.primary, href: startHref },
             { label: copy.secondary, href: en.site.url, variant: 'inverse-outline' },

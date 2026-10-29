@@ -1,14 +1,17 @@
-/** Landing page copy. Text comes from design-reference/screens/Landing.dc.html. */
+/**
+ * Landing page copy. Text comes from design-reference/screens/Landing.dc.html.
+ * {quickStart} and {total} are filled from config/audit.config.ts, never typed here.
+ */
 export const landing = {
   meta: {
     title: 'Vietnam Recruitment Intelligence | Capstone Education',
     description:
-      'Answer 5 questions and get a free first read of how ready your university is to recruit in Vietnam.',
+      'Answer {quickStart} questions and get a free first read of how ready your university is to recruit in Vietnam.',
   },
   hero: {
     eyebrow: 'FOR UNIVERSITIES RECRUITING IN VIETNAM',
     title: 'Know where you stand in Vietnam.',
-    lead: 'Answer 5 questions. Get a free first read in about 3 minutes.',
+    lead: 'Answer {quickStart} questions. Get a free first read in about 3 minutes.',
     primaryCta: 'Start the audit',
     secondaryCta: 'See how it works',
     photoAlt: 'Smiling graduate holding a diploma (temporary photo)',
@@ -42,7 +45,7 @@ export const landing = {
     listLabel: 'Steps',
     steps: [
       {
-        title: 'Answer 5 questions',
+        title: 'Answer {quickStart} questions',
         body: 'Simple choices. No documents needed.',
         time: '3 minutes',
       },
@@ -54,7 +57,7 @@ export const landing = {
       {
         title: 'Complete the full audit',
         body: 'Unlock all scores and a clear plan.',
-        time: '40 questions',
+        time: '{total} questions',
       },
     ],
   },
@@ -70,7 +73,7 @@ export const landing = {
     free: {
       tab: 'Free report',
       title: 'Free report',
-      sub: 'A first read after 5 questions.',
+      sub: 'A first read after {quickStart} questions.',
       price: 'Free',
       cta: 'Start the audit',
       items: [
@@ -85,7 +88,7 @@ export const landing = {
     full: {
       tab: 'Full report',
       title: 'Full report',
-      sub: 'The whole picture from 40 questions.',
+      sub: 'The whole picture from {total} questions.',
       cta: 'Start free first',
       items: [
         { label: 'Your recruitment stage', included: true },
@@ -106,7 +109,7 @@ export const landing = {
   },
   finalCta: {
     title: 'Ready to see your first read?',
-    body: '5 questions. About 3 minutes. Free.',
+    body: '{quickStart} questions. About 3 minutes. Free.',
     primary: 'Start the audit',
     secondary: 'Visit capstonevietnam.com',
   },

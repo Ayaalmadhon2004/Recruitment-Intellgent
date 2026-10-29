@@ -1,5 +1,6 @@
 import { render, screen, within } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
+import { auditScope } from '@/domain/config';
 import { en } from '@/domain/copy';
 import type { FirstReadViewProps } from './FirstReadView';
 import { FirstReadView } from './FirstReadView';
@@ -24,8 +25,8 @@ describe('FirstReadView', () => {
     expect(screen.queryByText(en.scoreCard.outOf)).not.toBeInTheDocument();
     expect(screen.getByText(en.firstRead.scoredNone)).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: 'You are building' })).toBeInTheDocument();
-    expect(screen.getAllByText('5 of 40 questions answered').length).toBeGreaterThan(0);
-    expect(screen.getByRole('progressbar')).toHaveAttribute('aria-valuenow', '5');
+    expect(screen.getAllByText(`${auditScope.quickStartQuestions} of ${auditScope.quickStartQuestions} questions answered`).length).toBeGreaterThan(0);
+    expect(screen.getByRole('progressbar')).toHaveAttribute('aria-valuenow', String(auditScope.quickStartQuestions));
     for (const name of Object.values(en.areas))
       expect(screen.getByRole('article', { name })).toBeInTheDocument();
   });
@@ -35,7 +36,7 @@ describe('FirstReadView', () => {
     expect(screen.getAllByText(en.status.notScorable)).toHaveLength(7);
     expect(screen.queryByText('Stage: Building')).not.toBeInTheDocument();
     expect(
-      screen.getByText('0 of 40 questions answered', { selector: 'span' }),
+      screen.getByText(`0 of ${auditScope.quickStartQuestions} questions answered`, { selector: 'span' }),
     ).toBeInTheDocument();
   });
 

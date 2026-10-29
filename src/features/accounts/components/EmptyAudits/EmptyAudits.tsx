@@ -11,7 +11,7 @@ export type EmptyAuditsProps = {
 
 const copy = en.accounts.dashboard.empty;
 
-/** "No audits yet". Offers the full audit, or the 5-question Quick Start. */
+/** "No audits yet". Offers the full audit, or the Quick Start. */
 export function EmptyAudits({ total, onStart }: EmptyAuditsProps): ReactNode {
   return (
     <Card as="section" radius="lg" aria-label={copy.label} className={styles.empty}>

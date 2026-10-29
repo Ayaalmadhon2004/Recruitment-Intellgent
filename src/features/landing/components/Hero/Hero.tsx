@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
-import { en } from '@/domain/copy';
+import { auditScope } from '@/domain/config';
+import { en, fill } from '@/domain/copy';
 import { SampleDataBadge } from '@/patterns';
 import { PageContainer } from '@/shell';
 import { Button, PhotoBox, Reveal } from '@/ui';
@@ -26,7 +27,7 @@ export function Hero({ startHref }: HeroProps): ReactNode {
           <h1 id="landing-title" className={styles.title}>
             {copy.title}
           </h1>
-          <p className={styles.lead}>{copy.lead}</p>
+          <p className={styles.lead}>{fill(copy.lead, { quickStart: auditScope.quickStartQuestions })}</p>
           <div className={styles.actions}>
             <Button href={startHref} size="lg" className="anim-pulse">
               {copy.primaryCta}

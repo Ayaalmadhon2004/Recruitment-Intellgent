@@ -2,13 +2,19 @@
 
 import { useState } from 'react';
 import type { ReactNode } from 'react';
-import { en } from '@/domain/copy';
+import { auditScope } from '@/domain/config';
+import { en, fill } from '@/domain/copy';
 import { TbcValue } from '@/patterns';
 import { SectionHeader } from '@/shell';
 import { Button, Icon } from '@/ui';
 import styles from './FreeOrFull.module.css';
 
 const copy = en.landing.compare;
+
+const counts = {
+  quickStart: auditScope.quickStartQuestions,
+  total: auditScope.totalQuestions,
+};
 
 type Mode = 'free' | 'full';
 const MODES: readonly Mode[] = ['free', 'full'];
@@ -48,7 +54,7 @@ export function FreeOrFull({
       <div key={mode} className={`${styles.panel} anim-pop`}>
         <div className={styles.summary}>
           <h3 className={styles.panelTitle}>{current.title}</h3>
-          <p className={styles.sub}>{current.sub}</p>
+          <p className={styles.sub}>{fill(current.sub, counts)}</p>
           <p className={styles.price}>
             <span className="visually-hidden">{copy.priceLabel}: </span>
             {mode === 'free' ? (

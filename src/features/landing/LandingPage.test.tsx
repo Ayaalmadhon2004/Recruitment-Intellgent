@@ -1,17 +1,27 @@
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it } from 'vitest';
-import { en } from '@/domain/copy';
+import { auditScope } from '@/domain/config';
+import { en, fill } from '@/domain/copy';
 import { LandingPage } from './LandingPage';
 
 const copy = en.landing;
 const THREE = copy.how.steps.length;
+const counts = { quickStart: auditScope.quickStartQuestions, total: auditScope.totalQuestions };
+
+describe('LandingPage question counts', () => {
+  it('quote the same totals the Quick Start and Intake use, from config', () => {
+    render(<LandingPage />);
+    expect(screen.getByText(`${auditScope.totalQuestions} questions`)).toBeInTheDocument();
+    expect(screen.queryByText(/\b40 questions/)).not.toBeInTheDocument();
+  });
+});
 
 describe('LandingPage hero', () => {
   it('shows the headline and real links for both calls to action', () => {
     render(<LandingPage />);
     expect(screen.getByRole('heading', { level: 1, name: copy.hero.title })).toBeInTheDocument();
-    expect(screen.getByText(copy.hero.lead)).toBeInTheDocument();
+    expect(screen.getByText(fill(copy.hero.lead, counts))).toBeInTheDocument();
     const hero = screen.getByRole('region', { name: copy.hero.title });
     expect(within(hero).getByRole('link', { name: copy.hero.primaryCta })).toHaveAttribute(
       'href',
@@ -62,7 +72,7 @@ describe('LandingPage sections', () => {
     );
     expect(steps).toHaveLength(THREE);
     copy.how.steps.forEach((step, i) => {
-      expect(within(steps[i]!).getByRole('heading', { name: step.title })).toBeInTheDocument();
+      expect(within(steps[i]!).getByRole('heading', { name: fill(step.title, counts) })).toBeInTheDocument();
       expect(steps[i]).toHaveTextContent(String(i + 1));
     });
   });

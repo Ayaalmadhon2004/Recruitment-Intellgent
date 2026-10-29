@@ -1,3 +1,4 @@
+import { auditScope } from '@/domain/config';
 import { notScorable, scored } from '@/domain/scoring';
 import type { ScoreAreaId, ScoreResult } from '@/domain/types';
 import type { FirstReadResponse } from '../../contract';
@@ -8,8 +9,8 @@ const noFormula = (): ScoreResult => notScorable('no-formula', ['B2', 'B3']);
 /** What the server returns today: a stage, and six areas with no formula yet. */
 export const realCaseResult: FirstReadResponse = {
   configVersion: 'test',
-  answeredCount: 5,
-  quickStartTotal: 40,
+  answeredCount: auditScope.quickStartQuestions,
+  quickStartTotal: auditScope.quickStartQuestions,
   stage: { kind: 'staged', stage: 'building' },
   areas: {
     readiness: noFormula(),

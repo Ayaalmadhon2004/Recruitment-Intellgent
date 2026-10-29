@@ -27,7 +27,7 @@ const copy = en.quickStart;
 const BAD_REQUEST = 400;
 const PAYLOAD_TOO_LARGE = 413;
 
-/** The five temporary Quick Start questions, in config order. */
+/** The Quick Start questions, in config order. */
 const questions = questionsConfig.filter((q) => q.quickStart);
 const views = questions.map(toQuestionView);
 const steps = questions.map((q, index) => ({
@@ -139,7 +139,7 @@ export function QuickStartFlow({
     <div className={styles.root}>
       <header className={styles.intro}>
         <span className={styles.eyebrow}>{copy.eyebrow}</span>
-        <h1 className={styles.title}>{copy.title}</h1>
+        <h1 className={styles.title}>{fill(copy.title, { count: questions.length })}</h1>
         <p className={styles.lead}>{copy.lead}</p>
       </header>
       <FlowShell
