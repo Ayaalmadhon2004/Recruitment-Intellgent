@@ -8,8 +8,13 @@ export { CtaBand } from './CtaBand';
 export type { CtaAction, CtaBandProps } from './CtaBand';
 export { EvidenceTag } from './EvidenceTag';
 export type { EvidenceTagProps } from './EvidenceTag';
-export { FlowShell } from './FlowShell';
-export type { FlowShellLabels, FlowShellProps, FlowStep } from './FlowShell';
+export { FlowShell, FlowShellSkeleton } from './FlowShell';
+export type {
+  FlowShellLabels,
+  FlowShellProps,
+  FlowShellSkeletonProps,
+  FlowStep,
+} from './FlowShell';
 export { NotScorableState } from './NotScorableState';
 export type { NotScorableLabels, NotScorableStateProps } from './NotScorableState';
 export { ProgressBar } from './ProgressBar';

@@ -4,6 +4,7 @@ import { SkeletonGroup } from '@/ui';
 import { ActionListSkeleton } from './ActionList';
 import { QuestionCardSkeleton } from './QuestionCard';
 import { RadarChartSkeleton } from './RadarChart';
+import { FlowShellSkeleton } from './FlowShell';
 import { ScoreCardSkeleton } from './ScoreCard';
 import { ScoreRingSkeleton } from './ScoreRing';
 import { StageCardSkeleton } from './StageCard';
@@ -19,6 +20,13 @@ describe('pattern skeletons', () => {
     ['StageCard', <StageCardSkeleton key="d" steps={5} />, 12],
     ['QuestionCard', <QuestionCardSkeleton key="e" options={3} />, 7],
     ['ActionList', <ActionListSkeleton key="f" items={4} />, 8],
+    [
+      'FlowShell',
+      <FlowShellSkeleton key="g" steps={5}>
+        <QuestionCardSkeleton options={2} />
+      </FlowShellSkeleton>,
+      17,
+    ],
   ])('%s renders only hidden shapes inside one busy status', (_name, ui, count) => {
     const { container } = render(<SkeletonGroup label="Loading">{ui}</SkeletonGroup>);
     expect(screen.getAllByRole('status')).toHaveLength(1);
