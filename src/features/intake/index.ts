@@ -1,4 +1,4 @@
-export { IntakePage } from './components/IntakePage';
+export { IntakePage, IntakeSkeleton } from './components/IntakePage';
 export type { IntakePageProps } from './components/IntakePage';
 export {
   LOCAL_AUDIT_ID,

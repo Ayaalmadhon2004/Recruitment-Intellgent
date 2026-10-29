@@ -46,7 +46,6 @@ export const accounts = {
     lead: 'Pick up where you stopped, or start a new one.',
     privateTo: 'Private to {email}',
     sample: 'Sample data - illustrative only',
-    loading: 'Loading your audits...',
     loadError: 'We could not load your audits.',
     retry: 'Try again',
     signedOut: {

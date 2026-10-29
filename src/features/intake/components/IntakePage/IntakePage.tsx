@@ -14,6 +14,7 @@ import { IntakeNav } from '../IntakeNav';
 import { IntakeOverview } from '../IntakeOverview';
 import { IntakeSection } from '../IntakeSection';
 import { SectionNav } from '../SectionNav';
+import { IntakeSkeleton } from './IntakeSkeleton';
 import styles from './IntakePage.module.css';
 
 export type IntakePageProps = {
@@ -122,11 +123,7 @@ export function IntakePage(props: IntakePageProps): ReactNode {
   const isClient = useIsClient();
   const [defaultStore] = useState(() => createLocalStorageStore());
   if (!isClient) {
-    return (
-      <p role="status" className={styles.loading}>
-        {copy.loading}
-      </p>
-    );
+    return <IntakeSkeleton />;
   }
   return <IntakeBody {...props} store={props.store ?? defaultStore} />;
 }

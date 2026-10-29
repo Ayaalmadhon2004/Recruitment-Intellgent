@@ -6,7 +6,7 @@ import { routes } from '@/domain/config';
 import { en, fill } from '@/domain/copy';
 import { CtaBand, FlowShell, SampleDataBadge, TbcValue } from '@/patterns';
 import { PageContainer, SectionHeader } from '@/shell';
-import { Button, Icon, RadioCardGroup } from '@/ui';
+import { Button, Icon, RadioCardGroup, SkeletonGroup } from '@/ui';
 import type { IconName } from '@/ui';
 import { resolveUnlockPaths } from '../../paths';
 import type { ResolvedUnlockPath } from '../../paths';
@@ -14,7 +14,7 @@ import { getDefaultRuntime } from '../../runtime';
 import type { UnlockRuntime } from '../../runtime';
 import type { EntitlementRecord } from '../../service/types';
 import { DevUnlockNotice } from '../DevUnlockNotice';
-import { FreeVsFull } from '../FreeVsFull';
+import { FreeVsFull, FreeVsFullSkeleton } from '../FreeVsFull';
 import { SectionPeek } from '../SectionPeek';
 import { UnlockedDone } from '../UnlockedDone';
 import styles from './UnlockPage.module.css';
@@ -66,7 +66,11 @@ const optionNode = (path: ResolvedUnlockPath | undefined): ReactNode =>
   path && path.confirmed ? (
     path.label
   ) : (
-    <TbcValue value={null} placeholder={path ? path.label : en.status.tbc} label={en.status.pending} />
+    <TbcValue
+      value={null}
+      placeholder={path ? path.label : en.status.tbc}
+      label={en.status.pending}
+    />
   );
 
 /**
@@ -134,9 +138,9 @@ export function UnlockPage({
       <PageContainer className={styles.page}>
         {hero}
         {load.status === 'checking' ? (
-          <p role="status" className={styles.message}>
-            {copy.state.checking}
-          </p>
+          <SkeletonGroup label={en.skeleton.unlock}>
+            <FreeVsFullSkeleton />
+          </SkeletonGroup>
         ) : (
           <div role="alert" className={styles.problem}>
             <Icon name="concern" size={22} strokeWidth={2.2} />
@@ -220,7 +224,11 @@ export function UnlockPage({
           detail: p.confirmed ? (
             (p.note ?? undefined)
           ) : (
-            <TbcValue value={null} placeholder={copy.choose.placeholderNote} label={en.status.pending} />
+            <TbcValue
+              value={null}
+              placeholder={copy.choose.placeholderNote}
+              label={en.status.pending}
+            />
           ),
         }))}
         value={pathId}
