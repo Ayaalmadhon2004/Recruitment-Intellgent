@@ -1,5 +1,7 @@
 export { Accordion } from './Accordion';
 export type { AccordionItem, AccordionProps } from './Accordion';
+export { AnimatedNumber } from './AnimatedNumber';
+export type { AnimatedNumberProps } from './AnimatedNumber';
 export { Button } from './Button';
 export type { ButtonProps, ButtonSize, ButtonVariant } from './Button';
 export { Card } from './Card';

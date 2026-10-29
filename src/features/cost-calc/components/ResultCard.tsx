@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { en } from '@/domain/copy';
 import { ProgressBar } from '@/patterns';
-import { Card } from '@/ui';
+import { AnimatedNumber, Card } from '@/ui';
 import { fill, usd } from '../format';
 import styles from './ResultCard.module.css';
 
@@ -33,7 +33,7 @@ export function ResultCard({
       <span className={styles.eyebrow}>{r.eyebrow}</span>
       <div className={styles.headline}>
         <span className={styles.net} data-testid="net-cost">
-          {usd(net)}
+          <AnimatedNumber value={net} format={usd} />
         </span>
         <span className={styles.per}>{r.perYear}</span>
       </div>
@@ -47,19 +47,28 @@ export function ResultCard({
       <dl className={styles.list}>
         <div className={styles.row}>
           <dt>{r.tuition}</dt>
-          <dd>{usd(tuition)}</dd>
+          <dd>
+            <AnimatedNumber value={tuition} format={usd} />
+          </dd>
         </div>
         <div className={styles.row}>
           <dt>{r.living}</dt>
-          <dd>{includeLiving ? usd(living) : r.livingExcluded}</dd>
+          <dd>
+            {includeLiving ? <AnimatedNumber value={living} format={usd} /> : r.livingExcluded}
+          </dd>
         </div>
         <div className={styles.row}>
           <dt>{r.scholarship}</dt>
-          <dd>{appliedScholarship > 0 ? `- ${usd(appliedScholarship)}` : usd(0)}</dd>
+          <dd>
+            {appliedScholarship > 0 ? '- ' : null}
+            <AnimatedNumber value={appliedScholarship} format={usd} />
+          </dd>
         </div>
         <div className={styles.total}>
           <dt>{r.net}</dt>
-          <dd>{usd(net)}</dd>
+          <dd>
+            <AnimatedNumber value={net} format={usd} />
+          </dd>
         </div>
       </dl>
       <div className={styles.chips}>
