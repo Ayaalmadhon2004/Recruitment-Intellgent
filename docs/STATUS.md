@@ -29,6 +29,10 @@ Shared code: `src/features/questions` (answer state and question views, used by 
 
 Not built yet: a real database and auth provider (accounts are a development stand-in kept in the browser), a real unlock path and pricing (unlocking is a development stand-in kept in the browser, and the server trusts it). Scores are only computable where `scoring.config.ts` has a formula, and today none do, so scores show "Not yet scorable" unless a sample fixture is labelled "Sample data".
 
+## Loading states
+
+Every page that waits shows a skeleton (`ui/Skeleton`) instead of a message. Pattern and feature skeletons sit beside the component they stand in for and reuse its CSS, so nothing jumps when the page arrives. A page's skeleton is used in two places: by the component while it loads, and by the route's `loading.tsx`. The `(site)/loading.tsx` fallback (`shell/PageSkeleton`) covers pages that wait for no data. Text for screen readers is in `en.skeleton`. The skeleton fades in after 150ms, so a load that finishes at once does not flash one. `pnpm e2e` holds the server back and checks the report, score detail, PDF and First Read pages.
+
 ## Routes
 
 Pages (`src/app/**/page.tsx`):
