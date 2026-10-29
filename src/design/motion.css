@@ -22,18 +22,25 @@
   }
 }
 
-@keyframes anim-pulse {
-  0% {
-    box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-crimson) 45%, transparent);
+@keyframes anim-step-next {
+  from {
+    opacity: 0;
+    transform: translateX(var(--step-shift));
   }
-  100% {
-    box-shadow: 0 0 0 12px color-mix(in srgb, var(--color-crimson) 0%, transparent);
+  to {
+    opacity: 1;
+    transform: none;
   }
 }
 
-@keyframes anim-float {
-  50% {
-    transform: translateY(-6px);
+@keyframes anim-step-back {
+  from {
+    opacity: 0;
+    transform: translateX(calc(var(--step-shift) * -1));
+  }
+  to {
+    opacity: 1;
+    transform: none;
   }
 }
 
@@ -63,14 +70,14 @@
 .anim-grow {
   animation: anim-grow var(--dur-data) var(--ease-out) both;
 }
-.anim-pulse {
-  animation: anim-pulse 2s var(--ease-out) infinite;
-}
-.anim-float {
-  animation: anim-float 6s var(--ease-standard) infinite;
-}
 .anim-drift {
   animation: anim-drift 9s var(--ease-standard) infinite;
+}
+.anim-step-next {
+  animation: anim-step-next var(--dur-enter) var(--ease-out) both;
+}
+.anim-step-back {
+  animation: anim-step-back var(--dur-enter) var(--ease-out) both;
 }
 .anim-pop {
   animation: anim-pop var(--dur-enter) var(--ease-out) both;

@@ -198,7 +198,7 @@ export function SignInPage({
           alt={copy.photoAlt}
           className={styles.photo}
         />
-        <div className={`${styles.chip} anim-float`}>
+        <div className={`${styles.chip}`}>
           <span className={styles.chipIcon} aria-hidden="true">
             <Icon name="check" size={20} strokeWidth={2.4} />
           </span>
