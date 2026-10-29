@@ -60,7 +60,7 @@ export function FreeOrFull({
             {mode === 'free' ? (
               copy.free.price
             ) : (
-              <TbcValue value={pricing} placeholder={copy.pricePlaceholder} />
+              <TbcValue value={pricing} placeholder={copy.pricePlaceholder} label={en.status.pending} />
             )}
           </p>
           <Button href={startHref} className={styles.cta}>

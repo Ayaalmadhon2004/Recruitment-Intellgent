@@ -25,7 +25,7 @@ export function PrivacyStrip({ privacyPolicyUrl }: PrivacyStripProps): ReactNode
           {privacyPolicyUrl ? (
             <a href={privacyPolicyUrl}>{copy.policyLink}</a>
           ) : (
-            <TbcValue value={null} placeholder={copy.policyPlaceholder} />
+            <TbcValue value={null} placeholder={copy.policyPlaceholder} label={en.status.pending} />
           )}
         </span>
       </div>

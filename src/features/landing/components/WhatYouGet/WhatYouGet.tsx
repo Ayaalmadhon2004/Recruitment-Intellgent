@@ -88,13 +88,13 @@ export function WhatYouGet(): ReactNode {
   return (
     <section id="get" className={styles.section} aria-labelledby="landing-get-title">
       <SectionHeader eyebrow={copy.eyebrow} title={copy.title} id="landing-get-title" />
+      <SampleDataBadge label={en.status.sample} variant="outline" />
       <ul className={styles.grid}>
         {CARDS.map((c) => (
           <li key={c.key} className={styles.item}>
             <Reveal delay={c.delay} className={styles.reveal}>
               <Card as="article" radius="lg" lift className={styles.card}>
                 <div className={styles.art}>{c.art}</div>
-                <SampleDataBadge label={en.status.sample} variant="outline" />
                 <h3 className={styles.cardTitle}>{copy[c.key].title}</h3>
                 <p className={styles.cardBody}>{copy[c.key].body}</p>
               </Card>
