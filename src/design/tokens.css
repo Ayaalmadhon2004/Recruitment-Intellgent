@@ -1,7 +1,9 @@
 /* Design tokens. The only place colours, radii, font sizes and spacing are defined. */
 :root {
   /* Surfaces */
-  --color-page: #faf5ec;
+  --color-page: #eef2f9;
+  --color-page-alt: #e4ebf6;
+  --color-page-warm: #fbeff1;
   --color-card: #ffffff;
   --color-navy-deep: #0d2447;
   /* Navy: headings, structure, selected states and result cards. One base, one deep shade, one tint. */
@@ -16,12 +18,12 @@
   --color-text-inverse: #ffffff;
 
   /* Lines and fields */
-  --color-line: #e8dfcf;
-  --color-line-strong: #e3d8c4;
-  --color-line-soft: #efe7d8;
-  --color-line-neutral: #dcdcdc;
+  --color-line: #cfd9ea;
+  --color-line-strong: #bccae2;
+  --color-line-soft: #dde5f2;
+  --color-line-neutral: #d3d8e0;
   --color-input-border: #818285;
-  --color-line-dashed: #cdbfa6;
+  --color-line-dashed: #9fb1cf;
 
   /* Status (always paired with a word and an icon, never colour alone) */
   --color-status-strong: #1e7a4c;
@@ -36,6 +38,19 @@
   --color-concern-tint: #fcebe2;
   --color-caution-tint: #fff3dc;
   --color-neutral-tint: #f7f7f7;
+
+  /* Page backdrop: a cool blue-gray base lit by one crimson and two navy glows. */
+  --backdrop-page:
+    radial-gradient(900px 560px at 100% 0, color-mix(in srgb, var(--color-crimson) 9%, transparent), transparent 70%),
+    radial-gradient(1000px 640px at 0 720px, color-mix(in srgb, var(--color-navy) 11%, transparent), transparent 70%),
+    radial-gradient(900px 560px at 100% 100%, color-mix(in srgb, var(--color-crimson) 7%, transparent), transparent 70%),
+    linear-gradient(180deg, var(--color-page) 0%, var(--color-page-alt) 100%);
+  --backdrop-band-white: linear-gradient(180deg, var(--color-card) 0%, color-mix(in srgb, var(--color-card) 70%, var(--color-page)) 100%);
+  --backdrop-band-warm: linear-gradient(180deg, var(--color-page-warm) 0%, color-mix(in srgb, var(--color-page-warm) 55%, var(--color-page)) 100%);
+  --backdrop-band-navy: linear-gradient(135deg, var(--color-navy-deep) 0%, var(--color-navy) 100%);
+  --border-card: 1px solid var(--color-line);
+  --accent-card-crimson: 4px solid var(--color-crimson);
+  --accent-card-navy: 4px solid var(--color-navy);
 
   /* Typography */
   --font-sans: var(--font-poppins), 'Poppins', system-ui, sans-serif;
@@ -88,9 +103,15 @@
   --tap-target: 44px;
 
   /* Elevation */
-  --shadow-card: 0 6px 20px color-mix(in srgb, var(--color-navy-deep) 6%, transparent);
-  --shadow-card-raised: 0 10px 30px color-mix(in srgb, var(--color-navy-deep) 8%, transparent);
-  --shadow-card-hover: 0 12px 28px color-mix(in srgb, var(--color-navy-deep) 11%, transparent);
+  --shadow-card:
+    0 1px 2px color-mix(in srgb, var(--color-navy-deep) 10%, transparent),
+    0 8px 24px color-mix(in srgb, var(--color-navy-deep) 10%, transparent);
+  --shadow-card-raised:
+    0 2px 4px color-mix(in srgb, var(--color-navy-deep) 10%, transparent),
+    0 14px 36px color-mix(in srgb, var(--color-navy-deep) 14%, transparent);
+  --shadow-card-hover:
+    0 2px 6px color-mix(in srgb, var(--color-navy-deep) 12%, transparent),
+    0 18px 40px color-mix(in srgb, var(--color-navy-deep) 18%, transparent);
   --shadow-button-hover: 0 4px 12px color-mix(in srgb, var(--color-navy-deep) 14%, transparent);
 
   /* Motion: one curve, three speeds. Nothing interactive runs longer than --dur-enter. */

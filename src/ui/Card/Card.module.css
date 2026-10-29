@@ -32,3 +32,23 @@
 .xl {
   border-radius: var(--radius-card-xl);
 }
+
+/* Cards sit clear of the backdrop: a hairline border plus a layered shadow. */
+.default,
+.navy {
+  border: var(--border-card);
+}
+
+.navy {
+  border-color: var(--color-navy-deep);
+  background: var(--backdrop-band-navy);
+}
+
+/* Optional coloured top edge, so a row of cards can carry both brand colours. */
+.accentNavy:not(.dashed) {
+  border-top: var(--accent-card-navy);
+}
+
+.accentCrimson:not(.dashed) {
+  border-top: var(--accent-card-crimson);
+}

@@ -24,7 +24,13 @@ export function HowItWorks(): ReactNode {
             <li key={s.title} className={styles.step}>
               <Reveal delay={DELAYS[i]} className={styles.reveal}>
                 <span className={styles.number}>{i + 1}</span>
-                <Card as="div" radius="sm" lift className={styles.card}>
+                <Card
+                  as="div"
+                  radius="sm"
+                  lift
+                  accent={i % 2 === 0 ? 'navy' : 'crimson'}
+                  className={styles.card}
+                >
                   <h3 className={styles.title}>{fill(s.title, counts)}</h3>
                   <p className={styles.body}>{s.body}</p>
                   <span className={styles.time}>{fill(s.time, counts)}</span>
