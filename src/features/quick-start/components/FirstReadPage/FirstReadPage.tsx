@@ -9,6 +9,7 @@ import { Button } from '@/ui';
 import type { FirstReadResponse } from '../../contract';
 import { useStoredAnswers } from '../../useStoredAnswers';
 import { FirstReadView } from '../FirstReadView';
+import { FirstReadPageLoading } from './FirstReadPageLoading';
 import styles from './FirstReadPage.module.css';
 
 const copy = en.quickStart;
@@ -113,17 +114,11 @@ export function FirstReadPage({
     );
   }
 
+  if (state.kind === 'loading') return <FirstReadPageLoading />;
+
   return (
     <div ref={root} className={styles.root}>
-      <section className={styles.message} aria-busy={state.kind === 'loading'}>
-        {state.kind === 'loading' ? (
-          <>
-            <h1 className={styles.title}>{copy.firstReadLoadingTitle}</h1>
-            <p role="status" className={styles.body}>
-              {copy.firstReadLoadingBody}
-            </p>
-          </>
-        ) : null}
+      <section className={styles.message}>
         {state.kind === 'error' ? (
           <>
             <h1 className={styles.title}>{copy.firstReadErrorTitle}</h1>
