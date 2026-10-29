@@ -110,7 +110,14 @@ describe('PdfExportPage', () => {
     expect(screen.getByRole('link', { name: copy.nav.backToReport })).toHaveAttribute('href', '/r');
   });
 
-  it.each(['loading', 'error', 'empty'] as const)(
+  it('shows a busy skeleton while loading, not the options', () => {
+    render(<PdfExportPage previewState="loading" />);
+    expect(screen.getByRole('status')).toHaveAttribute('aria-busy', 'true');
+    expect(screen.getByRole('status')).toHaveTextContent(en.skeleton.pdfExport);
+    expect(screen.queryByRole('switch')).not.toBeInTheDocument();
+  });
+
+  it.each(['error', 'empty'] as const)(
     'shows the %s state, not the options',
     (state) => {
       render(<PdfExportPage previewState={state} />);
