@@ -73,6 +73,7 @@ export const en = {
     dashboard: 'Loading your audits',
     unlock: 'Checking your report',
     signIn: 'Loading the sign in page',
+    page: 'Loading the page',
   },
   areas: {
     readiness: 'Readiness',
