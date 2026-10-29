@@ -15,6 +15,7 @@ const copy = en.report.unlock;
 export function UnlockPrompt({ unlockHref }: UnlockPromptProps): ReactNode {
   return (
     <CtaBand
+      tone="panel"
       eyebrow={copy.eyebrow}
       title={copy.title}
       body={copy.body}

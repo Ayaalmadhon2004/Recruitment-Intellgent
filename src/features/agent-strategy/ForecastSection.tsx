@@ -33,25 +33,25 @@ export function ForecastSection({ values, onChange }: ForecastSectionProps): Rea
       <p className={styles.formula}>{copy.formula}</p>
       <div className={styles.steps}>
         {steps.map((step, index) => (
-          <div key={step.key} className={styles.stepWrap}>
-            {index > 0 ? (
-              <span aria-hidden="true" className={styles.operator}>
-                {copy.operator}
-              </span>
-            ) : null}
-            <Card radius="md" lift className={styles.stepCard}>
+          <Card key={step.key} radius="md" className={styles.stepCard}>
+            <div className={styles.stepHead}>
               <span className={styles.eyebrow}>{fill(copy.step, { n: index + 1 })}</span>
-              <Field
-                label={step.field.label}
-                type="number"
-                inputMode="numeric"
-                min={0}
-                value={values[step.key]}
-                hint={fill(step.field.running, { value: step.running })}
-                onChange={(e) => onChange({ ...values, [step.key]: e.target.value })}
-              />
-            </Card>
-          </div>
+              {index > 0 ? (
+                <span aria-hidden="true" className={styles.operator}>
+                  {copy.operator}
+                </span>
+              ) : null}
+            </div>
+            <Field
+              label={step.field.label}
+              type="number"
+              inputMode="numeric"
+              min={0}
+              value={values[step.key]}
+              hint={fill(step.field.running, { value: step.running })}
+              onChange={(e) => onChange({ ...values, [step.key]: e.target.value })}
+            />
+          </Card>
         ))}
       </div>
       <Card tone="navy" radius="lg" className={styles.result}>

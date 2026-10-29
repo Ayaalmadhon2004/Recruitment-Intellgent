@@ -27,6 +27,8 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const WithTwoActions: Story = {};
+export const Panel: Story = { args: { tone: 'panel' } };
+export const Inline: Story = { args: { tone: 'inline', eyebrow: undefined } };
 export const OneAction: Story = {
   args: { actions: [{ label: 'Open score detail', href: '#' }], eyebrow: undefined },
 };

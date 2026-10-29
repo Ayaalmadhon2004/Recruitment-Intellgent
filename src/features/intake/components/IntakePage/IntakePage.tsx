@@ -105,6 +105,7 @@ function IntakeBody({ reportHref, exitHref, store }: BodyProps): ReactNode {
       </IntakeSection>
 
       <CtaBand
+        tone="inline"
         title={copy.pause.title}
         body={copy.pause.body}
         actions={[

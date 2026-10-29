@@ -190,6 +190,7 @@ export function CostCalculator({
         </section>
 
         <CtaBand
+          tone="panel"
           title={c.cta.title}
           body={c.cta.body}
           actions={[

@@ -124,6 +124,7 @@ export function ReportSection({
           />
         </section>
         <CtaBand
+          tone="panel"
           eyebrow={en.firstRead.ctaEyebrow}
           title={en.firstRead.ctaTitle}
           body={en.firstRead.ctaBody}
