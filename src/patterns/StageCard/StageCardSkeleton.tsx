@@ -1,7 +1,6 @@
-import type { CSSProperties, ReactNode } from 'react';
-import { Skeleton } from '@/ui';
+import type { ReactNode } from 'react';
+import { Skeleton, StepperSkeleton } from '@/ui';
 import styles from './StageCard.module.css';
-import stepStyles from './StageCardSkeleton.module.css';
 
 export type StageCardSkeletonProps = {
   /** Number of stages, as `stages.length` of the real StageCard. */
@@ -16,14 +15,7 @@ export function StageCardSkeleton({ steps }: StageCardSkeletonProps): ReactNode 
         <Skeleton shape="line" width="120px" height="var(--text-eyebrow-size)" />
         <Skeleton shape="line" width="55%" height="var(--text-h2-size)" />
       </div>
-      <div className={stepStyles.steps} style={{ ['--steps' as string]: steps } as CSSProperties}>
-        {Array.from({ length: steps }, (_, i) => (
-          <div key={i} className={stepStyles.step}>
-            <Skeleton shape="circle" width="var(--tap-target)" />
-            <Skeleton shape="line" width="80%" />
-          </div>
-        ))}
-      </div>
+      <StepperSkeleton steps={steps} />
     </div>
   );
 }

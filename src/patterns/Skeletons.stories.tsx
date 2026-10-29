@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import { en } from '@/domain/copy';
 import { SkeletonGroup } from '@/ui';
 import { ActionListSkeleton } from './ActionList';
+import { FlowShellSkeleton } from './FlowShell';
 import { QuestionCardSkeleton } from './QuestionCard';
 import { RadarChartSkeleton } from './RadarChart';
 import { ScoreCardSkeleton } from './ScoreCard';
@@ -65,6 +66,16 @@ export const ActionList: Story = {
   render: () => (
     <Frame width={720}>
       <ActionListSkeleton items={4} />
+    </Frame>
+  ),
+};
+
+export const FlowShell: Story = {
+  render: () => (
+    <Frame width={720}>
+      <FlowShellSkeleton steps={5}>
+        <QuestionCardSkeleton />
+      </FlowShellSkeleton>
     </Frame>
   ),
 };

@@ -67,6 +67,8 @@ export const en = {
     report: 'Building your report',
     scoreDetail: 'Loading this score area',
     pdfExport: 'Preparing your PDF preview',
+    quickStart: 'Loading the Quick Start',
+    firstRead: 'Working out your first read',
   },
   areas: {
     readiness: 'Readiness',
@@ -186,8 +188,6 @@ export const en = {
     submitErrorInvalid:
       'The server could not accept these answers. Your answers are kept. Please try again.',
     submitErrorServer: 'Something went wrong on our side. Your answers are kept. Please try again.',
-    firstReadLoadingTitle: 'Working out your first read',
-    firstReadLoadingBody: 'We are pulling your answers together. This usually takes just a moment.',
     firstReadErrorTitle: 'We could not load your first read',
     firstReadRetry: 'Try again',
     noAnswersTitle: 'Your first read is waiting for you',
