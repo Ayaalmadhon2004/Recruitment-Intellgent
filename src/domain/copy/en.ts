@@ -62,6 +62,9 @@ export const en = {
     pending: 'Pending',
     sample: 'Sample data - illustrative only',
   },
+  skeleton: {
+    loading: 'Loading',
+  },
   areas: {
     readiness: 'Readiness',
     competitiveness: 'Competitiveness',

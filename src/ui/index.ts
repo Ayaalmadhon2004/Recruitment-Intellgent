@@ -24,6 +24,8 @@ export { Reveal } from './Reveal';
 export type { RevealProps } from './Reveal';
 export { Select } from './Select';
 export type { SelectOption, SelectProps } from './Select';
+export { Skeleton, SkeletonGroup } from './Skeleton';
+export type { SkeletonGroupProps, SkeletonProps, SkeletonShape } from './Skeleton';
 export { Stepper } from './Stepper';
 export type { StepperProps, StepperStep } from './Stepper';
 export { Switch } from './Switch';
