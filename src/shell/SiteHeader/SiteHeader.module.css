@@ -113,8 +113,10 @@
 /* Secondary group: a titled section in the drawer, a dropdown on wide screens. */
 .groupToggle {
   display: none;
+  align-items: center;
   gap: var(--space-1);
-  padding: 0;
+  min-height: var(--tap-target);
+  padding: 0 var(--space-1);
   border: 0;
   background: transparent;
   font-family: inherit;

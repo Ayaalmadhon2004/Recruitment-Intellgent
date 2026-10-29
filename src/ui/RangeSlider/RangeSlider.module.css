@@ -24,7 +24,7 @@
 
 .range {
   width: 100%;
-  height: 32px;
+  height: var(--tap-target);
   margin: 0;
   accent-color: var(--color-crimson);
 }
