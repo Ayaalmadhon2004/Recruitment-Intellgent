@@ -64,6 +64,9 @@ export const en = {
   },
   skeleton: {
     loading: 'Loading',
+    report: 'Building your report',
+    scoreDetail: 'Loading this score area',
+    pdfExport: 'Preparing your PDF preview',
   },
   areas: {
     readiness: 'Readiness',

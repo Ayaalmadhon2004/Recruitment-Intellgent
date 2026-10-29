@@ -5,7 +5,7 @@ import { routes } from '@/domain/config';
 import type { Audit } from '@/domain/types';
 import type { ReportModel } from '../../contract';
 import { useReportState } from '../../useReportModel';
-import { ReportSection } from '../ReportSection';
+import { ReportSection, ReportSkeleton } from '../ReportSection';
 import { ReportStateMessage } from '../ReportStateMessage';
 import { ReportVersionNotice } from '../ReportVersionNotice';
 import { useFocusHeading } from '../useFocusHeading';
@@ -62,6 +62,8 @@ export function ReportPage({
             }}
           />
         </>
+      ) : state.status === 'loading' ? (
+        <ReportSkeleton />
       ) : (
         <ReportStateMessage
           state={state.status}

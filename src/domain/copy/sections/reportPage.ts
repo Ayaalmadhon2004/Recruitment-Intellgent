@@ -4,8 +4,6 @@ export const reportPage = {
   scoreDetailPageTitle: 'Score detail',
   /** Intake does not ask for a name, so the report uses this neutral label. */
   institutionName: 'Your institution',
-  loadingTitle: 'Building your report',
-  loadingBody: 'This takes a moment.',
   errorTitle: 'We could not load your report',
   errorBody: 'Something went wrong. Your answers are kept on this device. Please try again.',
   retry: 'Try again',

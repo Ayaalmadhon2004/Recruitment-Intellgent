@@ -14,7 +14,7 @@ import type { ReportModelState } from '../../useReportModel';
 import { LockedArea } from '../LockedArea';
 import { ReportStateMessage } from '../ReportStateMessage';
 import { ReportVersionNotice } from '../ReportVersionNotice';
-import { ScoreDetail } from '../ScoreDetail';
+import { ScoreDetail, ScoreDetailSkeleton } from '../ScoreDetail';
 import { useFocusHeading } from '../useFocusHeading';
 import styles from './ScoreDetailPage.module.css';
 
@@ -80,6 +80,8 @@ export function ScoreDetailPage({
             />
           )}
         </>
+      ) : state.status === 'loading' ? (
+        <ScoreDetailSkeleton />
       ) : (
         <ReportStateMessage
           state={state.status === 'ready' ? 'error' : state.status}

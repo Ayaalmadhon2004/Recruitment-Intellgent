@@ -19,6 +19,7 @@ import { Button, cx } from '@/ui';
 import { PagePreview } from '../PagePreview';
 import type { PreviewPage } from '../PagePreview';
 import { PdfOptions } from '../PdfOptions';
+import { PdfExportSkeleton } from './PdfExportSkeleton';
 import styles from './PdfExportPage.module.css';
 
 export type PdfExportPageProps = {
@@ -57,6 +58,8 @@ export function PdfExportPage({
   const [sections, setSections] = useState<readonly PrintSectionId[]>(defaultPrintSections);
   const [logoOn, setLogoOn] = useState(false);
   const [page, setPage] = useState<PreviewPage>('cover');
+
+  if (state.status === 'loading') return <PdfExportSkeleton />;
 
   if (state.status !== 'ready') {
     return (

@@ -51,7 +51,7 @@ describe('ReportPage', () => {
   it('ready: posts the stored answers and shows the report with six areas that are not yet scorable', async () => {
     storeIntake(answers);
     render(<ReportPage />);
-    expect(screen.getByRole('heading', { level: 1, name: copy.loadingTitle })).toBeVisible();
+    expect(screen.getByRole('status')).toHaveTextContent(en.skeleton.report);
 
     const heading = await screen.findByRole('heading', {
       level: 1,
@@ -198,7 +198,7 @@ describe('ReportPage', () => {
     first.unmount();
     expect(window.localStorage.getItem(INTAKE_KEY)).not.toContain('"stage"');
     render(<ReportPage />);
-    expect(screen.getByRole('heading', { level: 1, name: copy.loadingTitle })).toBeVisible();
+    expect(screen.getByRole('status')).toHaveTextContent(en.skeleton.report);
     await screen.findByRole('heading', { level: 1, name: copy.institutionName });
     expect(realFetch).toHaveBeenCalledTimes(TWICE);
   });

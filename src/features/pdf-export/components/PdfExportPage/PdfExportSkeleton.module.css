@@ -1,0 +1,32 @@
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.paper {
+  width: 100%;
+  max-width: 560px;
+  aspect-ratio: 210 / 297;
+}
+
+.options {
+  flex: 0 1 380px;
+  min-width: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  padding: var(--space-7);
+  border-radius: var(--radius-card-lg);
+  background: var(--color-card);
+  box-shadow: var(--shadow-card-raised);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  min-height: var(--tap-target);
+}
