@@ -7,6 +7,8 @@ export type AnimatedNumberProps = {
   value: number;
   /** Turns the in-between numbers into text, for example as dollars. Defaults to a rounded integer. */
   format?: (value: number) => string;
+  /** Fixed decimals when no `format` is given. Serialisable, so it works from a server component. */
+  decimals?: number;
   /** Milliseconds. Keep it under the data duration token (600ms) so inputs still feel immediate. */
   duration?: number;
 };
@@ -31,7 +33,8 @@ function prefersReducedMotion(): boolean {
  */
 export function AnimatedNumber({
   value,
-  format = defaultFormat,
+  format,
+  decimals,
   duration = DEFAULT_DURATION_MS,
 }: AnimatedNumberProps): ReactNode {
   const [shown, setShown] = useState(value);
@@ -54,5 +57,7 @@ export function AnimatedNumber({
 
   // Reduced motion (or no rAF): `shown` never moves, so show the target directly.
   const reduced = typeof window !== 'undefined' && prefersReducedMotion();
-  return format(reduced ? value : shown);
+  const current = reduced ? value : shown;
+  if (format) return format(current);
+  return decimals === undefined ? defaultFormat(current) : current.toFixed(decimals);
 }

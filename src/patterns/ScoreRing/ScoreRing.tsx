@@ -20,8 +20,6 @@ const CIRCUMFERENCE = 2 * Math.PI * 70;
 export function ScoreRing({ result, ariaLabel, caption, size = 160 }: ScoreRingProps): ReactNode {
   const max = result.kind === 'scored' ? 100 : 10;
   const fraction = Math.min(1, Math.max(0, result.value / max));
-  const formatValue = (n: number): string =>
-    result.kind === 'scored' ? String(Math.round(n)) : n.toFixed(1);
   const tone = result.kind === 'scored' ? bandTone(result.band) : 'neutral';
   return (
     <div
@@ -43,7 +41,7 @@ export function ScoreRing({ result, ariaLabel, caption, size = 160 }: ScoreRingP
       </svg>
       <div className={styles.center} aria-hidden="true">
         <span className={styles.value}>
-          <AnimatedNumber value={result.value} format={formatValue} />
+          <AnimatedNumber value={result.value} decimals={result.kind === 'scored' ? 0 : 1} />
         </span>
         <span className={styles.caption}>{caption}</span>
       </div>

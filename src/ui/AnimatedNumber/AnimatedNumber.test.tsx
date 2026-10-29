@@ -17,6 +17,12 @@ describe('AnimatedNumber', () => {
     expect(screen.getByText('42')).toBeInTheDocument();
   });
 
+  it('formats with a fixed number of decimals when given decimals instead of a function', () => {
+    reducedMotion(false);
+    render(<AnimatedNumber value={7} decimals={1} />);
+    expect(screen.getByText('7.0')).toBeInTheDocument();
+  });
+
   it('counts to a new value, passing through in-between numbers', () => {
     reducedMotion(false);
     vi.useFakeTimers({ toFake: ['requestAnimationFrame', 'cancelAnimationFrame', 'performance'] });
