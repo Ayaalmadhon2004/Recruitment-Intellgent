@@ -1,7 +1,7 @@
 import type { CSSProperties, ReactNode } from 'react';
 import type { Scored, ScoredGauge } from '@/domain/types';
 import { bandTone } from '../internal/tone';
-import { cx } from '@/ui';
+import { AnimatedNumber, cx } from '@/ui';
 import styles from './ScoreRing.module.css';
 
 export type ScoreRingProps = {
@@ -20,8 +20,8 @@ const CIRCUMFERENCE = 2 * Math.PI * 70;
 export function ScoreRing({ result, ariaLabel, caption, size = 160 }: ScoreRingProps): ReactNode {
   const max = result.kind === 'scored' ? 100 : 10;
   const fraction = Math.min(1, Math.max(0, result.value / max));
-  const text =
-    result.kind === 'scored' ? String(Math.round(result.value)) : result.value.toFixed(1);
+  const formatValue = (n: number): string =>
+    result.kind === 'scored' ? String(Math.round(n)) : n.toFixed(1);
   const tone = result.kind === 'scored' ? bandTone(result.band) : 'neutral';
   return (
     <div
@@ -37,12 +37,14 @@ export function ScoreRing({ result, ariaLabel, caption, size = 160 }: ScoreRingP
           cy="90"
           r="70"
           className={cx(styles.arc, 'anim-ring')}
-          strokeDasharray={`${(fraction * CIRCUMFERENCE).toFixed(1)} 600`}
+          style={{ strokeDasharray: `${(fraction * CIRCUMFERENCE).toFixed(1)} 600` }}
           transform="rotate(-90 90 90)"
         />
       </svg>
       <div className={styles.center} aria-hidden="true">
-        <span className={styles.value}>{text}</span>
+        <span className={styles.value}>
+          <AnimatedNumber value={result.value} format={formatValue} />
+        </span>
         <span className={styles.caption}>{caption}</span>
       </div>
     </div>

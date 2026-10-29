@@ -29,7 +29,7 @@ export function Hero({ startHref }: HeroProps): ReactNode {
           </h1>
           <p className={styles.lead}>{fill(copy.lead, { quickStart: auditScope.quickStartQuestions })}</p>
           <div className={styles.actions}>
-            <Button href={startHref} size="lg" className="anim-pulse">
+            <Button href={startHref} size="lg">
               {copy.primaryCta}
             </Button>
             <Button href="#how" size="lg" variant="inverse-outline">
@@ -47,7 +47,7 @@ export function Hero({ startHref }: HeroProps): ReactNode {
               alt={copy.photoAlt}
             />
           </div>
-          <div className={`${styles.chip} anim-float`}>
+          <div className={`${styles.chip}`}>
             <svg viewBox="0 0 44 44" width="44" height="44" aria-hidden="true" focusable="false">
               <circle cx="22" cy="22" r={RING_RADIUS} className={styles.track} />
               <circle
