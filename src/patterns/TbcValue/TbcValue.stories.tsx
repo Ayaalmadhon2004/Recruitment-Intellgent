@@ -11,5 +11,6 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const NotConfirmed: Story = { args: { value: null } };
+export const NotConfirmedShortLabel: Story = { args: { value: null, label: en.status.pending } };
 export const Confirmed: Story = { args: { value: '+84 000 000 000' } };
 export const ConfirmedNumberZero: Story = { args: { value: 0 } };

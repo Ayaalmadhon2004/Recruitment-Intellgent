@@ -59,10 +59,10 @@ describe('LandingPage sections', () => {
     });
   });
 
-  it('labels the three illustrations as sample data', () => {
+  it('labels the illustrations once, at section level, as sample data', () => {
     render(<LandingPage />);
     const get = screen.getByRole('region', { name: copy.get.title });
-    expect(within(get).getAllByText(en.status.sample)).toHaveLength(THREE);
+    expect(within(get).getAllByText(en.status.sample)).toHaveLength(1);
   });
 
   it('lists the three steps in order', () => {

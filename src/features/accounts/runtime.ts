@@ -1,4 +1,4 @@
-import { domainConfig } from '@/domain/config';
+import { domainConfig, isDevelopmentBuild } from '@/domain/config';
 import type { Answer, DomainConfig } from '@/domain/types';
 import { createLocalStorageStore } from '@/features/intake';
 import type { AnswerStore } from '@/features/intake';
@@ -19,7 +19,7 @@ export type AccountsRuntime = {
     clear: () => void;
   };
   config: DomainConfig;
-  /** True while `service` is the development service: the screens then say accounts are not real. */
+  /** True only in `next dev`, while `service` is the development service. Never true for real users. */
   isDevelopment: boolean;
 };
 
@@ -30,7 +30,7 @@ export function createDefaultRuntime(): AccountsRuntime {
     active: createActiveAuditPointer(),
     quickStart: { read: readQuickStartAnswers, clear: clearQuickStartAnswers },
     config: domainConfig,
-    isDevelopment: true,
+    isDevelopment: isDevelopmentBuild,
   };
 }
 

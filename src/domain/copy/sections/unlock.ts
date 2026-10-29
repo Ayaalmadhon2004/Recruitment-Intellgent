@@ -4,7 +4,8 @@ export const unlock = {
   hero: {
     eyebrow: 'FULL REPORT',
     title: 'Unlock the full report',
-    lead: 'See what is free and what opens up for {name}.',
+    lead: 'See what is free and what opens up in the full report.',
+    leadNamed: 'See what is free and what opens up for {name}.',
   },
   cta: {
     seeOptions: 'See unlock options',
@@ -24,18 +25,6 @@ export const unlock = {
     fullTitle: 'Full report',
     lockedWord: 'Locked',
     unlockedWord: 'Unlocked',
-    exampleNote: 'This list is an example from the design. The confirmed free and full line:',
-    items: {
-      scoresOverview: 'Scores overview',
-      stage: 'Stage and completeness',
-      nextSteps: 'Top three next steps',
-      gauges: 'School Fit and Agent gauges',
-      affordability: 'Affordability breakdown',
-      agentMatrix: 'Agent selection matrix',
-      pilotPlan: '6-month pilot plan',
-      priceBands: 'Price band comparison',
-      pdf: 'Full PDF export',
-    },
   },
   peek: {
     sectionLabel: 'Locked section preview',
@@ -77,6 +66,7 @@ export const unlock = {
   confirm: {
     title: 'Confirm your choice',
     report: 'Report',
+    reportDefault: 'Your audit report',
     option: 'Unlock option',
     asideTitle: 'What opens up',
     asideBody: 'Every item marked Locked above opens up.',

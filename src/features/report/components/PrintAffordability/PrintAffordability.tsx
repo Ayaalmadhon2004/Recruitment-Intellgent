@@ -39,7 +39,7 @@ export function PrintAffordability({
       </p>
       <p className={styles.mapping}>
         {copy.mappingLabel}{' '}
-        <TbcValue value={tbcConfig.scoringFormulas} placeholder={en.status.tbc} />
+        <TbcValue value={tbcConfig.scoringFormulas} placeholder={en.status.tbc} label={en.status.pending} />
       </p>
     </section>
   );

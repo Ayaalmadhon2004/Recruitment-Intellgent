@@ -1,3 +1,4 @@
+import { isDevelopmentBuild } from '@/domain/config';
 import { deviceAuditKey, deviceHasAudit } from './deviceAudit';
 import { createDevEntitlementService } from './service/dev-service';
 import type { EntitlementService } from './service/types';
@@ -9,7 +10,7 @@ export type UnlockRuntime = {
   auditKey: () => string;
   /** False when there are no answers on this device, so there is no report to unlock yet. */
   hasAudit: () => boolean;
-  /** True while `service` is the development service: the screen then says nothing real is checked. */
+  /** True only in `next dev`, while `service` is the development service. Never true for real users. */
   isDevelopment: boolean;
 };
 
@@ -18,7 +19,7 @@ export function createDefaultRuntime(): UnlockRuntime {
     service: createDevEntitlementService(),
     auditKey: () => deviceAuditKey(),
     hasAudit: deviceHasAudit,
-    isDevelopment: true,
+    isDevelopment: isDevelopmentBuild,
   };
 }
 

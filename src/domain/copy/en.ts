@@ -58,6 +58,7 @@ export const en = {
   status: {
     notScorable: 'Not yet scorable',
     tbc: '[TO BE CONFIRMED WITH CAPSTONE]',
+    pending: 'Pending',
     sample: 'Sample data - illustrative only',
   },
   areas: {

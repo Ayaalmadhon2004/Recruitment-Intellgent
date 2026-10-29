@@ -69,6 +69,7 @@ export function PdfOptions({
             <TbcValue
               value={tbcConfig.pdfInstitutionLogoUpload}
               placeholder={copy.logoPlaceholder}
+            label={en.status.pending}
             />
           </div>
         ) : null}

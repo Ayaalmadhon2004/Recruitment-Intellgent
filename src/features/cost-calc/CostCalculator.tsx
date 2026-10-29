@@ -151,7 +151,7 @@ export function CostCalculator({
                 </span>
                 <div className={styles.vndBox} role="group" aria-labelledby="cc-vnd-label">
                   {/* No confirmed rate (tbc.config vndExchangeRate is null): no conversion is made. */}
-                  <TbcValue value={null} placeholder={en.status.tbc} />
+                  <TbcValue value={null} placeholder={en.status.tbc} label={en.status.pending} />
                 </div>
                 <span className={styles.vndNote}>{c.inputs.vndNote}</span>
               </div>

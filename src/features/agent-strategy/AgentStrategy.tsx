@@ -87,10 +87,7 @@ export function AgentStrategy({
               title={fill(copy.weights.title, { count: factors.length })}
             />
             {weightsAreSample ? (
-              <SampleDataBadge
-                variant="outline"
-                label={`${copy.weights.sampleWeights} ${en.status.tbc}`}
-              />
+              <SampleDataBadge variant="outline" label={copy.weights.sampleWeights} />
             ) : null}
           </div>
           <FactorDonut factors={factors} selectedId={factorId} onSelect={setFactorId} />
@@ -103,7 +100,6 @@ export function AgentStrategy({
               eyebrow={copy.matrix.eyebrow}
               title={fill(copy.matrix.title, rating)}
             />
-            <SampleDataBadge variant="outline" label={copy.matrix.sampleBadge} />
           </div>
           <AgentMatrix
             factors={factors}
@@ -134,7 +130,6 @@ export function AgentStrategy({
               eyebrow={copy.forecast.eyebrow}
               title={copy.forecast.title}
             />
-            <SampleDataBadge variant="outline" label={copy.forecast.sampleBadge} />
           </div>
           <ForecastSection values={forecastValues} onChange={setForecastValues} />
         </section>
@@ -144,6 +139,7 @@ export function AgentStrategy({
           body={fill(copy.cta.body, vars)}
           photo={{ placeholder: copy.cta.photoPlaceholder }}
           tbcText={en.status.tbc}
+          pendingText={en.status.pending}
           channels={[
             { id: 'whatsapp', label: copy.cta.channels.whatsapp, href: tbcConfig.advisorWhatsapp },
             { id: 'email', label: copy.cta.channels.email, href: tbcConfig.advisorEmail },

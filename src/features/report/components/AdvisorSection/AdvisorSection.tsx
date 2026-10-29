@@ -17,6 +17,7 @@ export function AdvisorSection(): ReactNode {
           { id: 'email', label: copy.email, href: null },
         ]}
         tbcText={en.status.tbc}
+        pendingText={en.status.pending}
       />
     </div>
   );

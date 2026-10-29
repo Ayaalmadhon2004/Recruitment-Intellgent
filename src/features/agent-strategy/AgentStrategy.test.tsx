@@ -22,9 +22,9 @@ describe('AgentStrategy', () => {
   it('labels sample data and sample weights', () => {
     setup();
     expect(screen.getByText(en.status.sample)).toBeInTheDocument();
-    expect(screen.getByText(copy.matrix.sampleBadge)).toBeInTheDocument();
-    expect(screen.getByText(copy.forecast.sampleBadge)).toBeInTheDocument();
-    expect(screen.getByText(`${copy.weights.sampleWeights} ${en.status.tbc}`)).toBeInTheDocument();
+    expect(screen.queryByText(copy.matrix.sampleBadge)).not.toBeInTheDocument();
+    expect(screen.queryByText(copy.forecast.sampleBadge)).not.toBeInTheDocument();
+    expect(screen.getByText(copy.weights.sampleWeights)).toBeInTheDocument();
   });
 
   it('takes the pilot terms from config', () => {

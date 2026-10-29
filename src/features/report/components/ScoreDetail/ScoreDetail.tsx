@@ -136,7 +136,7 @@ export function ScoreDetail({
           </>
         ) : (
           <p className={styles.lead}>
-            {en.scoreDetail.undefinedBuild} <TbcValue value={null} placeholder={en.status.tbc} />
+            {en.scoreDetail.undefinedBuild} <TbcValue value={null} placeholder={en.status.tbc} label={en.status.pending} />
           </p>
         )}
       </section>

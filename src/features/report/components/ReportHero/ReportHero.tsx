@@ -67,7 +67,7 @@ export function ReportHero({
         {mode === 'print' ? (
           <p className={styles.date}>
             {en.report.print.dateLabel}:{' '}
-            <TbcValue value={tbcConfig.reportDate} placeholder={en.status.tbc} />
+            <TbcValue value={tbcConfig.reportDate} placeholder={en.status.tbc} label={en.status.pending} />
           </p>
         ) : null}
         {mode === 'interactive' ? (
