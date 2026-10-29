@@ -18,11 +18,11 @@ export const Disabled: Story = { args: { disabled: true } };
 export const AsLink: Story = { args: { href: '#' } };
 export const FullWidth: Story = { args: { fullWidth: true } };
 export const OnDark: Story = {
-  parameters: { backgrounds: { default: 'crimson' } },
+  parameters: { backgrounds: { default: 'navy' } },
   render: () => (
     <div
       style={{
-        background: 'var(--color-crimson)',
+        background: 'var(--color-navy)',
         padding: 'var(--space-6)',
         display: 'flex',
         gap: 'var(--space-3)',

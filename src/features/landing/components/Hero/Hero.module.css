@@ -27,7 +27,7 @@
   align-self: flex-start;
   padding: 5px 14px;
   border-radius: var(--radius-pill);
-  background: var(--color-crimson);
+  background: var(--color-navy);
   color: var(--color-text-inverse);
   font-size: var(--text-eyebrow-size);
   font-weight: var(--font-weight-semibold);

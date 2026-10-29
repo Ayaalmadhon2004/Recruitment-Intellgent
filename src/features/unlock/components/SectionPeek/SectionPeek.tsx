@@ -40,7 +40,7 @@ export function SectionPeek({
           className={cx(styles.bars, unlocked ? styles.clear : styles.blurred)}
         >
           <div className={styles.heading} />
-          {rows.map((r, i) => (
+          {rows.map((r) => (
             <div key={r.title} className={styles.row}>
               <div className={styles.avatar} />
               <div className={styles.lines}>
@@ -48,7 +48,7 @@ export function SectionPeek({
                 <div className={styles.line} style={{ width: `${r.line}%` }} />
               </div>
               <div
-                className={cx(styles.chip, i % 2 === 0 ? styles.chipNavy : styles.chipCrimson)}
+                className={styles.chip}
                 style={{ flexBasis: `calc(${r.chip} * 3 * var(--space-1) / 4 + var(--space-6))` }}
               />
             </div>

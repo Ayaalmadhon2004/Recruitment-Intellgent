@@ -28,7 +28,7 @@
   justify-content: center;
   padding: var(--space-3);
   background: var(--color-page);
-  border: 3px dashed var(--color-crimson);
+  border: 3px dashed var(--color-navy);
   color: var(--color-text-secondary);
   font-size: var(--text-caption-size);
   font-weight: var(--font-weight-semibold);

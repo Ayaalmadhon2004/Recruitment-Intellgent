@@ -53,8 +53,8 @@
 }
 
 .on .track {
-  border-color: var(--color-crimson);
-  background: var(--color-crimson);
+  border-color: var(--color-navy);
+  background: var(--color-navy);
 }
 
 .knob {

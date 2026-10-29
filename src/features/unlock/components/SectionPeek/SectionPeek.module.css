@@ -34,7 +34,7 @@
   height: 22px;
   width: 38%;
   border-radius: var(--radius-pill);
-  background: var(--color-navy-soft);
+  background: var(--color-navy);
   opacity: 0.35;
 }
 
@@ -62,7 +62,7 @@
 .title {
   height: 14px;
   border-radius: var(--radius-pill);
-  background: var(--color-navy-soft);
+  background: var(--color-navy);
   opacity: 0.35;
 }
 
@@ -76,15 +76,9 @@
   flex: 0 0 auto;
   height: 28px;
   border-radius: var(--radius-pill);
+  background: var(--color-navy-tint);
 }
 
-.chipNavy {
-  background: var(--color-info-tint);
-}
-
-.chipCrimson {
-  background: var(--color-crimson-tint);
-}
 
 .overlay {
   position: absolute;

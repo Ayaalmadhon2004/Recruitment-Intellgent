@@ -7,7 +7,7 @@
   justify-content: space-between;
   padding: var(--space-8);
   border-radius: var(--radius-card-xl);
-  background: var(--color-crimson);
+  background: var(--color-navy);
   color: var(--color-text-inverse);
 }
 

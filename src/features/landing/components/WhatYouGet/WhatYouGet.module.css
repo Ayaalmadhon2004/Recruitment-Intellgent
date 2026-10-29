@@ -62,14 +62,14 @@
 }
 
 .stageOn {
-  fill: var(--color-crimson);
+  fill: var(--color-navy);
 }
 .stageOff {
   fill: var(--color-line-strong);
 }
 
 .dotDone {
-  fill: var(--color-crimson);
+  fill: var(--color-navy);
 }
 .dotTodo {
   fill: none;

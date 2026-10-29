@@ -18,9 +18,9 @@
   width: 64px;
   height: 64px;
   border-radius: var(--radius-pill);
-  border: 2px solid var(--color-crimson);
+  border: 2px solid var(--color-navy);
   background: var(--color-page);
-  color: var(--color-crimson);
+  color: var(--color-navy);
 }
 
 .address {
@@ -69,7 +69,7 @@
 .barFill {
   height: 100%;
   border-radius: var(--radius-pill);
-  background: var(--color-crimson);
+  background: var(--color-navy);
   transition: width 1s linear;
 }
 

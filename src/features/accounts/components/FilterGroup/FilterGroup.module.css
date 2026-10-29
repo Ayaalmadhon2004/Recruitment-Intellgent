@@ -34,7 +34,7 @@
 }
 
 .on {
-  background: var(--color-crimson);
+  background: var(--color-navy);
   color: var(--color-text-inverse);
 }
 
@@ -49,5 +49,5 @@
 
 .on .count {
   background: var(--color-card);
-  color: var(--color-crimson-dark);
+  color: var(--color-navy-deep);
 }

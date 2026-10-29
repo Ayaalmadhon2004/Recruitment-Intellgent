@@ -31,15 +31,15 @@
 }
 
 .data {
-  fill: var(--color-crimson);
+  fill: var(--color-navy);
   fill-opacity: 0.2;
-  stroke: var(--color-crimson);
+  stroke: var(--color-navy);
   stroke-width: 2.5;
   stroke-linejoin: round;
 }
 
 .dot {
-  fill: var(--color-crimson);
+  fill: var(--color-navy);
 }
 
 .legend {

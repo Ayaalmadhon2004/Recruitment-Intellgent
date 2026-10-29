@@ -16,7 +16,6 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Crimson: Story = {};
 export const Navy: Story = { args: { tone: 'navy' } };
 export const Complete: Story = {
   args: { value: 40, tone: 'strong', valueText: '40 of 40 - Complete' },

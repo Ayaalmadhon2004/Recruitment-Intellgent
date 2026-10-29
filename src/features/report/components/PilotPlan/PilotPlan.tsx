@@ -18,7 +18,7 @@ const copy = en.report.pilot;
 /** Month titles and bodies are fixed content from the design. The numbers come from the model. */
 const steps = [
   { id: 'first', ...copy.steps.first, tone: 'navy' },
-  { id: 'second', ...copy.steps.second, tone: 'crimson' },
+  { id: 'second', ...copy.steps.second, tone: 'navy' },
   { id: 'third', ...copy.steps.third, tone: 'plain' },
 ] as const;
 
