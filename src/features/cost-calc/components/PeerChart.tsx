@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { en } from '@/domain/copy';
 import { SampleDataBadge } from '@/patterns';
-import { Card, cx } from '@/ui';
+import { AnimatedNumber, Card, cx } from '@/ui';
 import { fill, usd } from '../format';
 import styles from './PeerChart.module.css';
 
@@ -37,7 +37,9 @@ export function PeerChart({ youNetUsd, peers, scaleMinUsd }: PeerChartProps): Re
                 style={{ width: `${((r.netUsd / scale) * PERCENT).toFixed(1)}%` }}
               />
             </span>
-            <span className={styles.value}>{usd(r.netUsd)}</span>
+            <span className={styles.value}>
+              <AnimatedNumber value={r.netUsd} format={usd} />
+            </span>
           </li>
         ))}
       </ul>

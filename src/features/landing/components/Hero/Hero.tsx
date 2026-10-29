@@ -36,7 +36,7 @@ export function Hero({ startHref }: HeroProps): ReactNode {
           </h1>
           <p className={styles.lead}>{fill(copy.lead, { quickStart: auditScope.quickStartQuestions })}</p>
           <div className={styles.actions}>
-            <Button href={startHref} size="lg" className="anim-pulse">
+            <Button href={startHref} size="lg">
               {copy.primaryCta}
             </Button>
             <Button href="#how" size="lg" variant="inverse-outline">

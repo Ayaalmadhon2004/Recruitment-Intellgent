@@ -22,6 +22,10 @@
   fill: none;
   stroke-width: 16;
   stroke-linecap: round;
+  /* Moves smoothly when the score changes. The mount animation (anim-ring) still plays once. */
+  transition:
+    stroke-dasharray var(--dur-data) var(--ease-out),
+    stroke var(--dur-base) var(--ease-standard);
 }
 
 .strong .arc {
