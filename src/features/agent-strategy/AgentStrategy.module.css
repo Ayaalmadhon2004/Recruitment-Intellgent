@@ -207,11 +207,47 @@
 }
 
 /* Matrix */
-.scroll {
-  overflow-x: auto;
-  background: var(--color-card);
+.scrollFrame {
+  position: relative;
   border-radius: var(--radius-card-lg);
   box-shadow: var(--shadow-card-raised);
+}
+/* Edge fades hint that more columns sit off-screen; they never block touches. */
+.scrollFrame::before,
+.scrollFrame::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 3;
+  width: var(--space-7);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--dur-fast) var(--ease-standard);
+}
+.scrollFrame::before {
+  left: 0;
+  border-radius: var(--radius-card-lg) 0 0 var(--radius-card-lg);
+  background: linear-gradient(to right, var(--color-line-strong), transparent);
+}
+.scrollFrame::after {
+  right: 0;
+  border-radius: 0 var(--radius-card-lg) var(--radius-card-lg) 0;
+  background: linear-gradient(to left, var(--color-line-strong), transparent);
+}
+.fadeStart::before,
+.fadeEnd::after {
+  opacity: 1;
+}
+.scroll {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  background: var(--color-card);
+  border-radius: var(--radius-card-lg);
+}
+.scroll:focus-visible {
+  outline-offset: -2px;
 }
 .table {
   width: 100%;
@@ -492,7 +528,20 @@
   line-height: var(--text-small-line);
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .scrollFrame::before,
+  .scrollFrame::after {
+    transition: none;
+  }
+}
+
 @media (max-width: 760px) {
+  .table {
+    min-width: 820px;
+  }
+  .caption {
+    padding: var(--space-4) var(--space-4) var(--space-2);
+  }
   .donutCard {
     padding: var(--space-5);
   }
