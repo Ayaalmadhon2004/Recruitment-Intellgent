@@ -11,11 +11,6 @@
   gap: var(--space-4);
 }
 
-.loading {
-  margin: 0;
-  color: var(--color-text-secondary);
-}
-
 @media (max-width: 760px) {
   .root {
     gap: var(--space-7);

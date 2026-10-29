@@ -69,6 +69,10 @@ export const en = {
     pdfExport: 'Preparing your PDF preview',
     quickStart: 'Loading the Quick Start',
     firstRead: 'Working out your first read',
+    intake: 'Bringing back your saved answers',
+    dashboard: 'Loading your audits',
+    unlock: 'Checking your report',
+    signIn: 'Loading the sign in page',
   },
   areas: {
     readiness: 'Readiness',
@@ -369,7 +373,6 @@ export const en = {
     title: 'Your audit',
     lead: 'Six short sections. Answer what you can and skip what you cannot: nothing here is a test. You can stop at any point and pick up later.',
     resumed: 'Resumed at Section {section}',
-    loading: 'Bringing back your saved answers...',
     overviewLabel: 'Audit overview',
     completenessLabel: 'Audit completeness',
     answeredText: '{done} of {total} answered',
