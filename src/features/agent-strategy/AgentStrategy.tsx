@@ -6,7 +6,7 @@ import { agentsConfig, tbcConfig } from '@/domain/config';
 import { en } from '@/domain/copy';
 import type { AgentFactorId, AgentsConfig } from '@/domain/types';
 import { AdvisorCta, SampleDataBadge } from '@/patterns';
-import { PageContainer, SectionHeader } from '@/shell';
+import { PageContainer, SectionHeader, WaveDivider } from '@/shell';
 import { AgentMatrix } from './AgentMatrix';
 import { FactorDonut } from './FactorDonut';
 import { ForecastSection } from './ForecastSection';
@@ -76,6 +76,7 @@ export function AgentStrategy({
           </ul>
         </PageContainer>
       </section>
+      <WaveDivider from="navy" to="page" />
 
       <PageContainer className={styles.main}>
         <section aria-labelledby="as-weights" className={styles.section}>

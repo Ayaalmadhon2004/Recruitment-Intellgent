@@ -15,7 +15,7 @@ export type AffordabilityWeightsProps = {
 export function AffordabilityWeights({ weights }: AffordabilityWeightsProps): ReactNode {
   const total = affordabilityComponentIds.reduce((sum, id) => sum + weights[id], 0);
   return (
-    <Card radius="lg" className={styles.card}>
+    <Card tone="open" radius="lg" className={styles.card}>
       <p className={styles.intro}>{en.costCalc.weights.intro}</p>
       <ul className={styles.list} aria-label={en.costCalc.weights.listLabel}>
         {affordabilityComponentIds.map((id) => (

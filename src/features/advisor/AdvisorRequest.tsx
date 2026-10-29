@@ -5,7 +5,7 @@ import type { ReactNode } from 'react';
 import { FlowShell, TbcValue } from '@/patterns';
 import { routes } from '@/domain/config';
 import { en } from '@/domain/copy';
-import { PageContainer, SectionHeader } from '@/shell';
+import { PageContainer, SectionHeader, WaveDivider } from '@/shell';
 import { Field, Icon, PaperFoldMark, RadioCardGroup, Select } from '@/ui';
 import { AdvisorAside } from './AdvisorAside';
 import { AdvisorSuccess } from './AdvisorSuccess';
@@ -175,6 +175,7 @@ export function AdvisorRequest({
           <p className={styles.heroLead}>{copy.hero.lead}</p>
         </PageContainer>
       </section>
+      <WaveDivider from="navy" to="page" />
       <PageContainer className={styles.main}>
         <ReasonCards />
         <AdvisorTeam />

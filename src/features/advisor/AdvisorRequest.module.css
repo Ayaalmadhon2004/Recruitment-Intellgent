@@ -3,8 +3,7 @@
   overflow: hidden;
   background: var(--color-navy-deep);
   color: var(--color-text-inverse);
-  padding-bottom: var(--space-10);
-  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - 56px));
+  padding-bottom: var(--space-8);
 }
 
 .heroMark {

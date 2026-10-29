@@ -1,6 +1,5 @@
 .card {
   padding: var(--space-6);
-  box-shadow: var(--shadow-card);
 }
 
 .default {
@@ -33,10 +32,14 @@
   border-radius: var(--radius-card-xl);
 }
 
-/* Cards sit clear of the backdrop: a hairline border plus a layered shadow. */
+/* Cards stay flat: a hairline border, no resting shadow. Hover lift adds depth. */
 .default,
 .navy {
   border: var(--border-card);
+}
+
+.default {
+  background: var(--color-card);
 }
 
 .navy {
@@ -51,4 +54,13 @@
 
 .accentCrimson:not(.dashed) {
   border-top: var(--accent-card-crimson);
+}
+
+.card.open {
+  padding-inline: 0;
+  border: 0;
+  border-top: 2px solid var(--color-line-strong);
+  border-radius: 0;
+  background: transparent;
+  color: var(--color-text);
 }

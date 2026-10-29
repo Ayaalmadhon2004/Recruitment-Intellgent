@@ -4,7 +4,8 @@ import styles from './Card.module.css';
 
 export type CardProps = HTMLAttributes<HTMLElement> & {
   as?: 'div' | 'article' | 'section' | 'li';
-  tone?: 'default' | 'navy' | 'dashed';
+  /** `open` drops the box: no fill, no border, just a hairline rule on top. */
+  tone?: 'default' | 'navy' | 'dashed' | 'open';
   radius?: 'sm' | 'md' | 'lg' | 'xl';
   /** Coloured top edge in one of the two brand colours. */
   accent?: 'navy' | 'crimson';
