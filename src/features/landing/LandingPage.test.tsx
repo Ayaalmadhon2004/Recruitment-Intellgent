@@ -42,12 +42,14 @@ describe('LandingPage hero', () => {
     );
   });
 
-  it('labels the sample score chip as sample data and the photo as temporary', () => {
+  it('labels the report preview as sample data and shows no stock photo', () => {
     render(<LandingPage />);
     const hero = screen.getByRole('region', { name: copy.hero.title });
-    expect(within(hero).getByText(copy.hero.chipLabel)).toBeInTheDocument();
-    expect(within(hero).getByText(copy.hero.chipScore)).toBeInTheDocument();
-    expect(within(hero).getByRole('img', { name: copy.hero.photoAlt })).toBeInTheDocument();
+    expect(within(hero).getByText(en.status.sample)).toBeInTheDocument();
+    expect(within(hero).getByText(copy.hero.preview.label)).toBeInTheDocument();
+    expect(within(hero).getByRole('img', { name: copy.hero.preview.ringAria })).toBeInTheDocument();
+    expect(within(hero).getAllByRole('listitem')).toHaveLength(4);
+    expect(hero.querySelector('img')).toBeNull();
   });
 });
 
