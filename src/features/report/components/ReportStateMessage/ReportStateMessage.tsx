@@ -4,7 +4,7 @@ import { Button } from '@/ui';
 import styles from './ReportStateMessage.module.css';
 
 export type ReportStateMessageProps = {
-  state: 'loading' | 'error' | 'empty';
+  state: 'error' | 'empty';
   onRetry: () => void;
   quickStartHref: string;
   intakeHref: string;
@@ -12,7 +12,7 @@ export type ReportStateMessageProps = {
 
 const copy = en.reportPage;
 
-/** The page-level states that are not the report itself. Each has one h1, so focus has a place to land. */
+/** The page-level states that are not the report itself (loading is a skeleton, not a message). Each has one h1, so focus has a place to land. */
 export function ReportStateMessage({
   state,
   onRetry,
@@ -20,15 +20,7 @@ export function ReportStateMessage({
   intakeHref,
 }: ReportStateMessageProps): ReactNode {
   return (
-    <section className={styles.message} aria-busy={state === 'loading'}>
-      {state === 'loading' ? (
-        <>
-          <h1 className={styles.title}>{copy.loadingTitle}</h1>
-          <p role="status" className={styles.body}>
-            {copy.loadingBody}
-          </p>
-        </>
-      ) : null}
+    <section className={styles.message}>
       {state === 'error' ? (
         <>
           <h1 className={styles.title}>{copy.errorTitle}</h1>

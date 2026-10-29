@@ -39,6 +39,13 @@ afterEach(() => {
 });
 
 describe('ScoreDetailPage', () => {
+  it('shows a busy skeleton until the report is ready', async () => {
+    render(<ScoreDetailPage area="readiness" />);
+    expect(screen.getByRole('status')).toHaveTextContent(en.skeleton.scoreDetail);
+    await screen.findByRole('heading', { level: 1 });
+    expect(screen.queryByRole('status')).not.toBeInTheDocument();
+  });
+
   it.each(scoreAreaIds)('%s: renders the score detail for that area', async (id) => {
     render(<ScoreDetailPage area={id} />);
     const heading = await screen.findByRole('heading', { level: 1, name: en.areas[id] });

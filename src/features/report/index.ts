@@ -1,10 +1,10 @@
-export { ReportPage } from './components/ReportPage';
+export { ReportPage, ReportPageLoading } from './components/ReportPage';
 export type { ReportPageProps } from './components/ReportPage';
-export { ReportSection } from './components/ReportSection';
+export { ReportSection, ReportSkeleton } from './components/ReportSection';
 export type { ReportSectionProps } from './components/ReportSection';
-export { ScoreDetail, rankRecommendations } from './components/ScoreDetail';
+export { ScoreDetail, ScoreDetailSkeleton, rankRecommendations } from './components/ScoreDetail';
 export type { ScoreDetailProps } from './components/ScoreDetail';
-export { ScoreDetailPage } from './components/ScoreDetailPage';
+export { ScoreDetailPage, ScoreDetailPageLoading } from './components/ScoreDetailPage';
 export type { ScoreDetailPageProps } from './components/ScoreDetailPage';
 export { useReportModel, useReportState } from './useReportModel';
 export type {
