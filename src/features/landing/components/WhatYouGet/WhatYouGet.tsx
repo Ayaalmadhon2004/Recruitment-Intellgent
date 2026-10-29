@@ -3,7 +3,7 @@ import { en } from '@/domain/copy';
 import { scored } from '@/domain/scoring';
 import { SampleDataBadge, ScoreRing } from '@/patterns';
 import { SectionHeader } from '@/shell';
-import { Card, Reveal } from '@/ui';
+import { Reveal } from '@/ui';
 import styles from './WhatYouGet.module.css';
 
 const copy = en.landing.get;
@@ -93,17 +93,11 @@ export function WhatYouGet(): ReactNode {
         {CARDS.map((c, i) => (
           <li key={c.key} className={styles.item}>
             <Reveal delay={c.delay} className={styles.reveal}>
-              <Card
-                as="article"
-                radius="lg"
-                lift
-                accent={i % 2 === 0 ? 'navy' : 'crimson'}
-                className={styles.card}
-              >
+              <article className={`${styles.column} ${i % 2 === 0 ? styles.navy : styles.crimson}`}>
                 <div className={styles.art}>{c.art}</div>
                 <h3 className={styles.cardTitle}>{copy[c.key].title}</h3>
                 <p className={styles.cardBody}>{copy[c.key].body}</p>
-              </Card>
+              </article>
             </Reveal>
           </li>
         ))}

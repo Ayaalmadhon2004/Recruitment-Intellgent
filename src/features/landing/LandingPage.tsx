@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import { auditScope, routes, tbcConfig } from '@/domain/config';
 import { en, fill } from '@/domain/copy';
 import { CtaBand } from '@/patterns';
-import { PageContainer } from '@/shell';
+import { PageContainer, WaveDivider } from '@/shell';
 import { FreeOrFull } from './components/FreeOrFull';
 import { Hero } from './components/Hero';
 import { HowItWorks } from './components/HowItWorks';
@@ -33,16 +33,19 @@ export function LandingPage({
           <WhatYouGet />
         </PageContainer>
       </section>
+      <WaveDivider from="card" to="page" />
       <section className={`${styles.band} ${styles.bandBlue}`}>
         <PageContainer className={styles.sections}>
           <HowItWorks />
         </PageContainer>
       </section>
+      <WaveDivider from="page" to="warm" />
       <section className={`${styles.band} ${styles.bandWarm}`}>
         <PageContainer className={styles.sections}>
           <FreeOrFull startHref={startHref} pricing={pricing} />
         </PageContainer>
       </section>
+      <WaveDivider from="warm" to="card" />
       <section className={`${styles.band} ${styles.bandWhite}`}>
         <PageContainer className={styles.sections}>
           <PrivacyStrip privacyPolicyUrl={privacyPolicyUrl} />
