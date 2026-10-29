@@ -68,11 +68,6 @@
   flex-direction: column;
   gap: var(--space-6);
 }
-/* Clear break between the pilot timeline and the forecast steps. */
-.sectionDivided {
-  padding-top: var(--space-10);
-  border-top: 1px solid var(--color-line-strong);
-}
 .subBlock {
   display: flex;
   flex-direction: column;
@@ -94,6 +89,24 @@
 .hint {
   font-size: var(--text-small-size);
   color: var(--color-text-secondary);
+}
+
+/* Forecast band: edge to edge, tinted, with its own rhythm. */
+.forecastBand {
+  margin-top: var(--space-4);
+  padding-block: var(--space-10);
+  background: var(--color-navy-tint);
+  border-block: 1px solid var(--color-line-strong);
+}
+.forecastInner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-7);
+  max-width: var(--layout-max-width);
+}
+.closing {
+  padding-top: var(--space-10);
+  padding-bottom: var(--space-10);
 }
 
 /* Donut */
@@ -463,37 +476,33 @@
   color: var(--color-text-secondary);
 }
 .steps {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-5) var(--space-3);
-  align-items: stretch;
-  margin-bottom: var(--space-3);
-}
-.stepWrap {
-  flex: 1 1 210px;
-  min-width: 0;
-  display: flex;
-  align-items: stretch;
-  gap: var(--space-3);
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-5);
 }
 .stepCard {
-  flex: 1 1 auto;
   min-width: 0;
   display: flex;
   flex-direction: column;
+  gap: var(--space-3);
+}
+.stepHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   gap: var(--space-2);
+  min-height: 32px;
 }
 .operator {
   display: flex;
-  flex: 0 0 40px;
-  align-self: center;
+  flex: 0 0 32px;
   align-items: center;
   justify-content: center;
-  height: 40px;
+  height: 32px;
   border-radius: var(--radius-pill);
   background: var(--color-navy);
   color: var(--color-text-inverse);
-  font-size: var(--text-h3-size);
+  font-size: var(--text-body-size);
   font-weight: var(--font-weight-bold);
 }
 .result {
@@ -555,14 +564,16 @@
   .result {
     padding: var(--space-5);
   }
-  .stepWrap {
-    flex: 1 1 100%;
-    flex-direction: column;
-    align-items: stretch;
+  .steps {
+    grid-template-columns: minmax(0, 1fr);
   }
-  .operator {
-    flex: 0 0 auto;
-    width: 40px;
-    align-self: center;
+  .forecastBand {
+    padding-block: var(--space-8);
+  }
+}
+
+@media (min-width: 761px) and (max-width: 1099px) {
+  .steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }

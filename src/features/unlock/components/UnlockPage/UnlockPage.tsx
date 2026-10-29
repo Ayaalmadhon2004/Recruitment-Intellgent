@@ -301,6 +301,7 @@ export function UnlockPage({
       {unlocked && !justUnlocked ? donePanel : null}
 
       <CtaBand
+        tone="inline"
         title={copy.advisor.title}
         body={copy.advisor.body}
         actions={[{ label: copy.advisor.cta, href: routes.advisor }]}

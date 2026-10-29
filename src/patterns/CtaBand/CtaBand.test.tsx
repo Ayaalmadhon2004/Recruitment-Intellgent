@@ -26,4 +26,19 @@ describe('CtaBand', () => {
       '/sign-in',
     );
   });
+
+  it('uses the standard primary and secondary buttons in the light tones', () => {
+    render(
+      <CtaBand
+        tone="inline"
+        title="Need a break?"
+        actions={[
+          { label: 'Save and exit', href: '/exit', variant: 'inverse' },
+          { label: 'See report', href: '/report', variant: 'inverse-outline' },
+        ]}
+      />,
+    );
+    expect(screen.getByRole('link', { name: 'Save and exit' }).className).toMatch(/primary/);
+    expect(screen.getByRole('link', { name: 'See report' }).className).toMatch(/secondary/);
+  });
 });

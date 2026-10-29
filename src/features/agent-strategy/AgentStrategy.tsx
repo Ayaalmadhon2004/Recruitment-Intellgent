@@ -7,7 +7,6 @@ import { en } from '@/domain/copy';
 import type { AgentFactorId, AgentsConfig } from '@/domain/types';
 import { AdvisorCta, SampleDataBadge } from '@/patterns';
 import { PageContainer, SectionHeader } from '@/shell';
-import { cx } from '@/ui';
 import { AgentMatrix } from './AgentMatrix';
 import { FactorDonut } from './FactorDonut';
 import { ForecastSection } from './ForecastSection';
@@ -118,22 +117,21 @@ export function AgentStrategy({
           />
           <PilotTimeline pilot={pilot} month={month} onSelect={setMonth} />
         </section>
+      </PageContainer>
 
-        <section
-          id="forecast"
-          aria-labelledby="as-forecast"
-          className={cx(styles.section, styles.sectionDivided)}
-        >
-          <div className={styles.sectionHead}>
-            <SectionHeader
-              id="as-forecast"
-              eyebrow={copy.forecast.eyebrow}
-              title={copy.forecast.title}
-            />
-          </div>
+      {/* A full-width tinted band of its own, so the forecast reads as a separate tool from the pilot above. */}
+      <section id="forecast" aria-labelledby="as-forecast" className={styles.forecastBand}>
+        <PageContainer className={styles.forecastInner}>
+          <SectionHeader
+            id="as-forecast"
+            eyebrow={copy.forecast.eyebrow}
+            title={copy.forecast.title}
+          />
           <ForecastSection values={forecastValues} onChange={setForecastValues} />
-        </section>
+        </PageContainer>
+      </section>
 
+      <PageContainer className={styles.closing}>
         <AdvisorCta
           title={copy.cta.title}
           body={fill(copy.cta.body, vars)}
