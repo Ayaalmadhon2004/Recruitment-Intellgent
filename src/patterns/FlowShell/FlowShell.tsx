@@ -1,8 +1,8 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
-import { Button, Stepper } from '@/ui';
+import { Button, Stepper, cx } from '@/ui';
 import styles from './FlowShell.module.css';
 
 export type FlowStep = { id: string; label: string };
@@ -66,6 +66,15 @@ export function FlowShell({
     panel.current?.focus();
   }, [current, showingSuccess]);
 
+  // Remember which way the person moved, so the new step slides in from that side. No motion on first render.
+  const [seen, setSeen] = useState<{ step: number; motion: string | undefined }>({
+    step: current,
+    motion: undefined,
+  });
+  if (seen.step !== current) {
+    setSeen({ step: current, motion: current < seen.step ? 'anim-step-back' : 'anim-step-next' });
+  }
+
   const last = current === steps.length - 1;
   const step = steps[current];
 
@@ -96,7 +105,7 @@ export function FlowShell({
       <p className="visually-hidden" aria-live="polite">
         {step ? labels.announce(current + 1, steps.length, step.label) : null}
       </p>
-      <div ref={panel} tabIndex={-1} className={styles.panel}>
+      <div key={current} ref={panel} tabIndex={-1} className={cx(styles.panel, seen.motion)}>
         {children}
       </div>
       <div className={styles.actions}>
