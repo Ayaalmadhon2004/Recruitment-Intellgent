@@ -290,6 +290,7 @@
 }
 
 .track {
+  position: relative;
   flex: 0 0 56px;
   width: 56px;
   height: 32px;
@@ -301,6 +302,13 @@
   background: var(--color-input-border);
   cursor: pointer;
   transition: background var(--dur-base) var(--ease-standard);
+}
+
+/* The visible track is 32px tall; this invisible layer lifts the tappable area to 44px. */
+.track::before {
+  content: '';
+  position: absolute;
+  inset: calc((var(--tap-target) - 100%) / -2) 0;
 }
 
 .trackOn {
