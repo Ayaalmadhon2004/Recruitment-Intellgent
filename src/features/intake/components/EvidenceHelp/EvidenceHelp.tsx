@@ -16,16 +16,19 @@ export function EvidenceHelp(): ReactNode {
           id: 'evidence-help',
           title: help.title,
           content: (
-            <dl className={styles.list}>
-              {evidenceTags.map((tag) => (
-                <div key={tag} className={styles.item}>
-                  <dt>
-                    <EvidenceTag tag={tag} label={en.evidenceTags[tag]} />
-                  </dt>
-                  <dd className={styles.text}>{help[tag]}</dd>
-                </div>
-              ))}
-            </dl>
+            <>
+              <p className={styles.text}>{help.intro}</p>
+              <dl className={styles.list}>
+                {evidenceTags.map((tag) => (
+                  <div key={tag} className={styles.item}>
+                    <dt>
+                      <EvidenceTag tag={tag} label={en.evidenceTags[tag]} />
+                    </dt>
+                    <dd className={styles.text}>{help[tag]}</dd>
+                  </div>
+                ))}
+              </dl>
+            </>
           ),
         },
       ]}

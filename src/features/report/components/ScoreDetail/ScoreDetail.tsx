@@ -4,6 +4,7 @@ import { en, fill, t } from '@/domain/copy';
 import { affordabilityComponentIds } from '@/domain/types';
 import type { AffordabilityComponentId, QuestionId, Recommendation } from '@/domain/types';
 import { questionLabel } from '@/features/questions';
+import { notScorableLabels } from '@/features/shared-labels';
 import {
   ActionList,
   ConfidenceMeter,
@@ -37,12 +38,6 @@ export type ScoreDetailProps = {
 
 /** The weights are out of this total. */
 const WEIGHT_SCALE = 100;
-
-const notScorableLabels = {
-  title: en.status.notScorable,
-  reasons: en.notScorable.reasons,
-  missingHeading: en.notScorable.missingHeading,
-};
 
 /** Everything behind one score area: how it is built, its evidence, gaps and next steps. */
 export function ScoreDetail({
@@ -91,6 +86,7 @@ export function ScoreDetail({
                   level={result.confidence}
                   label={en.confidence.label}
                   levelLabel={en.confidence[result.confidence]}
+                  hint={en.confidence.hint}
                 />
               </div>
             </>
@@ -136,7 +132,8 @@ export function ScoreDetail({
           </>
         ) : (
           <p className={styles.lead}>
-            {en.scoreDetail.undefinedBuild} <TbcValue value={null} placeholder={en.status.tbc} label={en.status.pending} />
+            {en.scoreDetail.undefinedBuild}{' '}
+            <TbcValue value={null} placeholder={en.status.tbc} label={en.status.pending} />
           </p>
         )}
       </section>
@@ -155,11 +152,16 @@ export function ScoreDetail({
                 <li key={item.questionId} className={styles.row}>
                   <span className={styles.rowText}>{questionLabel(item.questionId)}</span>
                   <span className={styles.rowChips}>
-                    <EvidenceTag tag={item.tag} label={en.evidenceTags[item.tag]} />
+                    <EvidenceTag
+                      tag={item.tag}
+                      label={en.evidenceTags[item.tag]}
+                      hint={en.intake.evidenceHelp[item.tag]}
+                    />
                     <ConfidenceMeter
                       level={item.confidence}
                       label={en.confidence.label}
                       levelLabel={en.confidence[item.confidence]}
+                      hint={en.confidence.hint}
                     />
                   </span>
                 </li>

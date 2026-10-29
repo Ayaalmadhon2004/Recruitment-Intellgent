@@ -10,13 +10,20 @@ export type ConfidenceMeterProps = {
   label: string;
   /** The word for the level, for example "High". */
   levelLabel: string;
+  /** Plain-English meaning, shown as a tooltip. The same text is also written out on the page. */
+  hint?: string;
 };
 
 const filled: Record<Confidence | 'none', number> = { high: 3, medium: 2, low: 1, none: 0 };
 
-export function ConfidenceMeter({ level, label, levelLabel }: ConfidenceMeterProps): ReactNode {
+export function ConfidenceMeter({
+  level,
+  label,
+  levelLabel,
+  hint,
+}: ConfidenceMeterProps): ReactNode {
   return (
-    <span className={styles.meter} data-confidence={level}>
+    <span className={styles.meter} data-confidence={level} title={hint}>
       <span className={styles.bars} aria-hidden="true">
         {[1, 2, 3].map((n) => (
           <span

@@ -20,4 +20,15 @@ describe('EvidenceTag', () => {
     });
     expect(new Set(shapes).size).toBe(5);
   });
+
+  it('shows its plain-English meaning as a tooltip when given one', () => {
+    render(
+      <EvidenceTag
+        tag="estimate"
+        label={en.evidenceTags.estimate}
+        hint={en.intake.evidenceHelp.estimate}
+      />,
+    );
+    expect(screen.getByTitle(en.intake.evidenceHelp.estimate)).toBeInTheDocument();
+  });
 });

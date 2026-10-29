@@ -30,7 +30,7 @@ describe('NotScorableState', () => {
         questionHref={(id) => `/intake#${id}`}
       />,
     );
-    expect(screen.getByText('Still needed')).toBeInTheDocument();
+    expect(screen.getByText(notScorableLabels.missingHeading)).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Question E1' })).toHaveAttribute('href', '/intake#E1');
     expect(screen.getByRole('link', { name: 'Question E2' })).toHaveAttribute('href', '/intake#E2');
   });
@@ -48,6 +48,11 @@ describe('NotScorableState', () => {
 
   it('omits the list when nothing specific is missing', () => {
     render(<NotScorableState result={notScorable('no-formula', [])} labels={notScorableLabels} />);
-    expect(screen.queryByText('Still needed')).not.toBeInTheDocument();
+    expect(screen.queryByText(notScorableLabels.missingHeading)).not.toBeInTheDocument();
+  });
+
+  it('explains the title in plain words right under it', () => {
+    render(<NotScorableState result={notScorable('no-formula', [])} labels={notScorableLabels} />);
+    expect(screen.getByText(notScorableLabels.explainer)).toBeInTheDocument();
   });
 });

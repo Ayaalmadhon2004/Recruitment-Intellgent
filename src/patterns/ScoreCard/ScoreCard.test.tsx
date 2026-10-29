@@ -19,7 +19,7 @@ describe('ScoreCard with a Scored result', () => {
     expect(screen.getByText('68')).toBeVisible();
     expect(screen.getByText('Developing')).toBeVisible();
     expect(screen.getByText('Good start.')).toBeVisible();
-    expect(screen.getByText('Institution-reported')).toBeVisible();
+    expect(screen.getByText('Reported by your team')).toBeVisible();
     expect(screen.getByText('Confidence: Medium')).toBeVisible();
   });
 

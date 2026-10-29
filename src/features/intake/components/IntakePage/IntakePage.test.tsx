@@ -39,7 +39,7 @@ describe('IntakePage overview', () => {
     expect(screen.queryByText(/\b40\b/)).not.toBeInTheDocument();
   });
 
-  it('counts answered and Not sure, and says how many are marked Unknown', async () => {
+  it('counts answered and Not sure, and says how many are marked Not sure', async () => {
     const user = userEvent.setup();
     start(
       createMemoryStore(
@@ -49,9 +49,9 @@ describe('IntakePage overview', () => {
       ),
     );
     expect(screen.getAllByText(`2 of ${total} answered`).length).toBeGreaterThan(0);
-    expect(screen.getByText('1 marked Unknown. Unknown is fine.')).toBeInTheDocument();
+    expect(screen.getByText('1 marked Not sure. That is fine: we leave those open instead of guessing.')).toBeInTheDocument();
     await user.click(screen.getAllByRole('button', { name: en.questionCard.notSure })[0]!);
-    expect(screen.getByText('2 marked Unknown. Unknown is fine.')).toBeInTheDocument();
+    expect(screen.getByText('2 marked Not sure. That is fine: we leave those open instead of guessing.')).toBeInTheDocument();
   });
 
   it('does not say the audit was resumed when nothing was saved', () => {
@@ -143,7 +143,7 @@ describe('IntakePage keyboard use', () => {
       expect(notSure).toHaveFocus();
       await user.keyboard('{Enter}');
     }
-    const first = screen.getAllByRole('button', { pressed: true, name: /Marked Unknown/ });
+    const first = screen.getAllByRole('button', { pressed: true, name: /Marked Not sure/ });
     expect(first).toHaveLength(perSection);
     const aButton = screen.getByRole('button', {
       name: new RegExp(`^Section A: .*${perSection} of ${perSection}`),

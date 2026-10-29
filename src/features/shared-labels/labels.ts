@@ -5,6 +5,7 @@ import type { ScoreCardLabels, StageCardLabels } from '@/patterns';
 /** Label bundles for the score patterns, built from copy. Shared by Quick Start and Report. */
 export const notScorableLabels = {
   title: en.status.notScorable,
+  explainer: en.notScorable.explainer,
   reasons: en.notScorable.reasons,
   missingHeading: en.notScorable.missingHeading,
 };
@@ -14,7 +15,9 @@ export const scoreCardLabels: ScoreCardLabels = {
   outOf: en.scoreCard.outOf,
   ringAria: (name, value) => fill(en.firstRead.ringAria, { name, value: Math.round(value) }),
   evidenceTags: en.evidenceTags,
+  evidenceHints: en.intake.evidenceHelp,
   confidence: en.confidence.label,
+  confidenceHint: en.confidence.hint,
   confidenceLevels: {
     high: en.confidence.high,
     medium: en.confidence.medium,
