@@ -1,9 +1,10 @@
 import type { ReactNode } from 'react';
 import { auditScope } from '@/domain/config';
 import { en, fill } from '@/domain/copy';
-import { SampleDataBadge } from '@/patterns';
+import type { ScoreAreaId, Scored } from '@/domain/types';
+import { ProgressBar, SampleDataBadge, ScoreRing, StatusBadge } from '@/patterns';
 import { PageContainer } from '@/shell';
-import { Button, PhotoBox, Reveal } from '@/ui';
+import { Button, Reveal } from '@/ui';
 import styles from './Hero.module.css';
 
 const copy = en.landing.hero;
@@ -12,11 +13,17 @@ export type HeroProps = {
   startHref: string;
 };
 
-/** Illustrative only: the chip beside the photo is a sample, never a real result. */
-const SAMPLE_FRACTION = 0.68;
-const RING_RADIUS = 17;
-const FULL_TURN = Math.PI + Math.PI;
-const RING_LENGTH = FULL_TURN * RING_RADIUS;
+/**
+ * Illustrative only: a mock of the free report. These numbers are design samples, never the output
+ * of the scoring engine, and the whole preview carries the sample badge.
+ */
+const SAMPLE_OVERALL: Scored = { kind: 'scored', value: 68, band: 'developing', confidence: 'medium' };
+const SAMPLE_AREAS: ReadonlyArray<{ id: ScoreAreaId; value: number }> = [
+  { id: 'readiness', value: 74 },
+  { id: 'affordability', value: 66 },
+  { id: 'digital-visibility', value: 58 },
+  { id: 'trust-network', value: 41 },
+];
 
 export function Hero({ startHref }: HeroProps): ReactNode {
   return (
@@ -38,32 +45,38 @@ export function Hero({ startHref }: HeroProps): ReactNode {
           </div>
         </Reveal>
         <Reveal delay={2} className={styles.visual}>
-          <div className={styles.photo}>
-            <PhotoBox
-              shape="arch"
-              width={300}
-              height={400}
-              src="/temp-assets/temp-graduate.jpg"
-              alt={copy.photoAlt}
-            />
-          </div>
-          <div className={`${styles.chip} anim-float`}>
-            <svg viewBox="0 0 44 44" width="44" height="44" aria-hidden="true" focusable="false">
-              <circle cx="22" cy="22" r={RING_RADIUS} className={styles.track} />
-              <circle
-                cx="22"
-                cy="22"
-                r={RING_RADIUS}
-                className={`${styles.arc} anim-ring`}
-                strokeDasharray={`${(SAMPLE_FRACTION * RING_LENGTH).toFixed(1)} 200`}
-                transform="rotate(-90 22 22)"
+          <figure className={styles.report}>
+            <figcaption className={styles.reportHead}>
+              <span className={styles.reportLabel}>{copy.preview.label}</span>
+              <SampleDataBadge label={en.status.sample} variant="outline" />
+            </figcaption>
+            <div className={styles.summary}>
+              <ScoreRing
+                result={SAMPLE_OVERALL}
+                ariaLabel={copy.preview.ringAria}
+                caption={copy.preview.ringCaption}
+                size={132}
               />
-            </svg>
-            <span className={styles.chipText}>
-              <SampleDataBadge label={copy.chipLabel} variant="outline" />
-              <span className={styles.chipScore}>{copy.chipScore}</span>
-            </span>
-          </div>
+              <div className={styles.summaryText}>
+                <p className={styles.reportTitle}>{copy.preview.title}</p>
+                <p className={styles.reportSub}>{copy.preview.subtitle}</p>
+                <StatusBadge tone="caution" label={en.bands[SAMPLE_OVERALL.band]} />
+              </div>
+            </div>
+            <p className={styles.areasTitle}>{copy.preview.areasTitle}</p>
+            <ul className={styles.areas}>
+              {SAMPLE_AREAS.map((area) => (
+                <li key={area.id} className={styles.area}>
+                  <ProgressBar
+                    value={area.value}
+                    label={en.areas[area.id]}
+                    valueText={fill(copy.preview.areaScore, { value: area.value })}
+                  />
+                </li>
+              ))}
+            </ul>
+            <p className={styles.footnote}>{copy.preview.footnote}</p>
+          </figure>
         </Reveal>
       </PageContainer>
       <svg
