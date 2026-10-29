@@ -25,7 +25,7 @@ describe('LinkSent', () => {
 
   it('does not state a link lifetime nobody has confirmed', () => {
     render(<LinkSent {...base} remaining={0} />);
-    expect(screen.getByText(copy.expiryPlaceholder)).toHaveAttribute('data-tbc', 'true');
+    expect(screen.getByText(copy.expiryPlaceholder).closest('[data-tbc]')).toHaveAttribute('data-tbc', 'true');
     expect(screen.queryByText(/15 minutes/)).not.toBeInTheDocument();
   });
 

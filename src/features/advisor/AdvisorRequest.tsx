@@ -156,7 +156,7 @@ export function AdvisorRequest({
     label: c.copy.name,
     description: c.copy.line,
     icon: c.icon,
-    detail: <TbcValue value={c.confirmed} placeholder={c.copy.detailTbc} />,
+    detail: <TbcValue value={c.confirmed} placeholder={c.copy.detailTbc} label={en.status.pending} />,
   }));
 
   const err = (key: keyof FieldErrors): string | undefined => {

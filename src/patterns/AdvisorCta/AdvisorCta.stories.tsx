@@ -6,6 +6,7 @@ const base = {
   title: 'Talk it through with a person',
   body: 'A Capstone advisor will walk you through your results.',
   tbcText: en.status.tbc,
+  pendingText: en.status.pending,
 };
 const meta = {
   title: 'patterns/AdvisorCta',

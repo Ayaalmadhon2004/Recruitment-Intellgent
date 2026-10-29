@@ -80,14 +80,14 @@ describe('PdfExportPage', () => {
     render(<PdfExportPage previewModel={syntheticScoredReportModel()} />);
     expect(screen.queryByText(copy.options.logoPlaceholder)).not.toBeInTheDocument();
     await user.click(toggle(copy.options.logoLabel));
-    expect(screen.getByText(copy.options.logoPlaceholder)).toHaveAttribute('data-tbc', 'true');
-    expect(screen.getByText(copy.preview.logoPlaceholder)).toHaveAttribute('data-tbc', 'true');
+    expect(screen.getByText(copy.options.logoPlaceholder).closest('[data-tbc]')).toHaveAttribute('data-tbc', 'true');
+    expect(screen.getByText(copy.preview.logoPlaceholder).closest('[data-tbc]')).toHaveAttribute('data-tbc', 'true');
   });
 
   it('keeps the report date as a to-be-confirmed value on the cover', () => {
     render(<PdfExportPage previewModel={syntheticScoredReportModel()} />);
     const date = screen.getByText(`${en.report.print.dateLabel}:`, { exact: false });
-    expect(within(date).getByText(en.status.tbc)).toHaveAttribute('data-tbc', 'true');
+    expect(within(date).getByText(en.status.tbc).closest('[data-tbc]')).toHaveAttribute('data-tbc', 'true');
   });
 
   it('draws areas that cannot be scored as Not yet scorable, never as 0', () => {

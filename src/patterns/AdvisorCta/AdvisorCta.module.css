@@ -52,14 +52,17 @@
   flex-direction: column;
   gap: 2px;
   padding: var(--space-2) var(--space-4);
-  border: 2px dashed var(--color-text-inverse);
+  border: 1px dashed var(--color-text-inverse);
   border-radius: var(--radius-card-sm);
   font-size: var(--text-caption-size);
   line-height: var(--text-caption-line);
 }
 
 .pending [data-tbc] {
+  background: transparent;
+  border-color: var(--color-text-inverse);
   color: var(--color-text-inverse);
+  align-self: flex-start;
 }
 
 .pendingLabel {

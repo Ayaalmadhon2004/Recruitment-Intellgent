@@ -31,7 +31,7 @@ export function AdvisorSuccess({ request, backHref, onAgain }: AdvisorSuccessPro
       body: (
         <>
           {three.bodyBefore}{' '}
-          <TbcValue value={tbcConfig.advisorReplyTime} placeholder={three.timingTbc} />
+          <TbcValue value={tbcConfig.advisorReplyTime} placeholder={three.timingTbc} label={en.status.pending} />
           {three.bodyAfter}
         </>
       ),

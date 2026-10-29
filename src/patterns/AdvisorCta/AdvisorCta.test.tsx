@@ -7,6 +7,7 @@ const base = {
   title: 'Talk it through with a person',
   body: 'An advisor will walk you through.',
   tbcText: en.status.tbc,
+  pendingText: en.status.pending,
 };
 
 describe('AdvisorCta', () => {
@@ -22,7 +23,7 @@ describe('AdvisorCta', () => {
       />,
     );
     expect(screen.queryByRole('link')).not.toBeInTheDocument();
-    expect(screen.getAllByText(en.status.tbc)).toHaveLength(2);
+    expect(screen.getAllByText(en.status.pending)).toHaveLength(2);
     expect(screen.getByRole('img', { name: '[ADVISOR PHOTO]' })).toBeInTheDocument();
   });
 
@@ -41,7 +42,7 @@ describe('AdvisorCta', () => {
       'href',
       'https://wa.me/0',
     );
-    expect(screen.getAllByText(en.status.tbc)).toHaveLength(1);
+    expect(screen.getAllByText(en.status.pending)).toHaveLength(1);
     expect(screen.getByRole('img', { name: 'Advisor' })).toBeInTheDocument();
   });
 });

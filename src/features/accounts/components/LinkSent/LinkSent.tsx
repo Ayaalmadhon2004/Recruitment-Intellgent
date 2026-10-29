@@ -53,7 +53,7 @@ export function LinkSent({
       </div>
       <p className={styles.body}>
         {bodyBefore}
-        <TbcValue value={tbcConfig.signInLinkExpiry} placeholder={copy.expiryPlaceholder} />
+        <TbcValue value={tbcConfig.signInLinkExpiry} placeholder={copy.expiryPlaceholder} label={en.status.pending} />
         {bodyAfter}
       </p>
       <div className={styles.resend}>

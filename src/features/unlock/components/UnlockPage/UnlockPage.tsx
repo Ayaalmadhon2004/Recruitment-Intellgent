@@ -66,7 +66,7 @@ const optionNode = (path: ResolvedUnlockPath | undefined): ReactNode =>
   path && path.confirmed ? (
     path.label
   ) : (
-    <TbcValue value={null} placeholder={path ? path.label : en.status.tbc} />
+    <TbcValue value={null} placeholder={path ? path.label : en.status.tbc} label={en.status.pending} />
   );
 
 /**
@@ -220,7 +220,7 @@ export function UnlockPage({
           detail: p.confirmed ? (
             (p.note ?? undefined)
           ) : (
-            <TbcValue value={null} placeholder={copy.choose.placeholderNote} />
+            <TbcValue value={null} placeholder={copy.choose.placeholderNote} label={en.status.pending} />
           ),
         }))}
         value={pathId}

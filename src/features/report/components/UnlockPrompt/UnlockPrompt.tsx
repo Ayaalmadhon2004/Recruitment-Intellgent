@@ -26,7 +26,7 @@ export function UnlockPrompt({ unlockHref }: UnlockPromptProps): ReactNode {
             placeholder={en.status.tbc}
           />
           {'. '}
-          {copy.priceLabel}: <TbcValue value={tbcConfig.pricing} placeholder={en.status.tbc} />
+          {copy.priceLabel}: <TbcValue value={tbcConfig.pricing} placeholder={en.status.tbc} label={en.status.pending} />
         </span>
       }
       actions={unlockHref ? [{ label: copy.cta, href: unlockHref }] : []}

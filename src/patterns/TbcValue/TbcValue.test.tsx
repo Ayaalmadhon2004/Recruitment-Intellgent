@@ -7,8 +7,16 @@ const PLACEHOLDER = '[TO BE CONFIRMED WITH CAPSTONE]';
 describe('TbcValue', () => {
   it('renders the labelled placeholder when the value is null', () => {
     render(<TbcValue value={null} placeholder={PLACEHOLDER} />);
-    const el = screen.getByText(PLACEHOLDER);
+    const el = screen.getByText(PLACEHOLDER).closest('[data-tbc]');
     expect(el).toHaveAttribute('data-tbc', 'true');
+  });
+
+  it('shows a short chip word and keeps the full text as tooltip and screen-reader text', () => {
+    const { container } = render(<TbcValue value={null} placeholder={PLACEHOLDER} label="Pending" />);
+    const chip = container.querySelector('[data-tbc="true"]');
+    expect(chip).toHaveAttribute('title', PLACEHOLDER);
+    expect(screen.getByText('Pending')).toHaveAttribute('aria-hidden', 'true');
+    expect(screen.getByText(PLACEHOLDER)).toHaveClass('visually-hidden');
   });
 
   it.each([undefined, ''])('treats %j as not confirmed', (value) => {
