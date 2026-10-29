@@ -8,3 +8,5 @@ export { SectionHeader } from './SectionHeader';
 export type { SectionHeaderProps } from './SectionHeader';
 export { PageSkeleton } from './PageSkeleton';
 export type { PageSkeletonProps } from './PageSkeleton';
+export { WaveDivider } from './WaveDivider';
+export type { WaveDividerProps, WaveTone } from './WaveDivider';

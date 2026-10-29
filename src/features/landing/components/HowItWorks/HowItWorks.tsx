@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import { auditScope } from '@/domain/config';
 import { en, fill } from '@/domain/copy';
 import { SectionHeader } from '@/shell';
-import { Card, Reveal } from '@/ui';
+import { Reveal } from '@/ui';
 import styles from './HowItWorks.module.css';
 
 const copy = en.landing.how;
@@ -23,18 +23,12 @@ export function HowItWorks(): ReactNode {
           {copy.steps.map((s, i) => (
             <li key={s.title} className={styles.step}>
               <Reveal delay={DELAYS[i]} className={styles.reveal}>
-                <span className={styles.number}>{i + 1}</span>
-                <Card
-                  as="div"
-                  radius="sm"
-                  lift
-                  accent={i % 2 === 0 ? 'navy' : 'crimson'}
-                  className={styles.card}
-                >
+                <span className={`${styles.number} ${i % 2 === 0 ? styles.navy : styles.crimson}`}>{i + 1}</span>
+                <div className={styles.card}>
                   <h3 className={styles.title}>{fill(s.title, counts)}</h3>
                   <p className={styles.body}>{s.body}</p>
                   <span className={styles.time}>{fill(s.time, counts)}</span>
-                </Card>
+                </div>
               </Reveal>
             </li>
           ))}

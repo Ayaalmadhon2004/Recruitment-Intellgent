@@ -86,7 +86,7 @@ export function Hero({ startHref }: HeroProps): ReactNode {
         aria-hidden="true"
         focusable="false"
       >
-        <polygon points="0,70 1440,0 1440,70" />
+        <path d="M0 30 C 260 76, 520 70, 760 38 S 1220 -14, 1440 28 L1440 70 L0 70 Z" />
       </svg>
     </section>
   );
