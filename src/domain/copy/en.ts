@@ -30,6 +30,7 @@ export const en = {
     nextSteps: 'Next steps',
     advisor: 'Advisor',
     footerLabel: 'Footer',
+    toolsGroup: 'Tools',
     items: {
       home: 'Home',
       quickStart: 'Quick Start',

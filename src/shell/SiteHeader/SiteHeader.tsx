@@ -9,6 +9,9 @@ import styles from './SiteHeader.module.css';
 
 export type NavItem = { href: string; label: string };
 
+/** Secondary pages grouped under one labelled entry: a dropdown on wide screens, a titled section in the drawer. */
+export type NavGroup = { label: string; items: readonly NavItem[] };
+
 export type HeaderAccount = {
   signIn: NavItem;
   /** The signed-in person, or null when signed out. */
@@ -34,6 +37,8 @@ export type SiteHeaderProps = {
   productName: string;
   navLabel: string;
   navItems: readonly NavItem[];
+  /** Optional secondary links, kept out of the main row so it stays short. */
+  navGroup?: NavGroup;
   cta: NavItem;
   menuOpenLabel: string;
   menuCloseLabel: string;
@@ -48,6 +53,7 @@ export function SiteHeader({
   productName,
   navLabel,
   navItems,
+  navGroup,
   cta,
   menuOpenLabel,
   menuCloseLabel,
@@ -58,7 +64,11 @@ export function SiteHeader({
   const [accountOpen, setAccountOpen] = useState(false);
   const accountRef = useRef<HTMLDivElement>(null);
   const accountToggleRef = useRef<HTMLButtonElement>(null);
+  const [groupOpen, setGroupOpen] = useState(false);
+  const groupRef = useRef<HTMLLIElement>(null);
+  const groupToggleRef = useRef<HTMLButtonElement>(null);
   const navId = useId();
+  const groupId = useId();
   const accountMenuId = useId();
 
   useEffect(() => {
@@ -89,6 +99,29 @@ export function SiteHeader({
       document.removeEventListener('pointerdown', onPointerDown);
     };
   }, [accountOpen]);
+
+  useEffect(() => {
+    if (!groupOpen) return;
+    const onKeyDown = (event: KeyboardEvent): void => {
+      if (event.key !== 'Escape') return;
+      setGroupOpen(false);
+      groupToggleRef.current?.focus();
+    };
+    const onPointerDown = (event: PointerEvent): void => {
+      if (!groupRef.current?.contains(event.target as Node)) setGroupOpen(false);
+    };
+    document.addEventListener('keydown', onKeyDown);
+    document.addEventListener('pointerdown', onPointerDown);
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+      document.removeEventListener('pointerdown', onPointerDown);
+    };
+  }, [groupOpen]);
+
+  const closeAll = (): void => {
+    setOpen(false);
+    setGroupOpen(false);
+  };
 
   const signOut = (): void => {
     setOpen(false);
@@ -121,11 +154,38 @@ export function SiteHeader({
           <ul className={styles.list}>
             {navItems.map((item) => (
               <li key={item.href}>
-                <Link href={item.href} className={styles.link} onClick={() => setOpen(false)}>
+                <Link href={item.href} className={styles.link} onClick={closeAll}>
                   {item.label}
                 </Link>
               </li>
             ))}
+            {navGroup ? (
+              <li ref={groupRef} className={styles.group} data-open={groupOpen ? 'true' : 'false'}>
+                <button
+                  ref={groupToggleRef}
+                  type="button"
+                  className={`${styles.link} ${styles.groupToggle}`}
+                  aria-expanded={groupOpen}
+                  aria-controls={groupId}
+                  onClick={() => setGroupOpen((value) => !value)}
+                >
+                  {navGroup.label}
+                  <Icon name="chevron-down" size={16} />
+                </button>
+                <span className={styles.groupTitle} aria-hidden="true">
+                  {navGroup.label}
+                </span>
+                <ul id={groupId} className={styles.groupList}>
+                  {navGroup.items.map((item) => (
+                    <li key={item.href}>
+                      <Link href={item.href} className={styles.groupLink} onClick={closeAll}>
+                        {item.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            ) : null}
           </ul>
           {account ? (
             <div className={styles.drawerAccount}>

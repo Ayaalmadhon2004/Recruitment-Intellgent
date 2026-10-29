@@ -16,6 +16,13 @@ const meta = {
       { href: '#next-steps', label: en.nav.nextSteps },
       { href: '#advisor', label: en.nav.advisor },
     ],
+    navGroup: {
+      label: en.nav.toolsGroup,
+      items: [
+        { href: '#report', label: en.nav.items.report },
+        { href: '#cost', label: en.nav.items.costCalc },
+      ],
+    },
     cta: { href: '#', label: en.header.cta },
     menuOpenLabel: en.header.menuOpen,
     menuCloseLabel: en.header.menuClose,
