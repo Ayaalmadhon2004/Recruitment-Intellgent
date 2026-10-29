@@ -6,6 +6,8 @@ export type CardProps = HTMLAttributes<HTMLElement> & {
   as?: 'div' | 'article' | 'section' | 'li';
   tone?: 'default' | 'navy' | 'dashed';
   radius?: 'sm' | 'md' | 'lg' | 'xl';
+  /** Coloured top edge in one of the two brand colours. */
+  accent?: 'navy' | 'crimson';
   /** Lifts the card on hover. Disabled automatically when reduced motion is requested. */
   lift?: boolean;
   children: ReactNode;
@@ -15,6 +17,7 @@ export function Card({
   as: Tag = 'div',
   tone = 'default',
   radius = 'md',
+  accent,
   lift,
   className,
   children,
@@ -23,7 +26,15 @@ export function Card({
   return (
     <Tag
       {...rest}
-      className={cx(styles.card, styles[tone], styles[radius], lift && 'hover-lift', className)}
+      className={cx(
+        styles.card,
+        styles[tone],
+        styles[radius],
+        accent === 'navy' && styles.accentNavy,
+        accent === 'crimson' && styles.accentCrimson,
+        lift && 'hover-lift',
+        className,
+      )}
     >
       {children}
     </Tag>

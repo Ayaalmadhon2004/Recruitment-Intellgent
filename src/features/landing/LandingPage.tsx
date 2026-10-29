@@ -28,20 +28,34 @@ export function LandingPage({
   return (
     <>
       <Hero startHref={startHref} />
-      <PageContainer className={styles.sections}>
-        <WhatYouGet />
-        <HowItWorks />
-        <FreeOrFull startHref={startHref} pricing={pricing} />
-        <PrivacyStrip privacyPolicyUrl={privacyPolicyUrl} />
-        <CtaBand
-          title={copy.title}
-          body={fill(copy.body, { quickStart: auditScope.quickStartQuestions })}
-          actions={[
-            { label: copy.primary, href: startHref },
-            { label: copy.secondary, href: en.site.url, variant: 'inverse-outline' },
-          ]}
-        />
-      </PageContainer>
+      <section className={`${styles.band} ${styles.bandWhite}`}>
+        <PageContainer className={styles.sections}>
+          <WhatYouGet />
+        </PageContainer>
+      </section>
+      <section className={`${styles.band} ${styles.bandBlue}`}>
+        <PageContainer className={styles.sections}>
+          <HowItWorks />
+        </PageContainer>
+      </section>
+      <section className={`${styles.band} ${styles.bandWarm}`}>
+        <PageContainer className={styles.sections}>
+          <FreeOrFull startHref={startHref} pricing={pricing} />
+        </PageContainer>
+      </section>
+      <section className={`${styles.band} ${styles.bandWhite}`}>
+        <PageContainer className={styles.sections}>
+          <PrivacyStrip privacyPolicyUrl={privacyPolicyUrl} />
+          <CtaBand
+            title={copy.title}
+            body={fill(copy.body, { quickStart: auditScope.quickStartQuestions })}
+            actions={[
+              { label: copy.primary, href: startHref },
+              { label: copy.secondary, href: en.site.url, variant: 'inverse-outline' },
+            ]}
+          />
+        </PageContainer>
+      </section>
     </>
   );
 }

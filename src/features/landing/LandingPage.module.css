@@ -1,7 +1,24 @@
+.band {
+  border-top: 1px solid var(--color-line);
+}
+
+.bandWhite {
+  background: var(--backdrop-band-white);
+}
+
+.bandBlue {
+  background: transparent;
+}
+
+.bandWarm {
+  background: var(--backdrop-band-warm);
+  border-bottom: 1px solid var(--color-line);
+}
+
 .sections {
   display: flex;
   flex-direction: column;
   gap: var(--space-10);
-  padding-top: var(--space-6);
+  padding-top: var(--space-10);
   padding-bottom: var(--space-10);
 }
