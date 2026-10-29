@@ -1,4 +1,4 @@
-export { UnlockPage } from './components/UnlockPage';
+export { UnlockPage, UnlockPageLoading } from './components/UnlockPage';
 export type { UnlockPageProps } from './components/UnlockPage';
 export { deviceAuditKey, readDeviceEntitlement } from './deviceAudit';
 export { useDeviceEntitlement } from './useDeviceEntitlement';

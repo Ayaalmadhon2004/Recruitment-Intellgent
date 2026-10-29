@@ -87,7 +87,6 @@ export const unlock = {
     cta: 'Start the Quick Start',
   },
   state: {
-    checking: 'Checking your report...',
     errorTitle: 'We could not check your report',
     errorBody: 'Nothing was changed. Please try again.',
     retry: 'Try again',
