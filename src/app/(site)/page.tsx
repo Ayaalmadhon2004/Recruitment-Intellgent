@@ -1,11 +1,12 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
-import { en } from '@/domain/copy';
+import { auditScope } from '@/domain/config';
+import { en, fill } from '@/domain/copy';
 import { LandingPage } from '@/features/landing';
 
 export const metadata: Metadata = {
   title: en.landing.meta.title,
-  description: en.landing.meta.description,
+  description: fill(en.landing.meta.description, { quickStart: auditScope.quickStartQuestions }),
 };
 
 /** The home page is the landing feature. */

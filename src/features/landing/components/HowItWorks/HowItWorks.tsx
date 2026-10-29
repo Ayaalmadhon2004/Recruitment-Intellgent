@@ -1,10 +1,15 @@
 import type { ReactNode } from 'react';
-import { en } from '@/domain/copy';
+import { auditScope } from '@/domain/config';
+import { en, fill } from '@/domain/copy';
 import { SectionHeader } from '@/shell';
 import { Card, Reveal } from '@/ui';
 import styles from './HowItWorks.module.css';
 
 const copy = en.landing.how;
+const counts = {
+  quickStart: auditScope.quickStartQuestions,
+  total: auditScope.totalQuestions,
+};
 const DELAYS = [0, 1, 2] as const;
 
 export function HowItWorks(): ReactNode {
@@ -20,9 +25,9 @@ export function HowItWorks(): ReactNode {
               <Reveal delay={DELAYS[i]} className={styles.reveal}>
                 <span className={styles.number}>{i + 1}</span>
                 <Card as="div" radius="sm" lift className={styles.card}>
-                  <h3 className={styles.title}>{s.title}</h3>
+                  <h3 className={styles.title}>{fill(s.title, counts)}</h3>
                   <p className={styles.body}>{s.body}</p>
-                  <span className={styles.time}>{s.time}</span>
+                  <span className={styles.time}>{fill(s.time, counts)}</span>
                 </Card>
               </Reveal>
             </li>

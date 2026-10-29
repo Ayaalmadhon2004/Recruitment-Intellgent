@@ -155,7 +155,7 @@ export const en = {
     pageTitle: 'Quick Start',
     firstReadPageTitle: 'Your first read',
     eyebrow: 'QUICK START',
-    title: 'Five questions for your first read',
+    title: '{count} questions for your first read',
     lead: 'Answer what you know. Choose Not sure when you do not: we never guess a score.',
     stepperLabel: 'Quick Start questions',
     stepLabel: 'Question {n}',

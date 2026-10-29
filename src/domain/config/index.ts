@@ -2,6 +2,7 @@ import type { DomainConfig } from '../types';
 import { accountsConfig } from './accounts.config';
 import { accessConfig } from './access.config';
 import { agentsConfig } from './agents.config';
+import { auditScope } from './audit.config';
 import { evidenceConfig } from './evidence.config';
 import { questionsConfig } from './questions.config';
 import { scoringConfig } from './scoring.config';
@@ -15,6 +16,7 @@ export {
   accessConfig,
   accountsConfig,
   agentsConfig,
+  auditScope,
   evidenceConfig,
   questionsConfig,
   routes,
