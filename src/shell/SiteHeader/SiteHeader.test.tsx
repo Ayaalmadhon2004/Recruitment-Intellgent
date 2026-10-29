@@ -60,6 +60,32 @@ describe('SiteHeader', () => {
     expect(nav).toHaveAttribute('data-open', 'false');
   });
 
+  describe('navGroup', () => {
+    const navGroup = { label: 'Tools', items: [{ href: '#t', label: 'Tool one' }] };
+
+    it('renders no dropdown without the navGroup prop', () => {
+      render(<SiteHeader {...props} />);
+      expect(screen.queryByRole('button', { name: 'Tools' })).not.toBeInTheDocument();
+    });
+
+    it('toggles the dropdown, closes on Escape and when a link is chosen', () => {
+      render(<SiteHeader {...props} navGroup={navGroup} />);
+      const toggle = screen.getByRole('button', { name: 'Tools' });
+      expect(toggle).toHaveAttribute('aria-expanded', 'false');
+      expect(screen.getByRole('link', { name: 'Tool one' })).toHaveAttribute('href', '#t');
+
+      fireEvent.click(toggle);
+      expect(toggle).toHaveAttribute('aria-expanded', 'true');
+      fireEvent.keyDown(document, { key: 'Escape' });
+      expect(toggle).toHaveAttribute('aria-expanded', 'false');
+      expect(toggle).toHaveFocus();
+
+      fireEvent.click(toggle);
+      fireEvent.click(screen.getByRole('link', { name: 'Tool one' }));
+      expect(toggle).toHaveAttribute('aria-expanded', 'false');
+    });
+  });
+
   describe('account', () => {
     const account = (user: HeaderAccount['user'], onSignOut = vi.fn()): HeaderAccount => ({
       signIn: { href: '/sign-in', label: 'Sign in' },

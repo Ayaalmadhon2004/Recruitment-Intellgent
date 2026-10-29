@@ -110,6 +110,42 @@
   background: var(--color-crimson-dark);
 }
 
+/* Secondary group: a titled section in the drawer, a dropdown on wide screens. */
+.groupToggle {
+  display: none;
+  gap: var(--space-1);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.groupTitle {
+  display: block;
+  padding-top: var(--space-4);
+  font-size: var(--text-small-size);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
+}
+
+.groupList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.groupLink {
+  min-height: var(--tap-target);
+  display: flex;
+  align-items: center;
+  padding-left: var(--space-4);
+  font-size: var(--text-body-size);
+  font-weight: var(--font-weight-medium);
+  text-decoration: none;
+  color: var(--color-navy);
+}
+
 /* Account: on small screens the controls live in the drawer; the bar shows only the CTA and burger. */
 .signIn,
 .account {
@@ -190,8 +226,8 @@
   }
 }
 
-/* Single cohesive row: inline links, no drawer, no burger. */
-@media (min-width: 1400px) {
+/* Single cohesive row: inline links, no drawer, no burger. Four links and one dropdown fit from here. */
+@media (min-width: 1100px) {
   .bar {
     gap: var(--space-6);
   }
@@ -229,8 +265,51 @@
   }
 
   .toggle,
-  .drawerAccount {
+  .drawerAccount,
+  .groupTitle {
     display: none;
+  }
+
+  .group {
+    position: relative;
+  }
+
+  .groupToggle {
+    display: inline-flex;
+  }
+
+  .groupToggle[aria-expanded='true'] svg {
+    transform: rotate(180deg);
+  }
+
+  .groupList {
+    display: none;
+    position: absolute;
+    top: calc(100% + var(--space-2));
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    min-width: 220px;
+    padding: var(--space-2);
+    background: var(--color-card);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-field);
+    box-shadow: var(--shadow-card-raised);
+  }
+
+  .group[data-open='true'] .groupList {
+    display: block;
+  }
+
+  .groupLink {
+    padding: 0 var(--space-3);
+    font-size: var(--text-small-size);
+    white-space: nowrap;
+    border-radius: var(--radius-field);
+  }
+
+  .groupLink:hover {
+    background: var(--color-page);
   }
 
   .signIn {
@@ -295,8 +374,8 @@
   }
 }
 
-/* Eight links plus the account controls need the room, so the product name waits for a wider screen. */
-@media (min-width: 1680px) {
+/* The product name waits for a wider screen so the row stays balanced. */
+@media (min-width: 1360px) {
   .product {
     display: block;
   }

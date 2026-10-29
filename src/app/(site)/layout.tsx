@@ -4,20 +4,23 @@ import { en } from '@/domain/copy';
 import { SiteFooter } from '@/shell';
 import { SiteHeaderWithAccount } from './SiteHeaderWithAccount';
 
-const navItems = [
+const primaryNav = [
   { href: routes.home, label: en.nav.items.home },
   { href: routes.quickStart, label: en.nav.items.quickStart },
   { href: routes.intake, label: en.nav.items.intake },
+  { href: routes.advisor, label: en.nav.items.advisor },
+] as const;
+
+const toolsNav = [
   { href: routes.report, label: en.nav.items.report },
   { href: routes.dashboard, label: en.nav.items.myAudits },
   { href: routes.costCalc, label: en.nav.items.costCalc },
   { href: routes.agentStrategy, label: en.nav.items.agentStrategy },
-  { href: routes.advisor, label: en.nav.items.advisor },
 ] as const;
 
 const footerColumns = [
-  { heading: en.footer.navigationHeading, links: navItems.slice(0, 5) },
-  { heading: en.footer.toolsHeading, links: navItems.slice(5) },
+  { heading: en.footer.navigationHeading, links: primaryNav },
+  { heading: en.footer.toolsHeading, links: toolsNav },
 ] as const;
 
 /** Header, the single <main> landmark and footer, composed once for every public page. */
@@ -30,7 +33,8 @@ export default function SiteLayout({ children }: { children: ReactNode }): React
         logoAlt={en.brand.logoAlt}
         productName={en.brand.productName}
         navLabel={en.nav.label}
-        navItems={navItems}
+        navItems={primaryNav}
+        navGroup={{ label: en.nav.toolsGroup, items: toolsNav }}
         cta={{ href: routes.quickStart, label: en.header.cta }}
         menuOpenLabel={en.header.menuOpen}
         menuCloseLabel={en.header.menuClose}
