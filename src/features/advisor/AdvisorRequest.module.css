@@ -162,7 +162,7 @@
   font-size: var(--text-small-size);
   line-height: var(--text-small-line);
   font-weight: var(--font-weight-semibold);
-  color: var(--color-crimson-dark);
+  color: var(--color-navy-deep);
 }
 
 .advisorBio {
@@ -271,7 +271,7 @@
 }
 
 .replyLabel {
-  color: var(--color-crimson);
+  color: var(--color-navy);
 }
 
 .success {
@@ -415,7 +415,7 @@
   flex: 0 0 40px;
   height: 40px;
   border-radius: var(--radius-pill);
-  background: var(--color-crimson);
+  background: var(--color-navy);
   color: var(--color-text-inverse);
   display: flex;
   align-items: center;

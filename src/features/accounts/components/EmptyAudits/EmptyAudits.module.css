@@ -43,7 +43,7 @@
   font-size: var(--text-eyebrow-size);
   font-weight: var(--font-weight-semibold);
   letter-spacing: var(--text-eyebrow-tracking);
-  color: var(--color-crimson);
+  color: var(--color-navy);
 }
 
 .title {

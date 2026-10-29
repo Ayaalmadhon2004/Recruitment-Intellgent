@@ -37,11 +37,6 @@
   color: var(--color-text-inverse);
 }
 
-.crimson {
-  background: var(--color-crimson);
-  color: var(--color-text-inverse);
-}
-
 .plain {
   background: var(--color-card);
   color: var(--color-text);

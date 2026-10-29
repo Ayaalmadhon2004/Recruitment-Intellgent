@@ -23,7 +23,7 @@
   display: block;
   height: 100%;
   border-radius: var(--radius-pill);
-  background: linear-gradient(90deg, var(--color-navy) 0%, var(--color-crimson) 100%);
+  background: var(--color-navy);
   transition: width var(--dur-data) var(--ease-out);
 }
 
@@ -65,14 +65,14 @@
   box-shadow: 0 0 0 4px var(--color-page);
 }
 
-/* Glowing active step: white gap, then a soft crimson halo. */
+/* Glowing active step: white gap, then a soft navy halo. */
 .current {
-  background: var(--color-crimson);
+  background: var(--color-navy);
   color: var(--color-text-inverse);
   box-shadow:
     0 0 0 4px var(--color-page),
-    0 0 0 8px color-mix(in srgb, var(--color-crimson) 22%, transparent),
-    0 8px 20px color-mix(in srgb, var(--color-crimson) 38%, transparent);
+    0 0 0 8px color-mix(in srgb, var(--color-navy) 22%, transparent),
+    0 8px 20px color-mix(in srgb, var(--color-navy) 38%, transparent);
   transform: scale(1.06);
 }
 

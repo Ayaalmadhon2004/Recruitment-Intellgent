@@ -30,9 +30,6 @@
   border-radius: var(--radius-pill);
 }
 
-.crimson .fill {
-  background: var(--color-crimson);
-}
 .navy .fill {
   background: var(--color-navy);
 }

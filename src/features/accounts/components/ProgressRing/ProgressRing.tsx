@@ -5,7 +5,7 @@ import styles from './ProgressRing.module.css';
 export type ProgressRingProps = {
   /** Whole number, 0 to 100. */
   percent: number;
-  tone: 'crimson' | 'strong';
+  tone: 'navy' | 'strong';
   /** Accessible name, for example "Northbridge University audit 70 percent complete". */
   ariaLabel: string;
   size?: number;

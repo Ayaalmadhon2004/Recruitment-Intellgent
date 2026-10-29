@@ -18,16 +18,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid var(--color-crimson);
+  border: 2px solid var(--color-navy);
 }
 
 .prev {
   background: var(--color-card);
-  color: var(--color-crimson);
+  color: var(--color-navy);
 }
 
 .next {
-  background: var(--color-crimson);
+  background: var(--color-navy);
   color: var(--color-text-inverse);
 }
 
@@ -79,5 +79,5 @@
 
 .dotActive::after {
   width: 28px;
-  background: var(--color-crimson);
+  background: var(--color-navy);
 }

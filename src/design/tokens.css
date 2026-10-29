@@ -4,9 +4,9 @@
   --color-page: #faf5ec;
   --color-card: #ffffff;
   --color-navy-deep: #0d2447;
+  /* Navy: headings, structure, selected states and result cards. One base, one deep shade, one tint. */
   --color-navy: #1e3a5f;
-  --color-navy-mid: #3d5780;
-  --color-navy-soft: #2a4770;
+  /* Crimson is reserved for the single primary action (and the logo). Never for labels, badges or fills. */
   --color-crimson: #a41034;
   --color-crimson-dark: #8f0728;
 
@@ -30,7 +30,7 @@
   --color-status-info: #2f5fa8;
 
   /* Tints used behind status and selection */
-  --color-crimson-tint: #fff6f8;
+  --color-navy-tint: #eef2f8;
   --color-strong-tint: #e8f3ec;
   --color-info-tint: #e6eef9;
   --color-concern-tint: #fcebe2;

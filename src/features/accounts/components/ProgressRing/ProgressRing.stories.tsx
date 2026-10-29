@@ -4,7 +4,7 @@ import { ProgressRing } from './ProgressRing';
 const meta = {
   title: 'features/accounts/ProgressRing',
   component: ProgressRing,
-  args: { percent: 70, tone: 'crimson', ariaLabel: 'Sample audit 70 percent complete' },
+  args: { percent: 70, tone: 'navy', ariaLabel: 'Sample audit 70 percent complete' },
 } satisfies Meta<typeof ProgressRing>;
 export default meta;
 type Story = StoryObj<typeof meta>;

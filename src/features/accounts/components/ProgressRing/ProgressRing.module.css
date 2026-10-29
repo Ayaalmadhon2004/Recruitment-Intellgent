@@ -24,8 +24,8 @@
   stroke-linecap: round;
 }
 
-.crimson .arc {
-  stroke: var(--color-crimson);
+.navy .arc {
+  stroke: var(--color-navy);
 }
 
 .strong .arc {

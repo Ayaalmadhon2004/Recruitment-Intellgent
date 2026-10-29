@@ -9,7 +9,7 @@ export type ProgressBarProps = {
   label: string;
   /** Text shown and spoken for the value, for example "28 of 40". */
   valueText: string;
-  tone?: 'crimson' | 'navy' | 'strong' | 'inverse';
+  tone?: 'navy' | 'strong' | 'inverse';
   size?: 'md' | 'lg';
 };
 
@@ -18,7 +18,7 @@ export function ProgressBar({
   max = 100,
   label,
   valueText,
-  tone = 'crimson',
+  tone = 'navy',
   size = 'md',
 }: ProgressBarProps): ReactNode {
   const id = useId();

@@ -45,20 +45,20 @@
 
 .secondary {
   background: var(--color-card);
-  border-color: var(--color-crimson);
-  color: var(--color-crimson);
+  border-color: var(--color-navy);
+  color: var(--color-navy);
 }
 .secondary:hover {
-  background: var(--color-crimson-tint);
-  color: var(--color-crimson);
+  background: var(--color-navy-tint);
+  color: var(--color-navy);
 }
 
 .inverse {
   background: var(--color-card);
-  color: var(--color-crimson-dark);
+  color: var(--color-navy-deep);
 }
 .inverse:hover {
-  color: var(--color-crimson-dark);
+  color: var(--color-navy-deep);
 }
 
 .inverse-outline {

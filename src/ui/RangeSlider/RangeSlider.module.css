@@ -19,14 +19,14 @@
 .value {
   font-size: var(--text-body-size);
   font-weight: var(--font-weight-bold);
-  color: var(--color-crimson);
+  color: var(--color-navy);
 }
 
 .range {
   width: 100%;
   height: var(--tap-target);
   margin: 0;
-  accent-color: var(--color-crimson);
+  accent-color: var(--color-navy);
 }
 
 .ends {

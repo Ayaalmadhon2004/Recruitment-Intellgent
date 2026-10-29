@@ -48,7 +48,7 @@ export function AuditCard({
       <div className={styles.top}>
         <ProgressRing
           percent={audit.percent}
-          tone={complete ? 'strong' : 'crimson'}
+          tone={complete ? 'strong' : 'navy'}
           ariaLabel={fill(copy.ringAria, { name, percent: audit.percent })}
         />
         <div className={styles.head}>

@@ -39,8 +39,8 @@
 }
 
 .selected {
-  border-color: var(--color-crimson);
-  background: var(--color-crimson);
+  border-color: var(--color-navy);
+  background: var(--color-navy);
   color: var(--color-text-inverse);
 }
 
@@ -55,7 +55,7 @@
 
 .selected .badge {
   background: var(--color-card);
-  color: var(--color-crimson-dark);
+  color: var(--color-navy-deep);
 }
 
 .panel {

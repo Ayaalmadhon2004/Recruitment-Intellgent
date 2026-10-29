@@ -28,7 +28,7 @@
 }
 
 .option[aria-pressed='true'] {
-  background: var(--color-crimson);
+  background: var(--color-navy);
   color: var(--color-text-inverse);
 }
 

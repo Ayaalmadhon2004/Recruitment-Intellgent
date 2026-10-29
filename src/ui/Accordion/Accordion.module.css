@@ -45,7 +45,7 @@
 
 .chevron {
   display: flex;
-  color: var(--color-crimson);
+  color: var(--color-navy);
   transition: transform var(--dur-base) var(--ease-standard);
 }
 

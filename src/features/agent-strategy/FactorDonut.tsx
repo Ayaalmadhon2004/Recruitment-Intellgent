@@ -7,15 +7,18 @@ import styles from './AgentStrategy.module.css';
 
 const copy = en.agentStrategy.weights;
 
-/** Chart colours, as design tokens. They repeat if a config ever has more than seven factors. */
+/**
+ * Chart colours: one navy hue stepping from dark to light, so segments are told apart by shade and
+ * by the legend, not by unrelated hues. They repeat if a config ever has more than seven factors.
+ */
 export const factorColours = [
+  'var(--color-navy-deep)',
   'var(--color-navy)',
-  'var(--color-crimson)',
-  'var(--color-status-info)',
-  'var(--color-crimson-dark)',
-  'var(--color-status-strong)',
-  'var(--color-status-caution)',
-  'var(--color-navy-mid)',
+  'color-mix(in srgb, var(--color-navy) 82%, var(--color-card))',
+  'color-mix(in srgb, var(--color-navy) 66%, var(--color-card))',
+  'color-mix(in srgb, var(--color-navy) 52%, var(--color-card))',
+  'color-mix(in srgb, var(--color-navy) 40%, var(--color-card))',
+  'color-mix(in srgb, var(--color-navy) 30%, var(--color-card))',
 ] as const;
 
 export const colourFor = (index: number): string =>

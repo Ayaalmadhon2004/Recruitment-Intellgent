@@ -18,8 +18,8 @@ export function PaperFoldMark({ size = 36, title, className }: PaperFoldMarkProp
       aria-label={title}
       aria-hidden={title ? undefined : true}
     >
-      <polygon points="6,66 54,4 54,50" fill="var(--color-navy-mid)" />
-      <polygon points="6,66 54,50 32,94" fill="var(--color-navy-soft)" />
+      <polygon points="6,66 54,4 54,50" fill="var(--color-navy)" />
+      <polygon points="6,66 54,50 32,94" fill="var(--color-navy-deep)" />
       <polygon points="58,4 94,52 36,92" fill="var(--color-crimson)" />
       <polygon points="58,4 36,92 58,56" fill="var(--color-crimson-dark)" />
     </svg>

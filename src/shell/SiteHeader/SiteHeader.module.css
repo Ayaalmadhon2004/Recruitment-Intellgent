@@ -36,7 +36,7 @@
   font-size: var(--text-small-size);
   font-weight: var(--font-weight-semibold);
   color: var(--color-text);
-  border-left: 2px solid var(--color-crimson);
+  border-left: 2px solid var(--color-navy);
   padding-left: var(--space-4);
   white-space: nowrap;
 }

@@ -24,8 +24,8 @@
 }
 
 .current {
-  border-color: var(--color-crimson);
-  background: var(--color-crimson-tint);
+  border-color: var(--color-navy);
+  background: var(--color-navy-tint);
 }
 
 .top {
@@ -73,7 +73,7 @@
   display: block;
   height: 100%;
   border-radius: var(--radius-pill);
-  background: var(--color-crimson);
+  background: var(--color-navy);
 }
 
 .meta {
@@ -90,7 +90,7 @@
   display: inline-flex;
   align-items: center;
   gap: var(--space-1);
-  color: var(--color-crimson);
+  color: var(--color-navy);
 }
 
 .stateDone {
