@@ -17,7 +17,7 @@ import type { SavedAudit } from '../../types';
 import { useAccountSession } from '../../useAccountSession';
 import { adoptLocalAudit, resumeAudit, signOutAndClear, startNewAudit } from '../../working-copy';
 import type { OpenTarget } from '../AuditCard';
-import { DashboardView } from '../DashboardView';
+import { DashboardSkeleton, DashboardView } from '../DashboardView';
 import styles from './DashboardPage.module.css';
 
 export type DashboardPageProps = {
@@ -156,14 +156,7 @@ export function DashboardPage({ runtime: runtimeProp }: DashboardPageProps): Rea
   }
 
   if (session.status === 'loading' || data.status === 'loading' || !user) {
-    return (
-      <PageContainer className={styles.page}>
-        <h1 className={styles.title}>{copy.title}</h1>
-        <p role="status" className={styles.body}>
-          {copy.loading}
-        </p>
-      </PageContainer>
-    );
+    return <DashboardSkeleton />;
   }
 
   return (
