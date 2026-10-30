@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { routes } from '@/domain/config';
 import { en } from '@/domain/copy';
-import { SiteFooter } from '@/shell';
+import { ScrollCompanion, SiteFooter } from '@/shell';
 import { SiteHeaderWithAccount } from './SiteHeaderWithAccount';
 
 const primaryNav = [
@@ -39,6 +39,7 @@ export default function SiteLayout({ children }: { children: ReactNode }): React
         menuOpenLabel={en.header.menuOpen}
         menuCloseLabel={en.header.menuClose}
       />
+      <ScrollCompanion />
       <main id="main">{children}</main>
       <SiteFooter
         homeHref={routes.home}

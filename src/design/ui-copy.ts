@@ -23,7 +23,4 @@ export const uiCopy = {
   kite: {
     label: 'Paper kite',
   },
-  companion: {
-    label: 'Page progress',
-  },
 } as const;

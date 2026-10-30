@@ -10,3 +10,7 @@ export { PageSkeleton } from './PageSkeleton';
 export type { PageSkeletonProps } from './PageSkeleton';
 export { WaveDivider } from './WaveDivider';
 export type { WaveDividerProps, WaveTone } from './WaveDivider';
+export { PlainSection } from './PlainSection';
+export type { PlainSectionProps } from './PlainSection';
+export { ScrollCompanion } from './ScrollCompanion';
+export type { ScrollCompanionProps } from './ScrollCompanion';
