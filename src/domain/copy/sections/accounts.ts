@@ -48,12 +48,6 @@ export const accounts = {
     sample: 'Sample data - illustrative only',
     loadError: 'We could not load your audits.',
     retry: 'Try again',
-    signedOut: {
-      eyebrow: 'SIGNED OUT',
-      title: 'Sign in to see your audits',
-      body: 'Saved audits belong to your account. Sign in and the answers on this device are kept with it.',
-      cta: 'Sign in',
-    },
     controlsLabel: 'Filter and sort',
     filterLabel: 'Show',
     filters: { all: 'All', progress: 'In progress', complete: 'Complete' },

@@ -67,6 +67,22 @@ describe('SignInPage', () => {
     expect((await runtime.service.currentUser())?.email).toBe('a@uni.example');
   });
 
+  it('returns to the page they were heading to after the link is opened, and says why sign-in is needed', async () => {
+    const runtime = createMemoryRuntime();
+    render(
+      <SignInPage
+        runtime={runtime}
+        nextHref="/quick-start?phase=read"
+        contextLine="Sign in to start your audit"
+      />,
+    );
+    expect(screen.getByText('Sign in to start your audit')).toBeInTheDocument();
+    await userEvent.type(email(), 'a@uni.example');
+    await userEvent.click(screen.getByRole('button', { name: copy.cta }));
+    await userEvent.click(await screen.findByRole('button', { name: copy.dev.open }));
+    await waitFor(() => expect(push).toHaveBeenCalledWith('/quick-start?phase=read'));
+  });
+
   it('shows a problem when the service cannot send the link', async () => {
     const runtime = createMemoryRuntime();
     vi.spyOn(runtime.service, 'requestSignInLink').mockRejectedValue(new Error('down'));
