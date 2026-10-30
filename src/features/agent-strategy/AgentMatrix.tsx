@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { ReactNode, RefObject } from 'react';
+import { strategyCopy } from '@/design/ui-copy';
 import { en, t } from '@/domain/copy';
 import { strongestAndWeakest, weightedAgentScore } from '@/domain/scoring';
 import type { AgentFactor } from '@/domain/types';
 import type { RatingRange } from '@/domain/scoring';
-import { cx } from '@/ui';
+import { ArchSheet, Icon, cx } from '@/ui';
 import { fill } from './format';
 import type { SampleAgent } from './types';
 import styles from './AgentStrategy.module.css';
@@ -48,25 +49,25 @@ export type AgentMatrixProps = {
   factors: readonly AgentFactor[];
   rating: RatingRange;
   agents: readonly SampleAgent[];
-  selectedId: string;
-  onSelect: (id: string) => void;
+  /** Agent whose strengths and weaknesses sheet starts open. */
+  initialOpenId?: string;
 };
 
-/** Real table: caption, column and row headers, a sticky first column inside a focusable scroll region. Edge fades show when more columns sit off-screen. */
+/** Real table: caption, column and row headers, a sticky first column inside a focusable scroll region. Each agent name opens a sheet with that agent's strongest and weakest factor. */
 export function AgentMatrix({
   factors,
   rating,
   agents,
-  selectedId,
-  onSelect,
+  initialOpenId,
 }: AgentMatrixProps): ReactNode {
   const { ref, edges, update } = useScrollEdges();
+  const [openId, setOpenId] = useState<string | null>(initialOpenId ?? null);
   const rows = agents.map((agent) => ({
     agent,
     score: weightedAgentScore(agent.ratings, factors, rating),
   }));
-  const picked = rows.find((r) => r.agent.id === selectedId) ?? rows[0];
-  const extremes = picked ? strongestAndWeakest(picked.agent.ratings, factors) : null;
+  const opened = rows.find((r) => r.agent.id === openId) ?? null;
+  const extremes = opened ? strongestAndWeakest(opened.agent.ratings, factors) : null;
   const factorName = (id: string): string => {
     const factor = factors.find((f) => f.id === id);
     return factor ? t(factor.nameKey) : id;
@@ -107,75 +108,88 @@ export function AgentMatrix({
               </tr>
             </thead>
             <tbody>
-              {rows.map(({ agent, score }) => {
-                const on = agent.id === picked?.agent.id;
-                return (
-                  <tr key={agent.id} className={cx(styles.row, on && styles.rowOn)}>
-                    <th scope="row" className={styles.rowHead}>
-                      <button
-                        type="button"
-                        aria-pressed={on}
-                        className={cx(styles.agentButton, on && styles.agentButtonOn)}
-                        onClick={() => onSelect(agent.id)}
-                      >
-                        <span className={styles.agentName}>{agent.name}</span>
-                        <span className={styles.agentState}>
-                          {on ? copy.selected : copy.select}
+              {rows.map(({ agent, score }) => (
+                <tr key={agent.id} className={styles.row}>
+                  <th scope="row" className={styles.rowHead}>
+                    <button
+                      type="button"
+                      aria-haspopup="dialog"
+                      aria-label={fill(strategyCopy.agentDetailsAria, { name: agent.name })}
+                      className={styles.agentButton}
+                      onClick={() => setOpenId(agent.id)}
+                    >
+                      <span className={styles.agentName}>{agent.name}</span>
+                      <span className={styles.agentState}>{strategyCopy.agentDetails}</span>
+                    </button>
+                  </th>
+                  {factors.map((factor) => {
+                    const value = agent.ratings[factor.id];
+                    return (
+                      <td key={factor.id} className={styles.cell}>
+                        <span className={styles.rating}>
+                          {fill(copy.rating, { value, max: rating.max })}
                         </span>
-                      </button>
-                    </th>
-                    {factors.map((factor) => {
-                      const value = agent.ratings[factor.id];
-                      return (
-                        <td key={factor.id} className={styles.cell}>
-                          <span className={styles.rating}>
-                            {fill(copy.rating, { value, max: rating.max })}
-                          </span>
-                          <span className={styles.bar} aria-hidden="true">
-                            <span
-                              className={styles.barFill}
-                              style={{ width: `${(value / rating.max) * PERCENT}%` }}
-                            />
-                          </span>
-                        </td>
-                      );
-                    })}
-                    <td className={cx(styles.cell, styles.total)}>
-                      {fill(copy.score, { score: score.toFixed(SCORE_DECIMALS), max: rating.max })}
-                    </td>
-                  </tr>
-                );
-              })}
+                        <span className={styles.bar} aria-hidden="true">
+                          <span
+                            className={styles.barFill}
+                            style={{ width: `${(value / rating.max) * PERCENT}%` }}
+                          />
+                        </span>
+                      </td>
+                    );
+                  })}
+                  <td className={cx(styles.cell, styles.total)}>
+                    {fill(copy.score, { score: score.toFixed(SCORE_DECIMALS), max: rating.max })}
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
       </div>
-      {picked && extremes ? (
-        <div className={styles.summary} role="status">
-          <div className={styles.summaryMain}>
-            <span className={styles.eyebrow}>{copy.summaryEyebrow}</span>
-            <span className={styles.summaryTitle}>
-              {fill(copy.summaryTitle, {
-                name: picked.agent.name,
-                score: picked.score.toFixed(SCORE_DECIMALS),
-                max: rating.max,
-              })}
-            </span>
+      <ArchSheet
+        open={opened !== null}
+        onClose={() => setOpenId(null)}
+        title={opened?.agent.name ?? ''}
+      >
+        {opened && extremes ? (
+          <div className={styles.sheetBody}>
+            <p className={styles.sheetScore}>
+              <span className={styles.eyebrow}>{strategyCopy.sheetScore}</span>
+              <span className={styles.sheetScoreValue}>
+                {fill(copy.score, { score: opened.score.toFixed(SCORE_DECIMALS), max: rating.max })}
+              </span>
+            </p>
+            <dl className={styles.sheetList}>
+              <div className={styles.sheetItem}>
+                <dt className={styles.sheetTerm}>
+                  <Icon name="check-circle" size={20} strokeWidth={2.4} />
+                  {strategyCopy.sheetStrength}
+                </dt>
+                <dd className={styles.sheetDef}>
+                  {fill(copy.factorRating, {
+                    factor: factorName(extremes.strongest.id),
+                    rating: extremes.strongest.rating,
+                  })}
+                </dd>
+              </div>
+              <div className={styles.sheetItem}>
+                <dt className={styles.sheetTerm}>
+                  <Icon name="concern" size={20} strokeWidth={2.4} />
+                  {strategyCopy.sheetWeakness}
+                </dt>
+                <dd className={styles.sheetDef}>
+                  {fill(copy.factorRating, {
+                    factor: factorName(extremes.weakest.id),
+                    rating: extremes.weakest.rating,
+                  })}
+                </dd>
+              </div>
+            </dl>
+            <p className={styles.hint}>{strategyCopy.sheetSample}</p>
           </div>
-          <span className={styles.summaryDetail}>
-            {fill(copy.summaryDetail, {
-              strongest: fill(copy.factorRating, {
-                factor: factorName(extremes.strongest.id),
-                rating: extremes.strongest.rating,
-              }),
-              weakest: fill(copy.factorRating, {
-                factor: factorName(extremes.weakest.id),
-                rating: extremes.weakest.rating,
-              }),
-            })}
-          </span>
-        </div>
-      ) : null}
+        ) : null}
+      </ArchSheet>
     </>
   );
 }

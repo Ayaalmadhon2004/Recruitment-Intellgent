@@ -2,10 +2,10 @@
 
 import { useState } from 'react';
 import type { ReactNode } from 'react';
-import { agentsConfig, tbcConfig } from '@/domain/config';
+import { agentsConfig } from '@/domain/config';
 import { en } from '@/domain/copy';
 import type { AgentFactorId, AgentsConfig } from '@/domain/types';
-import { AdvisorCta, SampleDataBadge } from '@/patterns';
+import { SampleDataBadge } from '@/patterns';
 import { PageContainer, SectionHeader } from '@/shell';
 import { AgentMatrix } from './AgentMatrix';
 import { FactorDonut } from './FactorDonut';
@@ -25,6 +25,7 @@ export type AgentStrategyProps = {
   /** Sample forecast inputs, as typed. Not a prediction. */
   initialForecast: ForecastFormValues;
   initialFactorId?: AgentFactorId | null;
+  /** Agent whose strengths and weaknesses sheet starts open. */
   initialAgentId?: string;
   /** 1-based. */
   initialMonth?: number;
@@ -39,7 +40,6 @@ export function AgentStrategy({
   initialMonth = 1,
 }: AgentStrategyProps): ReactNode {
   const [factorId, setFactorId] = useState<AgentFactorId | null>(initialFactorId);
-  const [agentId, setAgentId] = useState<string>(initialAgentId ?? agents[0]?.id ?? '');
   const [month, setMonth] = useState<number>(initialMonth);
   const [forecastValues, setForecastValues] = useState<ForecastFormValues>(initialForecast);
 
@@ -104,8 +104,7 @@ export function AgentStrategy({
             factors={factors}
             rating={rating}
             agents={agents}
-            selectedId={agentId}
-            onSelect={setAgentId}
+            initialOpenId={initialAgentId}
           />
         </section>
 
@@ -117,33 +116,15 @@ export function AgentStrategy({
           />
           <PilotTimeline pilot={pilot} month={month} onSelect={setMonth} />
         </section>
-      </PageContainer>
 
-      {/* A full-width tinted band of its own, so the forecast reads as a separate tool from the pilot above. */}
-      <section id="forecast" aria-labelledby="as-forecast" className={styles.forecastBand}>
-        <PageContainer className={styles.forecastInner}>
+        <section id="forecast" aria-labelledby="as-forecast" className={styles.section}>
           <SectionHeader
             id="as-forecast"
             eyebrow={copy.forecast.eyebrow}
             title={copy.forecast.title}
           />
           <ForecastSection values={forecastValues} onChange={setForecastValues} />
-        </PageContainer>
-      </section>
-
-      <PageContainer className={styles.closing}>
-        <AdvisorCta
-          title={copy.cta.title}
-          body={fill(copy.cta.body, vars)}
-          photo={{ placeholder: copy.cta.photoPlaceholder }}
-          tbcText={en.status.tbc}
-          pendingText={en.status.pending}
-          channels={[
-            { id: 'whatsapp', label: copy.cta.channels.whatsapp, href: tbcConfig.advisorWhatsapp },
-            { id: 'email', label: copy.cta.channels.email, href: tbcConfig.advisorEmail },
-            { id: 'call', label: copy.cta.channels.call, href: tbcConfig.advisorCallDetails },
-          ]}
-        />
+        </section>
       </PageContainer>
     </div>
   );

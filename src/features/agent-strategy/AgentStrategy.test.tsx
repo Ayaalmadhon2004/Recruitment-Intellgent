@@ -80,32 +80,39 @@ describe('AgentStrategy', () => {
       );
     });
 
-    it('shows the weighted score and updates the summary when another agent is selected', async () => {
-      const user = userEvent.setup();
+    it('has no selected-average row and no inline summary box', () => {
       setup();
-      const summary = screen.getAllByRole('status')[0]!;
-      expect(summary).toHaveTextContent('Agent A - 3.86 out of 5');
-      expect(summary).toHaveTextContent(
-        'Strongest: Counselling (5). Weakest: Market presence (3).',
-      );
-
-      await user.click(screen.getByRole('button', { name: /Agent C/ }));
-      expect(screen.getByRole('button', { name: /Agent C/ })).toHaveAttribute(
-        'aria-pressed',
-        'true',
-      );
-      expect(screen.getByRole('button', { name: /Agent A/ })).toHaveAttribute(
-        'aria-pressed',
-        'false',
-      );
-      expect(summary).toHaveTextContent('Agent C - 3.61 out of 5');
-      expect(summary).toHaveTextContent(
-        'Strongest: Student fit (5). Weakest: Market presence (2).',
-      );
-      expect(screen.getByText('Selected')).toBeInTheDocument();
+      expect(screen.queryByText(/selected/i)).not.toBeInTheDocument();
+      expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
     });
 
-    it('recomputes scores from a changed config with no code edit', () => {
+    it('opens a sheet with the weighted score, strength and weakness when an agent is clicked', async () => {
+      const user = userEvent.setup();
+      setup();
+      await user.click(screen.getByRole('button', { name: /Strengths and weaknesses of Agent A/ }));
+      const dialog = screen.getByRole('dialog', { name: 'Agent A' });
+      expect(dialog).toHaveTextContent('3.86 / 5');
+      expect(within(dialog).getByText('Strength').parentElement).toHaveTextContent(
+        'Counselling (5)',
+      );
+      expect(within(dialog).getByText('Weakness').parentElement).toHaveTextContent(
+        'Market presence (3)',
+      );
+      await user.keyboard('{Escape}');
+      expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /of Agent A/ })).toHaveFocus();
+
+      await user.click(screen.getByRole('button', { name: /of Agent C/ }));
+      const other = screen.getByRole('dialog', { name: 'Agent C' });
+      expect(other).toHaveTextContent('3.61 / 5');
+      expect(other).toHaveTextContent('Student fit (5)');
+      expect(other).toHaveTextContent('Market presence (2)');
+      await user.click(screen.getByRole('button', { name: 'Close' }));
+      expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    });
+
+    it('recomputes scores from a changed config with no code edit', async () => {
+      const user = userEvent.setup();
       const heavier: AgentsConfig = {
         ...agentsConfig,
         factors: agentsConfig.factors.map((f, i) => ({
@@ -114,31 +121,32 @@ describe('AgentStrategy', () => {
         })),
       };
       setup({ config: heavier });
-      expect(screen.getAllByRole('status')[0]).toHaveTextContent('Agent A - 4.04 out of 5');
+      await user.click(screen.getByRole('button', { name: /of Agent A/ }));
+      expect(screen.getByRole('dialog')).toHaveTextContent('4.04 / 5');
     });
   });
 
-  describe('pilot timeline', () => {
-    it('selects a month and updates the panel, with numbers from config', async () => {
+  describe('pilot kite', () => {
+    it('is a slider over the pilot months, spelled out, driven by config', async () => {
       const user = userEvent.setup();
       setup();
-      const list = screen.getByRole('list', { name: copy.pilot.listLabel });
-      expect(within(list).getAllByRole('button')).toHaveLength(6);
-      expect(within(list).getByRole('button', { name: 'Month 1: Shortlist' })).toHaveAttribute(
-        'aria-pressed',
-        'true',
-      );
+      const slider = screen.getByRole('slider', { name: 'Pilot month' });
+      expect(slider).toHaveAttribute('aria-valuemin', '1');
+      expect(slider).toHaveAttribute('aria-valuemax', '6');
+      expect(slider).toHaveAttribute('aria-valuenow', '1');
+      expect(slider).toHaveAttribute('aria-valuetext', 'Month one');
       expect(screen.getByText(/Pick 3\./)).toBeInTheDocument();
 
-      await user.click(within(list).getByRole('button', { name: 'Month 2: Sign terms' }));
+      slider.focus();
+      await user.keyboard('{ArrowRight}');
+      expect(slider).toHaveAttribute('aria-valuetext', 'Month two');
       expect(screen.getByText(/Use the 10-15% commission benchmark/)).toBeInTheDocument();
-      await user.click(within(list).getByRole('button', { name: 'Month 6: Decide' }));
+      await user.keyboard('{End}');
+      expect(slider).toHaveAttribute('aria-valuetext', 'Month six');
       expect(screen.getByText('Month 6 - Review')).toBeInTheDocument();
       expect(screen.getByText(copy.pilot.months.m6.body)).toBeInTheDocument();
-      expect(within(list).getByRole('button', { name: 'Month 6: Decide' })).toHaveAttribute(
-        'aria-pressed',
-        'true',
-      );
+      await user.keyboard('{Home}');
+      expect(slider).toHaveAttribute('aria-valuenow', '1');
     });
   });
 
@@ -151,6 +159,17 @@ describe('AgentStrategy', () => {
       expect(screen.getByText('Kept: 16.8')).toBeInTheDocument();
       expect(screen.getByText('About 17 students from the sample pilot')).toBeInTheDocument();
       expect(screen.getByText('120 x 55% x 30% x 85% = 16.8')).toBeInTheDocument();
+    });
+
+    it('shows the result as a live region that follows the inputs', async () => {
+      const user = userEvent.setup();
+      setup();
+      const live = screen.getByRole('status', { name: 'Live result' });
+      expect(live).toHaveTextContent('16.8');
+      const apps = screen.getByLabelText(copy.forecast.fields.applications.label);
+      await user.clear(apps);
+      await user.type(apps, '200');
+      expect(live).toHaveTextContent('28.1');
     });
 
     it('converts percents to ratios and updates every step when an input changes', async () => {
@@ -178,10 +197,9 @@ describe('AgentStrategy', () => {
     });
   });
 
-  it('shows advisor channels as to-be-confirmed, not links', () => {
+  it('no longer repeats the advisor call to action', () => {
     setup();
-    expect(screen.queryByRole('link')).not.toBeInTheDocument();
-    expect(screen.getAllByText(en.status.tbc).length).toBeGreaterThanOrEqual(3);
+    expect(screen.queryByText(copy.cta.title)).not.toBeInTheDocument();
   });
 
   it('can be operated with the keyboard alone', async () => {
@@ -192,14 +210,15 @@ describe('AgentStrategy', () => {
     await user.keyboard('{Enter}');
     expect(legendButton).toHaveAttribute('aria-pressed', 'true');
 
-    const agentB = screen.getByRole('button', { name: /Agent B/ });
+    const agentB = screen.getByRole('button', { name: /of Agent B/ });
     agentB.focus();
     await user.keyboard(' ');
-    expect(agentB).toHaveAttribute('aria-pressed', 'true');
+    expect(screen.getByRole('dialog', { name: 'Agent B' })).toBeInTheDocument();
+    await user.keyboard('{Escape}');
 
-    const month3 = screen.getByRole('button', { name: /Month 3/ });
-    month3.focus();
-    await user.keyboard('{Enter}');
+    const slider = screen.getByRole('slider', { name: 'Pilot month' });
+    slider.focus();
+    await user.keyboard('{ArrowRight}{ArrowRight}');
     expect(screen.getByText('Month 3 - Run')).toBeInTheDocument();
 
     const apps = screen.getByLabelText(copy.forecast.fields.applications.label);
