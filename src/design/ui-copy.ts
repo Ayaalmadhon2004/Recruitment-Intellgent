@@ -23,4 +23,14 @@ export const uiCopy = {
   kite: {
     label: 'Paper kite',
   },
+  home: {
+    /** {quickStart} is filled from auditScope.quickStartQuestions. */
+    introLead: 'Answer {quickStart} short questions and get a free first read of your university.',
+    skipIntro: 'Skip intro',
+    stagesUnit: 'stages',
+    stepsFigure: 'First',
+    kiteFolded: 'Paper kite, folded',
+    kiteLeft: 'Paper kite, left wing open',
+    kiteRight: 'Paper kite, right wing open',
+  },
 } as const;

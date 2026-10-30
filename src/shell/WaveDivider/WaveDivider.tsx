@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import styles from './WaveDivider.module.css';
 
-export type WaveTone = 'card' | 'page' | 'warm' | 'navy';
+export type WaveTone = 'card' | 'page' | 'warm' | 'navy' | 'blue';
 
 export type WaveDividerProps = {
   /** Tone of the section above the wave. */
