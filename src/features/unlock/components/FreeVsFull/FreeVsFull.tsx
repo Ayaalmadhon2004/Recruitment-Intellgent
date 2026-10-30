@@ -51,7 +51,7 @@ export function FreeVsFull({ unlocked }: FreeVsFullProps): ReactNode {
           className={styles.card}
         >
           <div className={styles.head}>
-            <h3 className={styles.name}>{copy.fullTitle}</h3>
+            <h3 className={`${styles.name} ${styles.nameOnNavy}`}>{copy.fullTitle}</h3>
             <span className={styles.tagFull}>
               <Icon name={unlocked ? 'check' : 'minus'} size={14} strokeWidth={2.6} />
               {unlocked ? copy.unlockedWord : copy.lockedWord}

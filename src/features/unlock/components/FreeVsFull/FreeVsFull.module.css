@@ -32,6 +32,10 @@
   font-weight: var(--font-weight-semibold);
 }
 
+.nameOnNavy {
+  color: var(--color-text-inverse);
+}
+
 .tagFree,
 .tagFull {
   display: inline-flex;
