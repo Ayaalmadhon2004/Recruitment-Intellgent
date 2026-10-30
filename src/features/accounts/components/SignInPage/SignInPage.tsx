@@ -25,6 +25,8 @@ export type SignInPageProps = {
   runtime?: AccountsRuntime;
   /** Where a finished sign-in goes. */
   nextHref?: string;
+  /** One short line saying why sign-in is needed, from where the person was heading. */
+  contextLine?: string;
   /** For stories and tests: where the page starts. */
   initialStep?: 'enter' | 'sent';
   initialEmail?: string;
@@ -41,6 +43,7 @@ const steps = [
 export function SignInPage({
   runtime: runtimeProp,
   nextHref = routes.dashboard,
+  contextLine,
   initialStep = 'enter',
   initialEmail = '',
   initialProblem,
@@ -123,6 +126,7 @@ export function SignInPage({
           <h1 ref={headingRef} tabIndex={-1} className={styles.title}>
             {sent ? copy.titleSent : copy.titleEnter}
           </h1>
+          {contextLine === undefined ? null : <p className={styles.lead}>{contextLine}</p>}
           <p className={styles.lead}>{copy.lead}</p>
         </div>
 
