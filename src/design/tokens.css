@@ -82,7 +82,7 @@
   --radius-arch-top: 160px 160px 0 0; /* arch sheets and modals */
   --radius-sheet: 32px;
   --radius-bubble: 20px;
-  --radius-field: 12px;
+  --radius-field: var(--radius-pill); /* inputs, selects and small labels are fully rounded */
   --radius-card-sm: 20px;
   --radius-card-md: 24px;
   --radius-card-lg: 28px;

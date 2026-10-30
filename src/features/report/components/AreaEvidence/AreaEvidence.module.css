@@ -27,7 +27,7 @@
   align-items: center;
   justify-content: space-between;
   padding: var(--space-3) var(--space-4);
-  border-radius: var(--radius-field);
+  border-radius: var(--radius-card-sm);
   background: var(--color-page);
   font-size: var(--text-small-size);
   line-height: var(--text-small-line);

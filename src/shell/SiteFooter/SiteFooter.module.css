@@ -21,9 +21,9 @@
   display: inline-flex;
   align-items: center;
   min-height: var(--tap-target);
-  padding: var(--space-3) var(--space-4);
+  padding: var(--space-3) var(--space-5);
   background: var(--color-card);
-  border-radius: var(--radius-field);
+  border-radius: var(--radius-pill);
 }
 
 .logo {

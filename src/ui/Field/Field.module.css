@@ -22,6 +22,7 @@
 }
 
 textarea.control {
+  border-radius: var(--radius-card-sm);
   padding: var(--space-3) 14px;
   line-height: var(--text-body-line);
   resize: vertical;
