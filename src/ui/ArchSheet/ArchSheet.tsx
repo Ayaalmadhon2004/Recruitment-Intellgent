@@ -1,10 +1,12 @@
 'use client';
 
-import { useEffect, useId, useRef } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import type { PointerEvent as ReactPointerEvent, ReactNode } from 'react';
 import { createPortal } from 'react-dom';
+import { duration } from '@/design/motion';
 import { uiCopy } from '@/design/ui-copy';
 import { Icon } from '../Icon';
+import { useReducedMotion } from '../motion';
 import styles from './ArchSheet.module.css';
 
 export type ArchSheetProps = {
@@ -38,6 +40,17 @@ export function ArchSheet({
   const titleId = useId();
   const onCloseRef = useRef(onClose);
   const dragStartY = useRef<number | null>(null);
+  const reduced = useReducedMotion();
+  // After `open` turns false the sheet stays mounted for the (faster) closing animation, then unmounts.
+  const [visible, setVisible] = useState(open);
+  if (open && !visible) setVisible(true);
+
+  useEffect(() => {
+    if (open || !visible) return;
+    // With reduced motion there is no closing animation to wait for.
+    const timer = window.setTimeout(() => setVisible(false), reduced ? 0 : duration.base);
+    return () => window.clearTimeout(timer);
+  }, [open, visible, reduced]);
 
   useEffect(() => {
     onCloseRef.current = onClose;
@@ -112,11 +125,12 @@ export function ArchSheet({
     if (distance > DISMISS_DRAG_PX) onClose();
   };
 
-  if (!open || typeof document === 'undefined') return null;
+  if (!visible || typeof document === 'undefined') return null;
 
   return createPortal(
     <div
       className={styles.backdrop}
+      data-closing={!open || undefined}
       onPointerDown={(event) => event.target === event.currentTarget && onClose()}
       data-print="hide"
     >

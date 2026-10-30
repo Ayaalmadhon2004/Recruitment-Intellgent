@@ -7,7 +7,13 @@
   justify-content: center;
   background: var(--color-backdrop);
   backdrop-filter: blur(var(--blur-backdrop));
-  animation: backdrop-in var(--dur-base) var(--ease-standard);
+  animation: backdrop-in var(--dur-base) var(--ease-lift);
+}
+
+/* Closing runs the same motion backwards, faster. Nothing underneath can be pressed meanwhile. */
+.backdrop[data-closing] {
+  pointer-events: none;
+  animation: backdrop-out var(--dur-base) var(--ease-lift) forwards;
 }
 
 /* Bottom sheet on mobile. */
@@ -22,8 +28,12 @@
   color: var(--color-text);
   /* Soft shadow outside the sheet only. */
   box-shadow: var(--shadow-card-raised);
-  transition: transform var(--dur-base) var(--ease-out);
-  animation: sheet-in var(--dur-enter) var(--ease-out);
+  transition: transform var(--dur-base) var(--ease-lift);
+  animation: sheet-in var(--dur-large) var(--ease-lift);
+}
+
+.backdrop[data-closing] .panel {
+  animation: sheet-out var(--dur-base) var(--ease-lift) forwards;
 }
 
 /* Drag handle: a pill at the top of the bottom sheet. Pull it down to close. */
@@ -109,17 +119,38 @@
   }
 }
 
-@keyframes sheet-in {
-  from {
+@keyframes backdrop-out {
+  to {
     opacity: 0;
-    transform: translateY(var(--space-7));
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .backdrop,
-  .panel {
-    animation: none;
-    transition: none;
+/* The arch rises from 24px below while fading in. */
+@keyframes sheet-in {
+  from {
+    opacity: 0;
+    transform: translateY(calc(var(--enter-distance) * 2));
+  }
+}
+
+@keyframes sheet-out {
+  to {
+    opacity: 0;
+    transform: translateY(calc(var(--enter-distance) * 2));
+  }
+}
+
+/* On phones the sheet slides up from the bottom edge instead. */
+@media (max-width: 760px) {
+  @keyframes sheet-in {
+    from {
+      transform: translateY(100%);
+    }
+  }
+
+  @keyframes sheet-out {
+    to {
+      transform: translateY(100%);
+    }
   }
 }

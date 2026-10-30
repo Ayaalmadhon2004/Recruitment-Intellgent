@@ -6,13 +6,3 @@
   text-transform: uppercase;
   color: var(--color-crimson);
 }
-
-/* Old and new number share one cell, so the label keeps its width while they swap. */
-.slot {
-  display: inline-grid;
-}
-
-.number {
-  grid-area: 1 / 1;
-  font-variant-numeric: tabular-nums;
-}

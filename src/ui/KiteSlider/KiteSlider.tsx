@@ -1,9 +1,10 @@
 'use client';
 
 import { useRef, useState } from 'react';
-import type { KeyboardEvent, PointerEvent, ReactNode } from 'react';
+import type { CSSProperties, KeyboardEvent, PointerEvent, ReactNode } from 'react';
 import { Kite } from '../Kite';
 import { cx } from '../internal/cx';
+import { SwapText } from '../SwapText';
 import styles from './KiteSlider.module.css';
 
 const PERCENT = 100;
@@ -37,6 +38,8 @@ export function KiteSlider({
   const trackRef = useRef<HTMLDivElement>(null);
   const thumbRef = useRef<HTMLDivElement>(null);
   const [dragging, setDragging] = useState(false);
+  // While dragging the kite follows the pointer exactly (0 to 100, % of the line); null otherwise.
+  const [dragPos, setDragPos] = useState<number | null>(null);
   const span = Math.max(max - min, 1);
   const steps = Array.from({ length: max - min + 1 }, (_, i) => min + i);
 
@@ -49,6 +52,8 @@ export function KiteSlider({
     const rect = trackRef.current?.getBoundingClientRect();
     if (!rect || rect.width === 0) return;
     const ratio = Math.min(1, Math.max(0, (clientX - rect.left) / rect.width));
+    setDragPos(ratio * PERCENT);
+    // The month label follows the nearest month while the kite itself moves freely.
     set(min + Math.round(ratio * span));
   };
 
@@ -67,6 +72,8 @@ export function KiteSlider({
       event.currentTarget.releasePointerCapture(event.pointerId);
     }
     setDragging(false);
+    // Let go: the kite settles onto the nearest month.
+    setDragPos(null);
   };
   const onKeyDown = (event: KeyboardEvent<HTMLDivElement>): void => {
     const moves: Record<string, number> = {
@@ -83,7 +90,7 @@ export function KiteSlider({
     set(next);
   };
 
-  const position = ((clamp(value) - min) / span) * PERCENT;
+  const position = dragPos ?? ((clamp(value) - min) / span) * PERCENT;
   const text = valueText(value);
 
   return (
@@ -116,11 +123,11 @@ export function KiteSlider({
           aria-valuetext={text}
           aria-orientation="horizontal"
           className={cx(styles.thumb, dragging && styles.dragging)}
-          style={{ left: `${position}%` }}
+          style={{ '--pos': position } as CSSProperties}
           onKeyDown={onKeyDown}
         >
           <span className={styles.value} aria-hidden="true">
-            {text}
+            <SwapText>{text}</SwapText>
           </span>
           <Kite size="sm" className={styles.kite} />
         </div>

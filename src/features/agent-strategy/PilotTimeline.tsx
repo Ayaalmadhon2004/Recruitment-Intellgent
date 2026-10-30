@@ -1,8 +1,9 @@
+import { useState } from 'react';
 import type { ReactNode } from 'react';
 import { strategyCopy } from '@/design/ui-copy';
 import { en } from '@/domain/copy';
 import type { PilotPlan } from '@/domain/types';
-import { KiteSlider } from '@/ui';
+import { KiteSlider, StepTransition } from '@/ui';
 import { fill } from './format';
 import styles from './AgentStrategy.module.css';
 
@@ -25,6 +26,13 @@ export function monthName(n: number): string {
 
 /** A kite you slide along a dashed line from the first to the last pilot month; the month's detail follows it. */
 export function PilotTimeline({ pilot, month, onSelect }: PilotTimelineProps): ReactNode {
+  // Which way the kite moved, so the month detail leaves and arrives in the matching direction.
+  const [previous, setPrevious] = useState(month);
+  const [direction, setDirection] = useState<'forward' | 'back'>('forward');
+  if (previous !== month) {
+    setDirection(month > previous ? 'forward' : 'back');
+    setPrevious(month);
+  }
   const vars = {
     months: pilot.durationMonths,
     agentCount: pilot.agentCount,
@@ -49,11 +57,15 @@ export function PilotTimeline({ pilot, month, onSelect }: PilotTimelineProps): R
         valueText={monthName}
       />
       <div className={styles.monthPanel} role="status">
-        <span className={styles.monthPanelLabel}>
-          {fill(copy.detail, { n: current.n, phase: copy.phases[current.phase] })}
-        </span>
-        <span className={styles.monthPanelTitle}>{current.title}</span>
-        <span className={styles.monthPanelBody}>{fill(current.body, vars)}</span>
+        <StepTransition stepKey={current.n} direction={direction}>
+          <div className={styles.monthPanelText}>
+            <span className={styles.monthPanelLabel}>
+              {fill(copy.detail, { n: current.n, phase: copy.phases[current.phase] })}
+            </span>
+            <span className={styles.monthPanelTitle}>{current.title}</span>
+            <span className={styles.monthPanelBody}>{fill(current.body, vars)}</span>
+          </div>
+        </StepTransition>
       </div>
     </>
   );
