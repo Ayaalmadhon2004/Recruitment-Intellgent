@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useEffect, useId, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import { Icon } from '@/ui';
@@ -25,8 +26,13 @@ export type HeaderAccount = {
 
 /** Up to two initials from the part of the email before the @ (`jane.doe@x.edu` becomes JD). */
 export function initialsOf(email: string): string {
-  const parts = email.split('@')[0]?.split(/[^a-z0-9]+/i).filter(Boolean) ?? [];
-  const letters = parts.length > 1 ? `${parts[0]![0]}${parts[1]![0]}` : (parts[0] ?? '').slice(0, 2);
+  const parts =
+    email
+      .split('@')[0]
+      ?.split(/[^a-z0-9]+/i)
+      .filter(Boolean) ?? [];
+  const letters =
+    parts.length > 1 ? `${parts[0]![0]}${parts[1]![0]}` : (parts[0] ?? '').slice(0, 2);
   return letters.toUpperCase();
 }
 
@@ -67,6 +73,10 @@ export function SiteHeader({
   const [groupOpen, setGroupOpen] = useState(false);
   const groupRef = useRef<HTMLLIElement>(null);
   const groupToggleRef = useRef<HTMLButtonElement>(null);
+  const pathname = usePathname();
+  const isCurrent = (href: string): boolean =>
+    pathname !== null &&
+    (href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(`${href}/`));
   const navId = useId();
   const groupId = useId();
   const accountMenuId = useId();
@@ -154,8 +164,13 @@ export function SiteHeader({
           <ul className={styles.list}>
             {navItems.map((item) => (
               <li key={item.href}>
-                <Link href={item.href} className={styles.link} onClick={closeAll}>
-                  {item.label}
+                <Link
+                  href={item.href}
+                  className={styles.link}
+                  aria-current={isCurrent(item.href) ? 'page' : undefined}
+                  onClick={closeAll}
+                >
+                  <span className={styles.label}>{item.label}</span>
                 </Link>
               </li>
             ))}
@@ -178,7 +193,12 @@ export function SiteHeader({
                 <ul id={groupId} className={styles.groupList}>
                   {navGroup.items.map((item) => (
                     <li key={item.href}>
-                      <Link href={item.href} className={styles.groupLink} onClick={closeAll}>
+                      <Link
+                        href={item.href}
+                        className={styles.groupLink}
+                        aria-current={isCurrent(item.href) ? 'page' : undefined}
+                        onClick={closeAll}
+                      >
                         {item.label}
                       </Link>
                     </li>
