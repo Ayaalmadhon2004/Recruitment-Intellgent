@@ -7,23 +7,6 @@
   padding-bottom: var(--space-10);
 }
 
-.card {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--space-4);
-  max-width: 560px;
-  padding: var(--space-7);
-  box-shadow: var(--shadow-card-raised);
-}
-
-.eyebrow {
-  font-size: var(--text-eyebrow-size);
-  font-weight: var(--font-weight-semibold);
-  letter-spacing: var(--text-eyebrow-tracking);
-  color: var(--color-navy);
-}
-
 .title {
   margin: 0;
   font-size: var(--text-h1-size);

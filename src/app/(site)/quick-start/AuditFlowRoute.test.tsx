@@ -17,14 +17,12 @@ vi.mock('@/features/accounts', () => ({
   AccountAuditFlow: (p: {
     phase?: string;
     unlockHref?: string;
-    signInHref: string;
     phaseHref: (phase: 'read') => string;
     onPhaseChange: (phase: 'read') => void;
   }) => (
     <div>
       <p data-testid="phase">{p.phase ?? 'none'}</p>
       <p data-testid="unlock">{p.unlockHref ?? 'none'}</p>
-      <p data-testid="signin">{p.signInHref}</p>
       <p data-testid="href">{p.phaseHref('read')}</p>
       <button type="button" onClick={() => p.onPhaseChange('read')}>
         go
@@ -50,12 +48,9 @@ describe('AuditFlowRoute', () => {
     expect(screen.getByTestId('phase')).toHaveTextContent('none');
   });
 
-  it('keeps every phase on the one audit route and returns here after sign in', () => {
+  it('keeps every phase on the one audit route', () => {
     render(<AuditFlowRoute />);
     expect(screen.getByTestId('href')).toHaveTextContent(`${routes.quickStart}?phase=read`);
-    expect(screen.getByTestId('signin')).toHaveTextContent(
-      `${routes.signIn}?next=${encodeURIComponent(routes.quickStart)}`,
-    );
     screen.getByRole('button', { name: 'go' }).click();
     expect(push).toHaveBeenCalledWith(`${routes.quickStart}?phase=read`);
   });

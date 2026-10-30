@@ -7,7 +7,7 @@ import { routes } from '@/domain/config';
 import { en, t } from '@/domain/copy';
 import type { StageResult } from '@/domain/types';
 import { PageContainer } from '@/shell';
-import { Button, Card } from '@/ui';
+import { Button } from '@/ui';
 import { fetchAuditSummaries } from '../../api';
 import { stageViewOf, toCardModel } from '../../model';
 import type { StageView } from '../../model';
@@ -15,6 +15,7 @@ import { getDefaultRuntime } from '../../runtime';
 import type { AccountsRuntime } from '../../runtime';
 import type { SavedAudit } from '../../types';
 import { useAccountSession } from '../../useAccountSession';
+import { useRequireSession } from '../../useRequireSession';
 import { adoptLocalAudit, resumeAudit, signOutAndClear, startNewAudit } from '../../working-copy';
 import type { OpenTarget } from '../AuditCard';
 import { DashboardSkeleton, DashboardView } from '../DashboardView';
@@ -46,6 +47,7 @@ export function DashboardPage({ runtime: runtimeProp }: DashboardPageProps): Rea
   const [signingOut, setSigningOut] = useState(false);
   const [signOutFailed, setSignOutFailed] = useState(false);
   const user = session.user;
+  const { redirecting } = useRequireSession(session);
 
   useEffect(() => {
     if (!user) return;
@@ -118,22 +120,10 @@ export function DashboardPage({ runtime: runtimeProp }: DashboardPageProps): Rea
     );
   };
 
-  if (session.status === 'signed-out') {
-    return (
-      <PageContainer className={styles.page}>
-        <Card radius="lg" className={styles.card}>
-          <span className={styles.eyebrow}>{copy.signedOut.eyebrow}</span>
-          <h1 className={styles.title}>{copy.signedOut.title}</h1>
-          <p className={styles.body}>{copy.signedOut.body}</p>
-          <div>
-            <Button href={routes.signIn}>{copy.signedOut.cta}</Button>
-          </div>
-        </Card>
-      </PageContainer>
-    );
-  }
+  // Not signed in (or the session could not be read): the guard above is already sending them to sign in.
+  if (redirecting) return <DashboardSkeleton />;
 
-  if (session.status === 'error' || data.status === 'error') {
+  if (data.status === 'error') {
     return (
       <PageContainer className={styles.page}>
         <h1 className={styles.title}>{copy.title}</h1>

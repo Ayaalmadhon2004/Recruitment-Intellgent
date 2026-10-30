@@ -12,7 +12,6 @@ const replace = vi.fn();
 vi.mock('next/navigation', () => ({ useRouter: () => ({ push: vi.fn(), replace }) }));
 
 const props: Omit<AccountAuditFlowProps, 'runtime'> = {
-  signInHref: '/sign-in?next=%2Fquick-start',
   phaseHref: (p) => `/quick-start?phase=${p}`,
   onPhaseChange: vi.fn(),
   reportHref: '/report',
@@ -27,9 +26,14 @@ const flow = (runtime: AccountAuditFlowProps['runtime']): React.ReactNode => (
 describe('AccountAuditFlow', () => {
   beforeEach(() => replace.mockClear());
 
-  it('sends someone who is not signed in to sign in, before any question', async () => {
+  it('sends someone who is not signed in to sign in, back to this page, before any question', async () => {
+    window.history.pushState({}, '', '/quick-start?phase=read');
     render(flow(createMemoryRuntime()));
-    await waitFor(() => expect(replace).toHaveBeenCalledWith(props.signInHref));
+    await waitFor(() =>
+      expect(replace).toHaveBeenCalledWith(
+        `/sign-in?next=${encodeURIComponent('/quick-start?phase=read')}`,
+      ),
+    );
     expect(screen.queryByRole('heading', { level: 1 })).not.toBeInTheDocument();
   });
 

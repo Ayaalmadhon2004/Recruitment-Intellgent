@@ -10,34 +10,36 @@ import { createMemoryRuntime } from '../../memory-runtime';
 import { DashboardPage } from './DashboardPage';
 
 const push = vi.fn();
-vi.mock('next/navigation', () => ({ useRouter: () => ({ push }) }));
+const replace = vi.fn();
+vi.mock('next/navigation', () => ({ useRouter: () => ({ push, replace }) }));
 
 const copy = en.accounts.dashboard;
 const everything = domainConfig.questions.map((q) => unknown(q.id));
 
 /** Fetch that calls the real route handler. */
-const realFetch = vi.fn(async (_url: string, init: RequestInit): Promise<Response> =>
-  POST(new Request('http://localhost/api/audit-summaries', init)),
+const realFetch = vi.fn(
+  async (_url: string, init: RequestInit): Promise<Response> =>
+    POST(new Request('http://localhost/api/audit-summaries', init)),
 );
 
 beforeEach(() => {
   push.mockClear();
+  replace.mockClear();
   realFetch.mockClear();
   vi.stubGlobal('fetch', realFetch);
 });
 afterEach(() => vi.unstubAllGlobals());
 
 describe('DashboardPage', () => {
-  it('asks a signed-out visitor to sign in instead of showing audits', async () => {
+  it('redirects a signed-out visitor to sign in, back to the dashboard, without showing audits', async () => {
+    window.history.pushState({}, '', routes.dashboard);
     render(<DashboardPage runtime={createMemoryRuntime()} />);
-    expect(
-      await screen.findByRole('heading', { level: 1, name: copy.signedOut.title }),
-    ).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: copy.signedOut.cta })).toHaveAttribute(
-      'href',
-      routes.signIn,
+    await waitFor(() =>
+      expect(replace).toHaveBeenCalledWith(
+        `${routes.signIn}?next=${encodeURIComponent(routes.dashboard)}`,
+      ),
     );
-    expect(screen.queryByRole('main')).not.toBeInTheDocument();
+    expect(screen.queryByRole('heading', { name: copy.title })).not.toBeInTheDocument();
   });
 
   it('shows the empty state "No audits yet" with the question total from config', async () => {
