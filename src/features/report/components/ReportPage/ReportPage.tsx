@@ -1,9 +1,11 @@
 'use client';
 
+import { useMemo } from 'react';
 import type { ReactNode } from 'react';
 import { routes } from '@/domain/config';
-import type { Audit } from '@/domain/types';
+import type { Answer, Audit } from '@/domain/types';
 import type { ReportModel } from '../../contract';
+import { loadDeviceAudit } from '../../storedAudit';
 import { useReportState } from '../../useReportModel';
 import { ReportSection, ReportSkeleton } from '../ReportSection';
 import { ReportStateMessage } from '../ReportStateMessage';
@@ -25,6 +27,8 @@ export type ReportPageProps = {
   previewState?: 'loading' | 'error' | 'empty';
   /** A ready report for stories. Skips storage and the network. */
   previewModel?: ReportModel;
+  /** The answers behind a preview model, for the kite in stories. */
+  previewAnswers?: readonly Answer[];
 };
 
 const questionHrefTo = (href: string) => (): string => href;
@@ -38,9 +42,16 @@ export function ReportPage({
   loadAudit,
   previewState,
   previewModel,
+  previewAnswers,
 }: ReportPageProps): ReactNode {
   const preview = previewState !== undefined || previewModel !== undefined;
   const state = useReportState({ loadAudit, previewState, previewModel });
+  // The kite needs which questions were answered, which the model does not carry: read the same stored audit.
+  const ready = state.status === 'ready';
+  const answers = useMemo(
+    () => (!ready ? undefined : preview ? previewAnswers : (loadAudit ?? loadDeviceAudit)()?.answers),
+    [ready, preview, previewAnswers, loadAudit],
+  );
   const root = useFocusHeading(state.status, state.status !== 'loading' || preview);
 
   return (
@@ -59,7 +70,10 @@ export function ReportPage({
               questionHref: questionHrefTo(intakeHref),
               pdfHref,
               unlockHref,
+              agentStrategyHref: routes.agentStrategy,
+              advisorHref: routes.advisor,
             }}
+            answers={answers}
           />
         </>
       ) : state.status === 'loading' ? (

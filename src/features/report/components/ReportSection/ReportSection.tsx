@@ -2,25 +2,24 @@ import type { ReactNode } from 'react';
 import { stagesConfig } from '@/domain/config';
 import { en } from '@/domain/copy';
 import { rangeLabels, stageCardLabels } from '@/features/shared-labels';
-import { Button, Card } from '@/ui';
-import { CtaBand, RadarChart, StageCard } from '@/patterns';
+import type { Answer } from '@/domain/types';
+import { CtaBand, StageCard } from '@/patterns';
 import { SectionHeader } from '@/shell';
 import { isOpenArea } from '../../contract';
 import type { ReportMode, ReportModel } from '../../contract';
 import { defaultPrintSections } from '../../printOptions';
 import type { PrintOptions } from '../../printOptions';
-import { areaName, radarLabels } from '../../labels';
-import { AdvisorSection } from '../AdvisorSection';
-import { AreaExplorer } from '../AreaExplorer';
 import { AreaGrid } from '../AreaGrid';
 import { GaugePair } from '../GaugePair';
 import { NextSteps } from '../NextSteps';
 import { PilotPlan } from '../PilotPlan';
+import { ReportBanner } from '../ReportBanner';
+import { ReportClosing } from '../ReportClosing';
+import { ScoreMetrics } from '../ScoreMetrics';
 import { PrintAffordability } from '../PrintAffordability';
 import { PrintEvidence } from '../PrintEvidence';
 import { ReportHero } from '../ReportHero';
 import type { ReportLinks } from '../types';
-import { UnlockPrompt } from '../UnlockPrompt';
 import styles from './ReportSection.module.css';
 
 export type ReportSectionProps = {
@@ -30,6 +29,8 @@ export type ReportSectionProps = {
   links?: ReportLinks;
   /** Print mode only: which parts to print and the brand bar. Ignored in the other modes. */
   print?: PrintOptions;
+  /** Interactive mode only: the stored answers, so each question fills its cell in the banner's kite. */
+  answers?: readonly Answer[];
 };
 
 /** The stage block, shared by the interactive report and the free preview. */
@@ -51,17 +52,9 @@ export function ReportSection({
   mode,
   links = {},
   print = {},
+  answers,
 }: ReportSectionProps): ReactNode {
-  // A radar with a hidden axis would mislead, so it is left out while any area is locked.
   const openAreas = model.areas.filter(isOpenArea);
-  const radar = openAreas.length < model.areas.length ? undefined : (
-    <Card radius="lg">
-      <RadarChart
-        axes={openAreas.map((a) => ({ id: a.id, label: areaName(a.id), result: a.result }))}
-        labels={radarLabels}
-      />
-    </Card>
-  );
 
   if (mode === 'print') {
     const { sections = defaultPrintSections, brand } = print;
@@ -136,27 +129,11 @@ export function ReportSection({
 
   return (
     <div className={styles.root} data-mode={mode}>
-      <ReportHero model={model} mode={mode} links={links} aside={radar} />
-      <Stage model={model} eyebrow={en.report.stageEyebrow} />
-      <AreaExplorer
-        areas={model.areas}
-        questionHref={links.questionHref}
-        unlockHref={links.unlockHref}
-      />
+      <ReportBanner model={model} links={links} answers={answers} />
+      <ScoreMetrics model={model} questionHref={links.questionHref} unlockHref={links.unlockHref} />
       <GaugePair gauges={model.gauges} questionHref={links.questionHref} />
       <NextSteps recommendations={model.recommendations} />
-      <PilotPlan pilot={model.pilot} mode={mode} />
-      {model.unlocked ? null : <UnlockPrompt unlockHref={links.unlockHref} />}
-      <AdvisorSection />
-      {links.pdfHref ? (
-        <Card radius="lg" id="pdf" className={styles.pdf}>
-          <div className={styles.pdfText}>
-            <strong>{en.report.pdf.title}</strong>
-            <span>{en.report.pdf.body}</span>
-          </div>
-          <Button href={links.pdfHref}>{en.report.downloadPdf}</Button>
-        </Card>
-      ) : null}
+      <ReportClosing unlocked={model.unlocked} links={links} />
     </div>
   );
 }

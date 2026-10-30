@@ -1,0 +1,124 @@
+.figure {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-6) var(--space-7);
+  align-items: center;
+  margin: 0;
+}
+
+.kite {
+  flex: 0 1 260px;
+  width: min(260px, 100%);
+  height: auto;
+  margin-inline: auto;
+}
+
+.caption {
+  flex: 1 1 260px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.cell {
+  stroke-width: 1.5;
+}
+
+.empty {
+  fill: transparent;
+  stroke: var(--color-line-strong);
+}
+
+.strong {
+  fill: var(--color-navy);
+  stroke: var(--color-page);
+}
+
+.medium {
+  fill: var(--color-pastel-blue);
+  stroke: var(--color-navy);
+}
+
+.weak {
+  fill: var(--color-pastel-red);
+  stroke: var(--color-crimson);
+}
+
+.hatch {
+  stroke: none;
+  pointer-events: none;
+}
+
+.hatchLine {
+  stroke: var(--color-crimson);
+  stroke-width: 1.5;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .strong,
+  .medium,
+  .weak {
+    transition: fill var(--dur-enter) var(--ease-standard);
+  }
+}
+
+.sections,
+.legend {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.section {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1) var(--space-3);
+  font-size: var(--text-small-size);
+  line-height: var(--text-small-line);
+}
+
+.letter {
+  display: inline-grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: var(--radius-pill);
+  background: var(--color-pastel-blue);
+  color: var(--color-navy-deep);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--text-caption-size);
+}
+
+.sectionName {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+}
+
+.sectionCount {
+  color: var(--color-text-secondary);
+}
+
+.legend {
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-line);
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--text-caption-size);
+  line-height: var(--text-caption-line);
+  color: var(--color-text-secondary);
+}
+
+.swatch {
+  flex: none;
+  width: 22px;
+  height: 22px;
+}
