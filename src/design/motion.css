@@ -116,6 +116,48 @@
   box-shadow: none;
 }
 
+/* A kite flying across its container (a busy pill button). Transform only. */
+@keyframes anim-fly {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+.anim-fly {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  animation: anim-fly calc(var(--dur-large) * 2) var(--ease-lift) infinite;
+}
+
+/* One soft ring that spreads from the active step, once. */
+@keyframes anim-ring-pulse {
+  from {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.7);
+  }
+}
+
+.anim-ring-pulse::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: 0 0 0 2px var(--color-navy);
+  opacity: 0;
+  pointer-events: none;
+  animation: anim-ring-pulse var(--dur-large) var(--ease-lift) 1;
+}
+
 /* Inside a Reveal: fades in after the kite drawn there is built. */
 [data-reveal='shown'] .anim-after-build {
   animation: anim-up var(--dur-base) var(--ease-lift) both;

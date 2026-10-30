@@ -19,12 +19,16 @@
   background: var(--color-line-strong);
 }
 
+/* Fills by scaling from the left, so no width is animated. */
 .fill {
   display: block;
+  width: 100%;
   height: 100%;
   border-radius: var(--radius-pill);
   background: var(--color-navy);
-  transition: width var(--dur-data) var(--ease-out);
+  transform: scaleX(var(--fill));
+  transform-origin: left center;
+  transition: transform var(--dur-large) var(--ease-lift);
 }
 
 .step {

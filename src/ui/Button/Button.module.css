@@ -1,4 +1,5 @@
 .button {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -119,4 +120,18 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+/* The kite crosses the whole pill while it is busy (see .anim-fly). */
+.flyTrack {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: var(--radius-pill);
+  pointer-events: none;
+}
+
+.flyTrack svg {
+  height: 60%;
+  width: auto;
 }

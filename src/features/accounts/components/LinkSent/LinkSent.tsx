@@ -41,7 +41,7 @@ export function LinkSent({
   const waiting = remaining > 0;
   const done = cooldown > 0 ? Math.round(((cooldown - remaining) / cooldown) * 100) : 100;
   return (
-    <div className={styles.sent}>
+    <div className={`${styles.sent} anim-up`}>
       <div className={styles.who}>
         <span className={styles.mail} aria-hidden="true">
           <Icon name="mail" size={30} strokeWidth={2} />
