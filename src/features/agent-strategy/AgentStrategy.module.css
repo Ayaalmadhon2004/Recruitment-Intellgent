@@ -93,10 +93,6 @@
   flex-wrap: wrap;
   gap: var(--space-7);
   align-items: center;
-  padding: var(--space-7);
-  background: var(--color-card);
-  border-radius: var(--radius-card-lg);
-  box-shadow: var(--shadow-card-raised);
 }
 .donut {
   position: relative;
@@ -381,7 +377,7 @@
     padding: var(--space-4) var(--space-4) var(--space-2);
   }
   .donutCard {
-    padding: var(--space-5);
+    gap: var(--space-5);
   }
 }
 
