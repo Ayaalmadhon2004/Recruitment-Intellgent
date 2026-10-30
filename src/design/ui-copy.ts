@@ -50,9 +50,12 @@ export const uiCopy = {
     skipIntro: 'Skip intro',
     stagesUnit: 'stages',
     stepsFigure: 'First',
-    kiteFolded: 'Paper kite, folded',
-    kiteLeft: 'Paper kite, left wing open',
-    kiteRight: 'Paper kite, right wing open',
+    /** One label per step of the kite being drawn. */
+    kiteSteps: [
+      'Kite, step 1 of 3, one third drawn',
+      'Kite, step 2 of 3, two thirds drawn',
+      'Kite, step 3 of 3, fully drawn',
+    ],
   },
 } as const;
 

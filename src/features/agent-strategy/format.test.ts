@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { agentsConfig } from '@/domain/config';
-import { fill, fmt1, parseForecast, toCount, toPercent } from './format';
+import { enrolmentShare, fill, fmt1, parseForecast, toCount, toPercent } from './format';
 import { monthKeys } from './PilotTimeline';
 
 describe('format', () => {
@@ -43,5 +43,12 @@ describe('format', () => {
 
   it('has copy for every month of the configured pilot', () => {
     expect(monthKeys).toHaveLength(agentsConfig.pilot.durationMonths);
+  });
+
+  it('works out the enrolled share of applications for the ring, guarding empty input', () => {
+    expect(enrolmentShare(16.8, 120)).toBeCloseTo(14);
+    expect(enrolmentShare(5, 0)).toBe(0);
+    expect(enrolmentShare(Number.NaN, 10)).toBe(0);
+    expect(enrolmentShare(30, 10)).toBe(100);
   });
 });

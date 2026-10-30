@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useId, useRef } from 'react';
-import type { ReactNode } from 'react';
+import type { PointerEvent as ReactPointerEvent, ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { uiCopy } from '@/design/ui-copy';
 import { Icon } from '../Icon';
@@ -17,12 +17,15 @@ export type ArchSheetProps = {
   closeLabel?: string;
 };
 
+/** How far the handle has to be dragged down, in px, before the bottom sheet closes. */
+const DISMISS_DRAG_PX = 96;
+
 const FOCUSABLE =
   'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
 /**
- * Arch-topped modal (a bottom sheet on mobile) over a blurred backdrop. Traps focus, closes on Esc,
- * the close mark or a backdrop press, locks page scroll while open, and returns focus on close.
+ * Arch-topped modal (a bottom sheet with a drag handle on mobile) over a navy-tinted blurred backdrop.
+ * Traps focus, closes on Esc, the close mark, a backdrop press or a drag down on the handle, locks page scroll while open, and returns focus on close.
  */
 export function ArchSheet({
   open,
@@ -34,6 +37,7 @@ export function ArchSheet({
   const panelRef = useRef<HTMLDivElement>(null);
   const titleId = useId();
   const onCloseRef = useRef(onClose);
+  const dragStartY = useRef<number | null>(null);
 
   useEffect(() => {
     onCloseRef.current = onClose;
@@ -85,6 +89,29 @@ export function ArchSheet({
     };
   }, [open]);
 
+  const dragBy = (event: ReactPointerEvent<HTMLDivElement>): number =>
+    dragStartY.current === null ? 0 : Math.max(0, event.clientY - dragStartY.current);
+
+  const onHandleDown = (event: ReactPointerEvent<HTMLDivElement>): void => {
+    event.currentTarget.setPointerCapture(event.pointerId);
+    dragStartY.current = event.clientY;
+    if (panelRef.current) panelRef.current.style.transition = 'none';
+  };
+  const onHandleMove = (event: ReactPointerEvent<HTMLDivElement>): void => {
+    if (dragStartY.current === null || !panelRef.current) return;
+    panelRef.current.style.transform = `translateY(${dragBy(event)}px)`;
+  };
+  const onHandleUp = (event: ReactPointerEvent<HTMLDivElement>): void => {
+    const distance = dragBy(event);
+    dragStartY.current = null;
+    const panel = panelRef.current;
+    if (panel) {
+      panel.style.transition = '';
+      panel.style.transform = '';
+    }
+    if (distance > DISMISS_DRAG_PX) onClose();
+  };
+
   if (!open || typeof document === 'undefined') return null;
 
   return createPortal(
@@ -101,6 +128,14 @@ export function ArchSheet({
         aria-labelledby={titleId}
         tabIndex={-1}
       >
+        <div
+          aria-hidden="true"
+          className={styles.handle}
+          onPointerDown={onHandleDown}
+          onPointerMove={onHandleMove}
+          onPointerUp={onHandleUp}
+          onPointerCancel={onHandleUp}
+        />
         <button type="button" className={styles.close} aria-label={closeLabel} onClick={onClose}>
           <Icon name="close" size={22} />
         </button>

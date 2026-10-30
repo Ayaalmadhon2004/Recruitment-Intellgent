@@ -11,3 +11,6 @@ export const LeftWing: Story = { args: { wings: 'left', size: 'lg' } };
 export const RightWing: Story = { args: { wings: 'right', size: 'lg' } };
 export const Small: Story = { args: { size: 'sm' } };
 export const Labelled: Story = { args: { title: 'Paper kite', size: 'md' } };
+export const Progress1: Story = { args: { progress: 1, size: 'lg' } };
+export const Progress2: Story = { args: { progress: 2, size: 'lg' } };
+export const Progress3: Story = { args: { progress: 3, size: 'lg' } };

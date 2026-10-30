@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { cx } from '../internal/cx';
 import { Icon } from '../Icon';
 import styles from './Field.module.css';
 
@@ -7,6 +8,8 @@ export type FieldShellProps = {
   label: string;
   hint?: string;
   error?: string;
+  /** Extra class on the hint, for a caller that shows it as a pill. */
+  hintClassName?: string;
   children: ReactNode;
 };
 
@@ -14,7 +17,14 @@ export const hintId = (id: string): string => `${id}-hint`;
 export const errorId = (id: string): string => `${id}-error`;
 
 /** Real label, optional hint, optional error with icon. Shared by Field and Select. */
-export function FieldShell({ id, label, hint, error, children }: FieldShellProps): ReactNode {
+export function FieldShell({
+  id,
+  label,
+  hint,
+  error,
+  hintClassName,
+  children,
+}: FieldShellProps): ReactNode {
   return (
     <div className={styles.shell}>
       <label htmlFor={id} className={styles.label}>
@@ -22,7 +32,7 @@ export function FieldShell({ id, label, hint, error, children }: FieldShellProps
       </label>
       {children}
       {hint ? (
-        <span id={hintId(id)} className={styles.hint}>
+        <span id={hintId(id)} className={cx(styles.hint, hintClassName)}>
           {hint}
         </span>
       ) : null}

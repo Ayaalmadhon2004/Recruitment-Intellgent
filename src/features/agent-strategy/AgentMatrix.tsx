@@ -14,6 +14,8 @@ const copy = en.agentStrategy.matrix;
 const PERCENT = 100;
 const SCORE_DECIMALS = 2;
 const EDGE_TOLERANCE_PX = 1;
+/** Ratings at or below this draw a red bar. The number is always printed too, so colour is never the only cue. */
+const LOW_RATING_MAX = 2;
 
 type ScrollEdges = { atStart: boolean; atEnd: boolean };
 
@@ -43,6 +45,23 @@ function useScrollEdges(): {
     return () => observer.disconnect();
   }, [update]);
   return { ref, edges, update };
+}
+
+type ScoreBadgeProps = { score: string; max: number; large?: boolean };
+
+/** Overall score in a navy ring. The full "n / max" text is there for assistive tech; the ring shows it big. */
+function ScoreBadge({ score, max, large = false }: ScoreBadgeProps): ReactNode {
+  return (
+    <span className={cx(styles.badge, large && styles.badgeLarge)}>
+      <span className="visually-hidden">{fill(copy.score, { score, max })}</span>
+      <span aria-hidden="true" className={styles.badgeNum}>
+        {score}
+      </span>
+      <span aria-hidden="true" className={styles.badgeMax}>
+        {fill(copy.scoreMax, { max })}
+      </span>
+    </span>
+  );
 }
 
 export type AgentMatrixProps = {
@@ -90,27 +109,27 @@ export function AgentMatrix({
           className={styles.scroll}
           onScroll={update}
         >
-          <table className={styles.table}>
-            <caption className={styles.caption}>{fill(copy.caption, { max: rating.max })}</caption>
-            <thead>
-              <tr>
-                <th scope="col" className={cx(styles.th, styles.stickyHead)}>
+          <table role="table" className={styles.table}>
+            <caption role="caption" className={styles.caption}>{fill(copy.caption, { max: rating.max })}</caption>
+            <thead role="rowgroup">
+              <tr role="row">
+                <th scope="col" role="columnheader" className={cx(styles.th, styles.stickyHead)}>
                   {copy.agentHeader}
                 </th>
                 {factors.map((factor) => (
-                  <th key={factor.id} scope="col" className={styles.th}>
+                  <th key={factor.id} scope="col" role="columnheader" className={styles.th}>
                     {fill(copy.factorHeader, { name: t(factor.nameKey), weight: factor.weight })}
                   </th>
                 ))}
-                <th scope="col" className={cx(styles.th, styles.scoreHead)}>
+                <th scope="col" role="columnheader" className={cx(styles.th, styles.scoreHead)}>
                   {copy.scoreHeader}
                 </th>
               </tr>
             </thead>
-            <tbody>
+            <tbody role="rowgroup">
               {rows.map(({ agent, score }) => (
-                <tr key={agent.id} className={styles.row}>
-                  <th scope="row" className={styles.rowHead}>
+                <tr key={agent.id} role="row" className={styles.row}>
+                  <th scope="row" role="rowheader" className={styles.rowHead}>
                     <button
                       type="button"
                       aria-haspopup="dialog"
@@ -118,28 +137,31 @@ export function AgentMatrix({
                       className={styles.agentButton}
                       onClick={() => setOpenId(agent.id)}
                     >
-                      <span className={styles.agentName}>{agent.name}</span>
-                      <span className={styles.agentState}>{strategyCopy.agentDetails}</span>
+                      <span className={styles.agentText}>
+                        <span className={styles.agentName}>{agent.name}</span>
+                        <span className={styles.agentState}>{strategyCopy.agentDetails}</span>
+                      </span>
+                      <Icon name="chevron-right" size={20} strokeWidth={2.4} />
                     </button>
                   </th>
                   {factors.map((factor) => {
                     const value = agent.ratings[factor.id];
                     return (
-                      <td key={factor.id} className={styles.cell}>
+                      <td key={factor.id} role="cell" className={styles.cell} data-label={t(factor.nameKey)}>
                         <span className={styles.rating}>
                           {fill(copy.rating, { value, max: rating.max })}
                         </span>
                         <span className={styles.bar} aria-hidden="true">
                           <span
-                            className={styles.barFill}
+                            className={cx(styles.barFill, value <= LOW_RATING_MAX && styles.barLow)}
                             style={{ width: `${(value / rating.max) * PERCENT}%` }}
                           />
                         </span>
                       </td>
                     );
                   })}
-                  <td className={cx(styles.cell, styles.total)}>
-                    {fill(copy.score, { score: score.toFixed(SCORE_DECIMALS), max: rating.max })}
+                  <td role="cell" className={cx(styles.cell, styles.total)}>
+                    <ScoreBadge score={score.toFixed(SCORE_DECIMALS)} max={rating.max} />
                   </td>
                 </tr>
               ))}
@@ -156,17 +178,15 @@ export function AgentMatrix({
           <div className={styles.sheetBody}>
             <p className={styles.sheetScore}>
               <span className={styles.eyebrow}>{strategyCopy.sheetScore}</span>
-              <span className={styles.sheetScoreValue}>
-                {fill(copy.score, { score: opened.score.toFixed(SCORE_DECIMALS), max: rating.max })}
-              </span>
+              <ScoreBadge score={opened.score.toFixed(SCORE_DECIMALS)} max={rating.max} large />
             </p>
             <dl className={styles.sheetList}>
               <div className={styles.sheetItem}>
-                <dt className={styles.sheetTerm}>
+                <dt className={cx(styles.sheetTerm, styles.termStrength)}>
                   <Icon name="check-circle" size={20} strokeWidth={2.4} />
                   {strategyCopy.sheetStrength}
                 </dt>
-                <dd className={styles.sheetDef}>
+                <dd className={cx(styles.sheetDef, styles.defStrength)}>
                   {fill(copy.factorRating, {
                     factor: factorName(extremes.strongest.id),
                     rating: extremes.strongest.rating,
@@ -174,11 +194,11 @@ export function AgentMatrix({
                 </dd>
               </div>
               <div className={styles.sheetItem}>
-                <dt className={styles.sheetTerm}>
+                <dt className={cx(styles.sheetTerm, styles.termWeakness)}>
                   <Icon name="concern" size={20} strokeWidth={2.4} />
                   {strategyCopy.sheetWeakness}
                 </dt>
-                <dd className={styles.sheetDef}>
+                <dd className={cx(styles.sheetDef, styles.defWeakness)}>
                   {fill(copy.factorRating, {
                     factor: factorName(extremes.weakest.id),
                     rating: extremes.weakest.rating,
@@ -186,7 +206,7 @@ export function AgentMatrix({
                 </dd>
               </div>
             </dl>
-            <p className={styles.hint}>{strategyCopy.sheetSample}</p>
+            <p className={styles.samplePill}>{strategyCopy.sheetSample}</p>
           </div>
         ) : null}
       </ArchSheet>
