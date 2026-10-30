@@ -68,4 +68,34 @@ describe('ArchSheet', () => {
     await user.tab({ shift: true });
     expect(inside).toHaveFocus();
   });
+
+  describe('drag handle', () => {
+    const drag = (handle: Element, to: number): void => {
+      fireEvent.pointerDown(handle, { clientY: 100, pointerId: 1 });
+      fireEvent.pointerMove(handle, { clientY: to, pointerId: 1 });
+      fireEvent.pointerUp(handle, { clientY: to, pointerId: 1 });
+    };
+    const setup = (onClose: () => void): Element => {
+      HTMLElement.prototype.setPointerCapture = vi.fn();
+      render(
+        <ArchSheet open onClose={onClose} title="Sheet title">
+          body
+        </ArchSheet>,
+      );
+      return screen.getByRole('dialog').querySelector('[aria-hidden="true"]')!;
+    };
+
+    it('closes when pulled far enough down', () => {
+      const onClose = vi.fn();
+      drag(setup(onClose), 260);
+      expect(onClose).toHaveBeenCalledTimes(1);
+    });
+
+    it('snaps back and stays open on a short pull', () => {
+      const onClose = vi.fn();
+      drag(setup(onClose), 130);
+      expect(onClose).not.toHaveBeenCalled();
+      expect(screen.getByRole('dialog').style.transform).toBe('');
+    });
+  });
 });

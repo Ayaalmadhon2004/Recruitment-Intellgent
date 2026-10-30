@@ -178,17 +178,15 @@ export function AgentMatrix({
           <div className={styles.sheetBody}>
             <p className={styles.sheetScore}>
               <span className={styles.eyebrow}>{strategyCopy.sheetScore}</span>
-              <span className={styles.sheetScoreValue}>
-                {fill(copy.score, { score: opened.score.toFixed(SCORE_DECIMALS), max: rating.max })}
-              </span>
+              <ScoreBadge score={opened.score.toFixed(SCORE_DECIMALS)} max={rating.max} large />
             </p>
             <dl className={styles.sheetList}>
               <div className={styles.sheetItem}>
-                <dt className={styles.sheetTerm}>
+                <dt className={cx(styles.sheetTerm, styles.termStrength)}>
                   <Icon name="check-circle" size={20} strokeWidth={2.4} />
                   {strategyCopy.sheetStrength}
                 </dt>
-                <dd className={styles.sheetDef}>
+                <dd className={cx(styles.sheetDef, styles.defStrength)}>
                   {fill(copy.factorRating, {
                     factor: factorName(extremes.strongest.id),
                     rating: extremes.strongest.rating,
@@ -196,11 +194,11 @@ export function AgentMatrix({
                 </dd>
               </div>
               <div className={styles.sheetItem}>
-                <dt className={styles.sheetTerm}>
+                <dt className={cx(styles.sheetTerm, styles.termWeakness)}>
                   <Icon name="concern" size={20} strokeWidth={2.4} />
                   {strategyCopy.sheetWeakness}
                 </dt>
-                <dd className={styles.sheetDef}>
+                <dd className={cx(styles.sheetDef, styles.defWeakness)}>
                   {fill(copy.factorRating, {
                     factor: factorName(extremes.weakest.id),
                     rating: extremes.weakest.rating,
@@ -208,7 +206,7 @@ export function AgentMatrix({
                 </dd>
               </div>
             </dl>
-            <p className={styles.hint}>{strategyCopy.sheetSample}</p>
+            <p className={styles.samplePill}>{strategyCopy.sheetSample}</p>
           </div>
         ) : null}
       </ArchSheet>
