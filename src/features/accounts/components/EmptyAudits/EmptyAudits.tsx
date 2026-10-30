@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { routes } from '@/domain/config';
 import { en, fill } from '@/domain/copy';
-import { Button, Card } from '@/ui';
+import { Button } from '@/ui';
 import styles from './EmptyAudits.module.css';
 
 export type EmptyAuditsProps = {
@@ -14,7 +14,7 @@ const copy = en.accounts.dashboard.empty;
 /** "No audits yet". Offers the full audit, or the Quick Start. */
 export function EmptyAudits({ total, onStart }: EmptyAuditsProps): ReactNode {
   return (
-    <Card as="section" radius="lg" aria-label={copy.label} className={styles.empty}>
+    <section aria-label={copy.label} className={styles.empty}>
       <svg
         viewBox="0 0 160 160"
         width="180"
@@ -40,6 +40,6 @@ export function EmptyAudits({ total, onStart }: EmptyAuditsProps): ReactNode {
           </Button>
         </div>
       </div>
-    </Card>
+    </section>
   );
 }

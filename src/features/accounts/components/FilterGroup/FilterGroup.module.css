@@ -12,11 +12,7 @@
 .group {
   display: inline-flex;
   flex-wrap: wrap;
-  gap: var(--space-1);
-  padding: var(--space-1);
-  border-radius: var(--radius-pill);
-  border: 1px solid var(--color-line-strong);
-  background: var(--color-card);
+  gap: var(--space-2);
 }
 
 .button {
@@ -25,7 +21,7 @@
   gap: var(--space-2);
   min-height: var(--tap-target);
   padding: 0 var(--space-4);
-  border: 0;
+  border: 1px solid var(--color-line-strong);
   border-radius: var(--radius-pill);
   background: transparent;
   color: var(--color-text);
@@ -34,6 +30,7 @@
 }
 
 .on {
+  border-color: var(--color-navy);
   background: var(--color-navy);
   color: var(--color-text-inverse);
 }
