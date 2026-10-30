@@ -18,3 +18,5 @@ export type { KeyValueStorage } from './service/storage';
 export type { AccountService, AuditRepository, AuthGateway } from './service/types';
 export { adoptLocalAudit, resumeAudit, signOutAndClear, startNewAudit } from './working-copy';
 export type { AccountUser, SavedAudit, SaveAuditInput } from './types';
+export { AccountAuditFlow } from './components/AccountAuditFlow';
+export type { AccountAuditFlowProps } from './components/AccountAuditFlow';

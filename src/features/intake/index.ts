@@ -8,3 +8,5 @@ export {
   parseStoredAudit,
 } from './store';
 export type { AnswerStore, LoadStoredAuditOptions, StoredAudit } from './store';
+export { AuditFlow } from './components/AuditFlow';
+export type { AuditFlowProps, AuditPhase } from './components/AuditFlow';
