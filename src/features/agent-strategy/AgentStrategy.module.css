@@ -335,11 +335,15 @@
   border-radius: var(--radius-pill);
   background: var(--color-card);
 }
+/* The fill is full width and scaled from the left, so growing it never changes layout. */
 .barFill {
   display: block;
+  width: 100%;
   height: 100%;
   border-radius: var(--radius-pill);
   background: var(--color-navy);
+  transform: scaleX(var(--fill));
+  transform-origin: left center;
 }
 .barLow {
   background: var(--color-crimson);
@@ -349,14 +353,36 @@
   text-align: center;
 }
 /* Overall score: a navy ring with the number inside. */
+.rowPending {
+  opacity: 0;
+}
+
+.badgeSvg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.badgeRing {
+  fill: none;
+  stroke: var(--color-navy);
+  stroke-width: 4.7;
+  stroke-linecap: round;
+}
+
+.badgeLarge .badgeRing {
+  stroke-width: 3.4;
+}
+
 .badge {
+  position: relative;
   display: inline-flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 64px;
   height: 64px;
-  border: 3px solid var(--color-navy);
   border-radius: var(--radius-pill);
   background: var(--color-card);
   color: var(--color-navy);
@@ -373,7 +399,6 @@
 .badgeLarge {
   width: 120px;
   height: 120px;
-  border-width: 4px;
 }
 .badgeLarge .badgeNum {
   font-size: var(--text-h1-size);
@@ -390,6 +415,11 @@
   margin-inline: auto;
   text-align: center;
   color: var(--color-text);
+}
+.monthPanelText {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 .monthPanelLabel {
   font-size: var(--text-small-size);
@@ -634,8 +664,8 @@
   stroke-width: 2.5;
   stroke-linecap: round;
   transition:
-    stroke-dasharray var(--dur-data) var(--ease-standard),
-    opacity var(--dur-base) var(--ease-standard);
+    stroke-dashoffset var(--dur-large) var(--ease-lift),
+    opacity var(--dur-base) var(--ease-lift);
 }
 .resultCore {
   grid-area: 1 / 1;

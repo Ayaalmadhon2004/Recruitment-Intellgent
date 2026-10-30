@@ -10,8 +10,6 @@ export type Stage = {
   readonly max: number | null;
 };
 
-export type StageResult =
-  | { readonly kind: 'staged'; readonly stage: StageId }
-  | NotScorable;
+export type StageResult = { readonly kind: 'staged'; readonly stage: StageId } | NotScorable;
 
 export type StageSource = { readonly questionId: QuestionId };

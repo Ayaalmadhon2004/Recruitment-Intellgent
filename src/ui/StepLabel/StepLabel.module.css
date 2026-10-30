@@ -6,21 +6,3 @@
   text-transform: uppercase;
   color: var(--color-crimson);
 }
-
-.number {
-  display: inline-block;
-  animation: step-number var(--dur-enter) var(--ease-out);
-}
-
-@keyframes step-number {
-  from {
-    opacity: 0;
-    transform: translateY(var(--space-1));
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .number {
-    animation: none;
-  }
-}

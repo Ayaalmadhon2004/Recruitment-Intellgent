@@ -10,7 +10,10 @@ export function findAnswer(answers: readonly Answer[], id: QuestionId): Answer |
 }
 
 /** "Not sure" counts as not answered: we never guess a score from it. */
-export function findKnownAnswer(answers: readonly Answer[], id: QuestionId): KnownAnswer | undefined {
+export function findKnownAnswer(
+  answers: readonly Answer[],
+  id: QuestionId,
+): KnownAnswer | undefined {
   const answer = findAnswer(answers, id);
   return answer?.kind === 'known' ? answer : undefined;
 }

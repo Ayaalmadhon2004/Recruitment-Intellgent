@@ -80,7 +80,7 @@
 /* Reveal marks its content shown when it scrolls into view; the drawn parts then fade in one after another. */
 :global([data-reveal='shown']) .drawn {
   animation: draw-part var(--dur-enter) var(--ease-out) both;
-  animation-delay: calc(var(--part) * 220ms);
+  animation-delay: calc(var(--reveal-delay, 0ms) + var(--part) * var(--dur-kite-part));
 }
 
 @media (prefers-reduced-motion: reduce) {

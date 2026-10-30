@@ -17,7 +17,7 @@ import {
 import { FirstReadPage, FirstReadPageLoading } from '@/features/quick-start';
 import { QuestionCard } from '@/patterns';
 import type { QuestionCardLabels } from '@/patterns';
-import { Button, KiteTrack, StepLabel, useToast } from '@/ui';
+import { Button, KiteTrack, SaveDot, StepLabel, StepTransition, useToast } from '@/ui';
 import { confirmedTagFor, questionsInSection, useIntake } from '../../state';
 import type { UseIntake } from '../../state';
 import type { AnswerStore } from '../../store';
@@ -130,6 +130,7 @@ function AuditFlowBody({
   const { answers } = intake.state;
   const [resumePhase] = useState(() => defaultPhase(intake));
   const [step, setStep] = useState(() => firstOpenQuick(intake));
+  const [direction, setDirection] = useState<'forward' | 'back'>('forward');
   const privacyShown = useRef(intake.overall.handled > 0);
   const focusTarget = useRef<HTMLDivElement>(null);
   const moved = useRef(false);
@@ -138,7 +139,10 @@ function AuditFlowBody({
   // The order is fixed: nobody reaches the first read or the sections before the Quick Start questions.
   const current: AuditPhase = quickDone ? (phase ?? resumePhase) : 'questions';
 
-  const sectionPos = Math.max(0, restSections.indexOf(sectionIds[intake.state.sectionIndex] ?? 'A'));
+  const sectionPos = Math.max(
+    0,
+    restSections.indexOf(sectionIds[intake.state.sectionIndex] ?? 'A'),
+  );
   const sectionId = restSections[sectionPos] ?? restSections[0];
 
   // After Back or Next the new question or section takes focus and scrolls into view.
@@ -155,10 +159,7 @@ function AuditFlowBody({
   };
 
   const sectionQuestions = useMemo(
-    () =>
-      sectionId
-        ? questionsInSection(restQuestions, sectionId)
-        : ([] as Question[]),
+    () => (sectionId ? questionsInSection(restQuestions, sectionId) : ([] as Question[])),
     [sectionId],
   );
   const sectionHandled = countHandled(
@@ -185,6 +186,7 @@ function AuditFlowBody({
     const handled = countHandled(answers, [question.id]) > 0;
     const go = (to: number): void => {
       moved.current = true;
+      setDirection(to < step ? 'back' : 'forward');
       setStep(to);
     };
     return (
@@ -196,7 +198,9 @@ function AuditFlowBody({
         </header>
         <StepLabel word={uiCopy.step.question} current={step + 1} total={quickQuestions.length} />
         <div ref={focusTarget} tabIndex={-1} className={styles.focus}>
-          <Question key={question.id} intake={intake} question={question} onAnswered={onAnswered} />
+          <StepTransition stepKey={question.id} direction={direction}>
+            <Question intake={intake} question={question} onAnswered={onAnswered} />
+          </StepTransition>
         </div>
         <nav aria-label={copy.stepperLabel} className={styles.nav}>
           <div>
@@ -229,6 +233,7 @@ function AuditFlowBody({
   const nextId = restSections[sectionPos + 1];
   const goSection = (id: SectionId): void => {
     moved.current = true;
+    setDirection(restSections.indexOf(id) < sectionPos ? 'back' : 'forward');
     intake.saveAndGoToSection(sectionIds.indexOf(id));
   };
   const saveText = {
@@ -251,22 +256,21 @@ function AuditFlowBody({
       />
       <StepLabel current={sectionPos + 1} total={restSections.length} />
       <div ref={focusTarget} tabIndex={-1} className={styles.focus}>
-        <h2 className={styles.sectionTitle}>{en.sections[sectionId]}</h2>
-        <ol aria-label={en.intake.questionsLabel} className={styles.questions}>
-          {sectionQuestions.map((q) => (
-            <li key={q.id}>
-              <Question intake={intake} question={q} onAnswered={onAnswered} />
-            </li>
-          ))}
-        </ol>
+        <StepTransition stepKey={sectionId} direction={direction}>
+          <h2 className={styles.sectionTitle}>{en.sections[sectionId]}</h2>
+          <ol aria-label={en.intake.questionsLabel} className={styles.questions}>
+            {sectionQuestions.map((q) => (
+              <li key={q.id}>
+                <Question intake={intake} question={q} onAnswered={onAnswered} />
+              </li>
+            ))}
+          </ol>
+        </StepTransition>
       </div>
       <nav aria-label={en.intake.nav.label} className={styles.nav}>
         <div>
           {previousId ? (
-            <Button
-              variant="outline"
-              onClick={() => goSection(previousId)}
-            >
+            <Button variant="outline" onClick={() => goSection(previousId)}>
               {fill(uiCopy.flow.backTo, { name: en.sections[previousId] })}
             </Button>
           ) : (
@@ -283,9 +287,7 @@ function AuditFlowBody({
           <Button href={reportHref}>{en.intake.nav.seeReport}</Button>
         )}
       </nav>
-      <p role="status" aria-live="polite" className={styles.save}>
-        {saveText}
-      </p>
+      <SaveDot status={intake.saveStatus} label={saveText} />
     </div>
   );
 }

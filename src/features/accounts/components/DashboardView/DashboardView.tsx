@@ -5,7 +5,7 @@ import type { ReactNode } from 'react';
 import { en, fill } from '@/domain/copy';
 import { SampleDataBadge } from '@/patterns';
 import { PageContainer } from '@/shell';
-import { Button, Icon, Select } from '@/ui';
+import { Button, Icon, Reveal, Select } from '@/ui';
 import { countByFilter, filterCards, sortCards } from '../../model';
 import type { AuditCardModel, AuditFilter, AuditSort } from '../../model';
 import { AuditCard } from '../AuditCard';
@@ -102,14 +102,15 @@ export function DashboardView({
           </section>
 
           <section aria-label={copy.listLabel} className={styles.grid}>
-            {shown.map((audit) => (
-              <AuditCard
-                key={audit.id}
-                audit={audit}
-                onOpen={onOpen}
-                opening={openingId === audit.id}
-                failed={failedId === audit.id}
-              />
+            {shown.map((audit, i) => (
+              <Reveal key={audit.id} index={i} className={styles.cell}>
+                <AuditCard
+                  audit={audit}
+                  onOpen={onOpen}
+                  opening={openingId === audit.id}
+                  failed={failedId === audit.id}
+                />
+              </Reveal>
             ))}
             <button type="button" className={`${styles.newTile} hover-lift`} onClick={onStartNew}>
               <span className={styles.plus} aria-hidden="true">

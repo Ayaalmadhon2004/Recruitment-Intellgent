@@ -159,3 +159,13 @@
   flex-direction: column;
   gap: var(--space-7);
 }
+
+/* Each card sits in a Reveal; the wrapper stretches so cards in a row keep equal height. */
+.cell {
+  display: flex;
+}
+
+.cell > * {
+  flex: 1;
+  min-width: 0;
+}

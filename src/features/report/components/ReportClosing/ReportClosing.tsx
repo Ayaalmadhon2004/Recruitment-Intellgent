@@ -61,7 +61,11 @@ export function ReportClosing({ unlocked, links }: ReportClosingProps): ReactNod
           />
           {'. '}
           {unlock.priceLabel}:{' '}
-          <TbcValue value={tbcConfig.pricing} placeholder={en.status.tbc} label={en.status.pending} />
+          <TbcValue
+            value={tbcConfig.pricing}
+            placeholder={en.status.tbc}
+            label={en.status.pending}
+          />
         </p>
       ) : null}
     </section>

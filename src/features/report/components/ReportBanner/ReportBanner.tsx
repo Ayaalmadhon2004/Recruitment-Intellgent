@@ -57,7 +57,9 @@ export function ReportBanner({
           />
         </div>
         <div className={styles.pilot}>
-          <h2 className={styles.pilotTitle}>{fill(pilotCopy.title, { months: pilot.durationMonths })}</h2>
+          <h2 className={styles.pilotTitle}>
+            {fill(pilotCopy.title, { months: pilot.durationMonths })}
+          </h2>
           <ul className={styles.facts}>
             {pilotFacts.map((fact) => (
               <li key={fact} className={styles.fact}>
@@ -77,7 +79,9 @@ export function ReportBanner({
           </Button>
         </div>
       </div>
-      {answers ? <ReportKite className={styles.kite} sections={buildKiteSections(answers)} /> : null}
+      {answers ? (
+        <ReportKite className={styles.kite} sections={buildKiteSections(answers)} />
+      ) : null}
     </header>
   );
 }

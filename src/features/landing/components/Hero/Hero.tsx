@@ -1,13 +1,14 @@
 'use client';
 
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
-import type { ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
+import { intro } from '@/design/motion';
 import { uiCopy } from '@/design/ui-copy';
 import { auditScope } from '@/domain/config';
 import { en, fill } from '@/domain/copy';
 import { PageContainer } from '@/shell';
 import type { KiteWings } from '@/ui';
-import { Button, Kite } from '@/ui';
+import { Button, Kite, cx, prefersReducedMotion } from '@/ui';
 import styles from './Hero.module.css';
 
 const copy = en.landing.hero;
@@ -15,10 +16,6 @@ const home = uiCopy.home;
 
 /** Once per visit: the key lives in sessionStorage, which clears when the tab closes. */
 export const INTRO_STORAGE_KEY = 'vri-home-intro-seen';
-/** The wings open at these moments (ms) of the roughly 3 second intro. */
-const LEFT_AT = 1100;
-const OPEN_AT = 1500;
-const DONE_AT = 3000;
 
 export type HeroProps = {
   startHref: string;
@@ -42,10 +39,6 @@ function markIntroSeen(): void {
   }
 }
 
-function prefersReducedMotion(): boolean {
-  return typeof window.matchMedia === 'function' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-}
-
 function shouldSkipIntro(): boolean {
   return prefersReducedMotion() || introAlreadySeen();
 }
@@ -61,21 +54,33 @@ export function Hero({ startHref }: HeroProps): ReactNode {
   const [played, setPlayed] = useState(false);
   const [openWings, setOpenWings] = useState<KiteWings>('closed');
   const rootRef = useRef<HTMLElement>(null);
-  const ready = useSyncExternalStore(subscribeNever, () => true, () => false);
+  const ready = useSyncExternalStore(
+    subscribeNever,
+    () => true,
+    () => false,
+  );
   const skipped = useSyncExternalStore(subscribeNever, shouldSkipIntro, () => false);
 
   const phase: Phase = skipped || played ? 'done' : 'playing';
   const wings: KiteWings = phase === 'done' ? 'open' : openWings;
+  // Each line of the block is written in turn: fade plus a short rise, one after another.
+  const line = (n: number): { className?: string; style?: CSSProperties } =>
+    phase === 'playing'
+      ? {
+          className: 'anim-up',
+          style: { animationDelay: `${intro.linesAt + n * intro.lineGap}ms` },
+        }
+      : {};
 
   useEffect(() => {
     if (!ready || phase === 'done') return;
     const timers = [
-      window.setTimeout(() => setOpenWings('left'), LEFT_AT),
-      window.setTimeout(() => setOpenWings('open'), OPEN_AT),
+      window.setTimeout(() => setOpenWings('left'), intro.spinEnd),
+      window.setTimeout(() => setOpenWings('open'), intro.openAt),
       window.setTimeout(() => {
         markIntroSeen();
         setPlayed(true);
-      }, DONE_AT),
+      }, intro.doneAt),
     ];
     return () => timers.forEach((t) => window.clearTimeout(t));
   }, [ready, phase]);
@@ -88,34 +93,49 @@ export function Hero({ startHref }: HeroProps): ReactNode {
   };
 
   return (
-    <section ref={rootRef} className={styles.hero} aria-labelledby="landing-title" data-phase={phase}>
+    <section
+      ref={rootRef}
+      className={styles.hero}
+      aria-labelledby="landing-title"
+      data-phase={phase}
+    >
       <PageContainer className={styles.inner}>
         <div className={styles.stage}>
-          <div className={styles.spin}>
+          <div className={cx(styles.spin, phase === 'playing' && 'anim-kite-in')}>
             <Kite wings={wings} size="lg" className={styles.kite} />
           </div>
         </div>
         <div className={styles.text}>
-          <span className={styles.eyebrow}>{copy.eyebrow}</span>
-          <h1 id="landing-title" className={styles.title}>
+          <span className={cx(styles.eyebrow, line(0).className)} style={line(0).style}>
+            {copy.eyebrow}
+          </span>
+          <h1
+            id="landing-title"
+            className={cx(styles.title, line(1).className)}
+            style={line(1).style}
+          >
             {copy.title}
           </h1>
-          <p className={styles.lead}>{fill(home.introLead, { quickStart: auditScope.quickStartQuestions })}</p>
-          <div className={styles.actions}>
+          <p className={cx(styles.lead, line(2).className)} style={line(2).style}>
+            {fill(home.introLead, { quickStart: auditScope.quickStartQuestions })}
+          </p>
+          <div className={cx(styles.actions, line(3).className)} style={line(3).style}>
             <Button href={startHref} size="lg" data-start="">
               {copy.primaryCta}
             </Button>
             <Button href="#how" size="lg" variant="outline">
               {copy.secondaryCta}
             </Button>
-            {ready && phase === 'playing' ? (
-              <Button variant="outline" onClick={skip} className={styles.skip}>
-                {home.skipIntro}
-              </Button>
-            ) : null}
           </div>
         </div>
       </PageContainer>
+      {ready && phase === 'playing' ? (
+        <div className={styles.skipSlot}>
+          <Button variant="outline" size="sm" onClick={skip}>
+            {home.skipIntro}
+          </Button>
+        </div>
+      ) : null}
     </section>
   );
 }

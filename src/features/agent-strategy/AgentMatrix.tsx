@@ -1,17 +1,16 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import type { ReactNode, RefObject } from 'react';
+import type { CSSProperties, ReactNode, RefObject } from 'react';
 import { strategyCopy } from '@/design/ui-copy';
 import { en, t } from '@/domain/copy';
 import { strongestAndWeakest, weightedAgentScore } from '@/domain/scoring';
 import type { AgentFactor } from '@/domain/types';
 import type { RatingRange } from '@/domain/scoring';
-import { ArchSheet, Icon, cx } from '@/ui';
+import { ArchSheet, Icon, cx, useRevealPhase } from '@/ui';
 import { fill } from './format';
 import type { SampleAgent } from './types';
 import styles from './AgentStrategy.module.css';
 
 const copy = en.agentStrategy.matrix;
-const PERCENT = 100;
 const SCORE_DECIMALS = 2;
 const EDGE_TOLERANCE_PX = 1;
 /** Ratings at or below this draw a red bar. The number is always printed too, so colour is never the only cue. */
@@ -47,12 +46,23 @@ function useScrollEdges(): {
   return { ref, edges, update };
 }
 
-type ScoreBadgeProps = { score: string; max: number; large?: boolean };
+type ScoreBadgeProps = { score: string; max: number; large?: boolean; draw?: boolean };
 
 /** Overall score in a navy ring. The full "n / max" text is there for assistive tech; the ring shows it big. */
-function ScoreBadge({ score, max, large = false }: ScoreBadgeProps): ReactNode {
+function ScoreBadge({ score, max, large = false, draw = true }: ScoreBadgeProps): ReactNode {
   return (
     <span className={cx(styles.badge, large && styles.badgeLarge)}>
+      <svg viewBox="0 0 100 100" className={styles.badgeSvg} aria-hidden="true" focusable="false">
+        <circle
+          cx="50"
+          cy="50"
+          r="47"
+          pathLength={100}
+          strokeDasharray={100}
+          transform="rotate(-90 50 50)"
+          className={cx(styles.badgeRing, draw && 'anim-ring')}
+        />
+      </svg>
       <span className="visually-hidden">{fill(copy.score, { score, max })}</span>
       <span aria-hidden="true" className={styles.badgeNum}>
         {score}
@@ -85,6 +95,8 @@ export function AgentMatrix({
     agent,
     score: weightedAgentScore(agent.ratings, factors, rating),
   }));
+  const bodyRef = useRef<HTMLTableSectionElement>(null);
+  const phase = useRevealPhase(bodyRef);
   const opened = rows.find((r) => r.agent.id === openId) ?? null;
   const extremes = opened ? strongestAndWeakest(opened.agent.ratings, factors) : null;
   const factorName = (id: string): string => {
@@ -110,7 +122,9 @@ export function AgentMatrix({
           onScroll={update}
         >
           <table role="table" className={styles.table}>
-            <caption role="caption" className={styles.caption}>{fill(copy.caption, { max: rating.max })}</caption>
+            <caption role="caption" className={styles.caption}>
+              {fill(copy.caption, { max: rating.max })}
+            </caption>
             <thead role="rowgroup">
               <tr role="row">
                 <th scope="col" role="columnheader" className={cx(styles.th, styles.stickyHead)}>
@@ -126,9 +140,18 @@ export function AgentMatrix({
                 </th>
               </tr>
             </thead>
-            <tbody role="rowgroup">
-              {rows.map(({ agent, score }) => (
-                <tr key={agent.id} role="row" className={styles.row}>
+            <tbody ref={bodyRef} role="rowgroup">
+              {rows.map(({ agent, score }, rowIndex) => (
+                <tr
+                  key={agent.id}
+                  role="row"
+                  className={cx(
+                    styles.row,
+                    phase === 'pending' && styles.rowPending,
+                    phase === 'shown' && 'anim-up anim-stagger',
+                  )}
+                  style={{ '--i': rowIndex } as CSSProperties}
+                >
                   <th scope="row" role="rowheader" className={styles.rowHead}>
                     <button
                       type="button"
@@ -144,24 +167,42 @@ export function AgentMatrix({
                       <Icon name="chevron-right" size={20} strokeWidth={2.4} />
                     </button>
                   </th>
-                  {factors.map((factor) => {
+                  {factors.map((factor, columnIndex) => {
                     const value = agent.ratings[factor.id];
                     return (
-                      <td key={factor.id} role="cell" className={styles.cell} data-label={t(factor.nameKey)}>
+                      <td
+                        key={factor.id}
+                        role="cell"
+                        className={styles.cell}
+                        data-label={t(factor.nameKey)}
+                      >
                         <span className={styles.rating}>
                           {fill(copy.rating, { value, max: rating.max })}
                         </span>
                         <span className={styles.bar} aria-hidden="true">
                           <span
-                            className={cx(styles.barFill, value <= LOW_RATING_MAX && styles.barLow)}
-                            style={{ width: `${(value / rating.max) * PERCENT}%` }}
+                            className={cx(
+                              styles.barFill,
+                              value <= LOW_RATING_MAX && styles.barLow,
+                              phase === 'shown' && 'anim-grow anim-stagger',
+                            )}
+                            style={
+                              {
+                                '--fill': value / rating.max,
+                                '--i': columnIndex,
+                              } as CSSProperties
+                            }
                           />
                         </span>
                       </td>
                     );
                   })}
                   <td role="cell" className={cx(styles.cell, styles.total)}>
-                    <ScoreBadge score={score.toFixed(SCORE_DECIMALS)} max={rating.max} />
+                    <ScoreBadge
+                      score={score.toFixed(SCORE_DECIMALS)}
+                      max={rating.max}
+                      draw={phase !== 'pending'}
+                    />
                   </td>
                 </tr>
               ))}

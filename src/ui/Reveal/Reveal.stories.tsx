@@ -14,6 +14,6 @@ export const InView: Story = {
     ),
   },
 };
-export const Delayed: Story = {
-  args: { delay: 3, children: <p style={{ padding: 'var(--space-6)' }}>Delay step 3.</p> },
+export const Staggered: Story = {
+  args: { index: 3, children: <p style={{ padding: 'var(--space-6)' }}>Fourth in a stagger.</p> },
 };

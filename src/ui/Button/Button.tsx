@@ -1,5 +1,8 @@
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from 'react';
 import { cx } from '../internal/cx';
+import { Kite } from '../Kite';
+import { KiteBob } from '../KiteBob';
+import { useReducedMotion } from '../motion';
 import styles from './Button.module.css';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'inverse' | 'inverse-outline';
@@ -18,6 +21,8 @@ type AsButton = Common &
     loading?: boolean;
     /** Announced to assistive tech while loading. */
     loadingLabel?: string;
+    /** What shows while loading: a bobbing kite (default) or a kite flying across the pill. */
+    loadingKite?: 'bob' | 'fly';
   };
 
 type AsLink = Common & Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'children'> & { href: string };
@@ -25,13 +30,13 @@ type AsLink = Common & Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'children'>
 export type ButtonProps = AsButton | AsLink;
 
 export function Button(props: ButtonProps): ReactNode {
+  const reduced = useReducedMotion();
   const { variant = 'primary', size = 'md', fullWidth, children, className } = props;
   const classes = cx(
     styles.button,
     styles[variant],
     styles[size],
     fullWidth && styles.full,
-    'hover-nudge',
     className,
   );
 
@@ -52,10 +57,12 @@ export function Button(props: ButtonProps): ReactNode {
     className: _cn,
     loading,
     loadingLabel,
+    loadingKite = 'bob',
     disabled,
     type = 'button',
     ...rest
   } = props;
+  const fly = loadingKite === 'fly' && !reduced;
   return (
     <button
       {...rest}
@@ -64,7 +71,14 @@ export function Button(props: ButtonProps): ReactNode {
       disabled={disabled || loading}
       aria-busy={loading || undefined}
     >
-      {loading ? <span className={styles.spinner} aria-hidden="true" /> : null}
+      {loading && !fly ? <KiteBob /> : null}
+      {loading && fly ? (
+        <span className={styles.flyTrack} aria-hidden="true">
+          <span className="anim-fly">
+            <Kite size="sm" wings="open" />
+          </span>
+        </span>
+      ) : null}
       {children}
       {loading && loadingLabel ? <span className="visually-hidden">{loadingLabel}</span> : null}
     </button>

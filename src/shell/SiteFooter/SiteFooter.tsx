@@ -46,13 +46,7 @@ export function SiteFooter({
         <div className={styles.grid}>
           <div className={styles.brand}>
             <Link href={homeHref} className={styles.logoLink}>
-              <Image
-                src={logoSrc}
-                alt={logoAlt}
-                width={611}
-                height={139}
-                className={styles.logo}
-              />
+              <Image src={logoSrc} alt={logoAlt} width={611} height={139} className={styles.logo} />
             </Link>
             <p className={styles.product}>{productName}</p>
             <p className={styles.tagline}>{tagline}</p>
@@ -65,7 +59,7 @@ export function SiteFooter({
                 <ul className={styles.list}>
                   {column.links.map((item) => (
                     <li key={item.href}>
-                      <Link href={item.href} className={styles.link}>
+                      <Link href={item.href} className={`${styles.link} hover-underline`}>
                         {item.label}
                       </Link>
                     </li>
@@ -79,7 +73,7 @@ export function SiteFooter({
             <h2 className={styles.heading}>{external.heading}</h2>
             <a
               href={external.link.href}
-              className={`${styles.link} ${styles.external}`}
+              className={`${styles.link} ${styles.external} hover-underline`}
               rel="noopener"
             >
               {external.link.label}
@@ -93,7 +87,11 @@ export function SiteFooter({
           {legalLinks.length > 0 ? (
             <nav aria-label={legalLabel} className={styles.legal}>
               {legalLinks.map((item) => (
-                <Link key={item.href} href={item.href} className={styles.legalLink}>
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`${styles.legalLink} hover-underline`}
+                >
                   {item.label}
                 </Link>
               ))}

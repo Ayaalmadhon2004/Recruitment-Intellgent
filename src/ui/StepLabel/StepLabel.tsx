@@ -1,7 +1,6 @@
-'use client';
-
 import type { ReactNode } from 'react';
 import { uiCopy } from '@/design/ui-copy';
+import { SwapText } from '../SwapText';
 import styles from './StepLabel.module.css';
 
 export type StepLabelProps = {
@@ -15,8 +14,9 @@ export type StepLabelProps = {
 };
 
 /**
- * The one shared "Step N" / "Question N" label. The number is keyed, so a change replays a subtle
- * fade (static under prefers-reduced-motion), and the label is a polite live region.
+ * The one shared "Step N" / "Question N" label. When the number changes the old one fades out with a
+ * 6px slide while the new one fades in (static under prefers-reduced-motion), and the label is a
+ * polite live region.
  */
 export function StepLabel({
   current,
@@ -30,10 +30,7 @@ export function StepLabel({
       role="status"
       aria-live="polite"
     >
-      <span>{word}</span>{' '}
-      <span key={current} className={styles.number}>
-        {current}
-      </span>
+      <span>{word}</span> <SwapText>{current}</SwapText>
       {total !== undefined ? (
         <>
           {' '}

@@ -1,0 +1,31 @@
+.root {
+  position: relative;
+  display: inline-flex;
+  border-radius: var(--radius-pill);
+}
+
+/* The glow is a ring on a pseudo-element, so only its opacity is animated. */
+.root::before {
+  content: '';
+  position: absolute;
+  inset: calc(var(--space-1) * -1);
+  border-radius: var(--radius-pill);
+  box-shadow: 0 0 0 var(--space-2) color-mix(in srgb, var(--color-navy) 22%, transparent);
+  opacity: 0;
+  pointer-events: none;
+}
+
+@keyframes breathe {
+  50% {
+    opacity: 1;
+  }
+}
+
+.on::before {
+  animation: breathe var(--dur-breathe) ease-in-out infinite;
+}
+
+.on:hover::before,
+.on:focus-within::before {
+  animation: none;
+}

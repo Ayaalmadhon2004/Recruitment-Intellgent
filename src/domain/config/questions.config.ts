@@ -26,8 +26,14 @@ export const questionsConfig: readonly Question[] = [
     options: [
       { value: 'public-university', labelKey: 'questions.A1.options.public-university.label' },
       { value: 'private-university', labelKey: 'questions.A1.options.private-university.label' },
-      { value: 'liberal-arts-college', labelKey: 'questions.A1.options.liberal-arts-college.label' },
-      { value: 'pathway-or-college-provider', labelKey: 'questions.A1.options.pathway-or-college-provider.label' },
+      {
+        value: 'liberal-arts-college',
+        labelKey: 'questions.A1.options.liberal-arts-college.label',
+      },
+      {
+        value: 'pathway-or-college-provider',
+        labelKey: 'questions.A1.options.pathway-or-college-provider.label',
+      },
       { value: 'other', labelKey: 'questions.A1.options.other.label' },
     ],
   },
@@ -41,10 +47,26 @@ export const questionsConfig: readonly Question[] = [
     temporary: true,
     type: 'radio',
     options: [
-      { value: 'starting', labelKey: 'questions.A2.options.starting.label', descriptionKey: 'questions.A2.options.starting.description' },
-      { value: 'building', labelKey: 'questions.A2.options.building.label', descriptionKey: 'questions.A2.options.building.description' },
-      { value: 'growing', labelKey: 'questions.A2.options.growing.label', descriptionKey: 'questions.A2.options.growing.description' },
-      { value: 'established', labelKey: 'questions.A2.options.established.label', descriptionKey: 'questions.A2.options.established.description' },
+      {
+        value: 'starting',
+        labelKey: 'questions.A2.options.starting.label',
+        descriptionKey: 'questions.A2.options.starting.description',
+      },
+      {
+        value: 'building',
+        labelKey: 'questions.A2.options.building.label',
+        descriptionKey: 'questions.A2.options.building.description',
+      },
+      {
+        value: 'growing',
+        labelKey: 'questions.A2.options.growing.label',
+        descriptionKey: 'questions.A2.options.growing.description',
+      },
+      {
+        value: 'established',
+        labelKey: 'questions.A2.options.established.label',
+        descriptionKey: 'questions.A2.options.established.description',
+      },
     ],
   },
   {
@@ -97,9 +119,21 @@ export const questionsConfig: readonly Question[] = [
     temporary: true,
     type: 'radio',
     options: [
-      { value: 'rising', labelKey: 'questions.B2.options.rising.label', descriptionKey: 'questions.B2.options.rising.description' },
-      { value: 'flat', labelKey: 'questions.B2.options.flat.label', descriptionKey: 'questions.B2.options.flat.description' },
-      { value: 'falling', labelKey: 'questions.B2.options.falling.label', descriptionKey: 'questions.B2.options.falling.description' },
+      {
+        value: 'rising',
+        labelKey: 'questions.B2.options.rising.label',
+        descriptionKey: 'questions.B2.options.rising.description',
+      },
+      {
+        value: 'flat',
+        labelKey: 'questions.B2.options.flat.label',
+        descriptionKey: 'questions.B2.options.flat.description',
+      },
+      {
+        value: 'falling',
+        labelKey: 'questions.B2.options.falling.label',
+        descriptionKey: 'questions.B2.options.falling.description',
+      },
     ],
   },
   {
@@ -116,7 +150,10 @@ export const questionsConfig: readonly Question[] = [
       { value: 'agents', labelKey: 'questions.B3.options.agents.label' },
       { value: 'your-website', labelKey: 'questions.B3.options.your-website.label' },
       { value: 'education-fairs', labelKey: 'questions.B3.options.education-fairs.label' },
-      { value: 'alumni-and-referrals', labelKey: 'questions.B3.options.alumni-and-referrals.label' },
+      {
+        value: 'alumni-and-referrals',
+        labelKey: 'questions.B3.options.alumni-and-referrals.label',
+      },
       { value: 'social-media', labelKey: 'questions.B3.options.social-media.label' },
       { value: 'not-tracked', labelKey: 'questions.B3.options.not-tracked.label' },
     ],
@@ -159,10 +196,22 @@ export const questionsConfig: readonly Question[] = [
     type: 'select',
     controlLabelKey: 'questions.C2.control',
     options: [
-      { value: 'most-applicants-receive-one', labelKey: 'questions.C2.options.most-applicants-receive-one.label' },
-      { value: 'some-applicants-receive-one', labelKey: 'questions.C2.options.some-applicants-receive-one.label' },
-      { value: 'few-applicants-receive-one', labelKey: 'questions.C2.options.few-applicants-receive-one.label' },
-      { value: 'we-do-not-offer-scholarships', labelKey: 'questions.C2.options.we-do-not-offer-scholarships.label' },
+      {
+        value: 'most-applicants-receive-one',
+        labelKey: 'questions.C2.options.most-applicants-receive-one.label',
+      },
+      {
+        value: 'some-applicants-receive-one',
+        labelKey: 'questions.C2.options.some-applicants-receive-one.label',
+      },
+      {
+        value: 'few-applicants-receive-one',
+        labelKey: 'questions.C2.options.few-applicants-receive-one.label',
+      },
+      {
+        value: 'we-do-not-offer-scholarships',
+        labelKey: 'questions.C2.options.we-do-not-offer-scholarships.label',
+      },
     ],
   },
   {
@@ -263,9 +312,21 @@ export const questionsConfig: readonly Question[] = [
     temporary: true,
     type: 'radio',
     options: [
-      { value: 'none', labelKey: 'questions.E1.options.none.label', descriptionKey: 'questions.E1.options.none.description' },
-      { value: '1-2', labelKey: 'questions.E1.options.1-2.label', descriptionKey: 'questions.E1.options.1-2.description' },
-      { value: '3-or-more', labelKey: 'questions.E1.options.3-or-more.label', descriptionKey: 'questions.E1.options.3-or-more.description' },
+      {
+        value: 'none',
+        labelKey: 'questions.E1.options.none.label',
+        descriptionKey: 'questions.E1.options.none.description',
+      },
+      {
+        value: '1-2',
+        labelKey: 'questions.E1.options.1-2.label',
+        descriptionKey: 'questions.E1.options.1-2.description',
+      },
+      {
+        value: '3-or-more',
+        labelKey: 'questions.E1.options.3-or-more.label',
+        descriptionKey: 'questions.E1.options.3-or-more.description',
+      },
     ],
   },
   {
@@ -322,9 +383,21 @@ export const questionsConfig: readonly Question[] = [
     temporary: true,
     type: 'radio',
     options: [
-      { value: 'hold-steady', labelKey: 'questions.F1.options.hold-steady.label', descriptionKey: 'questions.F1.options.hold-steady.description' },
-      { value: 'grow-steadily', labelKey: 'questions.F1.options.grow-steadily.label', descriptionKey: 'questions.F1.options.grow-steadily.description' },
-      { value: 'grow-fast', labelKey: 'questions.F1.options.grow-fast.label', descriptionKey: 'questions.F1.options.grow-fast.description' },
+      {
+        value: 'hold-steady',
+        labelKey: 'questions.F1.options.hold-steady.label',
+        descriptionKey: 'questions.F1.options.hold-steady.description',
+      },
+      {
+        value: 'grow-steadily',
+        labelKey: 'questions.F1.options.grow-steadily.label',
+        descriptionKey: 'questions.F1.options.grow-steadily.description',
+      },
+      {
+        value: 'grow-fast',
+        labelKey: 'questions.F1.options.grow-fast.label',
+        descriptionKey: 'questions.F1.options.grow-fast.description',
+      },
     ],
   },
   {

@@ -81,9 +81,7 @@ describe('evidence, gaps and completeness with feeding questions', () => {
       answers: [known('A1', 'private-university', 'verified', 'high'), unknown('A2')],
     });
     const readiness = openArea(buildReportModel(a, { isSample: false }, config), 'readiness');
-    expect(readiness.evidence).toEqual([
-      { questionId: 'A1', tag: 'verified', confidence: 'high' },
-    ]);
+    expect(readiness.evidence).toEqual([{ questionId: 'A1', tag: 'verified', confidence: 'high' }]);
     expect(readiness.gaps).toEqual([{ questionId: 'A2' }, { questionId: 'A3' }]);
   });
 

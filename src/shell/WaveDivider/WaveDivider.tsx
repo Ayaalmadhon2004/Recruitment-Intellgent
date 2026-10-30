@@ -20,7 +20,12 @@ export function WaveDivider({ from, to, className }: WaveDividerProps): ReactNod
     .join(' ');
   return (
     <div className={classes} aria-hidden="true">
-      <svg viewBox="0 0 1440 80" preserveAspectRatio="none" focusable="false" className={styles.svg}>
+      <svg
+        viewBox="0 0 1440 80"
+        preserveAspectRatio="none"
+        focusable="false"
+        className={styles.svg}
+      >
         <path d={WAVE_PATH} />
       </svg>
     </div>

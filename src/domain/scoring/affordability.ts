@@ -13,9 +13,12 @@ import { notScorable, scored } from './result';
 
 export type AffordabilityComponents = Partial<Record<AffordabilityComponentId, number>>;
 
-export function assertWeightsSumTo100(weights: Readonly<Record<AffordabilityComponentId, number>>): void {
+export function assertWeightsSumTo100(
+  weights: Readonly<Record<AffordabilityComponentId, number>>,
+): void {
   const sum = affordabilityComponentIds.reduce((total, id) => total + weights[id], 0);
-  if (Math.abs(sum - 100) > 1e-9) throw new RangeError(`Affordability weights must sum to 100, got ${sum}`);
+  if (Math.abs(sum - 100) > 1e-9)
+    throw new RangeError(`Affordability weights must sum to 100, got ${sum}`);
 }
 
 /**

@@ -1,7 +1,7 @@
 import type { CSSProperties, ReactNode } from 'react';
 import type { Scored, ScoredGauge } from '@/domain/types';
 import { bandTone } from '../internal/tone';
-import { AnimatedNumber, cx } from '@/ui';
+import { CountUp, cx } from '@/ui';
 import styles from './ScoreRing.module.css';
 
 export type ScoreRingProps = {
@@ -12,12 +12,18 @@ export type ScoreRingProps = {
   /** Small text under the number, for example "out of 100". */
   caption: string;
   size?: number;
+  /** Count the number up from 0 over this many ms, once, when it first scrolls into view. */
+  reveal?: number;
 };
 
-const CIRCUMFERENCE = 2 * Math.PI * 70;
-
 /** The ring is SVG. The number is real HTML text over it, never SVG text. */
-export function ScoreRing({ result, ariaLabel, caption, size = 160 }: ScoreRingProps): ReactNode {
+export function ScoreRing({
+  result,
+  ariaLabel,
+  caption,
+  size = 160,
+  reveal,
+}: ScoreRingProps): ReactNode {
   const max = result.kind === 'scored' ? 100 : 10;
   const fraction = Math.min(1, Math.max(0, result.value / max));
   const tone = result.kind === 'scored' ? bandTone(result.band) : 'neutral';
@@ -35,13 +41,20 @@ export function ScoreRing({ result, ariaLabel, caption, size = 160 }: ScoreRingP
           cy="90"
           r="70"
           className={cx(styles.arc, 'anim-ring')}
-          style={{ strokeDasharray: `${(fraction * CIRCUMFERENCE).toFixed(1)} 600` }}
+          pathLength={100}
+          strokeDasharray={100}
+          strokeDashoffset={(100 - fraction * 100).toFixed(1)}
           transform="rotate(-90 90 90)"
         />
       </svg>
       <div className={styles.center} aria-hidden="true">
         <span className={styles.value}>
-          <AnimatedNumber value={result.value} decimals={result.kind === 'scored' ? 0 : 1} />
+          <CountUp
+            value={result.value}
+            decimals={result.kind === 'scored' ? 0 : 1}
+            from={reveal === undefined ? undefined : 0}
+            duration={reveal}
+          />
         </span>
         <span className={styles.caption}>{caption}</span>
       </div>

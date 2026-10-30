@@ -12,7 +12,6 @@ export type ProgressRingProps = {
 };
 
 const RADIUS = 40;
-const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
 
 /** Completion of an audit. It is progress, not a score, so it has no band. The number is real text. */
 export function ProgressRing({
@@ -36,7 +35,9 @@ export function ProgressRing({
           cy="50"
           r={RADIUS}
           className={cx(styles.arc, 'anim-ring')}
-          strokeDasharray={`${(fraction * CIRCUMFERENCE).toFixed(1)} 600`}
+          pathLength={100}
+          strokeDasharray={100}
+          strokeDashoffset={(100 - fraction * 100).toFixed(1)}
           transform="rotate(-90 50 50)"
         />
       </svg>

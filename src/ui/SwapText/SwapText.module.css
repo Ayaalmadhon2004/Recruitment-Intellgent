@@ -1,0 +1,11 @@
+/* Old and new share one cell, so the width holds while they swap. */
+.slot {
+  display: inline-grid;
+  justify-items: center;
+}
+
+.item {
+  grid-area: 1 / 1;
+  font-variant-numeric: tabular-nums;
+  white-space: inherit;
+}

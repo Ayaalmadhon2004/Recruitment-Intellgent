@@ -92,7 +92,7 @@ export function PdfExportPage({
           <TbcValue
             value={tbcConfig.pdfInstitutionLogoUpload}
             placeholder={copy.preview.logoPlaceholder}
-          label={en.status.pending}
+            label={en.status.pending}
           />
         </span>
       ) : null}

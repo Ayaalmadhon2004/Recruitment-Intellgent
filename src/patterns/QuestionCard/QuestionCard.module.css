@@ -247,6 +247,10 @@
   font-size: var(--text-label-size);
   font-weight: var(--font-weight-medium);
   cursor: pointer;
+  transition:
+    background-color var(--dur-micro) var(--ease-lift),
+    border-color var(--dur-micro) var(--ease-lift),
+    color var(--dur-micro) var(--ease-lift);
 }
 
 .radioCard:focus-within,

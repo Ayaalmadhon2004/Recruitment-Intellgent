@@ -1,3 +1,4 @@
+import { flight, intro } from '@/design/motion';
 import { act, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
@@ -36,7 +37,9 @@ const counts = { quickStart: auditScope.quickStartQuestions, total: auditScope.t
 describe('LandingPage question counts', () => {
   it('quote the same totals the Quick Start and Intake use, from config', () => {
     render(<LandingPage />);
-    expect(screen.getByText(`${auditScope.totalQuestions} questions, at your own pace`)).toBeInTheDocument();
+    expect(
+      screen.getByText(`${auditScope.totalQuestions} questions, at your own pace`),
+    ).toBeInTheDocument();
     expect(screen.queryByText(/\b40 questions/)).not.toBeInTheDocument();
   });
 });
@@ -93,17 +96,26 @@ describe('LandingPage hero and intro', () => {
   it('finishes by itself after about three seconds', () => {
     vi.useFakeTimers();
     render(<LandingPage />);
-    expect(screen.getByRole('region', { name: copy.hero.title })).toHaveAttribute('data-phase', 'playing');
+    expect(screen.getByRole('region', { name: copy.hero.title })).toHaveAttribute(
+      'data-phase',
+      'playing',
+    );
     act(() => {
-      vi.advanceTimersByTime(3100);
+      vi.advanceTimersByTime(intro.doneAt + 100);
     });
-    expect(screen.getByRole('region', { name: copy.hero.title })).toHaveAttribute('data-phase', 'done');
+    expect(screen.getByRole('region', { name: copy.hero.title })).toHaveAttribute(
+      'data-phase',
+      'done',
+    );
   });
 
   it('skips the intro for reduced motion', () => {
     mockReducedMotion(true);
     render(<LandingPage />);
-    expect(screen.getByRole('region', { name: copy.hero.title })).toHaveAttribute('data-phase', 'done');
+    expect(screen.getByRole('region', { name: copy.hero.title })).toHaveAttribute(
+      'data-phase',
+      'done',
+    );
     expect(screen.queryByRole('button', { name: uiCopy.home.skipIntro })).not.toBeInTheDocument();
   });
 
@@ -112,7 +124,10 @@ describe('LandingPage hero and intro', () => {
       throw new Error('blocked');
     });
     render(<LandingPage />);
-    expect(screen.getByRole('region', { name: copy.hero.title })).toHaveAttribute('data-phase', 'playing');
+    expect(screen.getByRole('region', { name: copy.hero.title })).toHaveAttribute(
+      'data-phase',
+      'playing',
+    );
     vi.restoreAllMocks();
   });
 });
@@ -148,7 +163,9 @@ describe('LandingPage sections', () => {
     expect(steps).toHaveLength(THREE);
     const labels = uiCopy.home.kiteSteps;
     copy.how.steps.forEach((step, i) => {
-      expect(within(steps[i]!).getByRole('heading', { name: fill(step.title, counts) })).toBeInTheDocument();
+      expect(
+        within(steps[i]!).getByRole('heading', { name: fill(step.title, counts) }),
+      ).toBeInTheDocument();
       const kite = within(steps[i]!).getByRole('img', { name: labels[i] });
       expect(kite).toHaveAttribute('data-progress', String(i + 1));
       expect(steps[i]).not.toHaveTextContent(new RegExp(`^${i + 1}\\b`));
@@ -193,7 +210,7 @@ describe('Final call to action', () => {
     expect(container.querySelector('[data-flying="true"]')).not.toBeNull();
     expect(push).not.toHaveBeenCalled();
     act(() => {
-      vi.advanceTimersByTime(450);
+      vi.advanceTimersByTime(flight + 50);
     });
     expect(push).toHaveBeenCalledWith('/quick-start');
   });

@@ -10,43 +10,115 @@
   }
 }
 
-@keyframes anim-ring {
+/* The Home intro kite: spins in, settling with the kite's own easing. */
+@keyframes anim-kite-in {
   from {
-    stroke-dasharray: 0 600;
+    opacity: 0;
+    transform: rotate(-270deg) scale(0.6);
   }
 }
 
+/* Bars fill by scaling from the left: transform only, no width animation. */
 @keyframes anim-grow {
   from {
-    width: 0;
+    transform: scaleX(0);
   }
 }
 
+/* Rings draw in with stroke-dashoffset (the circle uses pathLength=100, so 100 means empty). */
+@keyframes anim-ring {
+  from {
+    stroke-dashoffset: 100;
+  }
+}
+
+/* Segments of a donut fade in one after another (opacity only). */
+@keyframes anim-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+/* Steps and questions: forward enters from below and leaves upward; back mirrors it. */
 @keyframes anim-step-next {
   from {
     opacity: 0;
-    transform: translateX(var(--step-shift));
-  }
-  to {
-    opacity: 1;
-    transform: none;
+    transform: translateY(var(--step-shift));
   }
 }
 
 @keyframes anim-step-back {
   from {
     opacity: 0;
-    transform: translateX(calc(var(--step-shift) * -1));
-  }
-  to {
-    opacity: 1;
-    transform: none;
+    transform: translateY(calc(var(--step-shift) * -1));
   }
 }
 
-@keyframes anim-drift {
-  50% {
-    transform: translate(6px, -8px) rotate(2deg);
+@keyframes anim-exit-next {
+  to {
+    opacity: 0;
+    transform: translateY(calc(var(--step-shift) * -1));
+  }
+}
+
+@keyframes anim-exit-back {
+  to {
+    opacity: 0;
+    transform: translateY(var(--step-shift));
+  }
+}
+
+/* List dots that fill in left to right once their Reveal is shown (put --i on the item). */
+@keyframes anim-dot-in {
+  from {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+}
+
+[data-reveal='shown'] .anim-dot-in::before {
+  animation: anim-dot-in var(--dur-base) var(--ease-lift) both;
+  animation-delay: calc(min(var(--i, 0), var(--stagger-cap)) * var(--stagger));
+}
+
+/* A diamond cell filling in: it pops from a smaller size around its own centre. */
+@keyframes anim-cell-in {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+}
+
+.anim-cell-in {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: anim-cell-in var(--dur-base) var(--ease-lift) both;
+}
+
+/* A check mark appearing inside a chosen pill. */
+@keyframes anim-check-in {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+}
+
+.anim-check-in {
+  animation: anim-check-in var(--dur-micro) var(--ease-lift) both;
+}
+
+/* A number or short label swapping in place: a 6px slide with a fade. */
+@keyframes anim-text-in {
+  from {
+    opacity: 0;
+    transform: translateY(var(--text-slide));
+  }
+}
+
+@keyframes anim-text-out {
+  to {
+    opacity: 0;
+    transform: translateY(calc(var(--text-slide) * -1));
   }
 }
 
@@ -64,14 +136,21 @@
 .anim-up {
   animation: anim-up var(--dur-enter) var(--ease-out) both;
 }
-.anim-ring {
-  animation: anim-ring var(--dur-data) var(--ease-out) both;
+.anim-kite-in {
+  animation: anim-kite-in 1000ms var(--ease-settle) both;
 }
 .anim-grow {
-  animation: anim-grow var(--dur-data) var(--ease-out) both;
+  transform-origin: left center;
+  animation: anim-grow var(--dur-large) var(--ease-lift) both;
 }
-.anim-drift {
-  animation: anim-drift 9s var(--ease-standard) infinite;
+.anim-fade {
+  animation: anim-fade var(--dur-base) var(--ease-lift) both;
+}
+.anim-pop-in {
+  animation: anim-dot-in var(--dur-base) var(--ease-lift) both;
+}
+.anim-ring {
+  animation: anim-ring var(--dur-data) var(--ease-out) both;
 }
 .anim-step-next {
   animation: anim-step-next var(--dur-enter) var(--ease-out) both;
@@ -79,18 +158,25 @@
 .anim-step-back {
   animation: anim-step-back var(--dur-enter) var(--ease-out) both;
 }
+.anim-exit-next {
+  animation: anim-exit-next var(--dur-base) var(--ease-lift) both;
+}
+.anim-exit-back {
+  animation: anim-exit-back var(--dur-base) var(--ease-lift) both;
+}
+.anim-text-in {
+  animation: anim-text-in var(--dur-base) var(--ease-lift) both;
+}
+.anim-text-out {
+  animation: anim-text-out var(--dur-base) var(--ease-lift) both;
+}
 .anim-pop {
   animation: anim-pop var(--dur-enter) var(--ease-out) both;
 }
 
-.anim-delay-1 {
-  animation-delay: 60ms;
-}
-.anim-delay-2 {
-  animation-delay: 120ms;
-}
-.anim-delay-3 {
-  animation-delay: 180ms;
+/* Staggered items set --i (0-based); beyond the cap they appear together with the last one. */
+.anim-stagger {
+  animation-delay: var(--reveal-delay, calc(min(var(--i, 0), var(--stagger-cap)) * var(--stagger)));
 }
 
 .hover-lift {
@@ -117,12 +203,79 @@
   box-shadow: none;
 }
 
-@keyframes anim-skeleton-shine {
+/* A kite flying across its container (a busy pill button). Transform only. */
+@keyframes anim-fly {
   from {
-    background-position: 100% 0;
+    transform: translateX(-100%);
   }
   to {
-    background-position: -100% 0;
+    transform: translateX(100%);
+  }
+}
+
+.anim-fly {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  animation: anim-fly calc(var(--dur-large) * 2) var(--ease-lift) infinite;
+}
+
+/* One soft ring that spreads from the active step, once. */
+@keyframes anim-ring-pulse {
+  from {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.7);
+  }
+}
+
+.anim-ring-pulse::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: 0 0 0 2px var(--color-navy);
+  opacity: 0;
+  pointer-events: none;
+  animation: anim-ring-pulse var(--dur-large) var(--ease-lift) 1;
+}
+
+/* Inside a Reveal: fades in after the kite drawn there is built. */
+[data-reveal='shown'] .anim-after-build {
+  animation: anim-up var(--dur-base) var(--ease-lift) both;
+  animation-delay: calc(var(--reveal-delay, 0ms) + var(--kite-build));
+}
+
+/* Underline that draws from the left on hover or keyboard focus (scale only). */
+.hover-underline {
+  position: relative;
+}
+.hover-underline::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(50% - 0.85em);
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--dur-micro) var(--ease-lift);
+}
+.hover-underline:hover::after,
+.hover-underline:focus-visible::after {
+  transform: scaleX(1);
+}
+
+/* Loading placeholders breathe in a pastel tint: opacity only, no sweep. */
+@keyframes anim-skeleton-pulse {
+  50% {
+    opacity: 0.55;
   }
 }
 

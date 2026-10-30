@@ -1,3 +1,4 @@
+import { countDuration } from '@/design/motion';
 import type { ReactNode } from 'react';
 import { en, t } from '@/domain/copy';
 import { scoringConfig, stagesConfig } from '@/domain/config';
@@ -161,6 +162,7 @@ function ScoredRow({ name, result }: { name: string; result: ScoreResult }): Rea
         ariaLabel={scoreCardLabels.ringAria(name, result.value)}
         caption={scoreCardLabels.outOf}
         size={96}
+        reveal={countDuration.reveal}
       />
       <div className={styles.rowText}>
         <h3 className={styles.rowName}>{name}</h3>

@@ -10,6 +10,7 @@
   /* Horizontal drags are ours; vertical swipes still scroll the page. */
   touch-action: pan-y;
   cursor: grab;
+  container-type: inline-size;
   user-select: none;
   -webkit-user-select: none;
 }
@@ -36,18 +37,20 @@
   background: var(--color-navy);
 }
 
+/* --pos is 0 to 100 (% of the line); cqw is 1% of the line's width. Only transform moves. */
 .thumb {
   position: absolute;
   top: 50%;
+  left: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: var(--tap-target);
   min-height: var(--tap-target);
-  transform: translate(-50%, -50%);
+  transform: translate(calc(var(--pos, 0) * 1cqw - 50%), -50%);
   border-radius: var(--radius-pill);
   cursor: grab;
-  transition: left var(--dur-base) var(--ease-out);
+  transition: transform var(--dur-large) var(--ease-settle);
 }
 
 .thumb:focus-visible {
@@ -73,12 +76,6 @@
 
 .kite {
   pointer-events: none;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .thumb {
-    transition: none;
-  }
 }
 
 @media (max-width: 760px) {

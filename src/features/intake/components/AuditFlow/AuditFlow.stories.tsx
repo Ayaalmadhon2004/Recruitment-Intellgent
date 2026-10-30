@@ -42,7 +42,10 @@ const saved = (answers: Answer[], sectionIndex = 0): StoredAudit => ({
 });
 
 /** A fresh store each render, so stories do not leak into one another. */
-const withSaved = (stored: StoredAudit | null, phase?: 'questions' | 'read' | 'sections'): Story['render'] =>
+const withSaved = (
+  stored: StoredAudit | null,
+  phase?: 'questions' | 'read' | 'sections',
+): Story['render'] =>
   function Render(args) {
     return <AuditFlow {...args} phase={phase} store={createMemoryStore(stored)} />;
   };

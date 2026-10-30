@@ -18,6 +18,21 @@
   gap: var(--space-2);
 }
 
+/* Side by side, the three kites build one after another; stacked, each builds as it comes into view. */
+@media (min-width: 761px) {
+  .reveal {
+    --reveal-delay: calc(var(--n, 0) * var(--kite-build));
+  }
+}
+
+/* The words fade in once their kite is built. */
+.caption {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+
 .title {
   margin: var(--space-3) 0 0;
   font-size: var(--text-h3-size);

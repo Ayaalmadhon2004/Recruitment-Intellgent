@@ -65,10 +65,10 @@ export function FactorDonut({ factors, selectedId, onSelect }: FactorDonutProps)
               transform="rotate(-90 90 90)"
               strokeDasharray={`${Math.max(0, length - SEGMENT_GAP).toFixed(1)} ${CIRCUMFERENCE.toFixed(1)}`}
               strokeDashoffset={(-offset).toFixed(1)}
-              style={{ stroke: colourFor(index) }}
+              style={{ stroke: colourFor(index), '--i': index } as CSSProperties}
               className={cx(
                 styles.segment,
-                'anim-ring',
+                'anim-fade anim-stagger',
                 selectedId !== null && selectedId === factor.id && styles.segmentOn,
                 selectedId !== null && selectedId !== factor.id && styles.segmentDim,
               )}

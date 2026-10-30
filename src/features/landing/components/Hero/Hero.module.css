@@ -14,6 +14,13 @@
   padding-bottom: var(--space-10);
 }
 
+/* Skip sits in the corner, out of the flow, so it never moves the text and is reachable from the start. */
+.skipSlot {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--layout-gutter);
+}
+
 .stage {
   flex: 0 0 168px;
   display: flex;
@@ -70,37 +77,6 @@
   margin-top: var(--space-2);
 }
 
-/* The intro is cosmetic: the words are always in the page, the animation only wipes them in. */
-@keyframes hero-write {
-  from {
-    clip-path: inset(0 100% 0 0);
-  }
-  to {
-    clip-path: inset(0 0 0 0);
-  }
-}
-
-@keyframes hero-spin {
-  from {
-    transform: rotate(0deg) scale(0.9);
-  }
-  to {
-    transform: rotate(720deg) scale(1);
-  }
-}
-
-.hero[data-phase='playing'] .spin {
-  animation: hero-spin 1.2s var(--ease-out) both;
-}
-
-.hero[data-phase='playing'] .title {
-  animation: hero-write 1.1s var(--ease-out) 1.2s both;
-}
-
-.hero[data-phase='playing'] .lead {
-  animation: hero-write 0.9s var(--ease-out) 1.9s both;
-}
-
 @media (max-width: 760px) {
   .inner {
     flex-direction: column;
@@ -122,13 +98,5 @@
   .lead {
     font-size: var(--text-body-size);
     line-height: var(--text-body-line);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hero[data-phase='playing'] .spin,
-  .hero[data-phase='playing'] .title,
-  .hero[data-phase='playing'] .lead {
-    animation: none;
   }
 }

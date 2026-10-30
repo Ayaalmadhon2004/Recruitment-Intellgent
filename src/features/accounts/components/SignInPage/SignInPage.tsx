@@ -3,10 +3,11 @@
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import type { FormEvent, ReactNode } from 'react';
+import { duration } from '@/design/motion';
 import { accountsConfig, routes } from '@/domain/config';
 import { en } from '@/domain/copy';
 import { PageContainer } from '@/shell';
-import { Button, Field, Icon, PhotoBox, Stepper } from '@/ui';
+import { Button, Field, Icon, PhotoBox, Stepper, prefersReducedMotion } from '@/ui';
 import { isValidEmail } from '../../email';
 import { getDefaultRuntime } from '../../runtime';
 import type { AccountsRuntime } from '../../runtime';
@@ -54,6 +55,7 @@ export function SignInPage({
   const [email, setEmail] = useState(initialEmail);
   const [problem, setProblem] = useState<Problem | undefined>(initialProblem);
   const [sending, setSending] = useState(false);
+  const [confirmed, setConfirmed] = useState(false);
   const [token, setToken] = useState<string>();
   const [remaining, setRemaining] = useState<number>(accountsConfig.resendCooldownSeconds);
   const [opening, setOpening] = useState(false);
@@ -94,12 +96,19 @@ export function SignInPage({
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
+    if (confirmed) return;
     if (!isValidEmail(email)) {
       setProblem('invalid');
       return;
     }
     if (await requestLink(email)) {
       moveFocus.current = true;
+      if (!prefersReducedMotion()) {
+        // A check shows in the pill for a moment before the page moves on.
+        setConfirmed(true);
+        await new Promise((resolve) => window.setTimeout(resolve, duration.large));
+        setConfirmed(false);
+      }
       setStep('sent');
     }
   };
@@ -178,9 +187,15 @@ export function SignInPage({
                 onChange={(e) => setEmail(e.target.value)}
                 invalid={problem === 'invalid'}
               />
-              <Button type="submit" size="lg" loading={sending} loadingLabel={copy.sending}>
+              <Button
+                type="submit"
+                size="lg"
+                loading={sending}
+                loadingLabel={copy.sending}
+                loadingKite="fly"
+              >
                 {problem === undefined ? copy.cta : copy.ctaRetry}
-                <Icon name="arrow-right" size={20} strokeWidth={2.4} />
+                <Icon name={confirmed ? 'check' : 'arrow-right'} size={20} strokeWidth={2.4} />
               </Button>
             </form>
           )}

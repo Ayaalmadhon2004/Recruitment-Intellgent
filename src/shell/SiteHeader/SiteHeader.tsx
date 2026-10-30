@@ -232,6 +232,7 @@ export function SiteHeader({
           ) : null}
         </nav>
         <div className={styles.actions}>
+          {!account ? <span className={styles.accountSlot} aria-hidden="true" /> : null}
           {account && !account.user ? (
             <Link href={account.signIn.href} className={styles.signIn}>
               {account.signIn.label}

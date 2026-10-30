@@ -56,10 +56,11 @@ describe('AdvisorRequest', () => {
     expect(screen.getByRole('status')).toHaveTextContent('Step 1 of 2');
     expect(screen.queryByRole('button', { name: 'Back' })).not.toBeInTheDocument();
     await next();
-    expect(screen.getByRole('status')).toHaveTextContent('Step 2 of 2');
+    // The old number fades out for a moment, so wait for the label to settle.
+    await waitFor(() => expect(screen.getByRole('status')).toHaveTextContent('Step 2 of 2'));
     expect(screen.getByRole('heading', { name: 'A few details' })).toHaveFocus();
     await userEvent.click(screen.getByRole('button', { name: 'Back' }));
-    expect(screen.getByRole('status')).toHaveTextContent('Step 1 of 2');
+    await waitFor(() => expect(screen.getByRole('status')).toHaveTextContent('Step 1 of 2'));
     expect(screen.getByRole('heading', { name: 'Choose a channel' })).toHaveFocus();
   });
 
@@ -142,7 +143,10 @@ describe('AdvisorRequest', () => {
     expect(screen.getByText('Time: Morning, 9:00 to 12:00')).toBeInTheDocument();
     expect(screen.getByText('You hear back by WhatsApp')).toBeInTheDocument();
     expect(screen.getByText('[TIMING TO BE CONFIRMED WITH CAPSTONE]')).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Back to my report' })).toHaveAttribute('href', '/report');
+    expect(screen.getByRole('link', { name: 'Back to my report' })).toHaveAttribute(
+      'href',
+      '/report',
+    );
     const panel = screen
       .getByRole('heading', { name: 'Thank you, Linh' })
       .closest('[tabindex="-1"]');

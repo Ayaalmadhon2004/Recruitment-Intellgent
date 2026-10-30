@@ -4,7 +4,13 @@ import { known, unknown } from '@/fixtures/builders';
 import { scoreAreaIds } from '@/domain/types';
 import { MAX_ANSWERS, computeFirstRead, parseFirstReadRequest } from './server';
 
-const validKnown = { kind: 'known', questionId: 'B1', value: 9, evidence: 'verified', confidence: 'high' };
+const validKnown = {
+  kind: 'known',
+  questionId: 'B1',
+  value: 9,
+  evidence: 'verified',
+  confidence: 'high',
+};
 
 function parse(answers: unknown): ReturnType<typeof parseFirstReadRequest> {
   return parseFirstReadRequest({ answers });
@@ -49,7 +55,10 @@ describe('parseFirstReadRequest', () => {
   });
 
   it('rejects more than the maximum number of answers', () => {
-    const tooMany = Array.from({ length: MAX_ANSWERS + 1 }, () => ({ kind: 'unknown', questionId: 'A1' }));
+    const tooMany = Array.from({ length: MAX_ANSWERS + 1 }, () => ({
+      kind: 'unknown',
+      questionId: 'A1',
+    }));
     expect(parse(tooMany).ok).toBe(false);
     expect(parse(tooMany.slice(0, MAX_ANSWERS)).ok).toBe(true);
   });
@@ -103,7 +112,11 @@ describe('computeFirstRead', () => {
   });
 
   it('"Not sure" does not count as answered', () => {
-    const result = computeFirstRead([known('B1', 9, 'verified', 'high'), unknown('A1'), unknown('C1')]);
+    const result = computeFirstRead([
+      known('B1', 9, 'verified', 'high'),
+      unknown('A1'),
+      unknown('C1'),
+    ]);
     expect(result.answeredCount).toBe(1);
     expect(computeFirstRead([unknown('B1')]).stage.kind).toBe('not-scorable');
   });

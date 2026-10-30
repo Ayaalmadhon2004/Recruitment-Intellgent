@@ -1,7 +1,7 @@
 'use client';
 
 import { useId, useState } from 'react';
-import type { ChangeEvent, ReactNode } from 'react';
+import type { CSSProperties, ChangeEvent, ReactNode } from 'react';
 import type { AnswerValue, KnownEvidenceTag, QuestionId } from '@/domain/types';
 import { Field, Icon, Select, cx } from '@/ui';
 import type { IconName } from '@/ui';
@@ -150,7 +150,7 @@ function ChipsControl({ question, value, onChange, titleId }: ControlProps): Rea
               onChange(on ? current.filter((v) => v !== o.value) : [...current, o.value])
             }
           >
-            {on ? <Icon name="check" size={16} strokeWidth={3} /> : null}
+            {on ? <Icon name="check" size={16} strokeWidth={3} className="anim-check-in" /> : null}
             <span>{o.label}</span>
           </button>
         );
@@ -253,10 +253,14 @@ function EvidencePicker({ evidence, labels, compact = false }: EvidencePickerPro
         {labels.heading}
       </span>
       <div role="radiogroup" aria-labelledby={headingId} className={styles.pills}>
-        {tags.map((tag) => {
+        {tags.map((tag, i) => {
           const on = evidence.value === tag;
           return (
-            <label key={tag} className={cx(styles.pill, on && styles.evidenceOn)}>
+            <label
+              key={tag}
+              className={cx(styles.pill, on && styles.evidenceOn, 'anim-up anim-stagger')}
+              style={{ '--i': i } as CSSProperties}
+            >
               <input
                 type="radio"
                 name={name}
@@ -265,7 +269,9 @@ function EvidencePicker({ evidence, labels, compact = false }: EvidencePickerPro
                 onChange={() => evidence.onChange(tag)}
                 className={styles.pillInput}
               />
-              {on ? <Icon name="check" size={16} strokeWidth={3} /> : null}
+              {on ? (
+                <Icon name="check" size={16} strokeWidth={3} className="anim-check-in" />
+              ) : null}
               <span>{labels.tags[tag]}</span>
             </label>
           );

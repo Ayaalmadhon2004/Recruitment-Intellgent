@@ -21,7 +21,7 @@ export function Stepper({ steps, current, stateLabels, label }: StepperProps): R
   return (
     <ol aria-label={label} className={styles.list} style={{ ['--steps' as string]: steps.length }}>
       <li aria-hidden="true" className={styles.track}>
-        <span className={styles.fill} style={{ width: `${fill}%` }} />
+        <span className={styles.fill} style={{ ['--fill' as string]: fill / 100 }} />
       </li>
       {steps.map((step, i) => {
         const state = i < current ? 'done' : i === current ? 'current' : 'upcoming';
@@ -31,7 +31,9 @@ export function Stepper({ steps, current, stateLabels, label }: StepperProps): R
             className={styles.step}
             aria-current={state === 'current' ? 'step' : undefined}
           >
-            <span className={cx(styles.node, styles[state])}>
+            <span
+              className={cx(styles.node, styles[state], state === 'current' && 'anim-ring-pulse')}
+            >
               {state === 'done' ? <Icon name="check" size={18} strokeWidth={2.8} /> : i + 1}
             </span>
             <span className={styles.label}>{step.label}</span>

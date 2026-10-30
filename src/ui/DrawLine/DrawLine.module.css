@@ -1,0 +1,4 @@
+/* Dashed or solid lines draw with stroke-dashoffset on a mask, at constant speed (linear). */
+.mask {
+  transition: stroke-dashoffset var(--draw-ms) var(--ease-linear) var(--draw-delay);
+}

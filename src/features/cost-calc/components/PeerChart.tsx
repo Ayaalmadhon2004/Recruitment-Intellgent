@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { en } from '@/domain/copy';
 import { SampleDataBadge } from '@/patterns';
-import { AnimatedNumber, Card, cx } from '@/ui';
+import { CountUp, Card, cx } from '@/ui';
 import { fill, usd } from '../format';
 import styles from './PeerChart.module.css';
 
@@ -38,7 +38,7 @@ export function PeerChart({ youNetUsd, peers, scaleMinUsd }: PeerChartProps): Re
               />
             </span>
             <span className={styles.value}>
-              <AnimatedNumber value={r.netUsd} format={usd} />
+              <CountUp value={r.netUsd} format={usd} />
             </span>
           </li>
         ))}

@@ -29,10 +29,7 @@ export {
   CONFIG_VERSION,
 };
 export type { Tbc, TbcConfig } from './tbc.config';
-export type {
-  PlaceholderUnlockPath,
-  UnlockConfig,
-} from './unlock.config';
+export type { PlaceholderUnlockPath, UnlockConfig } from './unlock.config';
 
 export const domainConfig: DomainConfig = {
   version: CONFIG_VERSION,

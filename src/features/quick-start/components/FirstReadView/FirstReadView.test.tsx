@@ -25,8 +25,15 @@ describe('FirstReadView', () => {
     expect(screen.queryByText(en.scoreCard.outOf)).not.toBeInTheDocument();
     expect(screen.getByText(en.firstRead.scoredNone)).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: 'You are building' })).toBeInTheDocument();
-    expect(screen.getAllByText(`${auditScope.quickStartQuestions} of ${auditScope.quickStartQuestions} questions answered`).length).toBeGreaterThan(0);
-    expect(screen.getByRole('progressbar')).toHaveAttribute('aria-valuenow', String(auditScope.quickStartQuestions));
+    expect(
+      screen.getAllByText(
+        `${auditScope.quickStartQuestions} of ${auditScope.quickStartQuestions} questions answered`,
+      ).length,
+    ).toBeGreaterThan(0);
+    expect(screen.getByRole('progressbar')).toHaveAttribute(
+      'aria-valuenow',
+      String(auditScope.quickStartQuestions),
+    );
     for (const name of Object.values(en.areas))
       expect(screen.getByRole('article', { name })).toBeInTheDocument();
   });
@@ -36,7 +43,9 @@ describe('FirstReadView', () => {
     expect(screen.getAllByText(en.status.notScorable)).toHaveLength(7);
     expect(screen.queryByText('Stage: Building')).not.toBeInTheDocument();
     expect(
-      screen.getByText(`0 of ${auditScope.quickStartQuestions} questions answered`, { selector: 'span' }),
+      screen.getByText(`0 of ${auditScope.quickStartQuestions} questions answered`, {
+        selector: 'span',
+      }),
     ).toBeInTheDocument();
   });
 

@@ -1,5 +1,8 @@
-import { useId } from 'react';
+'use client';
+
+import { useId, useState } from 'react';
 import type { ReactNode } from 'react';
+import { diamondWaveStep } from '@/design/motion';
 import { fill } from '@/domain/copy';
 import { reportUiCopy } from '@/design/ui-copy';
 import { cx } from '@/ui';
@@ -61,6 +64,24 @@ export function ReportKite({ sections, className }: ReportKiteProps): ReactNode 
   const total = sections.reduce((n, s) => n + s.cells.length, 0);
   const answered = sections.reduce((n, s) => n + s.answered, 0);
 
+  // Cells filled when the diamond first appears fill in as a wave from the centre section outward,
+  // one section at a time. A cell answered later pops in on its own, with no delay.
+  const [initial] = useState(
+    () =>
+      new Set(
+        sections.flatMap((section) =>
+          section.cells.filter((cell) => cell.state !== 'empty').map((cell) => cell.id),
+        ),
+      ),
+  );
+  const middle = (sections.length - 1) / 2;
+  const waveRank = [...sections.keys()]
+    .sort((a, b) => Math.abs(a - middle) - Math.abs(b - middle) || a - b)
+    .reduce<number[]>((ranks, section, rank) => {
+      ranks[section] = rank;
+      return ranks;
+    }, []);
+
   return (
     <figure className={cx(styles.figure, className)}>
       <svg
@@ -83,7 +104,15 @@ export function ReportKite({ sections, className }: ReportKiteProps): ReactNode 
         </defs>
         {sections.map((section, s) =>
           section.cells.map((cell, c) => (
-            <g key={cell.id}>
+            <g
+              key={cell.id}
+              className={cell.state === 'empty' ? undefined : 'anim-cell-in'}
+              style={
+                cell.state !== 'empty' && initial.has(cell.id)
+                  ? { animationDelay: `${(waveRank[s] ?? 0) * diamondWaveStep}ms` }
+                  : undefined
+              }
+            >
               <polygon
                 points={cellPoints(s, c, depth)}
                 className={cx(styles.cell, styles[cell.state])}

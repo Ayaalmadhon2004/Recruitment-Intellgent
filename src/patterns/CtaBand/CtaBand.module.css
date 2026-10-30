@@ -12,7 +12,11 @@
   border-radius: var(--radius-card-xl);
   overflow: hidden;
   background:
-    radial-gradient(520px 260px at 100% 0%, color-mix(in srgb, var(--color-crimson) 55%, transparent), transparent 70%),
+    radial-gradient(
+      520px 260px at 100% 0%,
+      color-mix(in srgb, var(--color-crimson) 55%, transparent),
+      transparent 70%
+    ),
     var(--backdrop-band-navy);
   color: var(--color-text-inverse);
   box-shadow: var(--shadow-card-raised);

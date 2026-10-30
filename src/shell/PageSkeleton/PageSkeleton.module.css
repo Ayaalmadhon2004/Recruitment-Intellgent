@@ -10,9 +10,11 @@
   padding-block: var(--space-9);
 }
 
+/* Tall enough to push the footer below the fold, so swapping in the real page moves nothing in view. */
 .page {
   display: flex;
   flex-direction: column;
+  min-height: 100svh;
   padding-bottom: var(--space-10);
 }
 
