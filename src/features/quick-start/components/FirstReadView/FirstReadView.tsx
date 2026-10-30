@@ -161,6 +161,7 @@ function ScoredRow({ name, result }: { name: string; result: ScoreResult }): Rea
         ariaLabel={scoreCardLabels.ringAria(name, result.value)}
         caption={scoreCardLabels.outOf}
         size={96}
+        reveal
       />
       <div className={styles.rowText}>
         <h3 className={styles.rowName}>{name}</h3>

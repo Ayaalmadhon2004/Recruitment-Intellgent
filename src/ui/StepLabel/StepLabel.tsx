@@ -1,7 +1,11 @@
 'use client';
 
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
+import { duration } from '@/design/motion';
 import { uiCopy } from '@/design/ui-copy';
+import { cx } from '../internal/cx';
+import { useReducedMotion } from '../motion';
 import styles from './StepLabel.module.css';
 
 export type StepLabelProps = {
@@ -15,8 +19,9 @@ export type StepLabelProps = {
 };
 
 /**
- * The one shared "Step N" / "Question N" label. The number is keyed, so a change replays a subtle
- * fade (static under prefers-reduced-motion), and the label is a polite live region.
+ * The one shared "Step N" / "Question N" label. When the number changes the old one fades out with a
+ * 6px slide while the new one fades in (static under prefers-reduced-motion), and the label is a
+ * polite live region.
  */
 export function StepLabel({
   current,
@@ -24,6 +29,25 @@ export function StepLabel({
   word = uiCopy.step.step,
   className,
 }: StepLabelProps): ReactNode {
+  const reduced = useReducedMotion();
+  const last = useRef(current);
+  const [leaving, setLeaving] = useState<number | null>(null);
+  const [changed, setChanged] = useState(false);
+
+  useLayoutEffect(() => {
+    if (last.current !== current && !reduced) {
+      setLeaving(last.current);
+      setChanged(true);
+    }
+    last.current = current;
+  }, [current, reduced]);
+
+  useEffect(() => {
+    if (leaving === null) return;
+    const timer = window.setTimeout(() => setLeaving(null), duration.base);
+    return () => window.clearTimeout(timer);
+  }, [leaving]);
+
   return (
     <p
       className={[styles.label, className].filter(Boolean).join(' ')}
@@ -31,8 +55,19 @@ export function StepLabel({
       aria-live="polite"
     >
       <span>{word}</span>{' '}
-      <span key={current} className={styles.number}>
-        {current}
+      <span className={styles.slot}>
+        {leaving !== null ? (
+          <span
+            key={`out-${leaving}`}
+            className={cx(styles.number, 'anim-text-out')}
+            aria-hidden="true"
+          >
+            {leaving}
+          </span>
+        ) : null}
+        <span key={current} className={cx(styles.number, changed && 'anim-text-in')}>
+          {current}
+        </span>
       </span>
       {total !== undefined ? (
         <>

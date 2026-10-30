@@ -56,10 +56,11 @@ describe('AdvisorRequest', () => {
     expect(screen.getByRole('status')).toHaveTextContent('Step 1 of 2');
     expect(screen.queryByRole('button', { name: 'Back' })).not.toBeInTheDocument();
     await next();
-    expect(screen.getByRole('status')).toHaveTextContent('Step 2 of 2');
+    // The old number fades out for a moment, so wait for the label to settle.
+    await waitFor(() => expect(screen.getByRole('status')).toHaveTextContent('Step 2 of 2'));
     expect(screen.getByRole('heading', { name: 'A few details' })).toHaveFocus();
     await userEvent.click(screen.getByRole('button', { name: 'Back' }));
-    expect(screen.getByRole('status')).toHaveTextContent('Step 1 of 2');
+    await waitFor(() => expect(screen.getByRole('status')).toHaveTextContent('Step 1 of 2'));
     expect(screen.getByRole('heading', { name: 'Choose a channel' })).toHaveFocus();
   });
 

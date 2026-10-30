@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
-import { distance, duration, easing, flight, loop, stagger } from './motion';
+import { distance, duration, easing, flight, loop, saveFlash, stagger } from './motion';
 
 const css = readFileSync(join(process.cwd(), 'src/design/tokens.css'), 'utf8');
 const token = (name: string): string => {
@@ -17,6 +17,7 @@ describe('motion tokens', () => {
     expect(token('--dur-large')).toBe(`${duration.large}ms`);
     expect(token('--dur-hero')).toBe(`${duration.hero}ms`);
     expect(token('--dur-flight')).toBe(`${flight}ms`);
+    expect(token('--dur-save')).toBe(`${saveFlash}ms`);
     expect(token('--dur-bob')).toBe(`${loop.bob}ms`);
     expect(token('--dur-breathe')).toBe(`${loop.breathe}ms`);
     expect(token('--ease-lift')).toBe(easing.lift);

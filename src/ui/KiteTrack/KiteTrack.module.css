@@ -11,15 +11,32 @@
 .flight {
   position: relative;
   height: var(--space-8);
+  container-type: inline-size;
 }
 
+/* The kite glides with transform only; cqw is the width of the lane. It settles with a light overshoot. */
 .kite {
   position: absolute;
   bottom: 0;
-  left: calc(50% + var(--kite-progress, 0) * 33.333%);
+  left: 50%;
   display: block;
-  transform: translateX(-50%);
-  transition: left var(--dur-enter) var(--ease-out);
+  transform: translateX(calc(-50% + var(--kite-progress, 0) * 33.333cqw));
+  transition: transform var(--dur-large) var(--ease-settle);
+}
+
+/* When the section is complete the kite dips a little, once. */
+.dip {
+  display: block;
+}
+
+[data-complete='true'] .dip {
+  animation: kite-dip var(--dur-base) var(--ease-settle) 1;
+}
+
+@keyframes kite-dip {
+  50% {
+    transform: translateY(var(--space-1));
+  }
 }
 
 .rail {
@@ -48,10 +65,4 @@
 .current {
   color: var(--color-navy);
   font-weight: var(--font-weight-bold);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .kite {
-    transition: none;
-  }
 }

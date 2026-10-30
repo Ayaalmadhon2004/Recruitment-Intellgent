@@ -62,13 +62,6 @@
   gap: var(--space-4);
 }
 
-.save {
-  margin: 0;
-  font-size: var(--text-caption-size);
-  line-height: var(--text-caption-line);
-  color: var(--color-text-secondary);
-}
-
 @media (max-width: 760px) {
   .root {
     padding-block: var(--space-7) var(--space-9);

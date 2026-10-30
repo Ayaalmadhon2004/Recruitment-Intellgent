@@ -25,31 +25,73 @@
   }
 }
 
+/* Rings draw in with stroke-dashoffset (the circle uses pathLength=100, so 100 means empty). */
 @keyframes anim-ring {
   from {
-    stroke-dasharray: 0 600;
+    stroke-dashoffset: 100;
   }
 }
 
+/* Segments of a donut fade in one after another (opacity only). */
+@keyframes anim-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+/* Steps and questions: forward enters from below and leaves upward; back mirrors it. */
 @keyframes anim-step-next {
   from {
     opacity: 0;
-    transform: translateX(var(--step-shift));
-  }
-  to {
-    opacity: 1;
-    transform: none;
+    transform: translateY(var(--step-shift));
   }
 }
 
 @keyframes anim-step-back {
   from {
     opacity: 0;
-    transform: translateX(calc(var(--step-shift) * -1));
+    transform: translateY(calc(var(--step-shift) * -1));
   }
+}
+
+@keyframes anim-exit-next {
   to {
-    opacity: 1;
-    transform: none;
+    opacity: 0;
+    transform: translateY(calc(var(--step-shift) * -1));
+  }
+}
+
+@keyframes anim-exit-back {
+  to {
+    opacity: 0;
+    transform: translateY(var(--step-shift));
+  }
+}
+
+/* A check mark appearing inside a chosen pill. */
+@keyframes anim-check-in {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+}
+
+.anim-check-in {
+  animation: anim-check-in var(--dur-micro) var(--ease-lift) both;
+}
+
+/* A number or short label swapping in place: a 6px slide with a fade. */
+@keyframes anim-text-in {
+  from {
+    opacity: 0;
+    transform: translateY(var(--text-slide));
+  }
+}
+
+@keyframes anim-text-out {
+  to {
+    opacity: 0;
+    transform: translateY(calc(var(--text-slide) * -1));
   }
 }
 
@@ -74,6 +116,9 @@
   transform-origin: left center;
   animation: anim-grow var(--dur-large) var(--ease-lift) both;
 }
+.anim-fade {
+  animation: anim-fade var(--dur-base) var(--ease-lift) both;
+}
 .anim-ring {
   animation: anim-ring var(--dur-data) var(--ease-out) both;
 }
@@ -82,6 +127,18 @@
 }
 .anim-step-back {
   animation: anim-step-back var(--dur-enter) var(--ease-out) both;
+}
+.anim-exit-next {
+  animation: anim-exit-next var(--dur-base) var(--ease-lift) both;
+}
+.anim-exit-back {
+  animation: anim-exit-back var(--dur-base) var(--ease-lift) both;
+}
+.anim-text-in {
+  animation: anim-text-in var(--dur-base) var(--ease-lift) both;
+}
+.anim-text-out {
+  animation: anim-text-out var(--dur-base) var(--ease-lift) both;
 }
 .anim-pop {
   animation: anim-pop var(--dur-enter) var(--ease-out) both;

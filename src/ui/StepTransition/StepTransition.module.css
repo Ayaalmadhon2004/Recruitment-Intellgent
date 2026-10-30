@@ -1,0 +1,12 @@
+.root {
+  position: relative;
+}
+
+/* Out of the flow, so the leaving step never changes the page height. */
+.exit {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+}

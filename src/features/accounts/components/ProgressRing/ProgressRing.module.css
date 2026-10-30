@@ -22,6 +22,7 @@
   fill: none;
   stroke-width: 11;
   stroke-linecap: round;
+  transition: stroke-dashoffset var(--dur-large) var(--ease-lift);
 }
 
 .navy .arc {

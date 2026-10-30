@@ -54,3 +54,7 @@ export type { KiteBobProps } from './KiteBob';
 export { prefersReducedMotion, useActive, useInView, useReducedMotion } from './motion';
 export { Breathe } from './Breathe';
 export type { BreatheProps } from './Breathe';
+export { StepTransition } from './StepTransition';
+export type { StepTransitionProps } from './StepTransition';
+export { SaveDot } from './SaveDot';
+export type { SaveDotProps } from './SaveDot';

@@ -15,6 +15,9 @@ export const duration = {
 /** Kite lift-off when a call to action starts the audit. */
 export const flight = 500;
 
+/** How long the autosave dot stays lit after a save. */
+export const saveFlash = 1500;
+
 export const loop = {
   bob: 1600,
   breathe: 3000,

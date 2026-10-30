@@ -41,8 +41,10 @@ export function KiteTrack({
   return (
     <div role="group" aria-label={label} className={cx(styles.root, className)} style={style}>
       <div className={styles.flight} aria-hidden="true">
-        <span className={styles.kite}>
-          <Kite size="sm" wings={progress > 0 ? 'open' : 'left'} />
+        <span className={styles.kite} data-complete={progress >= 1}>
+          <span className={styles.dip}>
+            <Kite size="sm" wings={progress > 0 ? 'open' : 'left'} />
+          </span>
         </span>
       </div>
       <div className={styles.rail} aria-hidden="true" />

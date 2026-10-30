@@ -7,20 +7,12 @@
   color: var(--color-crimson);
 }
 
+/* Old and new number share one cell, so the label keeps its width while they swap. */
+.slot {
+  display: inline-grid;
+}
+
 .number {
-  display: inline-block;
-  animation: step-number var(--dur-enter) var(--ease-out);
-}
-
-@keyframes step-number {
-  from {
-    opacity: 0;
-    transform: translateY(var(--space-1));
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .number {
-    animation: none;
-  }
+  grid-area: 1 / 1;
+  font-variant-numeric: tabular-nums;
 }
