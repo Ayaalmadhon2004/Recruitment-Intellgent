@@ -39,6 +39,7 @@
 
 .title {
   margin: 0;
+  color: inherit; /* the hero is navy: the global heading colour would vanish on it */
   font-size: var(--text-h1-size);
   line-height: var(--text-h1-line);
   font-weight: var(--font-weight-bold);
