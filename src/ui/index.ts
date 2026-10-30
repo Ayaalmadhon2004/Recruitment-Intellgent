@@ -45,3 +45,5 @@ export { Kite } from './Kite';
 export type { KiteProps, KiteSize, KiteWings } from './Kite';
 export { KiteTrack } from './KiteTrack';
 export type { KiteTrackProps } from './KiteTrack';
+export { KiteSlider } from './KiteSlider';
+export type { KiteSliderProps } from './KiteSlider';
