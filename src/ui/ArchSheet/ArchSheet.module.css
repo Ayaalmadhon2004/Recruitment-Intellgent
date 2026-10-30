@@ -29,8 +29,9 @@
 
 .close {
   position: absolute;
-  top: var(--space-5);
-  right: var(--space-5);
+  /* The top corners are a 160px arch: keep the whole mark inside the curve. */
+  top: var(--space-9);
+  right: var(--space-9);
   width: var(--tap-target);
   height: var(--tap-target);
   display: inline-flex;
@@ -49,7 +50,7 @@
 }
 
 .title {
-  margin: 0 var(--space-8);
+  margin: 0 var(--space-10);
   text-align: center;
   font-size: var(--text-h2-size);
   line-height: var(--text-h2-line);
