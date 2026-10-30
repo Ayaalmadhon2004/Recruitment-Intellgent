@@ -1,0 +1,36 @@
+.section {
+  padding: var(--space-10) 0;
+}
+
+.line {
+  border-top: 1px solid var(--color-line);
+}
+
+.header {
+  max-width: 680px;
+}
+
+.eyebrow {
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-eyebrow-size);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--text-eyebrow-tracking);
+  text-transform: uppercase;
+  color: var(--color-crimson);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--text-h2-size);
+  line-height: var(--text-h2-line);
+}
+
+.body {
+  margin-top: var(--space-6);
+}
+
+@media (max-width: 760px) {
+  .section {
+    padding: var(--space-9) 0;
+  }
+}
