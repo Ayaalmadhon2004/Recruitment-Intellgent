@@ -1,9 +1,33 @@
-import { render, screen, within } from '@testing-library/react';
+import { act, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { auditScope } from '@/domain/config';
+import { uiCopy } from '@/design/ui-copy';
 import { en, fill } from '@/domain/copy';
+import { INTRO_STORAGE_KEY } from './components/Hero/Hero';
 import { LandingPage } from './LandingPage';
+
+const push = vi.fn();
+vi.mock('next/navigation', () => ({ useRouter: () => ({ push }) }));
+
+function mockReducedMotion(reduce: boolean): void {
+  window.matchMedia = ((query: string) => ({
+    matches: reduce && query.includes('reduce'),
+    media: query,
+    addEventListener: () => undefined,
+    removeEventListener: () => undefined,
+  })) as unknown as typeof window.matchMedia;
+}
+
+beforeEach(() => {
+  window.sessionStorage.clear();
+  push.mockReset();
+  mockReducedMotion(false);
+});
+
+afterEach(() => {
+  vi.useRealTimers();
+});
 
 const copy = en.landing;
 const THREE = copy.how.steps.length;
@@ -17,11 +41,13 @@ describe('LandingPage question counts', () => {
   });
 });
 
-describe('LandingPage hero', () => {
-  it('shows the headline and real links for both calls to action', () => {
+describe('LandingPage hero and intro', () => {
+  it('has the headline and lead as real text from the start, with real links', () => {
     render(<LandingPage />);
     expect(screen.getByRole('heading', { level: 1, name: copy.hero.title })).toBeInTheDocument();
-    expect(screen.getByText(fill(copy.hero.lead, counts))).toBeInTheDocument();
+    expect(
+      screen.getByText(fill(uiCopy.home.introLead, { quickStart: auditScope.quickStartQuestions })),
+    ).toBeInTheDocument();
     const hero = screen.getByRole('region', { name: copy.hero.title });
     expect(within(hero).getByRole('link', { name: copy.hero.primaryCta })).toHaveAttribute(
       'href',
@@ -42,14 +68,52 @@ describe('LandingPage hero', () => {
     );
   });
 
-  it('labels the report preview as sample data and shows no stock photo', () => {
+  it('shows no sample preview card and no stock photo', () => {
+    const { container } = render(<LandingPage />);
+    expect(screen.queryByText(en.status.sample)).not.toBeInTheDocument();
+    expect(container.querySelector('img')).toBeNull();
+  });
+
+  it('plays the intro with a skip button, then remembers it for the visit', async () => {
+    const user = userEvent.setup();
+    const hero = (): HTMLElement => screen.getByRole('region', { name: copy.hero.title });
+    const { unmount } = render(<LandingPage />);
+    expect(hero()).toHaveAttribute('data-phase', 'playing');
+    await user.click(screen.getByRole('button', { name: uiCopy.home.skipIntro }));
+    expect(hero()).toHaveAttribute('data-phase', 'done');
+    expect(screen.queryByRole('button', { name: uiCopy.home.skipIntro })).not.toBeInTheDocument();
+    expect(within(hero()).getByRole('link', { name: copy.hero.primaryCta })).toHaveFocus();
+    expect(window.sessionStorage.getItem(INTRO_STORAGE_KEY)).toBe('1');
+    unmount();
     render(<LandingPage />);
-    const hero = screen.getByRole('region', { name: copy.hero.title });
-    expect(within(hero).getByText(en.status.sample)).toBeInTheDocument();
-    expect(within(hero).getByText(copy.hero.preview.label)).toBeInTheDocument();
-    expect(within(hero).getByRole('img', { name: copy.hero.preview.ringAria })).toBeInTheDocument();
-    expect(within(hero).getAllByRole('listitem')).toHaveLength(4);
-    expect(hero.querySelector('img')).toBeNull();
+    expect(hero()).toHaveAttribute('data-phase', 'done');
+    expect(screen.queryByRole('button', { name: uiCopy.home.skipIntro })).not.toBeInTheDocument();
+  });
+
+  it('finishes by itself after about three seconds', () => {
+    vi.useFakeTimers();
+    render(<LandingPage />);
+    expect(screen.getByRole('region', { name: copy.hero.title })).toHaveAttribute('data-phase', 'playing');
+    act(() => {
+      vi.advanceTimersByTime(3100);
+    });
+    expect(screen.getByRole('region', { name: copy.hero.title })).toHaveAttribute('data-phase', 'done');
+  });
+
+  it('skips the intro for reduced motion', () => {
+    mockReducedMotion(true);
+    render(<LandingPage />);
+    expect(screen.getByRole('region', { name: copy.hero.title })).toHaveAttribute('data-phase', 'done');
+    expect(screen.queryByRole('button', { name: uiCopy.home.skipIntro })).not.toBeInTheDocument();
+  });
+
+  it('still plays when sessionStorage is blocked', () => {
+    vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => {
+      throw new Error('blocked');
+    });
+    render(<LandingPage />);
+    expect(screen.getByRole('region', { name: copy.hero.title })).toHaveAttribute('data-phase', 'playing');
+    vi.restoreAllMocks();
   });
 });
 
@@ -57,25 +121,38 @@ describe('LandingPage sections', () => {
   it('has the anchors the navigation points to', () => {
     const { container } = render(<LandingPage />);
     ['get', 'how', 'compare'].forEach((id) => {
-      expect(container.querySelector(`section#${id}`)).not.toBeNull();
+      expect(container.querySelector(`#${id}`)).not.toBeNull();
     });
   });
 
-  it('labels the illustrations once, at section level, as sample data', () => {
-    render(<LandingPage />);
-    const get = screen.getByRole('region', { name: copy.get.title });
-    expect(within(get).getAllByText(en.status.sample)).toHaveLength(1);
+  it('has exactly one wave, between the hero and the rest of the page', () => {
+    const { container } = render(<LandingPage />);
+    expect(container.querySelectorAll('svg[preserveAspectRatio="none"]')).toHaveLength(1);
   });
 
-  it('lists the three steps in order', () => {
+  it('shows three outcomes as plain figures with their labels', () => {
+    render(<LandingPage />);
+    const get = screen.getByRole('region', { name: copy.get.title });
+    expect(within(get).getAllByRole('listitem')).toHaveLength(3);
+    [copy.get.scores, copy.get.stage, copy.get.steps].forEach((item) => {
+      expect(within(get).getByRole('heading', { name: item.title })).toBeInTheDocument();
+      expect(within(get).getByText(item.body)).toBeInTheDocument();
+    });
+  });
+
+  it('draws the three steps as the kite unfolding, in order, without numerals', () => {
     render(<LandingPage />);
     const steps = within(screen.getByRole('list', { name: copy.how.listLabel })).getAllByRole(
       'listitem',
     );
     expect(steps).toHaveLength(THREE);
+    const labels = [uiCopy.home.kiteFolded, uiCopy.home.kiteLeft, uiCopy.home.kiteRight];
+    const wings = ['closed', 'left', 'right'];
     copy.how.steps.forEach((step, i) => {
       expect(within(steps[i]!).getByRole('heading', { name: fill(step.title, counts) })).toBeInTheDocument();
-      expect(steps[i]).toHaveTextContent(String(i + 1));
+      const kite = within(steps[i]!).getByRole('img', { name: labels[i] });
+      expect(kite).toHaveAttribute('data-wings', wings[i]);
+      expect(steps[i]).not.toHaveTextContent(new RegExp(`^${i + 1}\\b`));
     });
   });
 
@@ -92,18 +169,43 @@ describe('LandingPage sections', () => {
       '/privacy',
     );
   });
+});
 
-  it('ends with the final call to action', () => {
+describe('Final call to action', () => {
+  const region = (): HTMLElement => screen.getByRole('region', { name: copy.finalCta.title });
+
+  it('is plain text with a real link and no filled band', () => {
     render(<LandingPage />);
-    const band = screen.getByRole('region', { name: copy.finalCta.title });
-    expect(within(band).getByRole('link', { name: copy.finalCta.primary })).toHaveAttribute(
+    expect(within(region()).getByRole('link', { name: copy.finalCta.primary })).toHaveAttribute(
       'href',
       '/quick-start',
     );
-    expect(within(band).getByRole('link', { name: copy.finalCta.secondary })).toHaveAttribute(
+    expect(within(region()).getByRole('link', { name: copy.finalCta.secondary })).toHaveAttribute(
       'href',
       en.site.url,
     );
+  });
+
+  it('lifts the kite, then opens the audit after the short flight', async () => {
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const { container } = render(<LandingPage />);
+    await user.click(within(region()).getByRole('link', { name: copy.finalCta.primary }));
+    expect(container.querySelector('[data-flying="true"]')).not.toBeNull();
+    expect(push).not.toHaveBeenCalled();
+    act(() => {
+      vi.advanceTimersByTime(450);
+    });
+    expect(push).toHaveBeenCalledWith('/quick-start');
+  });
+
+  it('does not delay navigation for reduced motion', async () => {
+    mockReducedMotion(true);
+    const user = userEvent.setup();
+    const { container } = render(<LandingPage />);
+    await user.click(within(region()).getByRole('link', { name: copy.finalCta.primary }));
+    expect(container.querySelector('[data-flying="true"]')).toBeNull();
+    expect(push).not.toHaveBeenCalled();
   });
 });
 
