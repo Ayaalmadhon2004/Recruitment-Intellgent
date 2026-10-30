@@ -48,3 +48,31 @@ export const uiCopy = {
     kiteRight: 'Paper kite, right wing open',
   },
 } as const;
+
+// --- My report redesign (appended block) ---------------------------------------------------------
+export const reportUiCopy = {
+  kite: {
+    /** {answered} and {total} come from the report model. */
+    label: 'Your audit as a kite: {answered} of {total} questions answered',
+    legendTitle: 'What each cell shows',
+    empty: 'Not answered yet',
+    strong: 'Answered, high confidence',
+    medium: 'Answered, medium confidence',
+    weak: 'Answered, low confidence or not sure',
+    sectionCount: '{answered} of {total} answered',
+    sectionsList: 'Answers by section',
+  },
+  scores: {
+    title: 'Your scores',
+    pick: 'Pick a score to see',
+    percent: '{value}%',
+    completenessLine: '{handled} of {total} questions answered, {unknown} marked Not sure',
+  },
+  gauges: {
+    scoreLine: '{value} out of 10',
+  },
+  closing: {
+    agentMatrix: 'Agent matrix',
+    actionsLabel: 'Save this report',
+  },
+} as const;

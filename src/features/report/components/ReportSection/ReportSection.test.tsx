@@ -3,6 +3,8 @@ import userEvent from '@testing-library/user-event';
 import { describe, expect, it } from 'vitest';
 import { en } from '@/domain/copy';
 import { scoreAreaIds } from '@/domain/types';
+import { reportUiCopy } from '@/design/ui-copy';
+import { known, unknown } from '@/fixtures/builders';
 import type { ReportMode, ReportModel } from '../../contract';
 import { areaName } from '../../labels';
 import { lockedPreviewModel, realCaseModel, sampleModel, scoredModel } from '../test-models';
@@ -16,6 +18,8 @@ const links: ReportLinks = {
   changeAnswersHref: '/quick-start',
   unlockHref: '/unlock',
   pdfHref: '/report.pdf',
+  agentStrategyHref: '/agents',
+  advisorHref: '/advisor',
   questionHref: (id) => `/audit#${id}`,
 };
 
@@ -35,7 +39,7 @@ describe('ReportSection: one model, three modes', () => {
     expect(screen.getByText('18 of 24 questions answered')).toBeVisible();
   });
 
-  it.each(modes)('%s: every area shows its own score', (mode) => {
+  it.each(['preview', 'print'] as const)('%s: every area shows its own score', (mode) => {
     view(scoredModel(), mode);
     for (const value of ['68', '54', '62', '78', '49'])
       expect(screen.getAllByText(value).length).toBeGreaterThan(0);
@@ -54,23 +58,19 @@ describe('ReportSection: one model, three modes', () => {
     }
   });
 
-  it('interactive shows the same result word for each area as its tab is picked', async () => {
+  it('interactive: picking a score shows its percentage and, for an area, its result word', async () => {
     const user = userEvent.setup();
     view(scoredModel(), 'interactive');
-    const expected: Record<string, string> = {
-      Readiness: en.bands.developing,
-      Competitiveness: en.bands['needs-attention'],
-      'Affordability and ROI': en.bands.developing,
-      'Digital Visibility': en.bands.strong,
-      'Trust Network': en.bands['needs-attention'],
-      'Community Influence': en.status.notScorable,
-    };
-    for (const [name, word] of Object.entries(expected)) {
-      await user.click(screen.getByRole('tab', { name: new RegExp(`^${name}`) }));
-      const panel = screen.getByRole('tabpanel');
-      expect(within(panel).getByRole('heading', { level: 3, name })).toBeVisible();
-      expect(within(panel).getByText(word)).toBeVisible();
-    }
+    const panel = (): HTMLElement =>
+      screen.getByRole('radiogroup').nextElementSibling as HTMLElement;
+    expect(screen.getByRole('radio', { name: 'Readiness' })).toBeChecked();
+    expect(within(panel()).getByText('68%')).toBeVisible();
+    expect(within(panel()).getByText(en.bands.developing)).toBeVisible();
+    await user.click(screen.getByRole('radio', { name: en.areas['digital-visibility'] }));
+    expect(within(panel()).getByText('78%')).toBeVisible();
+    expect(within(panel()).getByText(en.bands.strong)).toBeVisible();
+    await user.click(screen.getByRole('radio', { name: en.report.completenessLabel }));
+    expect(within(panel()).getByText('75%')).toBeVisible();
   });
 });
 
@@ -89,15 +89,19 @@ describe('ReportSection: areas that cannot be scored', () => {
     },
   );
 
-  it('interactive: every tab says Not yet scorable and never a number', async () => {
+  it('interactive: a score that cannot be read says Not yet scorable and never a number', async () => {
     const user = userEvent.setup();
     view(realCaseModel(), 'interactive');
-    for (const id of scoreAreaIds) {
-      const tab = screen.getByRole('tab', { name: new RegExp(`^${areaName(id)}`) });
-      expect(tab).toHaveTextContent(en.report.tabNotScorable);
-      await user.click(tab);
-      expect(within(screen.getByRole('tabpanel')).getByText(en.status.notScorable)).toBeVisible();
+    const panel = (): HTMLElement =>
+      screen.getByRole('radiogroup').nextElementSibling as HTMLElement;
+    for (const name of ['Readiness', en.areas['digital-visibility']]) {
+      await user.click(screen.getByRole('radio', { name }));
+      expect(within(panel()).getByText(en.status.notScorable)).toBeVisible();
+      expect(within(panel()).queryByText(/%/)).toBeNull();
     }
+    // Completeness is always readable: it is a count of answers.
+    await user.click(screen.getByRole('radio', { name: en.report.completenessLabel }));
+    expect(within(panel()).getByText('21%')).toBeVisible();
     expect(screen.queryByText(en.scoreCard.outOf)).not.toBeInTheDocument();
     expect(screen.queryByText('0')).not.toBeInTheDocument();
   });
@@ -114,19 +118,19 @@ describe('ReportSection: areas that cannot be scored', () => {
   it.each(modes)('%s: both gauges say Not yet scorable when they cannot be read', (mode) => {
     view(realCaseModel(), mode);
     if (mode === 'preview') {
-      expect(screen.queryByRole('article', { name: en.gauges['school-fit'] })).toBeNull();
+      expect(screen.queryByRole('heading', { name: en.gauges['school-fit'] })).toBeNull();
       return;
     }
     for (const name of Object.values(en.gauges)) {
-      const gauge = screen.getByRole('article', { name });
+      const gauge = screen.getByRole('heading', { level: 3, name }).closest('li') as HTMLElement;
       expect(within(gauge).getByText(en.status.notScorable)).toBeVisible();
     }
   });
 
   it('a scored gauge shows its number out of 10', () => {
     view(scoredModel(), 'print');
-    expect(screen.getByRole('img', { name: 'School Fit 7.0 out of 10' })).toBeVisible();
-    expect(screen.getByRole('img', { name: 'Agent Attractiveness 5.5 out of 10' })).toBeVisible();
+    expect(screen.getByText('7.0 out of 10')).toBeVisible();
+    expect(screen.getByText('5.5 out of 10')).toBeVisible();
   });
 });
 
@@ -212,35 +216,26 @@ describe('ReportSection: print', () => {
 });
 
 describe('ReportSection: interactive', () => {
-  it('moves between area tabs with the arrow keys, Home and End', async () => {
+  it('picks a score with the arrow keys as a radio group', async () => {
     const user = userEvent.setup();
     view(scoredModel(), 'interactive');
-    const tabs = screen.getAllByRole('tab');
-    expect(tabs).toHaveLength(6);
-    expect(tabs[0]).toHaveAttribute('aria-selected', 'true');
-    tabs[0]?.focus();
-    await user.keyboard('{ArrowDown}');
-    expect(tabs[1]).toHaveAttribute('aria-selected', 'true');
-    expect(tabs[1]).toHaveFocus();
-    expect(
-      within(screen.getByRole('tabpanel')).getByRole('heading', {
-        level: 3,
-        name: areaName('competitiveness'),
-      }),
-    ).toBeVisible();
-    await user.keyboard('{End}');
-    expect(tabs[5]).toHaveAttribute('aria-selected', 'true');
-    await user.keyboard('{Home}');
-    expect(tabs[0]).toHaveAttribute('aria-selected', 'true');
+    const group = screen.getByRole('radiogroup', { name: reportUiCopy.scores.pick });
+    const radios = within(group).getAllByRole('radio');
+    expect(radios).toHaveLength(3);
+    expect(radios[0]).toBeChecked();
+    radios[0]?.focus();
+    await user.keyboard('{ArrowRight}');
+    expect(radios[1]).toBeChecked();
+    expect(radios[1]).toHaveFocus();
+    expect(screen.getByText('75%')).toBeVisible();
   });
 
   it('shows evidence tags and gaps ("Missing evidence") for the picked area', () => {
     view(scoredModel(), 'interactive');
-    const panel = screen.getByRole('tabpanel');
-    expect(within(panel).getByText(en.evidenceTags['institution-reported'])).toBeVisible();
-    expect(within(panel).getByText(en.evidenceTags.estimate)).toBeVisible();
-    expect(within(panel).getByRole('heading', { name: en.report.area.gapsHeading })).toBeVisible();
-    expect(within(panel).getByRole('link', { name: en.questions.B2.text })).toHaveAttribute(
+    expect(screen.getByText(en.evidenceTags['institution-reported'])).toBeVisible();
+    expect(screen.getByText(en.evidenceTags.estimate)).toBeVisible();
+    expect(screen.getByRole('heading', { name: en.report.area.gapsHeading })).toBeVisible();
+    expect(screen.getByRole('link', { name: en.questions.B2.text })).toHaveAttribute(
       'href',
       '/audit#B2',
     );
@@ -251,9 +246,47 @@ describe('ReportSection: interactive', () => {
     expect(screen.getByText(en.report.area.noEvidence)).toBeVisible();
   });
 
-  it('plots a radar of the six areas', () => {
+  it('has no radar, no stage block, no pilot carousel and no area tabs', () => {
     view(scoredModel(), 'interactive');
-    expect(screen.getByRole('table', { name: en.report.radar.title })).toBeInTheDocument();
+    expect(screen.queryByRole('table', { name: en.report.radar.title })).toBeNull();
+    expect(screen.queryByText(en.report.stageEyebrow)).toBeNull();
+    expect(screen.queryByText(en.report.pilot.eyebrow)).toBeNull();
+    expect(screen.queryByRole('region', { name: en.report.pilot.carouselLabel })).toBeNull();
+    expect(screen.queryByRole('tablist')).toBeNull();
+  });
+
+  it('shows the pilot in the banner with its numbers from the model', () => {
+    view(scoredModel(), 'interactive');
+    expect(screen.getByText('6 months')).toBeVisible();
+    expect(screen.getByText('3 agents')).toBeVisible();
+    expect(screen.getByText(en.report.pilot.nonExclusive)).toBeVisible();
+  });
+
+  it('draws a kite of 24 cells in 6 sections, filled by how firm each answer is', () => {
+    const answers = [
+      known('A1', 'private-university'),
+      { ...known('A2', 'building'), confidence: 'medium' as const },
+      { ...known('A3', 'x'), confidence: 'low' as const },
+      unknown('A4'),
+    ];
+    render(
+      <ReportSection model={scoredModel()} mode="interactive" links={links} answers={answers} />,
+    );
+    const kite = screen.getByRole('img', {
+      name: 'Your audit as a kite: 4 of 24 questions answered',
+    });
+    expect(kite.querySelectorAll('polygon[class*="cell"]')).toHaveLength(24);
+    const sections = screen.getByRole('list', { name: reportUiCopy.kite.sectionsList });
+    expect(within(sections).getAllByRole('listitem')).toHaveLength(6);
+    expect(within(sections).getAllByText('4 of 4 answered')).toHaveLength(1);
+    expect(within(sections).getAllByText('0 of 4 answered')).toHaveLength(5);
+    // Low confidence and Not sure carry hatching as well as colour.
+    expect(kite.querySelectorAll('polygon[class*="hatch"]')).toHaveLength(2);
+  });
+
+  it('leaves the kite out when the stored answers are not available', () => {
+    view(scoredModel(), 'interactive');
+    expect(screen.queryByRole('img', { name: /Your audit as a kite/ })).toBeNull();
   });
 
   it('leaves the recommendations out when there are none', () => {
@@ -272,35 +305,36 @@ describe('ReportSection: interactive', () => {
     expect(titles).toEqual([en.areas.readiness, en.areas['trust-network']]);
   });
 
-  it('browses the pilot carousel', async () => {
-    const user = userEvent.setup();
+  it('closes with one section of pill actions and shows the unconfirmed path and price as placeholders', () => {
     view(scoredModel(), 'interactive');
-    const carousel = screen.getByRole('region', { name: en.report.pilot.carouselLabel });
-    await user.click(within(carousel).getByRole('button', { name: en.report.pilot.next }));
-    expect(within(carousel).getByText(en.report.pilot.steps.second.title)).toBeVisible();
-  });
-
-  it('asks to unlock and shows the unconfirmed path and price as placeholders', () => {
-    view(scoredModel(), 'interactive');
-    const band = screen.getByRole('region', { name: en.report.unlock.title });
-    expect(within(band).getAllByText(en.status.tbc)).toHaveLength(2);
-    expect(within(band).getByRole('link', { name: en.report.unlock.cta })).toHaveAttribute(
+    const closing = screen.getByRole('region', { name: en.report.unlock.title });
+    expect(within(closing).getAllByText(en.status.tbc)).toHaveLength(2);
+    expect(within(closing).getByRole('link', { name: en.report.unlock.cta })).toHaveAttribute(
       'href',
       '/unlock',
     );
+    expect(
+      within(closing).getByRole('link', { name: reportUiCopy.closing.agentMatrix }),
+    ).toHaveAttribute('href', '/agents');
+    expect(within(closing).getByRole('link', { name: en.report.downloadPdf })).toHaveAttribute(
+      'href',
+      '/report.pdf',
+    );
+    expect(within(closing).getByRole('link', { name: en.report.advisor.title })).toHaveAttribute(
+      'href',
+      '/advisor',
+    );
+    // The old separate blocks are gone.
+    expect(screen.getAllByRole('region', { name: en.report.unlock.title })).toHaveLength(1);
+    expect(screen.queryByRole('heading', { name: en.report.pdf.title })).toBeNull();
   });
 
   it('does not ask to unlock a report that is already unlocked', () => {
     view({ ...scoredModel(), unlocked: true }, 'interactive');
-    expect(screen.queryByRole('region', { name: en.report.unlock.title })).toBeNull();
-  });
-
-  it('lists the advisor channels as placeholders, not links', () => {
-    view(scoredModel(), 'interactive');
-    const advisor = screen.getByRole('region', { name: en.report.advisor.title });
-    expect(within(advisor).queryAllByRole('link')).toHaveLength(0);
-    expect(within(advisor).getByText(en.report.advisor.whatsapp)).toBeVisible();
-    expect(within(advisor).getAllByText(en.status.tbc)).toHaveLength(2);
+    const closing = screen.getByRole('region', { name: en.report.unlock.title });
+    expect(within(closing).queryByRole('link', { name: en.report.unlock.cta })).toBeNull();
+    expect(within(closing).queryByText(en.status.tbc)).toBeNull();
+    expect(within(closing).getByRole('link', { name: en.report.downloadPdf })).toBeVisible();
   });
 
   it('links the PDF and the audit, and leaves a link out when none is given', () => {
@@ -318,6 +352,7 @@ describe('ReportSection: interactive', () => {
   it('shows no PDF or continue link without hrefs', () => {
     view(scoredModel(), 'interactive', {});
     expect(screen.queryByRole('link', { name: en.report.downloadPdf })).toBeNull();
+    expect(screen.queryByRole('link', { name: en.report.advisor.title })).toBeNull();
     expect(screen.queryByRole('link', { name: en.report.continueAudit })).toBeNull();
   });
 });
@@ -337,11 +372,32 @@ describe('ReportSection: locked areas and entitlement', () => {
     }
   });
 
-  it('shows locked areas in the interactive report too, with no radar and no hidden result', () => {
+  it('shows no radar and none of the hidden results in the interactive report', () => {
     render(<ReportSection model={lockedPreviewModel()} mode="interactive" links={links} />);
-    expect(screen.queryByRole('figure')).toBeNull();
-    const tab = screen.getByRole('tab', { name: new RegExp(areaName('trust-network')) });
-    expect(within(tab).getByText(en.report.locked.word)).toBeVisible();
+    expect(screen.queryByRole('table')).toBeNull();
+    expect(screen.queryByText('54%')).toBeNull();
+    expect(screen.queryByText('49%')).toBeNull();
+  });
+
+  it('a locked score says so and links to the unlock screen, with no result', async () => {
+    const user = userEvent.setup();
+    const model = scoredModel();
+    const locked: ReportModel = {
+      ...model,
+      areas: model.areas.map((a) =>
+        a.id === 'readiness' ? { id: a.id, locked: true as const } : a,
+      ),
+    };
+    render(<ReportSection model={locked} mode="interactive" links={links} />);
+    const card = screen.getByRole('article', { name: areaName('readiness') });
+    expect(within(card).getByText(en.report.locked.word)).toBeVisible();
+    expect(within(card).getByRole('link', { name: en.unlock.cta.seeOptions })).toHaveAttribute(
+      'href',
+      '/unlock',
+    );
+    expect(screen.queryByText('68%')).toBeNull();
+    await user.click(screen.getByRole('radio', { name: en.areas['digital-visibility'] }));
+    expect(screen.getByText('78%')).toBeVisible();
   });
 
   it('prints no locked area and no link', () => {

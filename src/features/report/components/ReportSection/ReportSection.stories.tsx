@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import { known, unknown } from '@/fixtures/builders';
 import { lockedPreviewModel, realCaseModel, sampleModel, scoredModel } from '../test-models';
 import { ReportSection } from './ReportSection';
 
@@ -14,6 +15,8 @@ const meta = {
       changeAnswersHref: '#change',
       unlockHref: '#unlock',
       pdfHref: '#pdf',
+      agentStrategyHref: '#agents',
+      advisorHref: '#advisor',
       questionHref: (id) => `#question-${id}`,
     },
   },
@@ -124,4 +127,26 @@ export const PreviewUnlockedNotScorableDesktop: Story = {
 export const PreviewUnlockedNotScorableMobile: Story = {
   args: { mode: 'preview', model: { ...realCaseModel(), unlocked: true } },
   globals: mobile,
+};
+
+/** Synthetic answers for the banner's kite: strong, medium, weak (low confidence) and Not sure cells. */
+const kiteAnswers = [
+  known('A1', 'private-university'),
+  { ...known('A2', 'building'), confidence: 'medium' as const },
+  { ...known('A3', 'x'), confidence: 'low' as const },
+  unknown('A4'),
+  known('B1', 9),
+];
+export const InteractiveKiteFilledDesktop: Story = {
+  args: { model: scoredModel(), answers: kiteAnswers },
+  globals: desktop,
+};
+export const InteractiveKiteFilledMobile: Story = {
+  args: { model: scoredModel(), answers: kiteAnswers },
+  globals: mobile,
+};
+/** Nothing answered yet: every cell is empty. */
+export const InteractiveKiteEmptyDesktop: Story = {
+  args: { model: realCaseModel(), answers: [] },
+  globals: desktop,
 };

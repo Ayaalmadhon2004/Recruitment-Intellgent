@@ -1,5 +1,0 @@
-/* The placeholder sits on the navy band, so it takes the band's light text colour. */
-.note [data-tbc] {
-  color: inherit;
-  text-decoration: underline dotted;
-}
