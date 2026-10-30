@@ -107,6 +107,7 @@ export const agentStrategy = {
     },
     resultEyebrow: 'FORECAST ENROLMENTS',
     resultLine: 'About {count} students from the sample pilot',
+    ringText: '{percent}% of applications',
     calcLine: '{applications} x {offerRate}% x {enrolmentYield}% x {visaRetention}% = {result}',
     sampleNote: 'Sample data. Replace with your own numbers.',
   },

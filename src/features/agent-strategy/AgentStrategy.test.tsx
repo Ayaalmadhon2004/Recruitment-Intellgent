@@ -163,6 +163,22 @@ describe('AgentStrategy', () => {
       expect(screen.getByText('120 x 55% x 30% x 85% = 16.8')).toBeInTheDocument();
     });
 
+    it('gives the progress ring a text equivalent that follows the inputs', async () => {
+      const user = userEvent.setup();
+      setup();
+      expect(screen.getByText('14% of applications')).toBeInTheDocument();
+      const apps = screen.getByLabelText(copy.forecast.fields.applications.label);
+      await user.clear(apps);
+      expect(screen.getByText('0% of applications')).toBeInTheDocument();
+    });
+
+    it('marks the steps 1 to 4 with a screen-reader label and keeps the multiply signs decorative', () => {
+      setup();
+      for (const n of [1, 2, 3, 4]) expect(screen.getByText(`STEP ${n}`)).toBeInTheDocument();
+      const form = screen.getByText(copy.forecast.sampleNote).closest('div')!;
+      expect(within(form).queryByRole('button')).not.toBeInTheDocument();
+    });
+
     it('shows the result as a live region that follows the inputs', async () => {
       const user = userEvent.setup();
       setup();

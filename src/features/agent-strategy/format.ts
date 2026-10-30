@@ -60,3 +60,9 @@ export function parseForecast(values: ForecastFormValues): ParsedForecast {
     percents: { offerRate, enrolmentYield, visaRetention },
   };
 }
+
+/** Share of applications that end up enrolled, 0 to 100. For display only (the progress ring). */
+export function enrolmentShare(enrolled: number, applications: number): number {
+  if (!(applications > 0) || !Number.isFinite(enrolled)) return 0;
+  return Math.min(PERCENT_MAX, Math.max(0, (enrolled / applications) * PERCENT_MAX));
+}

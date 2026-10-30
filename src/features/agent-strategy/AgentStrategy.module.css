@@ -594,6 +594,7 @@
   grid-row: 1;
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: var(--space-5);
   min-width: 0;
 }
@@ -607,9 +608,45 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: var(--space-3);
+}
+/* A full circle: a thin progress ring around a navy disc. */
+.resultCircle {
+  position: relative;
+  display: grid;
+  width: 100%;
+  max-width: 340px;
+  aspect-ratio: 1;
+}
+.ring {
+  grid-area: 1 / 1;
+  width: 100%;
+  height: 100%;
+  fill: none;
+  transform: rotate(-90deg);
+}
+.ringTrack {
+  stroke: var(--color-pastel-blue-deep);
+  stroke-width: 2.5;
+}
+.ringFill {
+  stroke: var(--color-crimson);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  transition:
+    stroke-dasharray var(--dur-data) var(--ease-standard),
+    opacity var(--dur-base) var(--ease-standard);
+}
+.resultCore {
+  grid-area: 1 / 1;
+  margin: 7%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   gap: var(--space-1);
-  padding: var(--space-8) var(--space-6);
-  border-radius: var(--radius-arch-top);
+  padding: var(--space-6);
+  border-radius: var(--radius-pill);
   background: var(--color-navy);
   color: var(--color-text-inverse);
   text-align: center;
@@ -620,51 +657,156 @@
   letter-spacing: var(--text-eyebrow-tracking);
 }
 .resultBig {
-  font-size: var(--text-h1-size);
-  line-height: var(--text-h1-line);
+  font-size: calc(var(--text-h1-size) * 1.6);
+  line-height: 1.1;
   font-weight: var(--font-weight-bold);
+  font-variant-numeric: tabular-nums;
 }
+.resultLine {
+  max-width: 75%;
+  font-size: var(--text-small-size);
+  line-height: var(--text-small-line);
+}
+.ringText {
+  margin: 0;
+  font-size: var(--text-small-size);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-navy);
+}
+
+/* Steps: numbered circles joined by a dotted line, like the kite string. */
 .steps {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--space-5) var(--space-6);
-}
-.step {
-  min-width: 0;
+  --marker: 36px;
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
+  width: 100%;
+  max-width: 520px;
 }
-.stepHead {
+.stepGroup {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-2);
-  min-height: 32px;
+  flex-direction: column;
 }
-.operator {
+.step {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--marker) minmax(0, 1fr);
+  column-gap: var(--space-4);
+  align-items: start;
+}
+.step > :last-child {
+  grid-column: 2;
+}
+.marker {
+  grid-column: 1;
+  grid-row: 1;
   display: flex;
-  flex: 0 0 32px;
   align-items: center;
   justify-content: center;
-  height: 32px;
+  width: var(--marker);
+  height: var(--marker);
+  border: 2px solid var(--color-navy);
+  border-radius: var(--radius-pill);
+  background: var(--color-card);
+  color: var(--color-navy);
+  font-size: var(--text-small-size);
+  font-weight: var(--font-weight-bold);
+  transition: var(--transition-interactive);
+}
+.step:focus-within .marker {
+  background: var(--color-navy);
+  color: var(--color-text-inverse);
+}
+/* The dotted line runs from one marker to the next. The joint row holds the multiply sign. */
+.stepGroup:not(:last-child) .step::after {
+  content: '';
+  position: absolute;
+  top: calc(var(--marker) + var(--space-1));
+  bottom: 0;
+  left: calc(var(--marker) / 2 - 1px);
+  border-left: 2px dotted var(--color-navy);
+  opacity: 0.5;
+}
+.joint {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: var(--marker);
+  min-height: var(--space-8);
+}
+.joint::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(var(--marker) / 2 - 1px);
+  border-left: 2px dotted var(--color-navy);
+  opacity: 0.5;
+}
+/* Decorative only: it shows that the next number is multiplied in. Not a button. */
+.operator {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-6);
+  height: var(--space-6);
+  margin-inline: auto;
   border-radius: var(--radius-pill);
   background: var(--color-pastel-red);
   color: var(--color-crimson-dark);
+  font-size: var(--text-small-size);
   font-weight: var(--font-weight-bold);
+  line-height: 1;
 }
-/* Fully rounded inputs for the forecast fields. */
+/* Fully rounded inputs: navy label and text, a pastel-blue fill when focused. */
+.steps label {
+  color: var(--color-navy);
+}
 .steps input {
   border-radius: var(--radius-pill);
   padding-inline: var(--space-5);
+  color: var(--color-navy);
+  transition: var(--transition-interactive);
+}
+.steps input:focus {
+  border-color: var(--color-navy);
+  background: var(--color-pastel-blue);
+}
+.runPill {
+  align-self: flex-start;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-pill);
+  background: var(--color-pastel-blue);
+  color: var(--color-navy);
+  font-weight: var(--font-weight-semibold);
 }
 .calcLine {
   margin: 0;
-  font-size: var(--text-small-size);
-  color: var(--color-text-secondary);
+  padding: var(--space-2) var(--space-5);
+  border-radius: var(--radius-pill);
+  background: var(--color-pastel-red);
+  color: var(--color-crimson-dark);
+  font-size: var(--text-label-size);
+  font-weight: var(--font-weight-bold);
 }
 .sampleNote {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+  padding: var(--space-1) var(--space-4);
+  border-radius: var(--radius-pill);
+  background: var(--color-pastel-blue);
+  color: var(--color-navy);
   font-size: var(--text-small-size);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ringFill,
+  .marker,
+  .steps input {
+    transition: none;
+  }
 }
 
 @media (max-width: 760px) {
@@ -675,29 +817,44 @@
     gap: var(--space-5);
   }
   .resultDock {
+    align-self: stretch;
     top: 0;
     z-index: var(--z-header);
     margin-inline: calc(-1 * var(--layout-gutter));
     padding: var(--space-2) var(--layout-gutter);
     background: var(--color-page);
   }
-  .result {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: baseline;
-    gap: var(--space-1) var(--space-3);
-    padding: var(--space-3) var(--space-6);
-    border-radius: var(--radius-pill);
+  /* Compact: a small circle with the number; the label sits beside it and the rest is read aloud only. */
+  .resultCircle {
+    max-width: 112px;
+    margin-inline: auto;
+  }
+  .resultCore {
+    padding: 0;
   }
   .resultBig {
-    font-size: var(--text-h2-size);
-    line-height: var(--text-h2-line);
+    font-size: var(--text-h1-size);
   }
-  .resultLine {
-    font-size: var(--text-caption-size);
+  .resultEyebrow {
+    position: absolute;
+    top: 50%;
+    left: calc(100% + var(--space-3));
+    width: max-content;
+    max-width: 120px;
+    color: var(--color-navy);
+    text-align: left;
+    transform: translateY(-50%);
+  }
+  .resultLine,
+  .ringText {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
   }
   .steps {
-    grid-template-columns: minmax(0, 1fr);
+    max-width: none;
   }
 }

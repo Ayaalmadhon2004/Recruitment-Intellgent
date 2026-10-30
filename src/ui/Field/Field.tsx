@@ -8,6 +8,8 @@ type Shared = {
   label: string;
   hint?: string;
   error?: string;
+  /** Extra class on the hint text. */
+  hintClassName?: string;
   /** Marks the field invalid (red border, aria-invalid) when the message is shown elsewhere, for example in a banner. */
   invalid?: boolean;
 };
@@ -21,12 +23,12 @@ export type FieldProps =
 export function Field(props: FieldProps): ReactNode {
   const autoId = useId();
   const id = props.id ?? autoId;
-  const { label, hint, error, invalid } = props;
+  const { label, hint, error, invalid, hintClassName } = props;
 
   if (props.multiline) {
-    const { label: _l, hint: _h, error: _e, invalid: _v, multiline: _m, id: _i, className, ...rest } = props;
+    const { label: _l, hint: _h, error: _e, invalid: _v, hintClassName: _c, multiline: _m, id: _i, className, ...rest } = props;
     return (
-      <FieldShell id={id} label={label} hint={hint} error={error}>
+      <FieldShell id={id} label={label} hint={hint} error={error} hintClassName={hintClassName}>
         <textarea
           {...rest}
           id={id}
@@ -39,9 +41,9 @@ export function Field(props: FieldProps): ReactNode {
     );
   }
 
-  const { label: _l, hint: _h, error: _e, invalid: _v, multiline: _m, id: _i, className, ...rest } = props;
+  const { label: _l, hint: _h, error: _e, invalid: _v, hintClassName: _c, multiline: _m, id: _i, className, ...rest } = props;
   return (
-    <FieldShell id={id} label={label} hint={hint} error={error}>
+    <FieldShell id={id} label={label} hint={hint} error={error} hintClassName={hintClassName}>
       <input
         {...rest}
         id={id}
