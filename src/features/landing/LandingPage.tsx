@@ -45,9 +45,11 @@ export function LandingPage({
           <FreeOrFull startHref={startHref} pricing={pricing} />
         </PlainSection>
       </div>
-      <PageContainer className={styles.privacy}>
-        <PrivacyStrip privacyPolicyUrl={privacyPolicyUrl} />
-      </PageContainer>
+      <div className={styles.privacy}>
+        <PageContainer>
+          <PrivacyStrip privacyPolicyUrl={privacyPolicyUrl} />
+        </PageContainer>
+      </div>
       <FinalCta startHref={startHref} />
     </>
   );
