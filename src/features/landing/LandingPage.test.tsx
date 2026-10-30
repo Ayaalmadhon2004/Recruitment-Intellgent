@@ -1,3 +1,4 @@
+import { flight, intro } from '@/design/motion';
 import { act, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
@@ -100,7 +101,7 @@ describe('LandingPage hero and intro', () => {
       'playing',
     );
     act(() => {
-      vi.advanceTimersByTime(3100);
+      vi.advanceTimersByTime(intro.doneAt + 100);
     });
     expect(screen.getByRole('region', { name: copy.hero.title })).toHaveAttribute(
       'data-phase',
@@ -209,7 +210,7 @@ describe('Final call to action', () => {
     expect(container.querySelector('[data-flying="true"]')).not.toBeNull();
     expect(push).not.toHaveBeenCalled();
     act(() => {
-      vi.advanceTimersByTime(450);
+      vi.advanceTimersByTime(flight + 50);
     });
     expect(push).toHaveBeenCalledWith('/quick-start');
   });

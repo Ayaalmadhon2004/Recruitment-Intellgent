@@ -1,8 +1,9 @@
 import type { ReactNode } from 'react';
+import { duration } from '@/design/motion';
 import { uiCopy } from '@/design/ui-copy';
 import { stagesConfig } from '@/domain/config';
 import { en } from '@/domain/copy';
-import { Reveal } from '@/ui';
+import { CountUp, Reveal } from '@/ui';
 import styles from './WhatYouGet.module.css';
 
 const copy = en.landing.get;
@@ -25,7 +26,13 @@ export function WhatYouGet(): ReactNode {
         <li key={item.key} className={styles.item}>
           <Reveal index={i} className={styles.reveal}>
             <p className={styles.figure}>
-              <span className={styles.big}>{item.figure}</span>
+              <span className={styles.big}>
+                {Number.isFinite(Number(item.figure)) ? (
+                  <CountUp value={Number(item.figure)} from={0} duration={duration.large} />
+                ) : (
+                  item.figure
+                )}
+              </span>
               {item.unit ? <span className={styles.unit}>{item.unit}</span> : null}
             </p>
             <h3 className={styles.title}>{copy[item.key].title}</h3>

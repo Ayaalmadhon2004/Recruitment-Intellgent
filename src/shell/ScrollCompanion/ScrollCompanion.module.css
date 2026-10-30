@@ -1,3 +1,7 @@
+.root[hidden] {
+  display: none;
+}
+
 .root {
   position: fixed;
   top: 0;
@@ -29,6 +33,12 @@
   left: 0;
   width: 28px;
   will-change: transform;
+}
+
+/* The lean eases back with the kite's own settle curve. */
+.tilt {
+  transform-origin: center;
+  transition: transform var(--dur-base) var(--ease-settle);
 }
 
 /* Phones: a narrow strip with the same path, kept clear of the text. */

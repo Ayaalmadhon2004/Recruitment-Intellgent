@@ -8,8 +8,8 @@
 .kite {
   flex: 0 0 112px;
   transition:
-    transform 400ms var(--ease-out),
-    opacity 400ms var(--ease-out);
+    transform var(--dur-flight) var(--ease-lift),
+    opacity var(--dur-flight) var(--ease-lift);
 }
 
 /* Lift-off: straight up, so it never adds width to the page. */
@@ -42,11 +42,5 @@
 @media (max-width: 760px) {
   .row {
     gap: var(--space-5);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .kite {
-    transition: none;
   }
 }

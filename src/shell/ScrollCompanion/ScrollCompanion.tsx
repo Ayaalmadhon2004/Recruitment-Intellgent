@@ -2,7 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
-import { Kite } from '@/ui';
+import { distance } from '@/design/motion';
+import { DrawLine, Kite, useReducedMotion } from '@/ui';
 import styles from './ScrollCompanion.module.css';
 
 export type ScrollCompanionProps = {
@@ -30,76 +31,105 @@ export function buildPath({ width, height }: Size): string {
   return d;
 }
 
+/** Scrolling stops being "now" after this long, and the kite eases back upright. */
+const IDLE_MS = 140;
+
 /**
- * A small paper kite that follows the page scroll along a dashed path. On narrow screens the path and
- * kite are smaller; under prefers-reduced-motion the kite stays still at the top of the path.
+ * A small paper kite that follows the page scroll along a dashed path. The path draws itself up to the
+ * kite as you scroll, and the kite tilts a few degrees with the direction of travel, then settles back.
+ * One passive scroll listener, throttled with rAF; positions are written straight to styles with no
+ * layout reads in the loop. Not rendered under prefers-reduced-motion.
  */
 export function ScrollCompanion({ className }: ScrollCompanionProps): ReactNode {
   const rootRef = useRef<HTMLDivElement>(null);
-  const pathRef = useRef<SVGPathElement>(null);
+  const maskRef = useRef<SVGPathElement>(null);
   const kiteRef = useRef<HTMLDivElement>(null);
+  const tiltRef = useRef<HTMLDivElement>(null);
   const [size, setSize] = useState<Size | null>(null);
+  const reduced = useReducedMotion();
 
   useEffect(() => {
     const root = rootRef.current;
-    if (!root) return;
+    if (!root || reduced) return;
     const measure = (): void => setSize({ width: root.clientWidth, height: root.clientHeight });
     measure();
     window.addEventListener('resize', measure);
     return () => window.removeEventListener('resize', measure);
-  }, []);
+  }, [reduced]);
 
   useEffect(() => {
-    const path = pathRef.current;
+    const path = maskRef.current;
     const kite = kiteRef.current;
-    if (!size || !path || !kite || typeof path.getTotalLength !== 'function') return;
+    const tilt = tiltRef.current;
+    if (reduced || !size || !path || !kite || !tilt || typeof path.getTotalLength !== 'function')
+      return;
+    // Geometry is read once per layout, not per scroll event.
     const total = path.getTotalLength();
-    const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)');
+    let scrollable = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+    const remeasure = (): void => {
+      scrollable = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+    };
 
     let frame = 0;
+    let lastY = window.scrollY;
+    let lastTilt = 0;
+    let idle = 0;
+    const setTilt = (deg: number): void => {
+      if (deg === lastTilt) return;
+      lastTilt = deg;
+      tilt.style.transform = `rotate(${deg}deg)`;
+    };
     const place = (): void => {
       frame = 0;
-      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
-      const progress =
-        reduce?.matches || scrollable <= 0
-          ? 0
-          : Math.min(1, Math.max(0, window.scrollY / scrollable));
-      const here = path.getPointAtLength((EDGE + progress * (1 - 2 * EDGE)) * total);
-      const ahead = path.getPointAtLength(
-        Math.min(total, (EDGE + progress * (1 - 2 * EDGE)) * total + 4),
-      );
-      const tilt = reduce?.matches
-        ? 0
-        : (Math.atan2(ahead.x - here.x, ahead.y - here.y || 1) * -90) / Math.PI;
-      kite.style.transform = `translate(${here.x}px, ${here.y}px) translate(-50%, -50%) rotate(${tilt}deg)`;
+      const y = window.scrollY;
+      const progress = Math.min(1, Math.max(0, y / scrollable));
+      const along = (EDGE + progress * (1 - 2 * EDGE)) * total;
+      const here = path.getPointAtLength(along);
+      const ahead = path.getPointAtLength(Math.min(total, along + 4));
+      kite.style.transform = `translate(${here.x}px, ${here.y}px) translate(-50%, -50%)`;
+      path.style.strokeDashoffset = String(1 - Math.min(1, along / total + 0.02));
+      const down = Math.sign(y - lastY);
+      lastY = y;
+      if (down !== 0) {
+        // Lean toward the side the kite is heading; flip when scrolling back up.
+        const side = Math.sign(ahead.x - here.x) || 1;
+        setTilt(down * side * distance.tilt);
+        window.clearTimeout(idle);
+        idle = window.setTimeout(() => setTilt(0), IDLE_MS);
+      }
     };
     const onScroll = (): void => {
       if (frame === 0) frame = window.requestAnimationFrame(place);
     };
 
     place();
-    if (reduce?.matches) return;
     window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', remeasure);
     return () => {
       window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', remeasure);
+      window.clearTimeout(idle);
       if (frame !== 0) window.cancelAnimationFrame(frame);
     };
-  }, [size]);
+  }, [size, reduced]);
 
   return (
     <div
       ref={rootRef}
       className={[styles.root, className].filter(Boolean).join(' ')}
       aria-hidden="true"
+      hidden={reduced || undefined}
       data-print="hide"
     >
-      {size ? (
+      {size && !reduced ? (
         <svg className={styles.svg} width={size.width} height={size.height} focusable="false">
-          <path ref={pathRef} d={buildPath(size)} className={styles.path} />
+          <DrawLine d={buildPath(size)} className={styles.path} progress={0} maskRef={maskRef} />
         </svg>
       ) : null}
       <div ref={kiteRef} className={styles.kite}>
-        <Kite size="sm" />
+        <div ref={tiltRef} className={styles.tilt}>
+          <Kite size="sm" />
+        </div>
       </div>
     </div>
   );

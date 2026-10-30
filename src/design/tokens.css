@@ -124,6 +124,9 @@
   --dur-base: 280ms;
   --dur-large: 600ms;
   --dur-hero: 2000ms;
+  --dur-flight: 500ms; /* the kite lifting away on route change */
+  --dur-kite-part: 220ms; /* each part of a kite drawing in */
+  --kite-build: calc(3 * var(--dur-kite-part));
   --dur-bob: 1600ms; /* the loading kite */
   --dur-breathe: 3000ms; /* the final call-to-action glow */
   --ease-lift: cubic-bezier(0.2, 0.7, 0.2, 1); /* entrances */

@@ -3,26 +3,18 @@
 import { useEffect, useRef, useState } from 'react';
 import type { MouseEvent, ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
+import { flight } from '@/design/motion';
 import { auditScope } from '@/domain/config';
 import { en, fill } from '@/domain/copy';
 import { PlainSection } from '@/shell';
-import { Button, Kite } from '@/ui';
+import { Breathe, Button, Kite, prefersReducedMotion } from '@/ui';
 import styles from './FinalCta.module.css';
 
 const copy = en.landing.finalCta;
-/** How long the kite flies before the next page opens. */
-const FLIGHT_MS = 400;
 
 export type FinalCtaProps = {
   startHref: string;
 };
-
-function prefersReducedMotion(): boolean {
-  return (
-    typeof window.matchMedia === 'function' &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  );
-}
 
 /**
  * The closing call to action: text on the page background and a pill button. The button is a real
@@ -41,7 +33,7 @@ export function FinalCta({ startHref }: FinalCtaProps): ReactNode {
     if (!plainClick || event.defaultPrevented || prefersReducedMotion() || flying) return;
     event.preventDefault();
     setFlying(true);
-    timer.current = window.setTimeout(() => router.push(startHref), FLIGHT_MS);
+    timer.current = window.setTimeout(() => router.push(startHref), flight);
   };
 
   return (
@@ -55,9 +47,11 @@ export function FinalCta({ startHref }: FinalCtaProps): ReactNode {
             {fill(copy.body, { quickStart: auditScope.quickStartQuestions })}
           </p>
           <div className={styles.actions}>
-            <Button href={startHref} size="lg" onClick={onStart}>
-              {copy.primary}
-            </Button>
+            <Breathe>
+              <Button href={startHref} size="lg" onClick={onStart}>
+                {copy.primary}
+              </Button>
+            </Breathe>
             <Button href={en.site.url} size="lg" variant="outline">
               {copy.secondary}
             </Button>

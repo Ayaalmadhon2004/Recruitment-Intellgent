@@ -52,3 +52,5 @@ export type { DrawLineProps } from './DrawLine';
 export { KiteBob } from './KiteBob';
 export type { KiteBobProps } from './KiteBob';
 export { prefersReducedMotion, useActive, useInView, useReducedMotion } from './motion';
+export { Breathe } from './Breathe';
+export type { BreatheProps } from './Breathe';

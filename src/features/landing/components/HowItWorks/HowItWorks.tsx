@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 import { uiCopy } from '@/design/ui-copy';
 import { auditScope } from '@/domain/config';
 import { en, fill } from '@/domain/copy';
@@ -22,12 +22,14 @@ export function HowItWorks(): ReactNode {
         const progress = PROGRESS[i];
         const label = home.kiteSteps[i];
         return (
-          <li key={s.title} className={styles.step}>
+          <li key={s.title} className={styles.step} style={{ '--n': i } as CSSProperties}>
             <Reveal index={i} className={styles.reveal}>
               {progress ? <Kite progress={progress} size="lg" title={label} /> : null}
-              <h3 className={styles.title}>{fill(s.title, counts)}</h3>
-              <p className={styles.body}>{s.body}</p>
-              <span className={styles.time}>{fill(s.time, counts)}</span>
+              <div className={`${styles.caption} anim-after-build`}>
+                <h3 className={styles.title}>{fill(s.title, counts)}</h3>
+                <p className={styles.body}>{s.body}</p>
+                <span className={styles.time}>{fill(s.time, counts)}</span>
+              </div>
             </Reveal>
           </li>
         );

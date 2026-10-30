@@ -8,6 +8,8 @@ export {
   duration,
   easeOutCubic,
   easing,
+  flight,
+  intro,
   loop,
   stagger,
 } from './motion';

@@ -10,6 +10,14 @@
   }
 }
 
+/* The Home intro kite: spins in, settling with the kite's own easing. */
+@keyframes anim-kite-in {
+  from {
+    opacity: 0;
+    transform: rotate(-270deg) scale(0.6);
+  }
+}
+
 /* Bars fill by scaling from the left: transform only, no width animation. */
 @keyframes anim-grow {
   from {
@@ -59,6 +67,9 @@
 .anim-up {
   animation: anim-up var(--dur-enter) var(--ease-out) both;
 }
+.anim-kite-in {
+  animation: anim-kite-in 1000ms var(--ease-settle) both;
+}
 .anim-grow {
   transform-origin: left center;
   animation: anim-grow var(--dur-large) var(--ease-lift) both;
@@ -78,7 +89,7 @@
 
 /* Staggered items set --i (0-based); beyond the cap they appear together with the last one. */
 .anim-stagger {
-  animation-delay: calc(min(var(--i, 0), var(--stagger-cap)) * var(--stagger));
+  animation-delay: var(--reveal-delay, calc(min(var(--i, 0), var(--stagger-cap)) * var(--stagger)));
 }
 
 .hover-lift {
@@ -103,6 +114,12 @@
 .hover-nudge:active:not(:disabled) {
   transform: translateY(0);
   box-shadow: none;
+}
+
+/* Inside a Reveal: fades in after the kite drawn there is built. */
+[data-reveal='shown'] .anim-after-build {
+  animation: anim-up var(--dur-base) var(--ease-lift) both;
+  animation-delay: calc(var(--reveal-delay, 0ms) + var(--kite-build));
 }
 
 /* Underline that draws from the left on hover or keyboard focus (scale only). */

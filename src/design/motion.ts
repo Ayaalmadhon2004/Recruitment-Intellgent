@@ -12,6 +12,9 @@ export const duration = {
 } as const;
 
 /** Continuous loops. Each runs only while on screen with the tab visible, and never under reduced motion. */
+/** Kite lift-off when a call to action starts the audit. */
+export const flight = 500;
+
 export const loop = {
   bob: 1600,
   breathe: 3000,
@@ -42,6 +45,18 @@ export const distance = {
   text: 6,
   /** Tilt limit for the scroll kite, degrees. */
   tilt: 8,
+} as const;
+
+/** The Home intro, in ms from the start. It is the one hero motion on that screen and ends by hero (2.5s max). */
+export const intro = {
+  /** The kite spins in until here. */
+  spinEnd: 1000,
+  /** Wings unfold: left at spinEnd, both by openAt. */
+  openAt: 1300,
+  /** The headline block is written line by line from here. */
+  linesAt: 1300,
+  lineGap: 200,
+  doneAt: 2500,
 } as const;
 
 /** Count-up lengths in ms, by purpose. */
