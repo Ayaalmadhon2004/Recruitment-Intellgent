@@ -1,15 +1,7 @@
-import type { Metadata } from 'next';
-import type { ReactNode } from 'react';
-import { en } from '@/domain/copy';
-import { PageContainer } from '@/shell';
-import { FirstReadRoute } from './FirstReadRoute';
+import { redirect } from 'next/navigation';
+import { routes } from '@/domain/config';
 
-export const metadata: Metadata = { title: en.quickStart.firstReadPageTitle };
-
-export default function Page(): ReactNode {
-  return (
-    <PageContainer>
-      <FirstReadRoute />
-    </PageContainer>
-  );
+/** The first read is a step of the continuous audit now. */
+export default function Page(): never {
+  redirect(`${routes.quickStart}?phase=read`);
 }

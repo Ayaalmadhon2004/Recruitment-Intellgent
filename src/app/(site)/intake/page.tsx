@@ -1,17 +1,7 @@
-import type { Metadata } from 'next';
-import type { ReactNode } from 'react';
+import { redirect } from 'next/navigation';
 import { routes } from '@/domain/config';
-import { en } from '@/domain/copy';
-import { AccountIntake } from '@/features/accounts';
-import { PageContainer } from '@/shell';
 
-export const metadata: Metadata = { title: en.intake.pageTitle };
-
-/** Composes the Intake, saving to the account as well when someone is signed in. */
-export default function Page(): ReactNode {
-  return (
-    <PageContainer>
-      <AccountIntake reportHref={routes.report} exitHref={routes.dashboard} />
-    </PageContainer>
-  );
+/** The remaining questions are a step of the continuous audit now. */
+export default function Page(): never {
+  redirect(`${routes.quickStart}?phase=sections`);
 }
