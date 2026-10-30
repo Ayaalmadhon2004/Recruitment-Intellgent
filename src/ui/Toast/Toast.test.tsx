@@ -31,6 +31,18 @@ describe('Toast', () => {
     expect(region).toHaveTextContent('Saved it');
   });
 
+  it('does not stack the same message twice', () => {
+    render(
+      <ToastProvider>
+        <Trigger />
+      </ToastProvider>,
+    );
+    fireEvent.click(screen.getByRole('button', { name: 'go' }));
+    fireEvent.click(screen.getByRole('button', { name: 'go' }));
+    fireEvent.click(screen.getByRole('button', { name: 'go' }));
+    expect(screen.getAllByText('Saved it')).toHaveLength(1);
+  });
+
   it('dismisses itself after its duration and by the close button', () => {
     render(
       <ToastProvider>

@@ -83,7 +83,12 @@ export function ToastProvider({ children }: { children: ReactNode }): ReactNode 
     () => ({
       show: ({ message, status = 'info', durationMs = DEFAULT_DURATION }) => {
         const id = nextId.current++;
-        setItems((current) => [...current.slice(-2), { id, message, status, durationMs }]);
+        // The same message is never stacked: while one is showing, asking again does nothing.
+        setItems((current) =>
+          current.some((item) => item.message === message && item.status === status)
+            ? current
+            : [...current.slice(-2), { id, message, status, durationMs }],
+        );
       },
     }),
     [],
