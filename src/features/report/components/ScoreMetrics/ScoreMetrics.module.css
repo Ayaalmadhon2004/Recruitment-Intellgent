@@ -1,0 +1,96 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.pill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-target);
+  padding: 0 var(--space-5);
+  border: 2px solid var(--color-navy);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--color-navy-deep);
+  font-size: var(--text-label-size);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition: var(--transition-interactive);
+}
+
+.pill:hover {
+  background: var(--color-pastel-blue);
+}
+
+.selected,
+.selected:hover {
+  background: var(--color-navy);
+  color: var(--color-text-inverse);
+}
+
+/* The real radio sits over the pill so it is the tap target; the pill draws its state. */
+.input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.pill:has(.input:focus-visible) {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-4);
+  min-height: 200px;
+}
+
+.name {
+  margin: 0;
+  font-size: var(--text-h3-size);
+  line-height: var(--text-h3-line);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
+}
+
+.value {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: var(--text-h1-size);
+  line-height: var(--text-h1-line);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-navy-deep);
+}
+
+.line {
+  margin: 0;
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-line);
+  color: var(--color-text-secondary);
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3) var(--space-5);
+  align-items: center;
+}

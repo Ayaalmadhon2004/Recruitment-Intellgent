@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react';
-import { auditScope, routes, tbcConfig } from '@/domain/config';
-import { en, fill } from '@/domain/copy';
-import { CtaBand } from '@/patterns';
-import { PageContainer, WaveDivider } from '@/shell';
+import { routes, tbcConfig } from '@/domain/config';
+import { en } from '@/domain/copy';
+import { PageContainer, PlainSection, WaveDivider } from '@/shell';
+import { FinalCta } from './components/FinalCta';
 import { FreeOrFull } from './components/FreeOrFull';
 import { Hero } from './components/Hero';
 import { HowItWorks } from './components/HowItWorks';
@@ -10,7 +10,7 @@ import { PrivacyStrip } from './components/PrivacyStrip';
 import { WhatYouGet } from './components/WhatYouGet';
 import styles from './LandingPage.module.css';
 
-const copy = en.landing.finalCta;
+const copy = en.landing;
 
 export type LandingPageProps = {
   /** Where the audit starts. */
@@ -20,6 +20,7 @@ export type LandingPageProps = {
   privacyPolicyUrl?: string | null;
 };
 
+/** Hero banner, the site's one wave, then plain sections set on the page background. */
 export function LandingPage({
   startHref = routes.quickStart,
   pricing = tbcConfig.pricing,
@@ -28,37 +29,28 @@ export function LandingPage({
   return (
     <>
       <Hero startHref={startHref} />
-      <section className={`${styles.band} ${styles.bandWhite}`}>
-        <PageContainer className={styles.sections}>
+      <WaveDivider from="blue" to="page" />
+      <div id="get" className={styles.anchor}>
+        <PlainSection eyebrow={copy.get.eyebrow} title={copy.get.title}>
           <WhatYouGet />
-        </PageContainer>
-      </section>
-      <WaveDivider from="card" to="page" />
-      <section className={`${styles.band} ${styles.bandBlue}`}>
-        <PageContainer className={styles.sections}>
+        </PlainSection>
+      </div>
+      <div id="how" className={styles.anchor}>
+        <PlainSection eyebrow={copy.how.eyebrow} title={copy.how.title} separator="line">
           <HowItWorks />
-        </PageContainer>
-      </section>
-      <WaveDivider from="page" to="warm" />
-      <section className={`${styles.band} ${styles.bandWarm}`}>
-        <PageContainer className={styles.sections}>
+        </PlainSection>
+      </div>
+      <div id="compare" className={styles.anchor}>
+        <PlainSection eyebrow={copy.compare.eyebrow} title={copy.compare.title} separator="line">
           <FreeOrFull startHref={startHref} pricing={pricing} />
-        </PageContainer>
-      </section>
-      <WaveDivider from="warm" to="card" />
-      <section className={`${styles.band} ${styles.bandWhite}`}>
-        <PageContainer className={styles.sections}>
+        </PlainSection>
+      </div>
+      <div className={styles.privacy}>
+        <PageContainer>
           <PrivacyStrip privacyPolicyUrl={privacyPolicyUrl} />
-          <CtaBand
-            title={copy.title}
-            body={fill(copy.body, { quickStart: auditScope.quickStartQuestions })}
-            actions={[
-              { label: copy.primary, href: startHref },
-              { label: copy.secondary, href: en.site.url, variant: 'inverse-outline' },
-            ]}
-          />
         </PageContainer>
-      </section>
+      </div>
+      <FinalCta startHref={startHref} />
     </>
   );
 }

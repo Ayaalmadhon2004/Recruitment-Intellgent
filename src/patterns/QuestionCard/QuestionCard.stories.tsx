@@ -11,6 +11,7 @@ type DemoProps = {
   initialUnsure?: boolean;
   withEvidence?: boolean;
   initialEvidence?: KnownEvidenceTag;
+  variant?: 'card' | 'plain';
 };
 
 function Demo({
@@ -19,6 +20,7 @@ function Demo({
   initialUnsure = false,
   withEvidence = false,
   initialEvidence,
+  variant,
 }: DemoProps): React.ReactNode {
   const [value, setValue] = useState<AnswerValue | undefined>(initial);
   const [unsure, setUnsure] = useState(initialUnsure);
@@ -36,6 +38,7 @@ function Demo({
         onUnsure={() => setUnsure((u) => !u)}
         evidence={withEvidence ? { value: tag, onChange: setTag } : undefined}
         labels={questionCardLabels}
+        variant={variant}
       />
     </div>
   );
@@ -102,3 +105,14 @@ export const ToggleWithEvidence = story({
   withEvidence: true,
   initialEvidence: 'verified',
 });
+
+export const PlainTodo = story({ type: 'radio', variant: 'plain' });
+export const PlainAnswered = story({
+  type: 'radio',
+  initial: 'b',
+  withEvidence: true,
+  initialEvidence: 'estimate',
+  variant: 'plain',
+});
+export const PlainUnknown = story({ type: 'select', initialUnsure: true, variant: 'plain' });
+export const PlainNumber = story({ type: 'number', initial: SAMPLE_STUDENTS, variant: 'plain' });

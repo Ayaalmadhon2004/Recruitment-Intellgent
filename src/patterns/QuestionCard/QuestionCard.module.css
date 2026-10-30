@@ -433,3 +433,106 @@
     width: 100%;
   }
 }
+
+/* ---- plain variant: no box. Text on the page, one thin rule, pills and underlines. ---- */
+.plain {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding-block: var(--space-6);
+  border-bottom: 1px solid var(--color-line);
+}
+
+.plainText {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: var(--text-h3-size);
+  line-height: var(--text-h3-line);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-navy-deep);
+}
+
+.plainControl {
+  margin-block: var(--space-2);
+}
+
+.plainFooter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3) var(--space-5);
+}
+
+.plainStatus {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  font-size: var(--text-caption-size);
+  line-height: var(--text-caption-line);
+  font-weight: var(--font-weight-semibold);
+}
+
+.plainSure {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+}
+
+.plainNotSure {
+  min-height: var(--tap-target);
+  padding: 0 var(--space-4);
+  border-width: 1px;
+}
+
+/* Inputs are fully rounded or an underline. */
+.plain .selectWrap select {
+  border-radius: var(--radius-pill);
+  box-shadow: none;
+}
+
+.plain input[type='text'] {
+  border: 0;
+  border-bottom: 2px solid var(--color-input-border);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+/* Options are lines, not boxes: a thin rule between them, the chosen one marked by a check and weight. */
+.plain .radios {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.plain .radioCard {
+  min-height: var(--tap-target);
+  padding: var(--space-3) 0;
+  border: 0;
+  border-bottom: 1px solid var(--color-line-soft);
+  border-radius: 0;
+  background: transparent;
+}
+
+.plain .radioCardOn {
+  background: transparent;
+  border-bottom-color: var(--color-navy);
+}
+
+.plain .radioCardOn .optionLabel {
+  color: var(--color-navy);
+  font-weight: var(--font-weight-bold);
+}
+
+.plain .pill {
+  min-height: var(--tap-target);
+  padding: 0 var(--space-4);
+  border-width: 1px;
+  font-size: var(--text-small-size);
+}
+
+.plain .evidenceHeading {
+  color: var(--color-text-secondary);
+}

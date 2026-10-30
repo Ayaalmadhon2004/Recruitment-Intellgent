@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import { routes } from '@/domain/config';
 import { en } from '@/domain/copy';
@@ -32,6 +32,11 @@ export type FirstReadPageProps = {
   changeAnswersHref?: string;
   continueHref?: string;
   unlockHref?: string;
+  /**
+   * Answers held by the caller (the continuous audit flow). Without them the page reads this tab's
+   * stored Quick Start answers.
+   */
+  answers?: readonly Answer[];
 };
 
 function stateFor(
@@ -68,8 +73,12 @@ export function FirstReadPage({
   changeAnswersHref = routes.quickStart,
   continueHref = routes.intake,
   unlockHref,
+  answers: given,
 }: FirstReadPageProps): ReactNode {
-  const { answers, raw } = useStoredAnswers();
+  const stored = useStoredAnswers();
+  const givenRaw = useMemo(() => (given ? JSON.stringify(given) : undefined), [given]);
+  const answers = given ?? stored.answers;
+  const raw = givenRaw ?? stored.raw;
   const [attempt, setAttempt] = useState(0);
   const [outcome, setOutcome] = useState<Outcome>();
   const root = useRef<HTMLDivElement>(null);

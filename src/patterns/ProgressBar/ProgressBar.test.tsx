@@ -4,12 +4,12 @@ import { ProgressBar } from './ProgressBar';
 
 describe('ProgressBar', () => {
   it('is a labelled progressbar with a spoken value', () => {
-    render(<ProgressBar value={28} max={40} label="Audit completeness" valueText="28 of 40" />);
+    render(<ProgressBar value={18} max={24} label="Audit completeness" valueText="18 of 24" />);
     const bar = screen.getByRole('progressbar', { name: 'Audit completeness' });
-    expect(bar).toHaveAttribute('aria-valuenow', '28');
-    expect(bar).toHaveAttribute('aria-valuemax', '40');
-    expect(bar).toHaveAttribute('aria-valuetext', '28 of 40');
-    expect(screen.getByText('28 of 40')).toBeVisible();
+    expect(bar).toHaveAttribute('aria-valuenow', '18');
+    expect(bar).toHaveAttribute('aria-valuemax', '24');
+    expect(bar).toHaveAttribute('aria-valuetext', '18 of 24');
+    expect(screen.getByText('18 of 24')).toBeVisible();
   });
 
   it('clamps the fill between 0 and 100 percent', () => {

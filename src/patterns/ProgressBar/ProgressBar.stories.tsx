@@ -4,7 +4,7 @@ import { ProgressBar } from './ProgressBar';
 const meta = {
   title: 'patterns/ProgressBar',
   component: ProgressBar,
-  args: { value: 28, max: 40, label: 'Audit completeness', valueText: '28 of 40' },
+  args: { value: 18, max: 24, label: 'Audit completeness', valueText: '18 of 24' },
   decorators: [
     (Story) => (
       <div style={{ padding: 'var(--space-6)', maxWidth: 420 }}>

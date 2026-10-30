@@ -1,14 +1,16 @@
 /* Design tokens. The only place colours, radii, font sizes and spacing are defined. */
 :root {
   /* Surfaces */
-  --color-page: #eef2f9;
-  --color-page-alt: #e4ebf6;
-  --color-page-warm: #fbeff1;
+  --color-page: #fbf8f3;
+  --color-page-alt: #f4efe6;
+  --color-page-warm: #f6e7eb; /* pastel red */
+  --color-pastel-blue: #e8ebef;
+  --color-pastel-red: #f6e7eb;
   --color-card: #ffffff;
-  --color-navy-deep: #0d2447;
+  --color-navy-deep: #152a45;
   /* Navy: headings, structure, selected states and result cards. One base, one deep shade, one tint. */
   --color-navy: #1e3a5f;
-  /* Crimson is reserved for the single primary action (and the logo). Never for labels, badges or fills. */
+  /* Navy and red are both primary. Red is used sparingly: the active nav item, secondary buttons, small accents. */
   --color-crimson: #a41034;
   --color-crimson-dark: #8f0728;
 
@@ -18,12 +20,12 @@
   --color-text-inverse: #ffffff;
 
   /* Lines and fields */
-  --color-line: #cfd9ea;
-  --color-line-strong: #bccae2;
-  --color-line-soft: #dde5f2;
+  --color-line: #d9dde3;
+  --color-line-strong: #b9c0cb;
+  --color-line-soft: #e8ebef;
   --color-line-neutral: #d3d8e0;
   --color-input-border: #818285;
-  --color-line-dashed: #9fb1cf;
+  --color-line-dashed: #9aa7ba;
 
   /* Status (always paired with a word and an icon, never colour alone) */
   --color-status-strong: #1e7a4c;
@@ -32,28 +34,26 @@
   --color-status-info: #2f5fa8;
 
   /* Tints used behind status and selection */
-  --color-navy-tint: #eef2f8;
+  --color-navy-tint: #e8ebef;
   --color-strong-tint: #e8f3ec;
   --color-info-tint: #e6eef9;
   --color-concern-tint: #fcebe2;
   --color-caution-tint: #fff3dc;
   --color-neutral-tint: #f7f7f7;
 
-  /* Page backdrop: a cool blue-gray base lit by one crimson and two navy glows. */
-  --backdrop-page:
-    radial-gradient(900px 560px at 100% 0, color-mix(in srgb, var(--color-crimson) 9%, transparent), transparent 70%),
-    radial-gradient(1000px 640px at 0 720px, color-mix(in srgb, var(--color-navy) 11%, transparent), transparent 70%),
-    radial-gradient(900px 560px at 100% 100%, color-mix(in srgb, var(--color-crimson) 7%, transparent), transparent 70%),
-    linear-gradient(180deg, var(--color-page) 0%, var(--color-page-alt) 100%);
-  --backdrop-band-white: linear-gradient(180deg, var(--color-card) 0%, color-mix(in srgb, var(--color-card) 70%, var(--color-page)) 100%);
-  --backdrop-band-warm: linear-gradient(180deg, var(--color-page-warm) 0%, color-mix(in srgb, var(--color-page-warm) 55%, var(--color-page)) 100%);
-  --backdrop-band-navy: linear-gradient(135deg, var(--color-navy-deep) 0%, var(--color-navy) 100%);
+  /* Page backdrop: flat page colour. Bands are flat too: no gradients. */
+  --backdrop-page: var(--color-page);
+  --backdrop-band-white: var(--color-card);
+  --backdrop-band-warm: var(--color-page-warm);
+  --backdrop-band-navy: var(--color-navy);
   --border-card: 1px solid var(--color-line);
   --accent-card-crimson: 4px solid var(--color-crimson);
   --accent-card-navy: 4px solid var(--color-navy);
 
   /* Typography */
-  --font-sans: var(--font-poppins), 'Poppins', system-ui, sans-serif;
+  /* Poppins has no Vietnamese glyphs: Be Vietnam Pro follows it in the stack and draws them. */
+  --font-sans: var(--font-poppins), 'Poppins', var(--font-be-vietnam), 'Be Vietnam Pro', system-ui, sans-serif;
+  --font-heading: var(--font-fraunces), 'Fraunces', Georgia, 'Times New Roman', serif;
   --font-weight-regular: 400;
   --font-weight-medium: 500;
   --font-weight-semibold: 600;
@@ -79,7 +79,10 @@
   --radius-pill: 999px;
   --radius-hairline: 2px;
   --radius-arch: 150px;
-  --radius-field: 12px;
+  --radius-arch-top: 160px 160px 0 0; /* arch sheets and modals */
+  --radius-sheet: 32px;
+  --radius-bubble: 20px;
+  --radius-field: var(--radius-pill); /* inputs, selects and small labels are fully rounded */
   --radius-card-sm: 20px;
   --radius-card-md: 24px;
   --radius-card-lg: 28px;
@@ -139,6 +142,18 @@
 
   /* Select chevron (navy). Lives here because it is a colour inside a data URI. */
   --select-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%231e3a5f' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+
+  /* Overlay, toast, bubble */
+  --color-backdrop: color-mix(in srgb, var(--color-navy-deep) 45%, transparent);
+  --blur-backdrop: 6px;
+  --z-header: 10;
+  --z-bubble: 20;
+  --z-toast: 60;
+  --z-companion: 5;
+  --color-wave: var(--color-pastel-blue);
+  --color-companion-line: var(--color-line-dashed);
+  --toast-offset: 16px;
+  --toast-max-width: 480px;
 
   /* Focus ring */
   --focus-ring-color: var(--color-navy);

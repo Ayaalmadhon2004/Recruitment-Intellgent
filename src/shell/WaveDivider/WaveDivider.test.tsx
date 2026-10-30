@@ -7,4 +7,9 @@ describe('WaveDivider', () => {
     const { container } = render(<WaveDivider from="card" to="page" />);
     expect(container.firstElementChild).toHaveAttribute('aria-hidden', 'true');
   });
+
+  it('supports the pastel blue tone used under the home hero', () => {
+    const { container } = render(<WaveDivider from="blue" to="page" />);
+    expect(container.firstElementChild?.className).toMatch(/from-blue/);
+  });
 });

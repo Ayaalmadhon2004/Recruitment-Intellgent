@@ -8,7 +8,7 @@ const meta = {
   component: CtaBand,
   args: {
     title: 'Finish the audit to see every score.',
-    body: '35 more questions. Your 5 answers are kept.',
+    body: '19 more questions. Your 5 answers are kept.',
     eyebrow: 'NEXT STEP',
     actions: [
       { label: 'Complete the full audit', href: '#' },

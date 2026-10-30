@@ -5,7 +5,6 @@ import type { ReactNode } from 'react';
 import { auditScope } from '@/domain/config';
 import { en, fill } from '@/domain/copy';
 import { TbcValue } from '@/patterns';
-import { SectionHeader } from '@/shell';
 import { Button, Icon } from '@/ui';
 import styles from './FreeOrFull.module.css';
 
@@ -36,8 +35,7 @@ export function FreeOrFull({
   const current = copy[mode];
 
   return (
-    <section id="compare" className={styles.section} aria-labelledby="landing-compare-title">
-      <SectionHeader eyebrow={copy.eyebrow} title={copy.title} id="landing-compare-title" />
+    <div className={styles.section}>
       <div role="group" aria-label={copy.switchLabel} className={styles.switch}>
         {MODES.map((m) => (
           <button
@@ -82,6 +80,6 @@ export function FreeOrFull({
           ))}
         </ul>
       </div>
-    </section>
+    </div>
   );
 }

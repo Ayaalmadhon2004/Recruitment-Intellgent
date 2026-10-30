@@ -17,6 +17,17 @@ body {
   line-height: var(--text-body-line);
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-navy);
+}
+
 a {
   color: var(--color-navy);
 }

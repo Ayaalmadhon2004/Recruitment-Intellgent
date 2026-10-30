@@ -3,9 +3,7 @@
   flex-wrap: wrap;
   gap: var(--space-4);
   align-items: center;
-  padding: var(--space-5) 28px;
-  border: 2px dashed var(--color-line-dashed);
-  border-radius: var(--radius-pill);
+  padding: var(--space-6) 0;
 }
 
 .icon {
@@ -35,10 +33,4 @@
   font-size: var(--text-small-size);
   line-height: var(--text-small-line);
   color: var(--color-text-secondary);
-}
-
-@media (max-width: 760px) {
-  .strip {
-    border-radius: var(--radius-card-xl);
-  }
 }

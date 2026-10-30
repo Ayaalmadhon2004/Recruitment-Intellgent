@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { en, fill } from '@/domain/copy';
 import { SampleDataBadge, StatusBadge } from '@/patterns';
-import { Button, Card, Icon } from '@/ui';
+import { Button, Icon } from '@/ui';
 import { formatUpdated } from '../../model';
 import type { AuditCardModel, StageView } from '../../model';
 import { ProgressRing } from '../ProgressRing';
@@ -44,7 +44,7 @@ export function AuditCard({
   const name = audit.name ?? copy.untitled;
   const complete = audit.progress === 'complete';
   return (
-    <Card as="article" lift className={styles.card} aria-label={name}>
+    <article className={styles.card} aria-label={name}>
       <div className={styles.top}>
         <ProgressRing
           percent={audit.percent}
@@ -101,6 +101,6 @@ export function AuditCard({
           {copy.view}
         </Button>
       </div>
-    </Card>
+    </article>
   );
 }

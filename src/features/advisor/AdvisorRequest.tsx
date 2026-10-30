@@ -2,16 +2,16 @@
 
 import { useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
-import { FlowShell, TbcValue } from '@/patterns';
 import { routes } from '@/domain/config';
 import { en } from '@/domain/copy';
-import { PageContainer, SectionHeader, WaveDivider } from '@/shell';
-import { Field, Icon, PaperFoldMark, RadioCardGroup, Select } from '@/ui';
+import { PageContainer } from '@/shell';
+import { Button, Field, Icon, PaperFoldMark, Select, StepLabel } from '@/ui';
 import { AdvisorAside } from './AdvisorAside';
 import { AdvisorSuccess } from './AdvisorSuccess';
 import { AdvisorTeam } from './AdvisorTeam';
-import { ReasonCards } from './ReasonCards';
-import { channelById, channels, fill, timeWindows } from './channels';
+import { ChannelChoice } from './ChannelChoice';
+import { WhenToTalk } from './WhenToTalk';
+import { channelById, fill, timeWindows } from './channels';
 import { errorMessages } from './errors';
 import { isChannel, isTimeWindow, validateAdvisorRequest } from './validate';
 import type { AdvisorRequestInput, FieldErrors } from './validate';
@@ -44,22 +44,7 @@ export type AdvisorRequestProps = {
 const steps = [
   { id: 'channel', label: copy.flow.stepChannel },
   { id: 'details', label: copy.flow.stepDetails },
-];
-
-const flowLabels = {
-  stepperLabel: copy.flow.stepperLabel,
-  stateLabels: {
-    done: copy.flow.stateDone,
-    current: copy.flow.stateCurrent,
-    upcoming: copy.flow.stateUpcoming,
-  },
-  back: copy.flow.back,
-  next: copy.flow.next,
-  submit: copy.flow.submit,
-  loading: copy.flow.sending,
-  announce: (n: number, total: number, label: string): string =>
-    fill(copy.flow.announce, { n, total, label }),
-};
+] as const;
 
 async function send(values: AdvisorRequestInput): Promise<AdvisorResponseBody | null> {
   try {
@@ -91,6 +76,20 @@ export function AdvisorRequest({
     initialStatus === 'success' ? { ...emptyValues, ...initialValues } : null,
   );
   const details = useRef<HTMLDivElement>(null);
+  const heading = useRef<HTMLHeadingElement>(null);
+  const successPanel = useRef<HTMLDivElement>(null);
+  const moved = useRef(false);
+
+  // Move focus to the new step's heading (or the success message), but not on first render.
+  const showingSuccess = status === 'success' && sent !== null;
+  useEffect(() => {
+    if (!moved.current) {
+      moved.current = true;
+      return;
+    }
+    if (showingSuccess) successPanel.current?.focus();
+    else heading.current?.focus();
+  }, [step, showingSuccess]);
 
   // After a failed submit, move focus to the first field with an error.
   useEffect(() => {
@@ -151,14 +150,6 @@ export function AdvisorRequest({
       <AdvisorSuccess request={sent} backHref={backHref} onAgain={reset} />
     ) : undefined;
 
-  const channelOptions = channels.map((c) => ({
-    value: c.id,
-    label: c.copy.name,
-    description: c.copy.line,
-    icon: c.icon,
-    detail: <TbcValue value={c.confirmed} placeholder={c.copy.detailTbc} label={en.status.pending} />,
-  }));
-
   const err = (key: keyof FieldErrors): string | undefined => {
     const code = errors[key];
     return code ? errorMessages[code] : undefined;
@@ -175,30 +166,23 @@ export function AdvisorRequest({
           <p className={styles.heroLead}>{copy.hero.lead}</p>
         </PageContainer>
       </section>
-      <WaveDivider from="navy" to="page" />
       <PageContainer className={styles.main}>
-        <ReasonCards />
+        <WhenToTalk />
         <AdvisorTeam />
         <section aria-label={copy.flow.sectionLabel} className={styles.flow}>
-          <FlowShell
-            steps={steps}
-            current={step}
-            labels={flowLabels}
-            onBack={() => setStep((s) => Math.max(firstStep, s - 1))}
-            onNext={onNext}
-            submitting={status === 'submitting'}
-            success={success}
-          >
-            {step === 0 ? (
-              <div className={styles.stepBlock}>
-                <SectionHeader
-                  eyebrow={fill(copy.flow.stepEyebrow, { n: 1 })}
-                  title={copy.flow.stepChannel}
-                />
-                <RadioCardGroup
+          {success ? (
+            <div ref={successPanel} tabIndex={-1} className={styles.panel}>
+              {success}
+            </div>
+          ) : (
+            <div className={styles.stepFlow}>
+              <StepLabel current={step + 1} total={steps.length} />
+              <h2 ref={heading} tabIndex={-1} className={styles.stepTitle}>
+                {steps[step]?.label}
+              </h2>
+              {step === 0 ? (
+                <ChannelChoice
                   legend={copy.flow.channelLegend}
-                  name="channel"
-                  options={channelOptions}
                   value={values.channel}
                   onChange={(v) => {
                     if (isChannel(v)) {
@@ -207,74 +191,86 @@ export function AdvisorRequest({
                     }
                   }}
                 />
-              </div>
-            ) : (
-              <div className={styles.detailsRow}>
-                <div ref={details} className={styles.form}>
-                  <SectionHeader
-                    eyebrow={fill(copy.flow.stepEyebrow, { n: 2 })}
-                    title={copy.flow.stepDetails}
-                  />
-                  {serverError ? (
-                    <p role="alert" className={styles.serverError}>
-                      <Icon name="concern" size={16} strokeWidth={2.4} />
-                      {copy.errors.server}
+              ) : (
+                <div className={styles.detailsRow}>
+                  <div ref={details} className={styles.form}>
+                    {serverError ? (
+                      <p role="alert" className={styles.serverError}>
+                        <Icon name="concern" size={16} strokeWidth={2.4} />
+                        {copy.errors.server}
+                      </p>
+                    ) : null}
+                    <div className={styles.pair}>
+                      <Field
+                        label={copy.form.name}
+                        type="text"
+                        autoComplete="name"
+                        value={values.name}
+                        onChange={(e) => set('name', e.target.value)}
+                        error={err('name')}
+                      />
+                      <Field
+                        label={copy.form.institution}
+                        type="text"
+                        autoComplete="organization"
+                        value={values.institution}
+                        onChange={(e) => set('institution', e.target.value)}
+                        error={err('institution')}
+                      />
+                    </div>
+                    <div className={styles.pair}>
+                      <Field
+                        label={channel.copy.contactLabel}
+                        type={channel.inputType}
+                        autoComplete={channel.autoComplete}
+                        inputMode={channel.inputType === 'tel' ? 'tel' : 'email'}
+                        value={values.contact}
+                        onChange={(e) => set('contact', e.target.value)}
+                        error={err('contact')}
+                      />
+                      <Select
+                        label={copy.form.time}
+                        options={timeWindows}
+                        value={values.time}
+                        onChange={(e) => {
+                          if (isTimeWindow(e.target.value)) set('time', e.target.value);
+                        }}
+                        error={err('time')}
+                      />
+                    </div>
+                    <Field
+                      multiline
+                      label={copy.form.message}
+                      hint={copy.form.messageHint}
+                      value={values.message}
+                      onChange={(e) => set('message', e.target.value)}
+                      error={err('message')}
+                    />
+                    <p className={styles.muted}>
+                      {fill(copy.form.via, { channel: channel.copy.via })}
                     </p>
-                  ) : null}
-                  <div className={styles.pair}>
-                    <Field
-                      label={copy.form.name}
-                      type="text"
-                      autoComplete="name"
-                      value={values.name}
-                      onChange={(e) => set('name', e.target.value)}
-                      error={err('name')}
-                    />
-                    <Field
-                      label={copy.form.institution}
-                      type="text"
-                      autoComplete="organization"
-                      value={values.institution}
-                      onChange={(e) => set('institution', e.target.value)}
-                      error={err('institution')}
-                    />
                   </div>
-                  <div className={styles.pair}>
-                    <Field
-                      label={channel.copy.contactLabel}
-                      type={channel.inputType}
-                      autoComplete={channel.autoComplete}
-                      inputMode={channel.inputType === 'tel' ? 'tel' : 'email'}
-                      value={values.contact}
-                      onChange={(e) => set('contact', e.target.value)}
-                      error={err('contact')}
-                    />
-                    <Select
-                      label={copy.form.time}
-                      options={timeWindows}
-                      value={values.time}
-                      onChange={(e) => {
-                        if (isTimeWindow(e.target.value)) set('time', e.target.value);
-                      }}
-                      error={err('time')}
-                    />
-                  </div>
-                  <Field
-                    multiline
-                    label={copy.form.message}
-                    hint={copy.form.messageHint}
-                    value={values.message}
-                    onChange={(e) => set('message', e.target.value)}
-                    error={err('message')}
-                  />
-                  <p className={styles.muted}>
-                    {fill(copy.form.via, { channel: channel.copy.via })}
-                  </p>
+                  <AdvisorAside />
                 </div>
-                <AdvisorAside />
+              )}
+              <div className={styles.actions}>
+                {step > 0 ? (
+                  <Button variant="outline" onClick={() => setStep((s) => Math.max(firstStep, s - 1))}>
+                    {copy.flow.back}
+                  </Button>
+                ) : (
+                  <span />
+                )}
+                <Button
+                  onClick={onNext}
+                  loading={status === 'submitting'}
+                  loadingLabel={copy.flow.sending}
+                >
+                  {step === steps.length - 1 ? copy.flow.submit : copy.flow.next}
+                </Button>
               </div>
-            )}
-          </FlowShell>
+            </div>
+          )}
         </section>
       </PageContainer>
     </>

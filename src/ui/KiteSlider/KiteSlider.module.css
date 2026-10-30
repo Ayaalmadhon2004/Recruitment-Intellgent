@@ -1,0 +1,88 @@
+.root {
+  width: 100%;
+  /* Room above for the month name. */
+  padding: var(--space-8) var(--space-9) var(--space-2);
+}
+
+.track {
+  position: relative;
+  height: 64px;
+  /* Horizontal drags are ours; vertical swipes still scroll the page. */
+  touch-action: pan-y;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.line {
+  position: absolute;
+  inset: 50% 0 auto;
+  border-top: 3px dashed var(--color-line-dashed);
+}
+
+.stop {
+  position: absolute;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  margin: -5px 0 0 -5px;
+  border-radius: var(--radius-pill);
+  background: var(--color-page);
+  border: 2px solid var(--color-line-dashed);
+}
+
+.stopPassed {
+  border-color: var(--color-navy);
+  background: var(--color-navy);
+}
+
+.thumb {
+  position: absolute;
+  top: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: var(--tap-target);
+  min-height: var(--tap-target);
+  transform: translate(-50%, -50%);
+  border-radius: var(--radius-pill);
+  cursor: grab;
+  transition: left var(--dur-base) var(--ease-out);
+}
+
+.thumb:focus-visible {
+  outline: 3px solid var(--focus-ring-color);
+  outline-offset: 4px;
+}
+
+.dragging {
+  cursor: grabbing;
+  transition: none;
+}
+
+.value {
+  position: absolute;
+  bottom: calc(100% + var(--space-1));
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-size: var(--text-label-size);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-navy);
+}
+
+.kite {
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .thumb {
+    transition: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .root {
+    padding-inline: var(--space-8);
+  }
+}

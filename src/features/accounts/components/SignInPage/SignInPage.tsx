@@ -6,7 +6,7 @@ import type { FormEvent, ReactNode } from 'react';
 import { accountsConfig, routes } from '@/domain/config';
 import { en } from '@/domain/copy';
 import { PageContainer } from '@/shell';
-import { Button, Card, Field, Icon, PhotoBox, Stepper } from '@/ui';
+import { Button, Field, Icon, PhotoBox, Stepper } from '@/ui';
 import { isValidEmail } from '../../email';
 import { getDefaultRuntime } from '../../runtime';
 import type { AccountsRuntime } from '../../runtime';
@@ -133,7 +133,7 @@ export function SignInPage({
           stateLabels={copy.stateLabels}
         />
 
-        <Card radius="lg" className={styles.card}>
+        <div className={styles.card}>
           {sent ? (
             <LinkSent
               email={email}
@@ -184,7 +184,7 @@ export function SignInPage({
             <Icon name="lock" size={18} strokeWidth={2.2} />
             <span>{copy.privacy}</span>
           </p>
-        </Card>
+        </div>
 
         {runtime.isDevelopment ? <DevAccountsNotice /> : null}
       </div>

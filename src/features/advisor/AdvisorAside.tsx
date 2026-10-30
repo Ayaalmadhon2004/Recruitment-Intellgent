@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import { TbcValue } from '@/patterns';
 import { tbcConfig } from '@/domain/config/tbc.config';
 import { en } from '@/domain/copy';
-import { Card, PhotoBox } from '@/ui';
+import { PhotoBox } from '@/ui';
 import styles from './AdvisorRequest.module.css';
 
 const copy = en.advisor.aside;
@@ -30,7 +30,7 @@ export function AdvisorName(): ReactNode {
 export function AdvisorAside(): ReactNode {
   return (
     <aside aria-label={copy.label} className={styles.aside}>
-      <Card radius="lg" className={styles.asideCard}>
+      <div className={styles.asideInner}>
         <AdvisorPhoto size={132} />
         <h3 className={styles.asideName}>
           <AdvisorName />
@@ -40,7 +40,7 @@ export function AdvisorAside(): ReactNode {
           <strong className={styles.replyLabel}>{copy.replyTime}</strong>{' '}
           <TbcValue value={tbcConfig.advisorReplyTime} placeholder={en.status.tbc} label={en.status.pending} />
         </p>
-      </Card>
+      </div>
     </aside>
   );
 }

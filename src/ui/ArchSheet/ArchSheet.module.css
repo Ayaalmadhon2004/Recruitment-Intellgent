@@ -1,0 +1,95 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-toast);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background: var(--color-backdrop);
+  backdrop-filter: blur(var(--blur-backdrop));
+  animation: backdrop-in var(--dur-base) var(--ease-standard);
+}
+
+/* Bottom sheet on mobile. */
+.panel {
+  position: relative;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: var(--space-10) var(--space-6) var(--space-7);
+  border-radius: var(--radius-arch-top);
+  background: var(--color-card);
+  color: var(--color-text);
+  animation: sheet-in var(--dur-enter) var(--ease-out);
+}
+
+.panel:focus {
+  outline: none;
+}
+
+.close {
+  position: absolute;
+  /* The top corners are a 160px arch: keep the whole mark inside the curve. */
+  top: var(--space-9);
+  right: var(--space-9);
+  width: var(--tap-target);
+  height: var(--tap-target);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--color-pastel-blue);
+  color: var(--color-navy);
+}
+
+.close:hover {
+  background: var(--color-pastel-red);
+  color: var(--color-crimson-dark);
+}
+
+.title {
+  margin: 0 var(--space-10);
+  text-align: center;
+  font-size: var(--text-h2-size);
+  line-height: var(--text-h2-line);
+}
+
+.body {
+  margin-top: var(--space-5);
+}
+
+/* Centred arch modal from tablet up. */
+@media (min-width: 761px) {
+  .backdrop {
+    align-items: center;
+  }
+
+  .panel {
+    width: min(560px, calc(100vw - 2 * var(--space-6)));
+    padding: var(--space-10) var(--space-8) var(--space-8);
+    border-radius: var(--radius-arch-top) var(--radius-arch-top) var(--radius-sheet)
+      var(--radius-sheet);
+  }
+}
+
+@keyframes backdrop-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes sheet-in {
+  from {
+    opacity: 0;
+    transform: translateY(var(--space-7));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .backdrop,
+  .panel {
+    animation: none;
+  }
+}

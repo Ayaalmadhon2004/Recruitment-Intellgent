@@ -1,6 +1,6 @@
 .header {
   position: relative;
-  background: var(--color-card);
+  background: var(--color-page);
   border-bottom: 1px solid var(--color-line);
 }
 
@@ -36,7 +36,7 @@
   font-size: var(--text-small-size);
   font-weight: var(--font-weight-semibold);
   color: var(--color-text);
-  border-left: 2px solid var(--color-navy);
+  border-left: 1px solid var(--color-line-strong);
   padding-left: var(--space-4);
   white-space: nowrap;
 }
@@ -48,9 +48,10 @@
   top: 100%;
   left: 0;
   right: 0;
-  z-index: 10;
-  background: var(--color-card);
+  z-index: var(--z-header);
+  background: var(--color-page);
   border-bottom: 1px solid var(--color-line);
+  border-radius: 0 0 var(--radius-card-md) var(--radius-card-md);
   box-shadow: var(--shadow-card-raised);
   padding: var(--space-2) var(--layout-gutter) var(--space-4);
   max-height: calc(100vh - 100%);
@@ -74,6 +75,7 @@
 }
 
 .link {
+  min-width: var(--tap-target);
   min-height: var(--tap-target);
   display: flex;
   align-items: center;
@@ -81,6 +83,33 @@
   font-weight: var(--font-weight-medium);
   text-decoration: none;
   color: var(--color-navy);
+}
+
+.link:hover {
+  color: var(--color-crimson);
+}
+
+/* Current page: red label plus a small dot (never colour alone), beside the label on the drawer. */
+.link[aria-current='page'],
+.groupLink[aria-current='page'] {
+  color: var(--color-crimson);
+}
+
+.link[aria-current='page'] .label {
+  position: relative;
+  padding-left: var(--space-5);
+}
+
+.link[aria-current='page'] .label::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  margin-top: -4px;
+  border-radius: var(--radius-pill);
+  background: var(--color-crimson);
 }
 
 .actions {
@@ -97,7 +126,7 @@
   display: inline-flex;
   align-items: center;
   border-radius: var(--radius-pill);
-  background: var(--color-crimson);
+  background: var(--color-navy);
   color: var(--color-text-inverse);
   font-size: var(--text-small-size);
   font-weight: var(--font-weight-semibold);
@@ -208,7 +237,7 @@
   justify-content: center;
   padding: 0;
   border: 1px solid var(--color-line-strong);
-  border-radius: var(--radius-field);
+  border-radius: var(--radius-pill);
   background: var(--color-card);
   color: var(--color-navy);
   cursor: pointer;
@@ -262,6 +291,17 @@
     white-space: nowrap;
   }
 
+  /* On the wide row the dot sits under the label instead of beside it. */
+  .link[aria-current='page'] .label {
+    padding-left: 0;
+  }
+
+  .link[aria-current='page'] .label::before {
+    left: 50%;
+    top: 100%;
+    margin: var(--space-1) 0 0 -4px;
+  }
+
   .actions {
     margin-left: 0;
   }
@@ -290,12 +330,12 @@
     top: calc(100% + var(--space-2));
     left: 50%;
     transform: translateX(-50%);
-    z-index: 10;
+    z-index: var(--z-header);
     min-width: 220px;
     padding: var(--space-2);
     background: var(--color-card);
     border: 1px solid var(--color-line);
-    border-radius: var(--radius-field);
+    border-radius: var(--radius-card-sm);
     box-shadow: var(--shadow-card-raised);
   }
 
@@ -307,11 +347,11 @@
     padding: 0 var(--space-3);
     font-size: var(--text-small-size);
     white-space: nowrap;
-    border-radius: var(--radius-field);
+    border-radius: var(--radius-pill);
   }
 
   .groupLink:hover {
-    background: var(--color-page);
+    background: var(--color-pastel-blue);
   }
 
   .signIn {
@@ -359,7 +399,7 @@
     position: absolute;
     top: calc(100% + var(--space-2));
     right: 0;
-    z-index: 10;
+    z-index: var(--z-header);
     min-width: 240px;
     display: flex;
     flex-direction: column;
@@ -367,7 +407,7 @@
     padding: var(--space-4);
     background: var(--color-card);
     border: 1px solid var(--color-line);
-    border-radius: var(--radius-field);
+    border-radius: var(--radius-card-sm);
     box-shadow: var(--shadow-card-raised);
   }
 

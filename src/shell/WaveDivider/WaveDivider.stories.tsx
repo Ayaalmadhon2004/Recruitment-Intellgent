@@ -13,3 +13,4 @@ export const CardToPage: Story = {};
 export const PageToWarm: Story = { args: { from: 'page', to: 'warm' } };
 export const WarmToCard: Story = { args: { from: 'warm', to: 'card' } };
 export const Mobile390: Story = { globals: { viewport: { value: 'mobile', isRotated: false } } };
+export const BlueToPage: Story = { args: { from: 'blue', to: 'page' } };

@@ -4,7 +4,6 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { POST } from '../../../../app/api/report/route';
 import { CONFIG_VERSION } from '@/domain/config';
 import { en } from '@/domain/copy';
-import { scoreAreaIds } from '@/domain/types';
 import type { Answer } from '@/domain/types';
 import { known, unknown } from '@/fixtures/builders';
 import { createLocalStorageStore } from '@/features/intake';
@@ -73,14 +72,17 @@ describe('ReportPage', () => {
     });
     expect(body.isSample).toBe(false);
 
-    // The interactive report shows one area at a time; the radar table lists all six.
-    const radar = screen.getByRole('table');
-    Object.values(en.areas).forEach((name) =>
-      expect(within(radar).getByText(name)).toBeInTheDocument(),
-    );
-    expect(screen.getAllByText(en.status.notScorable).length).toBeGreaterThanOrEqual(
-      scoreAreaIds.length,
-    );
+    // One score is shown at a time; each of the three says Not yet scorable, never a number.
+    const user = userEvent.setup();
+    for (const name of ['Readiness', en.areas['digital-visibility']]) {
+      await user.click(screen.getByRole('radio', { name }));
+      expect(within(screen.getByRole('radiogroup')).getByRole('radio', { name })).toBeChecked();
+      expect(screen.getAllByText(en.status.notScorable).length).toBeGreaterThanOrEqual(1);
+    }
+    // The kite fills one cell per handled question, read from the same stored answers.
+    expect(
+      screen.getByRole('img', { name: 'Your audit as a kite: 3 of 24 questions answered' }),
+    ).toBeInTheDocument();
     expect(screen.queryByText(en.scoreCard.outOf)).not.toBeInTheDocument();
     expect(screen.queryByText(en.status.sample)).not.toBeInTheDocument();
   });

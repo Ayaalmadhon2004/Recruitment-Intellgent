@@ -27,14 +27,40 @@ async function fillAndSend(): Promise<void> {
 }
 
 describe('AdvisorRequest', () => {
-  it('shows the three reasons, the channels and TBC placeholders (no invented contact details)', () => {
+  it('keeps the three reasons behind a small "!" bubble, not in a visible block', async () => {
     render(<AdvisorRequest />);
-    expect(screen.getByRole('heading', { name: 'When to talk to a person' })).toBeInTheDocument();
-    expect(screen.getByText('Your scores look mixed')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /When to talk to a person/ })).toBeInTheDocument();
+    expect(screen.queryByText('Your scores look mixed')).not.toBeVisible();
+    const bang = screen.getByRole('button', { name: 'More information' });
+    expect(bang).toHaveAttribute('aria-expanded', 'false');
+    await userEvent.click(bang);
+    expect(bang).toHaveAttribute('aria-expanded', 'true');
+    expect(screen.getByText('Your scores look mixed')).toBeVisible();
+    expect(screen.getByText('You are picking agents')).toBeVisible();
+    expect(screen.getByText('You need a price view')).toBeVisible();
+    await userEvent.keyboard('{Escape}');
+    expect(screen.queryByText('Your scores look mixed')).not.toBeVisible();
+    expect(bang).toHaveFocus();
+  });
+
+  it('shows the channels and TBC placeholders (no invented contact details)', () => {
+    render(<AdvisorRequest />);
     expect(screen.getAllByRole('radio')).toHaveLength(3);
     expect(screen.getByText('[WHATSAPP NUMBER TO BE CONFIRMED WITH CAPSTONE]')).toBeInTheDocument();
     expect(screen.getByText('[EMAIL ADDRESS TO BE CONFIRMED WITH CAPSTONE]')).toBeInTheDocument();
     expect(screen.getByText('[CALL DETAILS TO BE CONFIRMED WITH CAPSTONE]')).toBeInTheDocument();
+  });
+
+  it('is two steps with the shared Step label, and focus moves to each new step heading', async () => {
+    render(<AdvisorRequest />);
+    expect(screen.getByRole('status')).toHaveTextContent('Step 1 of 2');
+    expect(screen.queryByRole('button', { name: 'Back' })).not.toBeInTheDocument();
+    await next();
+    expect(screen.getByRole('status')).toHaveTextContent('Step 2 of 2');
+    expect(screen.getByRole('heading', { name: 'A few details' })).toHaveFocus();
+    await userEvent.click(screen.getByRole('button', { name: 'Back' }));
+    expect(screen.getByRole('status')).toHaveTextContent('Step 1 of 2');
+    expect(screen.getByRole('heading', { name: 'Choose a channel' })).toHaveFocus();
   });
 
   it('shows the advisor card with TBC photo, name and reply time on step 2', async () => {
@@ -148,7 +174,9 @@ describe('AdvisorRequest', () => {
   it('can be completed by keyboard alone', async () => {
     const user = userEvent.setup();
     render(<AdvisorRequest />);
-    // Radio group, then the Continue button.
+    // The "!" bubble button comes first, then the radio group, then the Continue button.
+    await user.tab();
+    expect(screen.getByRole('button', { name: 'More information' })).toHaveFocus();
     await user.tab();
     expect(screen.getByRole('radio', { name: /WhatsApp/ })).toHaveFocus();
     await user.keyboard('{ArrowDown}');
@@ -156,6 +184,7 @@ describe('AdvisorRequest', () => {
     await user.tab();
     expect(screen.getByRole('button', { name: 'Continue' })).toHaveFocus();
     await user.keyboard('{Enter}');
+    expect(screen.getByRole('heading', { name: 'A few details' })).toHaveFocus();
     await user.tab();
     expect(screen.getByLabelText('Name')).toHaveFocus();
     await user.keyboard('Linh');

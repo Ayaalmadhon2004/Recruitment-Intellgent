@@ -1,0 +1,131 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+  margin: 0;
+}
+
+.band {
+  font-size: var(--text-h3-size);
+  line-height: var(--text-h3-line);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-navy);
+}
+
+.note {
+  font-size: var(--text-small-size);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-crimson-dark);
+}
+
+/* Room at the sides for the numbers above the end dots, and below for the expected value. */
+.stage {
+  position: relative;
+  height: 150px;
+  margin-inline: var(--space-9);
+}
+
+.line {
+  position: absolute;
+  inset: 70px 0 auto;
+  border-top: 2px solid var(--color-navy);
+}
+
+/* A zero-height anchor sitting on the line; its children are placed around it. */
+.point {
+  position: absolute;
+  top: 70px;
+  width: 0;
+  height: 0;
+}
+
+.min {
+  left: 0;
+}
+
+.max {
+  left: 100%;
+}
+
+.above {
+  position: absolute;
+  bottom: 14px;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: translateX(-50%);
+}
+
+.number {
+  font-size: var(--text-label-size);
+  font-weight: var(--font-weight-semibold);
+  white-space: nowrap;
+  color: var(--color-text);
+}
+
+.caption {
+  font-size: var(--text-caption-size);
+  font-weight: var(--font-weight-medium);
+  white-space: nowrap;
+  color: var(--color-text-secondary);
+}
+
+.dot {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 14px;
+  height: 14px;
+  transform: translate(-50%, -50%);
+  border-radius: var(--radius-pill);
+  background: var(--color-navy);
+}
+
+.dotOpen {
+  background: var(--color-page);
+  border: 3px solid var(--color-navy);
+}
+
+/* The expected value: a bigger dot on the line, its label below. */
+.dotBig {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 28px;
+  height: 28px;
+  transform: translate(-50%, -50%);
+  border-radius: var(--radius-pill);
+  background: var(--color-crimson);
+  border: 4px solid var(--color-page);
+  box-shadow: 0 0 0 2px var(--color-crimson);
+}
+
+.expectedLabel {
+  position: absolute;
+  top: 26px;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: translateX(-50%);
+}
+
+.expectedLabel .number {
+  font-size: var(--text-h3-size);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-crimson-dark);
+}
+
+@media (max-width: 760px) {
+  .stage {
+    margin-inline: var(--space-8);
+  }
+}

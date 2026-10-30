@@ -33,7 +33,7 @@ export const realCaseModel = (): ReportModel => ({
   institutionName: 'Example University',
   isSample: false,
   stage: { kind: 'staged', stage: 'building' },
-  completeness: { handled: 5, total: 40, unknown: 0 },
+  completeness: { handled: 5, total: 24, unknown: 0 },
   areas: scoreAreaIds.map((id) =>
     area(id, noFormula(['B2', 'B3']), { gaps: [{ questionId: 'B2' }] }),
   ),
@@ -49,7 +49,7 @@ export const realCaseModel = (): ReportModel => ({
 /** Synthetic: five scored areas with evidence, one NotScorable, two scored gauges, two recommendations. */
 export const scoredModel = (): ReportModel => ({
   ...realCaseModel(),
-  completeness: { handled: 28, total: 40, unknown: 2 },
+  completeness: { handled: 18, total: 24, unknown: 2 },
   areas: [
     area('readiness', scored(68, 'developing', 'medium'), {
       evidence: [

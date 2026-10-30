@@ -1,107 +1,38 @@
 import type { ReactNode } from 'react';
+import { uiCopy } from '@/design/ui-copy';
+import { stagesConfig } from '@/domain/config';
 import { en } from '@/domain/copy';
-import { scored } from '@/domain/scoring';
-import { SampleDataBadge, ScoreRing } from '@/patterns';
-import { SectionHeader } from '@/shell';
 import { Reveal } from '@/ui';
 import styles from './WhatYouGet.module.css';
 
 const copy = en.landing.get;
+const home = uiCopy.home;
 
-/** Illustrative values from the design. Never real results. */
-const SAMPLE_SCORE = 78;
-const RING_SIZE = 120;
-const STAGES = [
-  { x: '14', y: '78', height: '24', on: false },
-  { x: '40', y: '58', height: '44', on: true },
-  { x: '66', y: '38', height: '64', on: false },
-  { x: '92', y: '18', height: '84', on: false },
-] as const;
-const CHECKLIST = [
-  { cy: '26', barY: '20', barWidth: '64', done: true },
-  { cy: '60', barY: '54', barWidth: '50', done: true },
-  { cy: '94', barY: '88', barWidth: '58', done: false },
+/** The scale every score is reported on, stated in the existing "out of 100" copy. */
+const SCORE_SCALE = '100';
+
+const ITEMS = [
+  { key: 'scores', figure: SCORE_SCALE, unit: copy.scores.ringCaption },
+  { key: 'stage', figure: String(stagesConfig.stages.length), unit: home.stagesUnit },
+  { key: 'steps', figure: home.stepsFigure, unit: '' },
 ] as const;
 
-function ScoreIllustration(): ReactNode {
-  return (
-    <ScoreRing
-      result={scored(SAMPLE_SCORE, 'strong', 'high')}
-      ariaLabel={copy.scores.ringAria}
-      caption={copy.scores.ringCaption}
-      size={RING_SIZE}
-    />
-  );
-}
-
-function StageIllustration(): ReactNode {
-  return (
-    <svg viewBox="0 0 120 120" width="120" height="120" role="img" aria-label={copy.stage.aria}>
-      {STAGES.map((s) => (
-        <rect
-          key={s.x}
-          x={s.x}
-          y={s.y}
-          width="20"
-          height={s.height}
-          rx="5"
-          className={s.on ? styles.stageOn : styles.stageOff}
-        />
-      ))}
-    </svg>
-  );
-}
-
-function ChecklistIllustration(): ReactNode {
-  return (
-    <svg viewBox="0 0 120 120" width="120" height="120" role="img" aria-label={copy.steps.aria}>
-      {CHECKLIST.map((row) => (
-        <g key={row.cy}>
-          <circle
-            cx="24"
-            cy={row.cy}
-            r="12"
-            className={row.done ? styles.dotDone : styles.dotTodo}
-          />
-          {row.done ? <path d={`M18 ${row.cy}l4 4 8-8`} className={styles.tick} /> : null}
-          <rect
-            x="44"
-            y={row.barY}
-            width={row.barWidth}
-            height="12"
-            rx="6"
-            className={row.done ? styles.barDone : styles.barTodo}
-          />
-        </g>
-      ))}
-    </svg>
-  );
-}
-
-const CARDS = [
-  { key: 'scores', art: <ScoreIllustration />, delay: 0 },
-  { key: 'stage', art: <StageIllustration />, delay: 1 },
-  { key: 'steps', art: <ChecklistIllustration />, delay: 2 },
-] as const;
-
+/** Three outcomes as plain data: a big figure or word, then what it means. No cards, no boxes. */
 export function WhatYouGet(): ReactNode {
   return (
-    <section id="get" className={styles.section} aria-labelledby="landing-get-title">
-      <SectionHeader eyebrow={copy.eyebrow} title={copy.title} id="landing-get-title" />
-      <SampleDataBadge label={en.status.sample} variant="outline" />
-      <ul className={styles.grid}>
-        {CARDS.map((c, i) => (
-          <li key={c.key} className={styles.item}>
-            <Reveal delay={c.delay} className={styles.reveal}>
-              <article className={`${styles.column} ${i % 2 === 0 ? styles.navy : styles.crimson}`}>
-                <div className={styles.art}>{c.art}</div>
-                <h3 className={styles.cardTitle}>{copy[c.key].title}</h3>
-                <p className={styles.cardBody}>{copy[c.key].body}</p>
-              </article>
-            </Reveal>
-          </li>
-        ))}
-      </ul>
-    </section>
+    <ul className={styles.grid}>
+      {ITEMS.map((item, i) => (
+        <li key={item.key} className={styles.item}>
+          <Reveal delay={i as 0 | 1 | 2} className={styles.reveal}>
+            <p className={styles.figure}>
+              <span className={styles.big}>{item.figure}</span>
+              {item.unit ? <span className={styles.unit}>{item.unit}</span> : null}
+            </p>
+            <h3 className={styles.title}>{copy[item.key].title}</h3>
+            <p className={styles.body}>{copy[item.key].body}</p>
+          </Reveal>
+        </li>
+      ))}
+    </ul>
   );
 }

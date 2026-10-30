@@ -20,7 +20,11 @@
   background: var(--color-page-warm);
 }
 .from-navy {
-  background: var(--color-navy-deep);
+  background: var(--color-navy);
+}
+
+.from-blue {
+  background: var(--color-pastel-blue);
 }
 
 .to-card .svg {
@@ -33,7 +37,12 @@
   fill: var(--color-page-warm);
 }
 .to-navy .svg {
-  fill: var(--color-navy-deep);
+  fill: var(--color-navy);
+}
+
+
+.to-blue .svg {
+  fill: var(--color-pastel-blue);
 }
 
 @media (max-width: 760px) {

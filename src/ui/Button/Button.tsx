@@ -2,7 +2,7 @@ import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from 'reac
 import { cx } from '../internal/cx';
 import styles from './Button.module.css';
 
-export type ButtonVariant = 'primary' | 'secondary' | 'inverse' | 'inverse-outline';
+export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'inverse' | 'inverse-outline';
 export type ButtonSize = 'sm' | 'md' | 'lg';
 
 type Common = {
