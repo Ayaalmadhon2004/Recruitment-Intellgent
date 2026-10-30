@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import { en } from '@/domain/copy';
+import { RequireSession } from '@/features/accounts';
 import { ScoreDetailPage } from '@/features/report';
 import { PageContainer } from '@/shell';
 
@@ -12,7 +13,9 @@ export default async function Page({ params }: PageProps): Promise<ReactNode> {
   const { area } = await params;
   return (
     <PageContainer>
-      <ScoreDetailPage area={area} />
+      <RequireSession>
+        <ScoreDetailPage area={area} />
+      </RequireSession>
     </PageContainer>
   );
 }

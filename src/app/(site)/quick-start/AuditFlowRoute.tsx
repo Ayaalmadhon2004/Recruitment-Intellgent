@@ -29,7 +29,6 @@ export function AuditFlowRoute(): ReactNode {
   const entitlement = useDeviceEntitlement();
   return (
     <AccountAuditFlow
-      signInHref={`${routes.signIn}?next=${encodeURIComponent(routes.quickStart)}`}
       phase={phase}
       phaseHref={phaseHref}
       onPhaseChange={(next) => router.push(phaseHref(next))}

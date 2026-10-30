@@ -11,7 +11,6 @@ const meta = {
   component: AccountAuditFlow,
   parameters: { layout: 'fullscreen' },
   args: {
-    signInHref: '#sign-in',
     phaseHref: (phase) => `#${phase}`,
     onPhaseChange: () => undefined,
     reportHref: '#report',
