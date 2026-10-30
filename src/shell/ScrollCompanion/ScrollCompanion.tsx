@@ -10,6 +10,9 @@ export type ScrollCompanionProps = {
   className?: string;
 };
 
+/** Share of the path kept clear at each end so the whole kite stays on screen. */
+const EDGE = 0.04;
+
 type Size = { width: number; height: number };
 
 /** A wavy vertical path, in the pixel space of the container. */
@@ -61,12 +64,14 @@ export function ScrollCompanion({ className }: ScrollCompanionProps): ReactNode 
         reduce?.matches || scrollable <= 0
           ? 0
           : Math.min(1, Math.max(0, window.scrollY / scrollable));
-      const here = path.getPointAtLength(progress * total);
-      const ahead = path.getPointAtLength(Math.min(total, progress * total + 4));
+      const here = path.getPointAtLength((EDGE + progress * (1 - 2 * EDGE)) * total);
+      const ahead = path.getPointAtLength(
+        Math.min(total, (EDGE + progress * (1 - 2 * EDGE)) * total + 4),
+      );
       const tilt = reduce?.matches
         ? 0
         : (Math.atan2(ahead.x - here.x, ahead.y - here.y || 1) * -90) / Math.PI;
-      kite.style.transform = `translate(${here.x}px, ${here.y}px) translate(-50%, 0) rotate(${tilt}deg)`;
+      kite.style.transform = `translate(${here.x}px, ${here.y}px) translate(-50%, -50%) rotate(${tilt}deg)`;
     };
     const onScroll = (): void => {
       if (frame === 0) frame = window.requestAnimationFrame(place);
