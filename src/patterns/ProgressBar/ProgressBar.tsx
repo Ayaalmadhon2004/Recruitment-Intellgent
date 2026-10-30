@@ -7,7 +7,7 @@ export type ProgressBarProps = {
   value: number;
   max?: number;
   label: string;
-  /** Text shown and spoken for the value, for example "28 of 40". */
+  /** Text shown and spoken for the value, for example "18 of 24". */
   valueText: string;
   tone?: 'navy' | 'strong' | 'inverse';
   size?: 'md' | 'lg';

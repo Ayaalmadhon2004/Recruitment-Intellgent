@@ -82,7 +82,7 @@ async function requestFirstRead(answers: readonly Answer[]): Promise<Outcome> {
   }
 }
 
-/** Five questions, one per step. Client state is the domain Answer list; scores come from the server. */
+/** The Quick Start questions, one per step. Client state is the domain Answer list; scores come from the server. */
 export function QuickStartFlow({
   initialStep = 0,
   initialAnswers,

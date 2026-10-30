@@ -30,9 +30,9 @@ describe('ReportSection: one model, three modes', () => {
     expect(screen.getByText('Stage: Building')).toBeVisible();
     expect(screen.getByRole('progressbar', { name: en.report.completenessLabel })).toHaveAttribute(
       'aria-valuenow',
-      '28',
+      '18',
     );
-    expect(screen.getByText('28 of 40 questions answered')).toBeVisible();
+    expect(screen.getByText('18 of 24 questions answered')).toBeVisible();
   });
 
   it.each(modes)('%s: every area shows its own score', (mode) => {

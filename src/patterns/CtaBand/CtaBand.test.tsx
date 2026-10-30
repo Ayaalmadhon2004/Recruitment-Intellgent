@@ -7,7 +7,7 @@ describe('CtaBand', () => {
     render(
       <CtaBand
         title="Finish the audit to see every score."
-        body="35 more questions."
+        body="19 more questions."
         actions={[
           { label: 'Complete the full audit', href: '/intake' },
           { label: 'Sign in to save', href: '/sign-in', variant: 'inverse-outline' },
