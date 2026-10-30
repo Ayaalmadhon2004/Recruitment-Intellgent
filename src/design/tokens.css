@@ -53,7 +53,8 @@
 
   /* Typography */
   /* Poppins has no Vietnamese glyphs: Be Vietnam Pro follows it in the stack and draws them. */
-  --font-sans: var(--font-poppins), 'Poppins', var(--font-be-vietnam), 'Be Vietnam Pro', system-ui, sans-serif;
+  --font-sans:
+    var(--font-poppins), 'Poppins', var(--font-be-vietnam), 'Be Vietnam Pro', system-ui, sans-serif;
   --font-heading: var(--font-fraunces), 'Fraunces', Georgia, 'Times New Roman', serif;
   --font-weight-regular: 400;
   --font-weight-medium: 500;
@@ -118,21 +119,35 @@
     0 18px 40px color-mix(in srgb, var(--color-navy-deep) 18%, transparent);
   --shadow-button-hover: 0 4px 12px color-mix(in srgb, var(--color-navy-deep) 14%, transparent);
 
-  /* Motion: one curve, three speeds. Nothing interactive runs longer than --dur-enter. */
-  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
-  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-  --dur-fast: 150ms;
-  --dur-base: 200ms;
-  --dur-enter: 300ms;
-  --dur-data: 600ms; /* charts and progress fills only */
-  --step-shift: 16px;
+  /* Motion: wind and kite. Everything lifts, settles or glides. Mirrors src/design/motion.ts. */
+  --dur-micro: 150ms;
+  --dur-base: 280ms;
+  --dur-large: 600ms;
+  --dur-hero: 2000ms;
+  --dur-bob: 1600ms; /* the loading kite */
+  --dur-breathe: 3000ms; /* the final call-to-action glow */
+  --ease-lift: cubic-bezier(0.2, 0.7, 0.2, 1); /* entrances */
+  --ease-settle: cubic-bezier(0.3, 1.25, 0.5, 1); /* the kite only: one light overshoot */
+  --ease-linear: linear; /* dashed-line drawing only */
+  --stagger: 60ms;
+  --stagger-cap: 6; /* items beyond this appear together; 3 on narrow screens */
+  --enter-distance: 12px;
+  --text-slide: 6px;
+  --kite-bob-size: 24px;
+  --kite-bob-rise: -3px;
   --lift-card: -2px;
-  --lift-button: -1px;
-  --enter-distance: 16px;
+  --lift-button: -2px;
+  /* Older names, kept as aliases so existing styles follow the new scale. */
+  --ease-standard: var(--ease-lift);
+  --ease-out: var(--ease-lift);
+  --dur-fast: var(--dur-micro);
+  --dur-enter: var(--dur-base);
+  --dur-data: var(--dur-large);
+  --step-shift: var(--enter-distance);
   --transition-interactive:
-    background-color var(--dur-base) var(--ease-standard),
-    color var(--dur-base) var(--ease-standard), border-color var(--dur-base) var(--ease-standard),
-    box-shadow var(--dur-base) var(--ease-standard), transform var(--dur-base) var(--ease-standard);
+    background-color var(--dur-micro) var(--ease-lift), color var(--dur-micro) var(--ease-lift),
+    border-color var(--dur-micro) var(--ease-lift), box-shadow var(--dur-micro) var(--ease-lift),
+    transform var(--dur-micro) var(--ease-lift);
 
   /* Skeleton (loading placeholders). The delay keeps instant loads from flashing. */
   --color-skeleton-base: var(--color-line);
@@ -168,5 +183,13 @@
     --text-h1-size: 30px;
     --text-h1-line: 38px;
     --layout-gutter: 20px;
+  }
+}
+
+/* Phones: shorter rises and at most 3 items staggered. */
+@media (max-width: 480px) {
+  :root {
+    --enter-distance: 8px;
+    --stagger-cap: 3;
   }
 }

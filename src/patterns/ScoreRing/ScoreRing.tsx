@@ -1,7 +1,7 @@
 import type { CSSProperties, ReactNode } from 'react';
 import type { Scored, ScoredGauge } from '@/domain/types';
 import { bandTone } from '../internal/tone';
-import { AnimatedNumber, cx } from '@/ui';
+import { CountUp, cx } from '@/ui';
 import styles from './ScoreRing.module.css';
 
 export type ScoreRingProps = {
@@ -41,7 +41,7 @@ export function ScoreRing({ result, ariaLabel, caption, size = 160 }: ScoreRingP
       </svg>
       <div className={styles.center} aria-hidden="true">
         <span className={styles.value}>
-          <AnimatedNumber value={result.value} decimals={result.kind === 'scored' ? 0 : 1} />
+          <CountUp value={result.value} decimals={result.kind === 'scored' ? 0 : 1} />
         </span>
         <span className={styles.caption}>{caption}</span>
       </div>

@@ -5,7 +5,7 @@ import { Reveal } from './Reveal';
 describe('Reveal', () => {
   it('always renders its children', () => {
     render(
-      <Reveal delay={2}>
+      <Reveal index={2}>
         <p>Entrance content</p>
       </Reveal>,
     );

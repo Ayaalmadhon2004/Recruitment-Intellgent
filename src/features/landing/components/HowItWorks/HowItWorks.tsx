@@ -12,7 +12,6 @@ const counts = {
   quickStart: auditScope.quickStartQuestions,
   total: auditScope.totalQuestions,
 };
-const DELAYS = [0, 1, 2] as const;
 const PROGRESS: readonly KiteProgress[] = [1, 2, 3];
 
 /** The three steps, drawn as one kite that is completed a third at a time. No numerals: the order is the list order. */
@@ -24,7 +23,7 @@ export function HowItWorks(): ReactNode {
         const label = home.kiteSteps[i];
         return (
           <li key={s.title} className={styles.step}>
-            <Reveal delay={DELAYS[i]} className={styles.reveal}>
+            <Reveal index={i} className={styles.reveal}>
               {progress ? <Kite progress={progress} size="lg" title={label} /> : null}
               <h3 className={styles.title}>{fill(s.title, counts)}</h3>
               <p className={styles.body}>{s.body}</p>

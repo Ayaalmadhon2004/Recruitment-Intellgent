@@ -1,0 +1,13 @@
+/* The ::after holds the width of the final number, so counting never moves the text around it. */
+.root {
+  display: inline-block;
+  font-variant-numeric: tabular-nums;
+}
+
+.root::after {
+  content: attr(data-final);
+  display: block;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+}

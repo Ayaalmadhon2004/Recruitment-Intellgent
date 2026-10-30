@@ -1,7 +1,7 @@
 export { Accordion } from './Accordion';
 export type { AccordionItem, AccordionProps } from './Accordion';
-export { AnimatedNumber } from './AnimatedNumber';
-export type { AnimatedNumberProps } from './AnimatedNumber';
+export { CountUp } from './CountUp';
+export type { CountUpProps } from './CountUp';
 export { Button } from './Button';
 export type { ButtonProps, ButtonSize, ButtonVariant } from './Button';
 export { Card } from './Card';
@@ -47,3 +47,8 @@ export { KiteTrack } from './KiteTrack';
 export type { KiteTrackProps } from './KiteTrack';
 export { KiteSlider } from './KiteSlider';
 export type { KiteSliderProps } from './KiteSlider';
+export { DrawLine } from './DrawLine';
+export type { DrawLineProps } from './DrawLine';
+export { KiteBob } from './KiteBob';
+export type { KiteBobProps } from './KiteBob';
+export { prefersReducedMotion, useActive, useInView, useReducedMotion } from './motion';

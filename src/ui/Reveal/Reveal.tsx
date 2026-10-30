@@ -1,27 +1,32 @@
 'use client';
 
 import { useLayoutEffect, useRef, useState } from 'react';
-import type { ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 import { cx } from '../internal/cx';
+import { useReducedMotion } from '../motion';
 import styles from './Reveal.module.css';
 
 export type RevealProps = {
   children: ReactNode;
-  /** 0 to 3, maps to the shared animation delays. */
-  delay?: 0 | 1 | 2 | 3;
+  /** Position among siblings (0-based). Items stagger by the stagger token; beyond the cap they arrive together. */
+  index?: number;
   className?: string;
 };
 
 type Phase = 'visible' | 'pending' | 'shown';
 
-/** Plays the entrance animation once, when the content scrolls into view. Content is never hidden without JS. */
-export function Reveal({ children, delay = 0, className }: RevealProps): ReactNode {
+/**
+ * Fade-rise entrance, once, when the content scrolls into view. Content is never hidden without JS,
+ * and with reduced motion it is simply there. Only opacity and transform move, so nothing shifts.
+ */
+export function Reveal({ children, index = 0, className }: RevealProps): ReactNode {
   const ref = useRef<HTMLDivElement>(null);
+  const reduced = useReducedMotion();
   const [phase, setPhase] = useState<Phase>('visible');
 
   useLayoutEffect(() => {
     const el = ref.current;
-    if (!el || typeof IntersectionObserver === 'undefined') return;
+    if (!el || reduced || typeof IntersectionObserver === 'undefined') return;
     if (el.getBoundingClientRect().top < window.innerHeight) {
       setPhase('shown');
       return;
@@ -39,16 +44,18 @@ export function Reveal({ children, delay = 0, className }: RevealProps): ReactNo
     );
     observer.observe(el);
     return () => observer.disconnect();
-  }, []);
+  }, [reduced]);
 
+  const shown = !reduced && phase === 'shown';
   return (
     <div
       ref={ref}
-      data-reveal={phase}
+      data-reveal={reduced ? 'visible' : phase}
+      style={{ '--i': index } as CSSProperties}
       className={cx(
-        phase === 'pending' && styles.pending,
-        phase === 'shown' && 'anim-up',
-        phase === 'shown' && delay > 0 && `anim-delay-${delay}`,
+        !reduced && phase === 'pending' && styles.pending,
+        shown && 'anim-up',
+        shown && 'anim-stagger',
         className,
       )}
     >

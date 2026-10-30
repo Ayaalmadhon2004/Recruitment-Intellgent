@@ -22,6 +22,8 @@ describe('KiteTrack', () => {
   it('keeps the kite decorative and clamps progress', () => {
     const { container } = render(<KiteTrack label="Sections" current="A" progress={4} />);
     expect(container.querySelector('svg')).toHaveAttribute('aria-hidden', 'true');
-    expect((container.firstChild as HTMLElement).style.getPropertyValue('--kite-progress')).toBe('1');
+    expect((container.firstChild as HTMLElement).style.getPropertyValue('--kite-progress')).toBe(
+      '1',
+    );
   });
 });

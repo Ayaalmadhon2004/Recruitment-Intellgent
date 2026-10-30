@@ -1,0 +1,22 @@
+.root {
+  display: inline-flex;
+  width: var(--kite-bob-size);
+  height: var(--kite-bob-size);
+  align-items: center;
+  justify-content: center;
+}
+
+.root svg {
+  height: 100%;
+  width: auto;
+}
+
+@keyframes bob {
+  50% {
+    transform: translateY(var(--kite-bob-rise)) rotate(-4deg);
+  }
+}
+
+.bob svg {
+  animation: bob var(--dur-bob) ease-in-out infinite;
+}

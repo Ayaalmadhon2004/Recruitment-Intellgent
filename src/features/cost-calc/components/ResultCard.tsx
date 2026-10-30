@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { en } from '@/domain/copy';
 import { ProgressBar } from '@/patterns';
-import { AnimatedNumber } from '@/ui';
+import { CountUp } from '@/ui';
 import { fill, usd } from '../format';
 import styles from './ResultCard.module.css';
 
@@ -33,7 +33,7 @@ export function ResultCard({
       <span className={styles.eyebrow}>{r.eyebrow}</span>
       <div className={styles.headline}>
         <span className={styles.net} data-testid="net-cost">
-          <AnimatedNumber value={net} format={usd} />
+          <CountUp value={net} format={usd} />
         </span>
         <span className={styles.per}>{r.perYear}</span>
       </div>
@@ -47,26 +47,26 @@ export function ResultCard({
         <div className={styles.row}>
           <dt>{r.tuition}</dt>
           <dd>
-            <AnimatedNumber value={tuition} format={usd} />
+            <CountUp value={tuition} format={usd} />
           </dd>
         </div>
         <div className={styles.row}>
           <dt>{r.living}</dt>
           <dd>
-            {includeLiving ? <AnimatedNumber value={living} format={usd} /> : r.livingExcluded}
+            {includeLiving ? <CountUp value={living} format={usd} /> : r.livingExcluded}
           </dd>
         </div>
         <div className={styles.row}>
           <dt>{r.scholarship}</dt>
           <dd>
             {appliedScholarship > 0 ? '- ' : null}
-            <AnimatedNumber value={appliedScholarship} format={usd} />
+            <CountUp value={appliedScholarship} format={usd} />
           </dd>
         </div>
         <div className={styles.total}>
           <dt>{r.net}</dt>
           <dd>
-            <AnimatedNumber value={net} format={usd} />
+            <CountUp value={net} format={usd} />
           </dd>
         </div>
       </dl>

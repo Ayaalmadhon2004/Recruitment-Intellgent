@@ -25,7 +25,9 @@ export function Skeleton({
   className,
 }: SkeletonProps): ReactNode {
   const style: CSSProperties = { width, height, aspectRatio };
-  return <span aria-hidden="true" className={cx(styles.shape, styles[shape], className)} style={style} />;
+  return (
+    <span aria-hidden="true" className={cx(styles.shape, styles[shape], className)} style={style} />
+  );
 }
 
 export type SkeletonGroupProps = {

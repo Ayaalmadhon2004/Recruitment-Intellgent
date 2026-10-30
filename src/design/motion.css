@@ -10,15 +10,16 @@
   }
 }
 
-@keyframes anim-ring {
+/* Bars fill by scaling from the left: transform only, no width animation. */
+@keyframes anim-grow {
   from {
-    stroke-dasharray: 0 600;
+    transform: scaleX(0);
   }
 }
 
-@keyframes anim-grow {
+@keyframes anim-ring {
   from {
-    width: 0;
+    stroke-dasharray: 0 600;
   }
 }
 
@@ -44,12 +45,6 @@
   }
 }
 
-@keyframes anim-drift {
-  50% {
-    transform: translate(6px, -8px) rotate(2deg);
-  }
-}
-
 @keyframes anim-pop {
   from {
     opacity: 0;
@@ -64,14 +59,12 @@
 .anim-up {
   animation: anim-up var(--dur-enter) var(--ease-out) both;
 }
+.anim-grow {
+  transform-origin: left center;
+  animation: anim-grow var(--dur-large) var(--ease-lift) both;
+}
 .anim-ring {
   animation: anim-ring var(--dur-data) var(--ease-out) both;
-}
-.anim-grow {
-  animation: anim-grow var(--dur-data) var(--ease-out) both;
-}
-.anim-drift {
-  animation: anim-drift 9s var(--ease-standard) infinite;
 }
 .anim-step-next {
   animation: anim-step-next var(--dur-enter) var(--ease-out) both;
@@ -83,14 +76,9 @@
   animation: anim-pop var(--dur-enter) var(--ease-out) both;
 }
 
-.anim-delay-1 {
-  animation-delay: 60ms;
-}
-.anim-delay-2 {
-  animation-delay: 120ms;
-}
-.anim-delay-3 {
-  animation-delay: 180ms;
+/* Staggered items set --i (0-based); beyond the cap they appear together with the last one. */
+.anim-stagger {
+  animation-delay: calc(min(var(--i, 0), var(--stagger-cap)) * var(--stagger));
 }
 
 .hover-lift {

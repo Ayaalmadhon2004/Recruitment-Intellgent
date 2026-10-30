@@ -23,7 +23,7 @@ export function WhatYouGet(): ReactNode {
     <ul className={styles.grid}>
       {ITEMS.map((item, i) => (
         <li key={item.key} className={styles.item}>
-          <Reveal delay={i as 0 | 1 | 2} className={styles.reveal}>
+          <Reveal index={i} className={styles.reveal}>
             <p className={styles.figure}>
               <span className={styles.big}>{item.figure}</span>
               {item.unit ? <span className={styles.unit}>{item.unit}</span> : null}
