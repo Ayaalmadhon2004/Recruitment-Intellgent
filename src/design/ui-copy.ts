@@ -76,3 +76,26 @@ export const reportUiCopy = {
     actionsLabel: 'Save this report',
   },
 } as const;
+
+/** Agent strategy and price band presentation (appended block). {tokens} are filled by the feature. */
+export const strategyCopy = {
+  pilotSliderLabel: 'Pilot month',
+  /** Spelled-out month names, in order. Beyond the list the feature falls back to monthFallback. */
+  monthNames: ['Month one', 'Month two', 'Month three', 'Month four', 'Month five', 'Month six'],
+  monthFallback: 'Month {n}',
+  agentDetails: 'Strengths and weaknesses',
+  agentDetailsAria: 'Strengths and weaknesses of {name}',
+  sheetScore: 'Overall score',
+  sheetStrength: 'Strength',
+  sheetWeakness: 'Weakness',
+  sheetSample: 'Sample ratings, not real.',
+  forecastLive: 'Live result',
+  priceMin: 'Band start',
+  priceMax: 'Band end',
+  priceExpected: 'Your net price',
+  priceOpenEnd: 'No upper limit',
+  priceLineLabel: 'Where your net price sits in the {band} band',
+  priceDetailsLabel: 'About the price band',
+  priceDetails:
+    'The line shows the band your net annual price falls in. The small dots are where the band starts and ends. The large dot is your net price.',
+} as const;

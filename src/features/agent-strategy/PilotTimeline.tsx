@@ -1,7 +1,8 @@
 import type { ReactNode } from 'react';
+import { strategyCopy } from '@/design/ui-copy';
 import { en } from '@/domain/copy';
 import type { PilotPlan } from '@/domain/types';
-import { cx } from '@/ui';
+import { KiteSlider } from '@/ui';
 import { fill } from './format';
 import styles from './AgentStrategy.module.css';
 
@@ -17,6 +18,12 @@ export type PilotTimelineProps = {
   onSelect: (month: number) => void;
 };
 
+/** Spelled-out month name ("Month one"), falling back to "Month 7" past the list. */
+export function monthName(n: number): string {
+  return strategyCopy.monthNames[n - 1] ?? fill(strategyCopy.monthFallback, { n });
+}
+
+/** A kite you slide along a dashed line from the first to the last pilot month; the month's detail follows it. */
 export function PilotTimeline({ pilot, month, onSelect }: PilotTimelineProps): ReactNode {
   const vars = {
     months: pilot.durationMonths,
@@ -29,38 +36,25 @@ export function PilotTimeline({ pilot, month, onSelect }: PilotTimelineProps): R
     ...copy.months[key],
   }));
   const current = items.find((m) => m.n === month) ?? items[0];
+  if (!current) return null;
 
   return (
     <>
-      <ol className={styles.timeline} aria-label={copy.listLabel}>
-        {items.map((m) => {
-          const on = m.n === current?.n;
-          return (
-            <li key={m.n} className={styles.timelineItem}>
-              <button
-                type="button"
-                aria-pressed={on}
-                aria-label={fill(copy.monthAria, { n: m.n, title: m.title })}
-                className={cx(styles.node, on && styles.nodeOn)}
-                onClick={() => onSelect(m.n)}
-              >
-                {m.n}
-              </button>
-              <span className={styles.monthTitle}>{fill(copy.month, { n: m.n })}</span>
-              <span className={styles.monthPhase}>{copy.phases[m.phase]}</span>
-            </li>
-          );
-        })}
-      </ol>
-      {current ? (
-        <div className={styles.monthPanel} role="status">
-          <span className={styles.monthPanelLabel}>
-            {fill(copy.detail, { n: current.n, phase: copy.phases[current.phase] })}
-          </span>
-          <span className={styles.monthPanelTitle}>{current.title}</span>
-          <span className={styles.monthPanelBody}>{fill(current.body, vars)}</span>
-        </div>
-      ) : null}
+      <KiteSlider
+        label={strategyCopy.pilotSliderLabel}
+        min={1}
+        max={items.length}
+        value={current.n}
+        onChange={onSelect}
+        valueText={monthName}
+      />
+      <div className={styles.monthPanel} role="status">
+        <span className={styles.monthPanelLabel}>
+          {fill(copy.detail, { n: current.n, phase: copy.phases[current.phase] })}
+        </span>
+        <span className={styles.monthPanelTitle}>{current.title}</span>
+        <span className={styles.monthPanelBody}>{fill(current.body, vars)}</span>
+      </div>
     </>
   );
 }

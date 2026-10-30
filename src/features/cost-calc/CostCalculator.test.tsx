@@ -10,13 +10,7 @@ const renderSample = (): ReturnType<typeof render> =>
   render(<CostCalculator initial={costSample.start} peers={costSample.peers} />);
 
 const net = (): string => screen.getByTestId('net-cost').textContent ?? '';
-const here = (): HTMLElement => {
-  const item = screen
-    .getAllByRole('listitem')
-    .find((li) => li.getAttribute('data-here') === 'true');
-  if (!item) throw new Error('no current band');
-  return item;
-};
+const here = (): HTMLElement => screen.getByTestId('price-band');
 
 describe('CostCalculator', () => {
   it('shows the net cost from the starting numbers', () => {
@@ -24,6 +18,9 @@ describe('CostCalculator', () => {
     expect(net()).toBe('$37,000');
     expect(here()).toHaveTextContent('$30-40k');
     expect(here()).toHaveTextContent(en.costCalc.bands.yourBand);
+    expect(here()).toHaveTextContent('$30,000');
+    expect(here()).toHaveTextContent('$40,000');
+    expect(here()).toHaveTextContent('Your net price$37,000');
     expect(screen.getByText('Four years: $148,000')).toBeInTheDocument();
   });
 

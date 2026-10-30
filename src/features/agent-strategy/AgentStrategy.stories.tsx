@@ -28,11 +28,11 @@ export const FactorHighlightedMobile: Story = {
   globals: mobile,
 };
 
-export const OtherAgentSelectedDesktop: Story = {
+export const AgentSheetOpenDesktop: Story = {
   args: { initialAgentId: 'agent-c' },
   globals: desktop,
 };
-export const OtherAgentSelectedMobile: Story = {
+export const AgentSheetOpenMobile: Story = {
   args: { initialAgentId: 'agent-c' },
   globals: mobile,
 };
