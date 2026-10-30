@@ -18,7 +18,7 @@ import { Card, Field, RangeSlider, Switch } from '@/ui';
 import { AffordabilityWeights } from './components/AffordabilityWeights';
 import { PeerChart, PeerSampleBadge } from './components/PeerChart';
 import type { PeerRow } from './components/PeerChart';
-import { PriceBandRow } from './components/PriceBandRow';
+import { PriceBandLine } from './components/PriceBandLine';
 import { ResultCard } from './components/ResultCard';
 import { fill, parseAmount, scholarshipMax, sliderStep, usd } from './format';
 import styles from './CostCalculator.module.css';
@@ -171,7 +171,7 @@ export function CostCalculator({
 
         <section aria-labelledby="cc-band" className={styles.section}>
           <SectionHeader eyebrow={c.bands.eyebrow} title={c.bands.title} id="cc-band" />
-          <PriceBandRow bands={config.priceBands} current={bandId} />
+          <PriceBandLine bands={config.priceBands} current={bandId} net={net} />
         </section>
 
         {isSample ? (

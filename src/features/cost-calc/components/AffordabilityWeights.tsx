@@ -34,7 +34,11 @@ export function AffordabilityWeights({ weights }: AffordabilityWeightsProps): Re
       </p>
       <p className={styles.mapping}>
         {en.costCalc.weights.mappingLabel}{' '}
-        <TbcValue value={tbcConfig.scoringFormulas} placeholder={en.status.tbc} label={en.status.pending} />
+        <TbcValue
+          value={tbcConfig.scoringFormulas}
+          placeholder={en.status.tbc}
+          label={en.status.pending}
+        />
       </p>
     </Card>
   );

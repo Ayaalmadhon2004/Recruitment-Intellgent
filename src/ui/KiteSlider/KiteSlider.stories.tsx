@@ -2,7 +2,15 @@ import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { useState } from 'react';
 import { KiteSlider } from './KiteSlider';
 
-const words = ['', 'Month one', 'Month two', 'Month three', 'Month four', 'Month five', 'Month six'];
+const words = [
+  '',
+  'Month one',
+  'Month two',
+  'Month three',
+  'Month four',
+  'Month five',
+  'Month six',
+];
 const valueText = (n: number): string => words[n] ?? '';
 
 function Demo({ start }: { start: number }) {
