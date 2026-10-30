@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { Kite } from './Kite';
-import type { KiteWings } from './Kite';
+import type { KiteProgress, KiteWings } from './Kite';
 
 describe('Kite', () => {
   it('is decorative by default', () => {
@@ -23,5 +23,16 @@ describe('Kite', () => {
     const { container } = render(<Kite wings={wings} />);
     expect(container.querySelector('svg')).toHaveAttribute('data-wings', wings);
     expect(container.querySelectorAll('g[class*="folded"]')).toHaveLength(folded);
+  });
+
+  it.each<[KiteProgress, number, number]>([
+    [1, 1, 2],
+    [2, 2, 1],
+    [3, 3, 0],
+  ])('progress=%i draws %i part(s) and outlines %i', (progress, drawn, outlined) => {
+    const { container } = render(<Kite progress={progress} />);
+    expect(container.querySelector('svg')).toHaveAttribute('data-progress', String(progress));
+    expect(container.querySelectorAll('g[class*="drawn"]')).toHaveLength(drawn);
+    expect(container.querySelectorAll('g[class*="outline"]')).toHaveLength(outlined);
   });
 });

@@ -140,18 +140,17 @@ describe('LandingPage sections', () => {
     });
   });
 
-  it('draws the three steps as the kite unfolding, in order, without numerals', () => {
+  it('draws the three steps as one kite drawn a third at a time, in order, without numerals', () => {
     render(<LandingPage />);
     const steps = within(screen.getByRole('list', { name: copy.how.listLabel })).getAllByRole(
       'listitem',
     );
     expect(steps).toHaveLength(THREE);
-    const labels = [uiCopy.home.kiteFolded, uiCopy.home.kiteLeft, uiCopy.home.kiteRight];
-    const wings = ['closed', 'left', 'right'];
+    const labels = uiCopy.home.kiteSteps;
     copy.how.steps.forEach((step, i) => {
       expect(within(steps[i]!).getByRole('heading', { name: fill(step.title, counts) })).toBeInTheDocument();
       const kite = within(steps[i]!).getByRole('img', { name: labels[i] });
-      expect(kite).toHaveAttribute('data-wings', wings[i]);
+      expect(kite).toHaveAttribute('data-progress', String(i + 1));
       expect(steps[i]).not.toHaveTextContent(new RegExp(`^${i + 1}\\b`));
     });
   });

@@ -39,9 +39,10 @@
 
 .spar {
   fill: none;
-  stroke: var(--color-card);
-  stroke-width: 2.5;
-  stroke-linecap: round;
+  /* Translucent so it reads on both the navy and the crimson paper. */
+  stroke: color-mix(in srgb, var(--color-card) 75%, transparent);
+  stroke-width: 2;
+  stroke-linecap: butt;
 }
 
 .tail {
@@ -58,7 +59,35 @@
   stroke-linecap: round;
 }
 
+/* Progress mode: the whole silhouette is always present, parts not reached yet are a faint outline. */
+.part {
+  stroke-linejoin: round;
+}
+
+.outline path {
+  fill: none;
+  stroke: var(--color-line-dashed);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+}
+
+@keyframes draw-part {
+  from {
+    opacity: 0;
+  }
+}
+
+/* Reveal marks its content shown when it scrolls into view; the drawn parts then fade in one after another. */
+:global([data-reveal='shown']) .drawn {
+  animation: draw-part var(--dur-enter) var(--ease-out) both;
+  animation-delay: calc(var(--part) * 220ms);
+}
+
 @media (prefers-reduced-motion: reduce) {
+  :global([data-reveal='shown']) .drawn {
+    animation: none;
+  }
+
   .wing {
     transition: none;
   }
