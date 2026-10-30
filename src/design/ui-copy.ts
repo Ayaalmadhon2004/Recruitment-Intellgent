@@ -20,6 +20,20 @@ export const uiCopy = {
     question: 'Question',
     of: 'of',
   },
+  track: {
+    previous: 'Previous',
+    current: 'Current',
+    next: 'Next',
+  },
+  flow: {
+    howSure: 'How sure are you?',
+    /** {name} is a section name. */
+    continueTo: 'Continue to {name}',
+    backTo: 'Back to {name}',
+    opening: 'Opening your audit',
+    signInRedirect: 'Taking you to sign in',
+    sectionsTrack: 'Audit sections',
+  },
   kite: {
     label: 'Paper kite',
   },

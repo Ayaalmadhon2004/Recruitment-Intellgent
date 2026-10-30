@@ -43,3 +43,5 @@ export { ArchSheet } from './ArchSheet';
 export type { ArchSheetProps } from './ArchSheet';
 export { Kite } from './Kite';
 export type { KiteProps, KiteSize, KiteWings } from './Kite';
+export { KiteTrack } from './KiteTrack';
+export type { KiteTrackProps } from './KiteTrack';

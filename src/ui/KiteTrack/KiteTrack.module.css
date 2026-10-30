@@ -1,0 +1,57 @@
+.root {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: 100%;
+}
+
+/* The kite lives in a lane above the line. Its centre sits over the current stop (50%) and flies
+   a third of the width toward the next stop as progress grows. */
+.flight {
+  position: relative;
+  height: var(--space-8);
+}
+
+.kite {
+  position: absolute;
+  bottom: 0;
+  left: calc(50% + var(--kite-progress, 0) * 33.333%);
+  display: block;
+  transform: translateX(-50%);
+  transition: left var(--dur-enter) var(--ease-out);
+}
+
+.rail {
+  height: 1px;
+  background: var(--color-line-strong);
+}
+
+.stops {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stop {
+  min-width: 0;
+  padding-top: var(--space-1);
+  text-align: center;
+  font-size: var(--text-small-size);
+  line-height: var(--text-small-line);
+  color: var(--color-text-secondary);
+  overflow-wrap: anywhere;
+}
+
+.current {
+  color: var(--color-navy);
+  font-weight: var(--font-weight-bold);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kite {
+    transition: none;
+  }
+}
