@@ -91,3 +91,9 @@ button {
     display: none !important;
   }
 }
+
+/* Loading states swap for the real page while the footer would still be on screen. Keeping the page at
+   least one screen tall keeps the footer below the fold during that swap, so nothing in view shifts. */
+main {
+  min-height: 100svh;
+}

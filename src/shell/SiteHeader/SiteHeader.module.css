@@ -433,3 +433,16 @@
     display: block;
   }
 }
+
+/* Holds the place of the sign-in link while the session loads, so the row does not shift when it appears. */
+.accountSlot {
+  display: none;
+}
+
+@media (min-width: 761px) {
+  .accountSlot {
+    display: block;
+    width: calc(var(--tap-target) * 2);
+    height: var(--tap-target);
+  }
+}
