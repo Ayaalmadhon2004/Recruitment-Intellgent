@@ -234,7 +234,7 @@
   width: 100%;
   min-width: 900px;
   border-collapse: separate;
-  border-spacing: 0;
+  border-spacing: 0 var(--space-2);
   font-size: var(--text-label-size);
 }
 .caption {
@@ -244,11 +244,11 @@
   color: var(--color-text-secondary);
 }
 .th {
-  padding: var(--space-3) 10px;
-  border-bottom: 2px solid var(--color-line-strong);
+  padding: var(--space-2) 10px;
   text-align: left;
-  font-size: var(--text-small-size);
+  font-size: var(--text-caption-size);
   font-weight: var(--font-weight-semibold);
+  color: var(--color-navy);
 }
 .stickyHead {
   position: sticky;
@@ -260,36 +260,56 @@
 }
 .scoreHead {
   padding-right: var(--space-5);
+  text-align: center;
   font-weight: var(--font-weight-bold);
-  color: var(--color-navy-deep);
 }
+/* Each agent is one soft band; no hairlines between rows. */
 .row > * {
-  background: var(--color-page);
+  background: var(--color-pastel-blue);
+  transition: background-color var(--dur-fast) var(--ease-standard);
+}
+.row > :first-child {
+  border-radius: var(--radius-pill) 0 0 var(--radius-pill);
+}
+.row > :last-child {
+  border-radius: 0 var(--radius-pill) var(--radius-pill) 0;
+}
+.row:hover > *,
+.row:focus-within > * {
+  background: var(--color-pastel-blue-deep);
 }
 .rowHead {
   position: sticky;
   left: 0;
   z-index: 1;
-  padding: 10px var(--space-4);
-  border-bottom: 1px solid var(--color-line-soft);
+  padding: var(--space-2) var(--space-3);
   text-align: left;
 }
+/* A filled pill with a chevron: it reads as a button and fills navy on hover. */
 .agentButton {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  min-width: 176px;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  width: 100%;
+  min-width: 200px;
   min-height: 48px;
-  padding: var(--space-1) var(--space-4);
-  border: 2px solid var(--color-navy);
+  padding: var(--space-1) var(--space-3) var(--space-1) var(--space-5);
+  border: 0;
   border-radius: var(--radius-pill);
-  background: transparent;
+  background: var(--color-card);
   color: var(--color-navy);
   text-align: left;
+  transition: var(--transition-interactive);
 }
 .agentButton:hover {
-  background: var(--color-pastel-blue);
+  background: var(--color-navy);
+  color: var(--color-text-inverse);
+}
+.agentText {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
 }
 .agentName {
   font-size: var(--text-label-size);
@@ -301,19 +321,19 @@
 }
 .cell {
   min-width: 96px;
-  padding: 10px;
-  border-bottom: 1px solid var(--color-line-soft);
+  padding: var(--space-2) 10px;
 }
 .rating {
   font-weight: var(--font-weight-semibold);
+  color: var(--color-navy);
 }
 .bar {
   display: block;
-  height: 6px;
+  height: 8px;
   margin-top: var(--space-1);
   overflow: hidden;
   border-radius: var(--radius-pill);
-  background: var(--color-line-soft);
+  background: var(--color-card);
 }
 .barFill {
   display: block;
@@ -321,11 +341,46 @@
   border-radius: var(--radius-pill);
   background: var(--color-navy);
 }
+.barLow {
+  background: var(--color-crimson);
+}
 .total {
-  padding-right: var(--space-5);
+  padding-right: var(--space-4);
+  text-align: center;
+}
+/* Overall score: a navy ring with the number inside. */
+.badge {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border: 3px solid var(--color-navy);
+  border-radius: var(--radius-pill);
+  background: var(--color-card);
+  color: var(--color-navy);
+  line-height: 1.1;
+}
+.badgeNum {
   font-size: var(--text-h3-size);
   font-weight: var(--font-weight-bold);
-  color: var(--color-navy-deep);
+}
+.badgeMax {
+  font-size: var(--text-caption-size);
+  font-weight: var(--font-weight-medium);
+}
+.badgeLarge {
+  width: 120px;
+  height: 120px;
+  border-width: 4px;
+}
+.badgeLarge .badgeNum {
+  font-size: var(--text-h1-size);
+  line-height: var(--text-h1-line);
+}
+.badgeLarge .badgeMax {
+  font-size: var(--text-small-size);
 }
 .monthPanel {
   display: flex;
@@ -370,11 +425,91 @@
 }
 
 @media (max-width: 760px) {
+  /* Each agent becomes a stacked block: name and score on top, then label + bar + n / max per factor.
+     The table elements keep their roles in the markup, so assistive tech still reads a table. */
+  .table,
+  .table tbody,
+  .row,
+  .row > *,
+  .caption {
+    display: block;
+  }
   .table {
-    min-width: 820px;
+    min-width: 0;
   }
   .caption {
-    padding: var(--space-4) var(--space-4) var(--space-2);
+    padding: var(--space-2) 0;
+  }
+  .table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+  .table tbody {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  .row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    border-radius: var(--radius-card-xl);
+    background: var(--color-pastel-blue);
+    transition: background-color var(--dur-fast) var(--ease-standard);
+  }
+  .row:hover,
+  .row:focus-within {
+    background: var(--color-pastel-blue-deep);
+  }
+  .row > *,
+  .row:hover > *,
+  .row:focus-within > * {
+    border-radius: 0;
+    background: none;
+  }
+  .rowHead {
+    position: static;
+    grid-column: 1;
+    grid-row: 1;
+    padding: 0;
+  }
+  .agentButton {
+    min-width: 0;
+  }
+  .cell {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: minmax(0, 128px) minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--space-3);
+    min-width: 0;
+    padding: 0;
+  }
+  .row > .total {
+    display: block;
+    grid-column: 2;
+    grid-row: 1;
+    padding: 0;
+  }
+  .cell::before {
+    content: attr(data-label);
+    order: 1;
+    font-size: var(--text-small-size);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-navy);
+  }
+  .bar {
+    order: 2;
+    margin-top: 0;
+  }
+  .rating {
+    order: 3;
+    font-size: var(--text-small-size);
   }
   .donutCard {
     gap: var(--space-5);

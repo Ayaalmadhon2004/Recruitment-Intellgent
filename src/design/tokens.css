@@ -4,7 +4,8 @@
   --color-page: #fbf8f3;
   --color-page-alt: #f4efe6;
   --color-page-warm: #f6e7eb; /* pastel red */
-  --color-pastel-blue: #e8ebef;
+  --color-pastel-blue: #dbe8f8; /* a clear blue tint of the navy; navy text on it is 9:1 */
+  --color-pastel-blue-deep: #c3d8f2; /* hover and focus tint on pastel blue */
   --color-pastel-red: #f6e7eb;
   --color-card: #ffffff;
   --color-navy-deep: #152a45;

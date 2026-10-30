@@ -40,6 +40,7 @@ export const agentStrategy = {
     selected: 'Selected',
     rating: '{value} / {max}',
     score: '{score} / {max}',
+    scoreMax: '/ {max}',
     summaryEyebrow: 'SELECTED',
     summaryTitle: '{name} - {score} out of {max}',
     summaryDetail: 'Strongest: {strongest}. Weakest: {weakest}.',
