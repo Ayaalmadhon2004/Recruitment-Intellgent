@@ -25,6 +25,7 @@
 .heroTitle {
   margin: 0;
   max-width: 600px;
+  color: var(--color-text-inverse);
   font-size: var(--text-h1-size);
   line-height: var(--text-h1-line);
   font-weight: var(--font-weight-bold);
@@ -52,7 +53,20 @@
 }
 
 .when {
+  position: relative;
   min-width: 0;
+}
+
+/* Anchor the bubble to the section's left edge so it never leaves a 390px screen. */
+.whenTitle > span {
+  position: static;
+}
+
+.whenTitle [role='region'] {
+  top: calc(100% + var(--space-1));
+  left: 0;
+  transform: none;
+  animation: none;
 }
 
 .whenTitle {
