@@ -1,93 +1,121 @@
+'use client';
+
+import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import type { ReactNode } from 'react';
+import { uiCopy } from '@/design/ui-copy';
 import { auditScope } from '@/domain/config';
 import { en, fill } from '@/domain/copy';
-import type { ScoreAreaId, Scored } from '@/domain/types';
-import { ProgressBar, SampleDataBadge, ScoreRing, StatusBadge } from '@/patterns';
 import { PageContainer } from '@/shell';
-import { Button, Reveal } from '@/ui';
+import type { KiteWings } from '@/ui';
+import { Button, Kite } from '@/ui';
 import styles from './Hero.module.css';
 
 const copy = en.landing.hero;
+const home = uiCopy.home;
+
+/** Once per visit: the key lives in sessionStorage, which clears when the tab closes. */
+export const INTRO_STORAGE_KEY = 'vri-home-intro-seen';
+/** The wings open at these moments (ms) of the roughly 3 second intro. */
+const LEFT_AT = 1100;
+const OPEN_AT = 1500;
+const DONE_AT = 3000;
 
 export type HeroProps = {
   startHref: string;
 };
 
-/**
- * Illustrative only: a mock of the free report. These numbers are design samples, never the output
- * of the scoring engine, and the whole preview carries the sample badge.
- */
-const SAMPLE_OVERALL: Scored = { kind: 'scored', value: 68, band: 'developing', confidence: 'medium' };
-const SAMPLE_AREAS: ReadonlyArray<{ id: ScoreAreaId; value: number }> = [
-  { id: 'readiness', value: 74 },
-  { id: 'affordability', value: 66 },
-  { id: 'digital-visibility', value: 58 },
-  { id: 'trust-network', value: 41 },
-];
+type Phase = 'playing' | 'done';
 
+function introAlreadySeen(): boolean {
+  try {
+    return window.sessionStorage.getItem(INTRO_STORAGE_KEY) === '1';
+  } catch {
+    return false;
+  }
+}
+
+function markIntroSeen(): void {
+  try {
+    window.sessionStorage.setItem(INTRO_STORAGE_KEY, '1');
+  } catch {
+    // Storage can be blocked. The intro then simply plays again next visit.
+  }
+}
+
+function prefersReducedMotion(): boolean {
+  return typeof window.matchMedia === 'function' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
+function shouldSkipIntro(): boolean {
+  return prefersReducedMotion() || introAlreadySeen();
+}
+
+const subscribeNever = (): (() => void) => () => undefined;
+
+/**
+ * The home banner. The headline is real text from the first byte; the kite spin, wing opening and
+ * "writing" of the words are cosmetic and never block the buttons. Skipped for reduced motion and
+ * for anyone who has already seen it this visit.
+ */
 export function Hero({ startHref }: HeroProps): ReactNode {
+  const [played, setPlayed] = useState(false);
+  const [openWings, setOpenWings] = useState<KiteWings>('closed');
+  const rootRef = useRef<HTMLElement>(null);
+  const ready = useSyncExternalStore(subscribeNever, () => true, () => false);
+  const skipped = useSyncExternalStore(subscribeNever, shouldSkipIntro, () => false);
+
+  const phase: Phase = skipped || played ? 'done' : 'playing';
+  const wings: KiteWings = phase === 'done' ? 'open' : openWings;
+
+  useEffect(() => {
+    if (!ready || phase === 'done') return;
+    const timers = [
+      window.setTimeout(() => setOpenWings('left'), LEFT_AT),
+      window.setTimeout(() => setOpenWings('open'), OPEN_AT),
+      window.setTimeout(() => {
+        markIntroSeen();
+        setPlayed(true);
+      }, DONE_AT),
+    ];
+    return () => timers.forEach((t) => window.clearTimeout(t));
+  }, [ready, phase]);
+
+  const skip = (): void => {
+    markIntroSeen();
+    setPlayed(true);
+    // The skip button is about to disappear: hand the keyboard focus to the main action.
+    rootRef.current?.querySelector<HTMLElement>('[data-start]')?.focus();
+  };
+
   return (
-    <section className={styles.hero} aria-labelledby="landing-title">
+    <section ref={rootRef} className={styles.hero} aria-labelledby="landing-title" data-phase={phase}>
       <PageContainer className={styles.inner}>
-        <Reveal className={styles.text}>
+        <div className={styles.stage}>
+          <div className={styles.spin}>
+            <Kite wings={wings} size="lg" className={styles.kite} />
+          </div>
+        </div>
+        <div className={styles.text}>
           <span className={styles.eyebrow}>{copy.eyebrow}</span>
           <h1 id="landing-title" className={styles.title}>
             {copy.title}
           </h1>
-          <p className={styles.lead}>{fill(copy.lead, { quickStart: auditScope.quickStartQuestions })}</p>
+          <p className={styles.lead}>{fill(home.introLead, { quickStart: auditScope.quickStartQuestions })}</p>
           <div className={styles.actions}>
-            <Button href={startHref} size="lg">
+            <Button href={startHref} size="lg" data-start="">
               {copy.primaryCta}
             </Button>
-            <Button href="#how" size="lg" variant="inverse-outline">
+            <Button href="#how" size="lg" variant="outline">
               {copy.secondaryCta}
             </Button>
+            {ready && phase === 'playing' ? (
+              <Button variant="outline" onClick={skip} className={styles.skip}>
+                {home.skipIntro}
+              </Button>
+            ) : null}
           </div>
-        </Reveal>
-        <Reveal delay={2} className={styles.visual}>
-          <figure className={styles.report}>
-            <figcaption className={styles.reportHead}>
-              <span className={styles.reportLabel}>{copy.preview.label}</span>
-              <SampleDataBadge label={en.status.sample} variant="outline" />
-            </figcaption>
-            <div className={styles.summary}>
-              <ScoreRing
-                result={SAMPLE_OVERALL}
-                ariaLabel={copy.preview.ringAria}
-                caption={copy.preview.ringCaption}
-                size={132}
-              />
-              <div className={styles.summaryText}>
-                <p className={styles.reportTitle}>{copy.preview.title}</p>
-                <p className={styles.reportSub}>{copy.preview.subtitle}</p>
-                <StatusBadge tone="caution" label={en.bands[SAMPLE_OVERALL.band]} />
-              </div>
-            </div>
-            <p className={styles.areasTitle}>{copy.preview.areasTitle}</p>
-            <ul className={styles.areas}>
-              {SAMPLE_AREAS.map((area) => (
-                <li key={area.id} className={styles.area}>
-                  <ProgressBar
-                    value={area.value}
-                    label={en.areas[area.id]}
-                    valueText={fill(copy.preview.areaScore, { value: area.value })}
-                  />
-                </li>
-              ))}
-            </ul>
-            <p className={styles.footnote}>{copy.preview.footnote}</p>
-          </figure>
-        </Reveal>
+        </div>
       </PageContainer>
-      <svg
-        className={styles.slope}
-        viewBox="0 0 1440 70"
-        preserveAspectRatio="none"
-        aria-hidden="true"
-        focusable="false"
-      >
-        <path d="M0 30 C 260 76, 520 70, 760 38 S 1220 -14, 1440 28 L1440 70 L0 70 Z" />
-      </svg>
     </section>
   );
 }
