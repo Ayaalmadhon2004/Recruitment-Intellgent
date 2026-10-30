@@ -75,6 +75,7 @@
 }
 
 .link {
+  min-width: var(--tap-target);
   min-height: var(--tap-target);
   display: flex;
   align-items: center;
