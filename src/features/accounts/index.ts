@@ -20,3 +20,7 @@ export { adoptLocalAudit, resumeAudit, signOutAndClear, startNewAudit } from './
 export type { AccountUser, SavedAudit, SaveAuditInput } from './types';
 export { AccountAuditFlow } from './components/AccountAuditFlow';
 export type { AccountAuditFlowProps } from './components/AccountAuditFlow';
+export { RequireSession } from './components/RequireSession';
+export type { RequireSessionProps } from './components/RequireSession';
+export { sanitizeNext, signInHrefFor } from './return-to';
+export { useRequireSession } from './useRequireSession';

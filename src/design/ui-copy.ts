@@ -34,6 +34,13 @@ export const uiCopy = {
     signInRedirect: 'Taking you to sign in',
     sectionsTrack: 'Audit sections',
   },
+  /** One short line on the sign-in page, chosen by the page the person was heading to (`?next=`). */
+  signInContext: {
+    quickStart: 'Sign in to start your audit',
+    dashboard: 'Sign in to see your audits',
+    report: 'Sign in to see your report',
+    unlock: 'Sign in to unlock your report',
+  },
   kite: {
     label: 'Paper kite',
   },
