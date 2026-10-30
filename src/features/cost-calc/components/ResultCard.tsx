@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { en } from '@/domain/copy';
 import { ProgressBar } from '@/patterns';
-import { AnimatedNumber, Card } from '@/ui';
+import { AnimatedNumber } from '@/ui';
 import { fill, usd } from '../format';
 import styles from './ResultCard.module.css';
 
@@ -29,7 +29,7 @@ export function ResultCard({
   const r = en.costCalc.result;
   const rounded = Math.round(coveragePercent);
   return (
-    <Card tone="navy" radius="lg" className={styles.card} aria-label={r.title} as="section">
+    <section className={styles.card} aria-label={r.title}>
       <span className={styles.eyebrow}>{r.eyebrow}</span>
       <div className={styles.headline}>
         <span className={styles.net} data-testid="net-cost">
@@ -38,7 +38,6 @@ export function ResultCard({
         <span className={styles.per}>{r.perYear}</span>
       </div>
       <ProgressBar
-        tone="inverse"
         size="lg"
         label={r.coverage}
         value={rounded}
@@ -75,6 +74,6 @@ export function ResultCard({
         <span className={styles.bandChip}>{fill(r.priceBand, { band: bandLabel })}</span>
         <span className={styles.chip}>{fill(r.fourYears, { amount: usd(fourYears) })}</span>
       </div>
-    </Card>
+    </section>
   );
 }

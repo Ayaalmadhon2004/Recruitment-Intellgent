@@ -14,7 +14,7 @@ import {
 import type { ScoringConfig } from '@/domain/types';
 import { CtaBand, SampleDataBadge, TbcValue } from '@/patterns';
 import { PageContainer, SectionHeader } from '@/shell';
-import { Card, Field, RangeSlider, Switch } from '@/ui';
+import { Field, RangeSlider, Switch } from '@/ui';
 import { AffordabilityWeights } from './components/AffordabilityWeights';
 import { PeerChart, PeerSampleBadge } from './components/PeerChart';
 import type { PeerRow } from './components/PeerChart';
@@ -106,7 +106,7 @@ export function CostCalculator({
         <section aria-labelledby="cc-inputs" className={styles.section}>
           <SectionHeader eyebrow={c.inputs.eyebrow} title={c.inputs.title} id="cc-inputs" />
           <div className={styles.split}>
-            <Card as="section" radius="lg" className={styles.form} aria-label={c.inputs.title}>
+            <section className={styles.form} aria-label={c.inputs.title}>
               <Field
                 label={c.inputs.tuition}
                 type="number"
@@ -155,7 +155,7 @@ export function CostCalculator({
                 </div>
                 <span className={styles.vndNote}>{c.inputs.vndNote}</span>
               </div>
-            </Card>
+            </section>
             <ResultCard
               tuition={tuition}
               living={living}
