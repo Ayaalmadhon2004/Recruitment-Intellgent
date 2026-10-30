@@ -1,11 +1,11 @@
 import type { ReactNode } from 'react';
 import { stagesConfig } from '@/domain/config';
 import { scoreAreaIds } from '@/domain/types';
-import { ScoreCardSkeleton, StageCardSkeleton } from '@/patterns';
+import { StageCardSkeleton } from '@/patterns';
 import { Skeleton } from '@/ui';
 import styles from './FirstReadView.module.css';
 
-/** Hero, stage, one score card per area and the call to action. Place inside a SkeletonGroup. */
+/** Hero lines, stage, one plain row per area and the closing line. Place inside a SkeletonGroup. */
 export function FirstReadSkeleton(): ReactNode {
   return (
     <div className={styles.root}>
@@ -27,13 +27,16 @@ export function FirstReadSkeleton(): ReactNode {
       <StageCardSkeleton steps={stagesConfig.stages.length} />
       <div className={styles.group}>
         <Skeleton shape="line" width="min(320px, 70%)" height="var(--text-h2-size)" />
-        <div className={styles.grid}>
+        <div className={styles.rows}>
           {scoreAreaIds.map((id) => (
-            <ScoreCardSkeleton key={id} />
+            <div key={id} className={styles.row}>
+              <Skeleton shape="circle" width="var(--space-9)" height="var(--space-9)" />
+              <Skeleton shape="line" width="min(240px, 60%)" height="var(--text-h3-line)" />
+            </div>
           ))}
         </div>
       </div>
-      <Skeleton shape="block" height="200px" />
+      <Skeleton shape="line" width="min(520px, 90%)" height="var(--text-h2-line)" />
     </div>
   );
 }
