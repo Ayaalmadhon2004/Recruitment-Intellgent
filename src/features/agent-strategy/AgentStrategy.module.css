@@ -664,8 +664,8 @@
   stroke-width: 2.5;
   stroke-linecap: round;
   transition:
-    stroke-dasharray var(--dur-data) var(--ease-standard),
-    opacity var(--dur-base) var(--ease-standard);
+    stroke-dashoffset var(--dur-large) var(--ease-lift),
+    opacity var(--dur-base) var(--ease-lift);
 }
 .resultCore {
   grid-area: 1 / 1;

@@ -146,6 +146,9 @@
 .anim-fade {
   animation: anim-fade var(--dur-base) var(--ease-lift) both;
 }
+.anim-pop-in {
+  animation: anim-dot-in var(--dur-base) var(--ease-lift) both;
+}
 .anim-ring {
   animation: anim-ring var(--dur-data) var(--ease-out) both;
 }

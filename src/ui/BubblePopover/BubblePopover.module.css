@@ -52,7 +52,7 @@
   line-height: var(--text-small-line);
   font-weight: var(--font-weight-regular);
   text-align: left;
-  animation: bubble-in var(--dur-base) var(--ease-out);
+  animation: bubble-in var(--dur-micro) var(--ease-lift);
 }
 
 .bubble[hidden] {
@@ -62,12 +62,6 @@
 @keyframes bubble-in {
   from {
     opacity: 0;
-    transform: translateX(-50%) translateY(calc(var(--space-1) * -1));
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .bubble {
-    animation: none;
+    transform: translateX(-50%) translateY(var(--text-slide)) scale(0.92);
   }
 }

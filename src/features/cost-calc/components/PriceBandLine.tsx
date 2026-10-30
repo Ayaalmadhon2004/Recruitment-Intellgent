@@ -1,8 +1,12 @@
-import type { ReactNode } from 'react';
+'use client';
+
+import { useRef } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
+import { duration } from '@/design/motion';
 import { strategyCopy } from '@/design/ui-copy';
 import { en, t } from '@/domain/copy';
 import type { PriceBand, PriceBandId } from '@/domain/types';
-import { BubblePopover, cx } from '@/ui';
+import { BubblePopover, cx, useRevealPhase } from '@/ui';
 import { fill, usd } from '../format';
 import styles from './PriceBandLine.module.css';
 
@@ -22,6 +26,10 @@ export type PriceBandLineProps = {
  * the band below it, only to place the dot; its end is shown as open, not as a number.
  */
 export function PriceBandLine({ bands, current, net }: PriceBandLineProps): ReactNode {
+  const stageRef = useRef<HTMLDivElement>(null);
+  const phase = useRevealPhase(stageRef);
+  const shown = phase === 'shown';
+  const at = (ms: number): CSSProperties => ({ animationDelay: `${ms}ms` });
   const ordered = [...bands].sort((a, b) => a.minUsd - b.minUsd);
   const index = ordered.findIndex((b) => b.id === current);
   const band = ordered[index];
@@ -49,14 +57,18 @@ export function PriceBandLine({ bands, current, net }: PriceBandLineProps): Reac
           {strategyCopy.priceDetails}
         </BubblePopover>
       </p>
-      <div className={styles.stage}>
-        <span className={styles.line} aria-hidden="true" />
+      <div ref={stageRef} className={cx(styles.stage, phase === 'pending' && styles.pending)}>
+        <span className={cx(styles.line, shown && 'anim-grow')} aria-hidden="true" />
         <div className={cx(styles.point, styles.min)}>
           <span className={styles.above}>
             <span className={styles.caption}>{strategyCopy.priceMin}</span>
             <span className={styles.number}>{usd(band.minUsd)}</span>
           </span>
-          <span className={styles.dot} aria-hidden="true" />
+          <span
+            className={cx(styles.dot, shown && 'anim-pop-in')}
+            style={at(0)}
+            aria-hidden="true"
+          />
         </div>
         <div className={cx(styles.point, styles.max)}>
           <span className={styles.above}>
@@ -65,10 +77,21 @@ export function PriceBandLine({ bands, current, net }: PriceBandLineProps): Reac
               {band.maxUsd === null ? strategyCopy.priceOpenEnd : usd(band.maxUsd)}
             </span>
           </span>
-          <span className={cx(styles.dot, openEnd && styles.dotOpen)} aria-hidden="true" />
+          <span
+            className={cx(styles.dot, openEnd && styles.dotOpen, shown && 'anim-pop-in')}
+            style={at(duration.large)}
+            aria-hidden="true"
+          />
         </div>
         <div className={styles.point} style={{ left: `${place}%` }}>
-          <span className={styles.dotBig} aria-hidden="true" />
+          <span
+            className={cx(styles.dotBig, shown && 'anim-pop-in')}
+            style={{
+              ...at(duration.large + duration.micro),
+              animationTimingFunction: 'var(--ease-settle)',
+            }}
+            aria-hidden="true"
+          />
           <span className={styles.expectedLabel}>
             <span className={styles.caption}>{strategyCopy.priceExpected}</span>
             <span className={styles.number}>{usd(net)}</span>

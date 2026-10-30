@@ -1,3 +1,4 @@
+import { countDuration } from '@/design/motion';
 import type { ReactNode } from 'react';
 import { en } from '@/domain/copy';
 import { forecast } from '@/domain/scoring';
@@ -45,14 +46,16 @@ export function ForecastSection({ values, onChange }: ForecastSectionProps): Rea
                 cy="50"
                 r="47"
                 pathLength="100"
-                style={{ strokeDasharray: `${share} 100`, opacity: share > 0 ? 1 : 0 }}
+                strokeDasharray={100}
+                strokeDashoffset={100 - share}
+                style={{ opacity: share > 0 ? 1 : 0 }}
               />
             </svg>
             <div className={styles.resultCore}>
               <span className={styles.resultEyebrow}>{copy.resultEyebrow}</span>
               <span className="visually-hidden">{fmt1(result.retained)}</span>
               <span aria-hidden="true" className={styles.resultBig}>
-                <CountUp value={result.retained} format={fmt1} />
+                <CountUp value={result.retained} format={fmt1} duration={countDuration.forecast} />
               </span>
               <span className={styles.resultLine}>
                 {fill(copy.resultLine, { count: Math.round(result.retained) })}
