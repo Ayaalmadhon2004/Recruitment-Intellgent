@@ -312,4 +312,27 @@ describe('QuestionCard heading', () => {
     );
     expect(screen.getByRole('heading', { level: 2 })).toBeInTheDocument();
   });
+
+  it('plain variant has no id badge or status chip box, keeps Not sure and a compact how-sure row', async () => {
+    const user = userEvent.setup();
+    const onUnsure = vi.fn();
+    const onTag = vi.fn();
+    render(
+      <QuestionCard
+        question={sampleQuestions.toggle}
+        value
+        onChange={() => undefined}
+        onUnsure={onUnsure}
+        evidence={{ value: undefined, onChange: onTag }}
+        labels={labels}
+        variant="plain"
+      />,
+    );
+    expect(screen.queryByText(sampleQuestions.toggle.id)).not.toBeInTheDocument();
+    expect(screen.queryByText(labels.evidence?.missing ?? '')).not.toBeInTheDocument();
+    await user.click(screen.getByRole('radio', { name: labels.evidence?.tags.estimate ?? '' }));
+    expect(onTag).toHaveBeenCalledWith('estimate');
+    await user.click(screen.getByRole('button', { name: labels.notSure }));
+    expect(onUnsure).toHaveBeenCalledTimes(1);
+  });
 });

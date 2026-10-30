@@ -53,6 +53,11 @@ export type QuestionCardProps = {
   };
   labels: QuestionCardLabels;
   headingLevel?: 'h2' | 'h3';
+  /**
+   * card: the boxed card with id badge, status chip and evidence block (default).
+   * plain: text on the page background, a thin rule, a small "how sure" pill row and a Not sure pill.
+   */
+  variant?: 'card' | 'plain';
 };
 
 type Status = 'answered' | 'unknown' | 'todo';
@@ -232,11 +237,13 @@ const controls = {
 
 type EvidencePickerProps = {
   questionId: QuestionId;
+  /** Hides the "choose how you know" warning: a stand-in tag is already stored. */
+  compact?: boolean;
   evidence: NonNullable<QuestionCardProps['evidence']>;
   labels: NonNullable<QuestionCardLabels['evidence']>;
 };
 
-function EvidencePicker({ evidence, labels }: EvidencePickerProps): ReactNode {
+function EvidencePicker({ evidence, labels, compact = false }: EvidencePickerProps): ReactNode {
   const headingId = useId();
   const name = useId();
   const tags = Object.keys(labels.tags) as KnownEvidenceTag[];
@@ -264,7 +271,7 @@ function EvidencePicker({ evidence, labels }: EvidencePickerProps): ReactNode {
           );
         })}
       </div>
-      {evidence.value === undefined ? (
+      {evidence.value === undefined && !compact ? (
         <span className={styles.missing}>
           <Icon name="alert" size={16} strokeWidth={2.4} />
           {labels.missing}
@@ -285,6 +292,7 @@ export function QuestionCard({
   evidence,
   labels,
   headingLevel = 'h3',
+  variant = 'card',
 }: QuestionCardProps): ReactNode {
   const titleId = useId();
   const Heading = headingLevel;
@@ -293,6 +301,54 @@ export function QuestionCard({
   const showEvidence =
     evidence !== undefined && labels.evidence !== undefined && status === 'answered';
   const showFooter = showEvidence || status !== 'answered' || onUnsure !== undefined;
+
+  if (variant === 'plain') {
+    return (
+      <article className={styles.plain}>
+        <Heading id={titleId} className={styles.plainText}>
+          {question.text}
+        </Heading>
+        <p className={styles.help}>{question.help}</p>
+        <div className={cx(styles.plainControl, styles.control, unsure && styles.dimmed)}>
+          <Control
+            question={question}
+            value={value}
+            onChange={onChange}
+            onClear={onClear}
+            labels={labels}
+            titleId={titleId}
+          />
+        </div>
+        <div className={styles.plainFooter}>
+          <span className={cx(styles.plainStatus, styles[status])}>
+            <Icon name={statusIcon[status]} size={16} strokeWidth={2.6} />
+            <span>{labels.status[status]}</span>
+          </span>
+          {showEvidence && evidence && labels.evidence ? (
+            <div className={styles.plainSure}>
+              <EvidencePicker
+                questionId={question.id}
+                evidence={evidence}
+                labels={labels.evidence}
+                compact
+              />
+            </div>
+          ) : null}
+          {onUnsure ? (
+            <button
+              type="button"
+              aria-pressed={unsure}
+              className={cx(styles.notSure, styles.plainNotSure, unsure && styles.notSureOn)}
+              onClick={onUnsure}
+            >
+              <Icon name="help" size={16} strokeWidth={2.4} />
+              <span>{unsure ? labels.notSureActive : labels.notSure}</span>
+            </button>
+          ) : null}
+        </div>
+      </article>
+    );
+  }
 
   return (
     <article className={styles.card}>
