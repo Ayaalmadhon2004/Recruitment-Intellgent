@@ -9,10 +9,8 @@
   overflow: hidden;
   min-height: 340px;
   box-sizing: border-box;
-  padding: var(--space-7);
-  border-radius: var(--radius-card-xl);
-  background: var(--color-card);
-  box-shadow: var(--shadow-card-raised);
+  padding-block: var(--space-7);
+  border-block: 1px solid var(--color-line);
 }
 
 .bars {
@@ -88,11 +86,7 @@
   justify-content: center;
   padding: var(--space-5);
   box-sizing: border-box;
-  background: linear-gradient(
-    180deg,
-    color-mix(in srgb, var(--color-page) 45%, transparent),
-    color-mix(in srgb, var(--color-page) 90%, transparent)
-  );
+  background: color-mix(in srgb, var(--color-page) 88%, transparent);
 }
 
 .lockCard {
@@ -105,10 +99,6 @@
   align-items: center;
   gap: var(--space-2);
   text-align: center;
-  border-radius: var(--radius-card-lg);
-  border: 1px solid var(--color-line-soft);
-  background: var(--color-card);
-  box-shadow: var(--shadow-card-hover);
 }
 
 .lock {

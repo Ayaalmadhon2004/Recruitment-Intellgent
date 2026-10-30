@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { en } from '@/domain/copy';
 import { SectionHeader } from '@/shell';
-import { Card, Icon } from '@/ui';
+import { Icon } from '@/ui';
 import styles from './FreeVsFull.module.css';
 
 const copy = en.unlock.split;
@@ -22,7 +22,7 @@ export function FreeVsFull({ unlocked }: FreeVsFullProps): ReactNode {
     <section aria-labelledby="unlock-split-title" className={styles.section}>
       <SectionHeader id="unlock-split-title" eyebrow={copy.eyebrow} title={copy.title} />
       <div className={styles.grid}>
-        <Card as="article" aria-label={copy.freeTitle} tone="open" radius="lg" lift className={styles.card}>
+        <article aria-label={copy.freeTitle} className={styles.card}>
           <div className={styles.head}>
             <h3 className={styles.name}>{copy.freeTitle}</h3>
             <span className={styles.tagFree}>
@@ -41,17 +41,10 @@ export function FreeVsFull({ unlocked }: FreeVsFullProps): ReactNode {
               </li>
             ))}
           </ul>
-        </Card>
-        <Card
-          as="article"
-          aria-label={copy.fullTitle}
-          tone="navy"
-          radius="lg"
-          lift
-          className={styles.card}
-        >
+        </article>
+        <article aria-label={copy.fullTitle} className={styles.card}>
           <div className={styles.head}>
-            <h3 className={`${styles.name} ${styles.nameOnNavy}`}>{copy.fullTitle}</h3>
+            <h3 className={styles.name}>{copy.fullTitle}</h3>
             <span className={styles.tagFull}>
               <Icon name={unlocked ? 'check' : 'minus'} size={14} strokeWidth={2.6} />
               {unlocked ? copy.unlockedWord : copy.lockedWord}
@@ -70,7 +63,7 @@ export function FreeVsFull({ unlocked }: FreeVsFullProps): ReactNode {
               </li>
             ))}
           </ul>
-        </Card>
+        </article>
       </div>
     </section>
   );
