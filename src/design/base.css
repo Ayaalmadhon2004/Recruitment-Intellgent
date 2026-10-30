@@ -48,6 +48,14 @@ summary:focus-visible,
   outline: var(--focus-ring-width) solid var(--focus-ring-color);
   outline-offset: var(--focus-ring-offset);
   box-shadow: var(--focus-ring-halo);
+  animation: focus-in var(--dur-micro) var(--ease-lift);
+}
+
+/* The ring fades in; it is never faded out or removed. */
+@keyframes focus-in {
+  from {
+    outline-color: transparent;
+  }
 }
 
 /* tabindex="-1" marks elements that are focused by script only (headings, panels,

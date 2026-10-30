@@ -34,7 +34,11 @@ export function ChannelChoice({ legend, value, onChange }: ChannelChoiceProps): 
             <span className={styles.optionName}>{c.copy.name}</span>
             <span className={styles.optionLine}>{c.copy.line}</span>
             <span className={styles.optionDetail}>
-              <TbcValue value={c.confirmed} placeholder={c.copy.detailTbc} label={en.status.pending} />
+              <TbcValue
+                value={c.confirmed}
+                placeholder={c.copy.detailTbc}
+                label={en.status.pending}
+              />
             </span>
           </span>
         </label>

@@ -12,7 +12,9 @@ describe('TbcValue', () => {
   });
 
   it('shows a short chip word and keeps the full text as tooltip and screen-reader text', () => {
-    const { container } = render(<TbcValue value={null} placeholder={PLACEHOLDER} label="Pending" />);
+    const { container } = render(
+      <TbcValue value={null} placeholder={PLACEHOLDER} label="Pending" />,
+    );
     const chip = container.querySelector('[data-tbc="true"]');
     expect(chip).toHaveAttribute('title', PLACEHOLDER);
     expect(screen.getByText('Pending')).toHaveAttribute('aria-hidden', 'true');

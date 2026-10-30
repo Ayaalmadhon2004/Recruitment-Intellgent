@@ -138,7 +138,10 @@ function AuditFlowBody({
   // The order is fixed: nobody reaches the first read or the sections before the Quick Start questions.
   const current: AuditPhase = quickDone ? (phase ?? resumePhase) : 'questions';
 
-  const sectionPos = Math.max(0, restSections.indexOf(sectionIds[intake.state.sectionIndex] ?? 'A'));
+  const sectionPos = Math.max(
+    0,
+    restSections.indexOf(sectionIds[intake.state.sectionIndex] ?? 'A'),
+  );
   const sectionId = restSections[sectionPos] ?? restSections[0];
 
   // After Back or Next the new question or section takes focus and scrolls into view.
@@ -155,10 +158,7 @@ function AuditFlowBody({
   };
 
   const sectionQuestions = useMemo(
-    () =>
-      sectionId
-        ? questionsInSection(restQuestions, sectionId)
-        : ([] as Question[]),
+    () => (sectionId ? questionsInSection(restQuestions, sectionId) : ([] as Question[])),
     [sectionId],
   );
   const sectionHandled = countHandled(
@@ -263,10 +263,7 @@ function AuditFlowBody({
       <nav aria-label={en.intake.nav.label} className={styles.nav}>
         <div>
           {previousId ? (
-            <Button
-              variant="outline"
-              onClick={() => goSection(previousId)}
-            >
+            <Button variant="outline" onClick={() => goSection(previousId)}>
               {fill(uiCopy.flow.backTo, { name: en.sections[previousId] })}
             </Button>
           ) : (

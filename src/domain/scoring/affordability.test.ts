@@ -9,7 +9,10 @@ import type { AffordabilityComponents } from './affordability';
 const all = (value: number): AffordabilityComponents =>
   Object.fromEntries(affordabilityComponentIds.map((id) => [id, value]));
 
-const feedQuestion = (id: Question['id'], component: (typeof affordabilityComponentIds)[number]): Question => ({
+const feedQuestion = (
+  id: Question['id'],
+  component: (typeof affordabilityComponentIds)[number],
+): Question => ({
   id,
   section: 'C',
   textKey: 'questions.C1.text',
@@ -36,11 +39,19 @@ describe('scoreAffordability', () => {
       domainConfig,
     );
     // (30x80 + 15x60 + 10x40 + 20x70 + 15x50 + 10x90) / 100
-    expect(result).toEqual({ kind: 'scored', value: 67.5, band: 'developing', confidence: 'medium' });
+    expect(result).toEqual({
+      kind: 'scored',
+      value: 67.5,
+      band: 'developing',
+      confidence: 'medium',
+    });
   });
 
   it('gives 100 when every component is 100 and 0 when every component is 0', () => {
-    expect(scoreAffordability(all(100), 'high', [], domainConfig)).toMatchObject({ value: 100, band: 'strong' });
+    expect(scoreAffordability(all(100), 'high', [], domainConfig)).toMatchObject({
+      value: 100,
+      band: 'strong',
+    });
     expect(scoreAffordability(all(0), 'low', [], domainConfig)).toMatchObject({
       value: 0,
       band: 'needs-attention',
@@ -48,8 +59,12 @@ describe('scoreAffordability', () => {
   });
 
   it('uses the band cut-offs at the boundaries', () => {
-    expect(scoreAffordability(all(54), 'low', [], domainConfig)).toMatchObject({ band: 'needs-attention' });
-    expect(scoreAffordability(all(55), 'low', [], domainConfig)).toMatchObject({ band: 'developing' });
+    expect(scoreAffordability(all(54), 'low', [], domainConfig)).toMatchObject({
+      band: 'needs-attention',
+    });
+    expect(scoreAffordability(all(55), 'low', [], domainConfig)).toMatchObject({
+      band: 'developing',
+    });
     expect(scoreAffordability(all(75), 'low', [], domainConfig)).toMatchObject({ band: 'strong' });
   });
 
@@ -70,7 +85,9 @@ describe('scoreAffordability', () => {
     };
     const components = { ...all(10), 'net-annual-cost': 90 };
     expect(scoreAffordability(components, 'high', [], config)).toMatchObject({ value: 90 });
-    expect(scoreAffordability(components, 'high', [], domainConfig)).toMatchObject({ value: 10 + 0.3 * 80 });
+    expect(scoreAffordability(components, 'high', [], domainConfig)).toMatchObject({
+      value: 10 + 0.3 * 80,
+    });
   });
 
   it('is NotScorable when a component is missing, listing unanswered questions that feed it', () => {
@@ -95,9 +112,9 @@ describe('scoreAffordability', () => {
   });
 
   it.each([-1, 101, NaN])('rejects a component of %s', (value) => {
-    expect(() => scoreAffordability({ ...all(50), 'net-annual-cost': value }, 'high', [], domainConfig)).toThrow(
-      RangeError,
-    );
+    expect(() =>
+      scoreAffordability({ ...all(50), 'net-annual-cost': value }, 'high', [], domainConfig),
+    ).toThrow(RangeError);
   });
 });
 
@@ -105,7 +122,10 @@ describe('assertWeightsSumTo100', () => {
   it('rejects weights that do not sum to 100', () => {
     const weights = { ...domainConfig.scoring.affordabilityWeights, 'net-annual-cost': 31 };
     expect(() => assertWeightsSumTo100(weights)).toThrow('sum to 100');
-    const config: DomainConfig = { ...domainConfig, scoring: { ...domainConfig.scoring, affordabilityWeights: weights } };
+    const config: DomainConfig = {
+      ...domainConfig,
+      scoring: { ...domainConfig.scoring, affordabilityWeights: weights },
+    };
     expect(() => scoreAffordability(all(50), 'high', [], config)).toThrow('sum to 100');
   });
 

@@ -2,7 +2,14 @@ import { describe, expect, it } from 'vitest';
 import { t } from '../copy';
 import type { CopyKey } from '../copy';
 import { affordabilityComponentIds, agentFactorIds, scoreAreaIds, gaugeIds } from '../types';
-import { agentsConfig, domainConfig, questionsConfig, scoringConfig, stagesConfig, tbcConfig } from '.';
+import {
+  agentsConfig,
+  domainConfig,
+  questionsConfig,
+  scoringConfig,
+  stagesConfig,
+  tbcConfig,
+} from '.';
 
 function numbers(value: unknown, path = ''): Array<[string, number]> {
   if (typeof value === 'number') return [[path, value]];
@@ -91,7 +98,9 @@ describe('placeholders are never taken for real values', () => {
 
   it('every area and gauge formula is absent, so nothing is invented', () => {
     expect(Object.values(scoringConfig.formulas).every((f) => f === null)).toBe(true);
-    expect(Object.keys(scoringConfig.formulas).sort()).toEqual([...scoreAreaIds, ...gaugeIds].sort());
+    expect(Object.keys(scoringConfig.formulas).sort()).toEqual(
+      [...scoreAreaIds, ...gaugeIds].sort(),
+    );
   });
 
   it('every unknown is null in tbc.config', () => {
@@ -115,7 +124,9 @@ describe('questions', () => {
   });
 
   it('covers sections A to F', () => {
-    expect(new Set(questionsConfig.map((q) => q.section))).toEqual(new Set(['A', 'B', 'C', 'D', 'E', 'F']));
+    expect(new Set(questionsConfig.map((q) => q.section))).toEqual(
+      new Set(['A', 'B', 'C', 'D', 'E', 'F']),
+    );
   });
 
   it('every text, help, option and control key resolves in copy', () => {
@@ -123,7 +134,8 @@ describe('questions', () => {
       expect(exists(q.textKey), q.textKey).toBe(true);
       expect(exists(q.helpKey), q.helpKey).toBe(true);
       if (q.type === 'number') {
-        for (const key of [q.controlLabelKey, q.unitKey, q.placeholderKey]) expect(exists(key), key).toBe(true);
+        for (const key of [q.controlLabelKey, q.unitKey, q.placeholderKey])
+          expect(exists(key), key).toBe(true);
       }
       if (q.type === 'select' || q.type === 'radio' || q.type === 'chips') {
         if (q.controlLabelKey) expect(exists(q.controlLabelKey), q.controlLabelKey).toBe(true);

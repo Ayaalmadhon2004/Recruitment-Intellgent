@@ -21,8 +21,7 @@ vi.mock('next/navigation', () => ({
   useSearchParams: () => new URLSearchParams(),
 }));
 
-const pageFile = (route: string): string =>
-  join(__dirname, route === '/' ? '' : route, 'page.tsx');
+const pageFile = (route: string): string => join(__dirname, route === '/' ? '' : route, 'page.tsx');
 
 describe('site wiring', () => {
   it('serves the landing feature at the home route and has no separate /landing page', () => {

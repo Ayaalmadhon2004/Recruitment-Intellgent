@@ -55,6 +55,9 @@ describe('SiteFooter', () => {
       />,
     );
     const legal = screen.getByRole('navigation', { name: 'Legal' });
-    expect(within(legal).getByRole('link', { name: 'Privacy' })).toHaveAttribute('href', '/privacy');
+    expect(within(legal).getByRole('link', { name: 'Privacy' })).toHaveAttribute(
+      'href',
+      '/privacy',
+    );
   });
 });

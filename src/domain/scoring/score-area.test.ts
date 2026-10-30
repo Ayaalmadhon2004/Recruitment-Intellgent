@@ -16,7 +16,10 @@ const withFeeds = (feeds: Question['feeds'], id: Question['id'] = 'E1'): Questio
   type: 'toggle',
 });
 
-const configWith = (questions: readonly Question[]): DomainConfig => ({ ...domainConfig, questions });
+const configWith = (questions: readonly Question[]): DomainConfig => ({
+  ...domainConfig,
+  questions,
+});
 
 describe('scoreArea', () => {
   it.each(scoreAreaIds)('%s is NotScorable because no formula exists', (areaId) => {

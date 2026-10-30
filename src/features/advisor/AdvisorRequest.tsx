@@ -255,7 +255,10 @@ export function AdvisorRequest({
               )}
               <div className={styles.actions}>
                 {step > 0 ? (
-                  <Button variant="outline" onClick={() => setStep((s) => Math.max(firstStep, s - 1))}>
+                  <Button
+                    variant="outline"
+                    onClick={() => setStep((s) => Math.max(firstStep, s - 1))}
+                  >
                     {copy.flow.back}
                   </Button>
                 ) : (

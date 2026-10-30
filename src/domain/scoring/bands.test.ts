@@ -40,10 +40,14 @@ describe('assertValidBands', () => {
   });
 
   it('rejects bands that leave low scores without a band', () => {
-    expect(() => assertValidBands([band('strong', 75), band('developing', 55)])).toThrow('start at 0');
+    expect(() => assertValidBands([band('strong', 75), band('developing', 55)])).toThrow(
+      'start at 0',
+    );
   });
 
   it('rejects cut-offs outside 0 to 100', () => {
-    expect(() => assertValidBands([band('strong', 101), band('developing', 0)])).toThrow('0 to 100');
+    expect(() => assertValidBands([band('strong', 101), band('developing', 0)])).toThrow(
+      '0 to 100',
+    );
   });
 });

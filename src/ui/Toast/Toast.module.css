@@ -24,7 +24,7 @@
   background: var(--color-navy);
   color: var(--color-text-inverse);
   box-shadow: var(--shadow-card-raised);
-  animation: toast-in var(--dur-enter) var(--ease-out);
+  animation: toast-in var(--dur-base) var(--ease-lift);
 }
 
 .toast[data-status='error'] {
@@ -76,6 +76,17 @@
     opacity: 0;
     transform: translateY(calc(var(--enter-distance) * -1));
   }
+}
+
+@keyframes toast-out {
+  to {
+    opacity: 0;
+    transform: translateY(calc(var(--enter-distance) * -1));
+  }
+}
+
+.toast[data-leaving] {
+  animation: toast-out var(--dur-base) var(--ease-lift) forwards;
 }
 
 @media (prefers-reduced-motion: reduce) {

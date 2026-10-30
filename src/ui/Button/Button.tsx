@@ -1,5 +1,6 @@
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from 'react';
 import { cx } from '../internal/cx';
+import { KiteBob } from '../KiteBob';
 import styles from './Button.module.css';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'inverse' | 'inverse-outline';
@@ -64,7 +65,7 @@ export function Button(props: ButtonProps): ReactNode {
       disabled={disabled || loading}
       aria-busy={loading || undefined}
     >
-      {loading ? <span className={styles.spinner} aria-hidden="true" /> : null}
+      {loading ? <KiteBob /> : null}
       {children}
       {loading && loadingLabel ? <span className="visually-hidden">{loadingLabel}</span> : null}
     </button>

@@ -18,10 +18,12 @@ function invalid(message: string, status: typeof BAD_REQUEST | typeof PAYLOAD_TO
 /** Computes the First Read from posted answers. Nothing is stored and answers are not logged. */
 export async function POST(request: Request): Promise<Response> {
   const declared = Number(request.headers.get('content-length'));
-  if (Number.isFinite(declared) && declared > MAX_BODY_BYTES) return invalid('Request body is too large.', PAYLOAD_TOO_LARGE);
+  if (Number.isFinite(declared) && declared > MAX_BODY_BYTES)
+    return invalid('Request body is too large.', PAYLOAD_TOO_LARGE);
 
   const text = await request.text();
-  if (new TextEncoder().encode(text).length > MAX_BODY_BYTES) return invalid('Request body is too large.', PAYLOAD_TOO_LARGE);
+  if (new TextEncoder().encode(text).length > MAX_BODY_BYTES)
+    return invalid('Request body is too large.', PAYLOAD_TOO_LARGE);
 
   let json: unknown;
   try {

@@ -49,7 +49,8 @@ export function ReportPage({
   // The kite needs which questions were answered, which the model does not carry: read the same stored audit.
   const ready = state.status === 'ready';
   const answers = useMemo(
-    () => (!ready ? undefined : preview ? previewAnswers : (loadAudit ?? loadDeviceAudit)()?.answers),
+    () =>
+      !ready ? undefined : preview ? previewAnswers : (loadAudit ?? loadDeviceAudit)()?.answers,
     [ready, preview, previewAnswers, loadAudit],
   );
   const root = useFocusHeading(state.status, state.status !== 'loading' || preview);

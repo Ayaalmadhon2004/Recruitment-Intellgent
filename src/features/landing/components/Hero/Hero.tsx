@@ -43,7 +43,10 @@ function markIntroSeen(): void {
 }
 
 function prefersReducedMotion(): boolean {
-  return typeof window.matchMedia === 'function' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  return (
+    typeof window.matchMedia === 'function' &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  );
 }
 
 function shouldSkipIntro(): boolean {
@@ -61,7 +64,11 @@ export function Hero({ startHref }: HeroProps): ReactNode {
   const [played, setPlayed] = useState(false);
   const [openWings, setOpenWings] = useState<KiteWings>('closed');
   const rootRef = useRef<HTMLElement>(null);
-  const ready = useSyncExternalStore(subscribeNever, () => true, () => false);
+  const ready = useSyncExternalStore(
+    subscribeNever,
+    () => true,
+    () => false,
+  );
   const skipped = useSyncExternalStore(subscribeNever, shouldSkipIntro, () => false);
 
   const phase: Phase = skipped || played ? 'done' : 'playing';
@@ -88,7 +95,12 @@ export function Hero({ startHref }: HeroProps): ReactNode {
   };
 
   return (
-    <section ref={rootRef} className={styles.hero} aria-labelledby="landing-title" data-phase={phase}>
+    <section
+      ref={rootRef}
+      className={styles.hero}
+      aria-labelledby="landing-title"
+      data-phase={phase}
+    >
       <PageContainer className={styles.inner}>
         <div className={styles.stage}>
           <div className={styles.spin}>
@@ -100,7 +112,9 @@ export function Hero({ startHref }: HeroProps): ReactNode {
           <h1 id="landing-title" className={styles.title}>
             {copy.title}
           </h1>
-          <p className={styles.lead}>{fill(home.introLead, { quickStart: auditScope.quickStartQuestions })}</p>
+          <p className={styles.lead}>
+            {fill(home.introLead, { quickStart: auditScope.quickStartQuestions })}
+          </p>
           <div className={styles.actions}>
             <Button href={startHref} size="lg" data-start="">
               {copy.primaryCta}

@@ -39,7 +39,7 @@
   color: var(--color-text-inverse);
 }
 .primary:hover {
-  background: var(--color-crimson-dark);
+  background: var(--color-navy-deep);
   color: var(--color-text-inverse);
 }
 
@@ -62,10 +62,23 @@
   color: var(--color-navy);
 }
 
-.primary:active,
+/* Hover lifts, pressed settles back and shrinks a touch. */
+.button:hover:not(:disabled) {
+  transform: translateY(var(--lift-button));
+  box-shadow: var(--shadow-button-hover);
+}
+
+.button:active:not(:disabled) {
+  transform: scale(0.98);
+  box-shadow: none;
+}
+
+.primary:active {
+  background: var(--color-navy-deep);
+}
+
 .secondary:active {
   background: var(--color-crimson-dark);
-  transform: scale(0.98);
 }
 
 .inverse {

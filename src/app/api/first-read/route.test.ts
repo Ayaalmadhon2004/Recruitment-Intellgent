@@ -12,7 +12,9 @@ function post(body: string): Request {
 
 describe('POST /api/first-read', () => {
   it('returns 200 with the stage and six NotScorable areas', async () => {
-    const answers = [{ kind: 'known', questionId: 'B1', value: 9, evidence: 'verified', confidence: 'high' }];
+    const answers = [
+      { kind: 'known', questionId: 'B1', value: 9, evidence: 'verified', confidence: 'high' },
+    ];
     const res = await POST(post(JSON.stringify({ answers })));
     expect(res.status).toBe(200);
     const body = (await res.json()) as FirstReadResponse;
@@ -30,7 +32,9 @@ describe('POST /api/first-read', () => {
   });
 
   it('returns 400 for a bad shape', async () => {
-    const res = await POST(post(JSON.stringify({ answers: [{ kind: 'known', questionId: 'B1' }] })));
+    const res = await POST(
+      post(JSON.stringify({ answers: [{ kind: 'known', questionId: 'B1' }] })),
+    );
     expect(res.status).toBe(400);
     expect(((await res.json()) as FirstReadError).message).toContain('answers[0]');
   });

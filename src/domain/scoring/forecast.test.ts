@@ -1,7 +1,12 @@
 import { describe, expect, it } from 'vitest';
 import { forecast } from './forecast';
 
-const base = { qualifiedApplications: 120, offerRate: 0.55, enrolmentYield: 0.3, visaRetentionAdjustment: 0.85 };
+const base = {
+  qualifiedApplications: 120,
+  offerRate: 0.55,
+  enrolmentYield: 0.3,
+  visaRetentionAdjustment: 0.85,
+};
 
 describe('forecast', () => {
   it('multiplies applications x offer rate x yield x adjustment and shows each step', () => {
@@ -22,7 +27,14 @@ describe('forecast', () => {
   });
 
   it('passes applications through when every rate is 1', () => {
-    expect(forecast({ qualifiedApplications: 40, offerRate: 1, enrolmentYield: 1, visaRetentionAdjustment: 1 })).toEqual({
+    expect(
+      forecast({
+        qualifiedApplications: 40,
+        offerRate: 1,
+        enrolmentYield: 1,
+        visaRetentionAdjustment: 1,
+      }),
+    ).toEqual({
       qualifiedApplications: 40,
       offers: 40,
       enrolled: 40,
@@ -34,9 +46,12 @@ describe('forecast', () => {
     expect(() => forecast({ ...base, qualifiedApplications })).toThrow(RangeError);
   });
 
-  it.each(['offerRate', 'enrolmentYield', 'visaRetentionAdjustment'] as const)('rejects a %s outside 0 to 1', (key) => {
-    expect(() => forecast({ ...base, [key]: 1.01 })).toThrow(RangeError);
-    expect(() => forecast({ ...base, [key]: -0.01 })).toThrow(RangeError);
-    expect(() => forecast({ ...base, [key]: NaN })).toThrow(RangeError);
-  });
+  it.each(['offerRate', 'enrolmentYield', 'visaRetentionAdjustment'] as const)(
+    'rejects a %s outside 0 to 1',
+    (key) => {
+      expect(() => forecast({ ...base, [key]: 1.01 })).toThrow(RangeError);
+      expect(() => forecast({ ...base, [key]: -0.01 })).toThrow(RangeError);
+      expect(() => forecast({ ...base, [key]: NaN })).toThrow(RangeError);
+    },
+  );
 });

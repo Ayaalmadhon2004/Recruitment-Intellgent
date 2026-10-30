@@ -22,7 +22,14 @@ export type AdvisorCtaProps = {
   pendingText: string;
 };
 
-export function AdvisorCta({ title, body, photo, channels, tbcText, pendingText }: AdvisorCtaProps): ReactNode {
+export function AdvisorCta({
+  title,
+  body,
+  photo,
+  channels,
+  tbcText,
+  pendingText,
+}: AdvisorCtaProps): ReactNode {
   const photoProps = { width: 88, height: 88, shape: 'round' as const };
   return (
     <section className={styles.band} aria-label={title}>

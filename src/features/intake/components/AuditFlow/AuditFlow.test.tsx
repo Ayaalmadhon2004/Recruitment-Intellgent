@@ -129,12 +129,14 @@ describe('AuditFlow remaining sections', () => {
     setup(done, { phase: 'sections' });
     expect(await screen.findByRole('heading', { level: 1, name: en.intake.title })).toBeVisible();
     expect(screen.getByRole('group', { name: uiCopy.flow.sectionsTrack })).toBeInTheDocument();
-    expect(screen.getByText(uiCopy.step.step).closest('p')).toHaveTextContent(`${uiCopy.step.step} 1`);
+    expect(screen.getByText(uiCopy.step.step).closest('p')).toHaveTextContent(
+      `${uiCopy.step.step} 1`,
+    );
     const firstSection = rest[0]?.section ?? 'A';
     const shown = rest.filter((q) => q.section === firstSection).length;
-    expect(screen.getAllByRole('listitem').filter((li) => li.querySelector('article'))).toHaveLength(
-      shown,
-    );
+    expect(
+      screen.getAllByRole('listitem').filter((li) => li.querySelector('article')),
+    ).toHaveLength(shown);
   });
 
   it('moves on to the next section and back, and ends with the report link', async () => {
@@ -143,7 +145,9 @@ describe('AuditFlow remaining sections', () => {
     const sections = [...new Set(rest.map((q) => q.section))];
     for (const id of sections.slice(1)) {
       await userEvent.click(
-        screen.getByRole('button', { name: fill(uiCopy.flow.continueTo, { name: en.sections[id] }) }),
+        screen.getByRole('button', {
+          name: fill(uiCopy.flow.continueTo, { name: en.sections[id] }),
+        }),
       );
       expect(screen.getByRole('heading', { level: 2, name: en.sections[id] })).toBeVisible();
     }
@@ -154,7 +158,9 @@ describe('AuditFlow remaining sections', () => {
     const previous = sections[sections.length - 2];
     if (previous) {
       await userEvent.click(
-        screen.getByRole('button', { name: fill(uiCopy.flow.backTo, { name: en.sections[previous] }) }),
+        screen.getByRole('button', {
+          name: fill(uiCopy.flow.backTo, { name: en.sections[previous] }),
+        }),
       );
       expect(screen.getByRole('heading', { level: 2, name: en.sections[previous] })).toBeVisible();
     }

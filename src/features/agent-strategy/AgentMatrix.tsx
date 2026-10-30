@@ -110,7 +110,9 @@ export function AgentMatrix({
           onScroll={update}
         >
           <table role="table" className={styles.table}>
-            <caption role="caption" className={styles.caption}>{fill(copy.caption, { max: rating.max })}</caption>
+            <caption role="caption" className={styles.caption}>
+              {fill(copy.caption, { max: rating.max })}
+            </caption>
             <thead role="rowgroup">
               <tr role="row">
                 <th scope="col" role="columnheader" className={cx(styles.th, styles.stickyHead)}>
@@ -147,7 +149,12 @@ export function AgentMatrix({
                   {factors.map((factor) => {
                     const value = agent.ratings[factor.id];
                     return (
-                      <td key={factor.id} role="cell" className={styles.cell} data-label={t(factor.nameKey)}>
+                      <td
+                        key={factor.id}
+                        role="cell"
+                        className={styles.cell}
+                        data-label={t(factor.nameKey)}
+                      >
                         <span className={styles.rating}>
                           {fill(copy.rating, { value, max: rating.max })}
                         </span>

@@ -18,7 +18,10 @@ export type FinalCtaProps = {
 };
 
 function prefersReducedMotion(): boolean {
-  return typeof window.matchMedia === 'function' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  return (
+    typeof window.matchMedia === 'function' &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  );
 }
 
 /**
@@ -33,7 +36,8 @@ export function FinalCta({ startHref }: FinalCtaProps): ReactNode {
   useEffect(() => () => window.clearTimeout(timer.current), []);
 
   const onStart = (event: MouseEvent<HTMLAnchorElement>): void => {
-    const plainClick = event.button === 0 && !(event.metaKey || event.ctrlKey || event.shiftKey || event.altKey);
+    const plainClick =
+      event.button === 0 && !(event.metaKey || event.ctrlKey || event.shiftKey || event.altKey);
     if (!plainClick || event.defaultPrevented || prefersReducedMotion() || flying) return;
     event.preventDefault();
     setFlying(true);
@@ -47,7 +51,9 @@ export function FinalCta({ startHref }: FinalCtaProps): ReactNode {
           <Kite wings="open" size="lg" />
         </div>
         <div className={styles.text}>
-          <p className={styles.body}>{fill(copy.body, { quickStart: auditScope.quickStartQuestions })}</p>
+          <p className={styles.body}>
+            {fill(copy.body, { quickStart: auditScope.quickStartQuestions })}
+          </p>
           <div className={styles.actions}>
             <Button href={startHref} size="lg" onClick={onStart}>
               {copy.primary}

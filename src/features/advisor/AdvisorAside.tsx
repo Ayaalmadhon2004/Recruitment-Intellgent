@@ -24,7 +24,9 @@ export function AdvisorPhoto({ size }: { size: number }): ReactNode {
 }
 
 export function AdvisorName(): ReactNode {
-  return <TbcValue value={tbcConfig.advisorName} placeholder={copy.nameTbc} label={en.status.pending} />;
+  return (
+    <TbcValue value={tbcConfig.advisorName} placeholder={copy.nameTbc} label={en.status.pending} />
+  );
 }
 
 export function AdvisorAside(): ReactNode {
@@ -38,7 +40,11 @@ export function AdvisorAside(): ReactNode {
         <span className={styles.muted}>{copy.role}</span>
         <p className={styles.reply}>
           <strong className={styles.replyLabel}>{copy.replyTime}</strong>{' '}
-          <TbcValue value={tbcConfig.advisorReplyTime} placeholder={en.status.tbc} label={en.status.pending} />
+          <TbcValue
+            value={tbcConfig.advisorReplyTime}
+            placeholder={en.status.tbc}
+            label={en.status.pending}
+          />
         </p>
       </div>
     </aside>

@@ -10,9 +10,11 @@ import {
   useState,
 } from 'react';
 import type { ReactNode } from 'react';
+import { duration } from '@/design/motion';
 import { uiCopy } from '@/design/ui-copy';
 import { Icon } from '../Icon';
 import type { IconName } from '../Icon';
+import { useReducedMotion } from '../motion';
 import styles from './Toast.module.css';
 
 export type ToastStatus = 'success' | 'error' | 'info';
@@ -21,7 +23,7 @@ export type ToastOptions = {
   message: string;
   /** Adds an icon and a word so status is never colour alone. Defaults to info. */
   status?: ToastStatus;
-  /** Milliseconds before it closes itself. Defaults to 6000. */
+  /** Milliseconds before it closes itself. Defaults to 4000. */
   durationMs?: number;
 };
 
@@ -37,7 +39,9 @@ const icons: Record<ToastStatus, IconName> = {
   info: 'info',
 };
 
-const DEFAULT_DURATION = 6000;
+const DEFAULT_DURATION = 4000;
+/** At most this many toasts are visible; a newer one pushes the oldest out. */
+const MAX_VISIBLE = 2;
 
 /** Call `useToast().show({ message, status })` from any client component under <ToastProvider>. */
 export function useToast(): ToastApi {
@@ -47,13 +51,28 @@ export function useToast(): ToastApi {
 }
 
 function ToastPill({ item, onDone }: { item: ToastItem; onDone: (id: number) => void }): ReactNode {
+  const [leaving, setLeaving] = useState(false);
+  const reduced = useReducedMotion();
+
+  // Closing slides the pill up and out first, then removes it. Reduced motion removes it at once.
+  const close = useCallback((): void => {
+    if (reduced) onDone(item.id);
+    else setLeaving(true);
+  }, [reduced, onDone, item.id]);
+
   useEffect(() => {
-    const timer = window.setTimeout(() => onDone(item.id), item.durationMs);
+    const timer = window.setTimeout(close, item.durationMs);
     return () => window.clearTimeout(timer);
-  }, [item.id, item.durationMs, onDone]);
+  }, [item.durationMs, close]);
+
+  useEffect(() => {
+    if (!leaving) return;
+    const timer = window.setTimeout(() => onDone(item.id), duration.base);
+    return () => window.clearTimeout(timer);
+  }, [leaving, onDone, item.id]);
 
   return (
-    <div className={styles.toast} data-status={item.status}>
+    <div className={styles.toast} data-status={item.status} data-leaving={leaving || undefined}>
       <Icon name={icons[item.status]} size={20} />
       <span className={styles.text}>
         <strong className={styles.word}>{uiCopy.toast.status[item.status]}</strong>
@@ -63,7 +82,7 @@ function ToastPill({ item, onDone }: { item: ToastItem; onDone: (id: number) => 
         type="button"
         className={styles.dismiss}
         aria-label={uiCopy.toast.dismiss}
-        onClick={() => onDone(item.id)}
+        onClick={close}
       >
         <Icon name="close" size={16} />
       </button>
@@ -87,7 +106,7 @@ export function ToastProvider({ children }: { children: ReactNode }): ReactNode 
         setItems((current) =>
           current.some((item) => item.message === message && item.status === status)
             ? current
-            : [...current.slice(-2), { id, message, status, durationMs }],
+            : [...current.slice(1 - MAX_VISIBLE), { id, message, status, durationMs }],
         );
       },
     }),

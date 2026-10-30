@@ -17,9 +17,8 @@ const copy = en.accounts.dashboard;
 const everything = domainConfig.questions.map((q) => unknown(q.id));
 
 /** Fetch that calls the real route handler. */
-const realFetch = vi.fn(
-  async (_url: string, init: RequestInit): Promise<Response> =>
-    POST(new Request('http://localhost/api/audit-summaries', init)),
+const realFetch = vi.fn(async (_url: string, init: RequestInit): Promise<Response> =>
+  POST(new Request('http://localhost/api/audit-summaries', init)),
 );
 
 beforeEach(() => {

@@ -12,15 +12,21 @@ function post(body: string): Request {
 
 describe('POST /api/audit-summaries', () => {
   it('returns the stage of each audit', async () => {
-    const answers = [{ kind: 'known', questionId: 'B1', value: 9, evidence: 'verified', confidence: 'high' }];
-    const res = await POST(post(JSON.stringify({ audits: [{ id: 'a', configVersion: 'v', answers }] })));
+    const answers = [
+      { kind: 'known', questionId: 'B1', value: 9, evidence: 'verified', confidence: 'high' },
+    ];
+    const res = await POST(
+      post(JSON.stringify({ audits: [{ id: 'a', configVersion: 'v', answers }] })),
+    );
     expect(res.status).toBe(200);
     const body = (await res.json()) as AuditSummariesResponse;
     expect(body.summaries).toEqual([{ id: 'a', stage: { kind: 'staged', stage: 'building' } }]);
   });
 
   it('returns NotScorable, not a guess, when the stage question is unanswered', async () => {
-    const res = await POST(post(JSON.stringify({ audits: [{ id: 'a', configVersion: 'v', answers: [] }] })));
+    const res = await POST(
+      post(JSON.stringify({ audits: [{ id: 'a', configVersion: 'v', answers: [] }] })),
+    );
     const body = (await res.json()) as AuditSummariesResponse;
     expect(body.summaries[0]?.stage.kind).toBe('not-scorable');
   });

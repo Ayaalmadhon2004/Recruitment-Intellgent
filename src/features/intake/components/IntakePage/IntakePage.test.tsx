@@ -49,9 +49,13 @@ describe('IntakePage overview', () => {
       ),
     );
     expect(screen.getAllByText(`2 of ${total} answered`).length).toBeGreaterThan(0);
-    expect(screen.getByText('1 marked Not sure. That is fine: we leave those open instead of guessing.')).toBeInTheDocument();
+    expect(
+      screen.getByText('1 marked Not sure. That is fine: we leave those open instead of guessing.'),
+    ).toBeInTheDocument();
     await user.click(screen.getAllByRole('button', { name: en.questionCard.notSure })[0]!);
-    expect(screen.getByText('2 marked Not sure. That is fine: we leave those open instead of guessing.')).toBeInTheDocument();
+    expect(
+      screen.getByText('2 marked Not sure. That is fine: we leave those open instead of guessing.'),
+    ).toBeInTheDocument();
   });
 
   it('does not say the audit was resumed when nothing was saved', () => {

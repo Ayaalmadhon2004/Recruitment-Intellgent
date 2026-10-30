@@ -13,7 +13,9 @@ function assertRate(value: number, name: string): void {
 export function forecast(inputs: ForecastInputs): Forecast {
   const { qualifiedApplications, offerRate, enrolmentYield, visaRetentionAdjustment } = inputs;
   if (!Number.isFinite(qualifiedApplications) || qualifiedApplications < 0) {
-    throw new RangeError(`qualifiedApplications must be a finite number of at least 0, got ${qualifiedApplications}`);
+    throw new RangeError(
+      `qualifiedApplications must be a finite number of at least 0, got ${qualifiedApplications}`,
+    );
   }
   assertRate(offerRate, 'offerRate');
   assertRate(enrolmentYield, 'enrolmentYield');

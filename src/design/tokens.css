@@ -150,8 +150,7 @@
     transform var(--dur-micro) var(--ease-lift);
 
   /* Skeleton (loading placeholders). The delay keeps instant loads from flashing. */
-  --color-skeleton-base: var(--color-line);
-  --color-skeleton-shine: color-mix(in srgb, var(--color-skeleton-base) 45%, var(--color-page));
+  --color-skeleton-base: var(--color-pastel-blue);
   --skeleton-duration: 1400ms;
   --skeleton-delay: 150ms;
   --skeleton-line-height: 14px;

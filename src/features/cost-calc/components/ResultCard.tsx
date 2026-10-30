@@ -37,12 +37,7 @@ export function ResultCard({
         </span>
         <span className={styles.per}>{r.perYear}</span>
       </div>
-      <ProgressBar
-        size="lg"
-        label={r.coverage}
-        value={rounded}
-        valueText={`${rounded}%`}
-      />
+      <ProgressBar size="lg" label={r.coverage} value={rounded} valueText={`${rounded}%`} />
       <dl className={styles.list}>
         <div className={styles.row}>
           <dt>{r.tuition}</dt>
@@ -52,9 +47,7 @@ export function ResultCard({
         </div>
         <div className={styles.row}>
           <dt>{r.living}</dt>
-          <dd>
-            {includeLiving ? <CountUp value={living} format={usd} /> : r.livingExcluded}
-          </dd>
+          <dd>{includeLiving ? <CountUp value={living} format={usd} /> : r.livingExcluded}</dd>
         </div>
         <div className={styles.row}>
           <dt>{r.scholarship}</dt>
