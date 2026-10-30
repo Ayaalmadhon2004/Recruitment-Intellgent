@@ -67,6 +67,13 @@ export function AdvisorRequest({
   initialErrors = {},
 }: AdvisorRequestProps): ReactNode {
   const [step, setStep] = useState(initialStep);
+  // Which way the person moved, so the new step arrives from the matching side (as in the audit).
+  const [seenStep, setSeenStep] = useState(initialStep);
+  const [stepMotion, setStepMotion] = useState<'anim-step-next' | 'anim-step-back' | undefined>();
+  if (seenStep !== step) {
+    setStepMotion(step > seenStep ? 'anim-step-next' : 'anim-step-back');
+    setSeenStep(step);
+  }
   const [values, setValues] = useState<AdvisorRequestInput>({ ...emptyValues, ...initialValues });
   const [errors, setErrors] = useState<FieldErrors>(initialErrors);
   const [status, setStatus] = useState(initialStatus);
@@ -177,82 +184,84 @@ export function AdvisorRequest({
           ) : (
             <div className={styles.stepFlow}>
               <StepLabel current={step + 1} total={steps.length} />
-              <h2 ref={heading} tabIndex={-1} className={styles.stepTitle}>
-                {steps[step]?.label}
-              </h2>
-              {step === 0 ? (
-                <ChannelChoice
-                  legend={copy.flow.channelLegend}
-                  value={values.channel}
-                  onChange={(v) => {
-                    if (isChannel(v)) {
-                      set('channel', v);
-                      setErrors((e) => ({ ...e, contact: undefined }));
-                    }
-                  }}
-                />
-              ) : (
-                <div className={styles.detailsRow}>
-                  <div ref={details} className={styles.form}>
-                    {serverError ? (
-                      <p role="alert" className={styles.serverError}>
-                        <Icon name="concern" size={16} strokeWidth={2.4} />
-                        {copy.errors.server}
+              <div key={step} className={stepMotion}>
+                <h2 ref={heading} tabIndex={-1} className={styles.stepTitle}>
+                  {steps[step]?.label}
+                </h2>
+                {step === 0 ? (
+                  <ChannelChoice
+                    legend={copy.flow.channelLegend}
+                    value={values.channel}
+                    onChange={(v) => {
+                      if (isChannel(v)) {
+                        set('channel', v);
+                        setErrors((e) => ({ ...e, contact: undefined }));
+                      }
+                    }}
+                  />
+                ) : (
+                  <div className={styles.detailsRow}>
+                    <div ref={details} className={styles.form}>
+                      {serverError ? (
+                        <p role="alert" className={styles.serverError}>
+                          <Icon name="concern" size={16} strokeWidth={2.4} />
+                          {copy.errors.server}
+                        </p>
+                      ) : null}
+                      <div className={styles.pair}>
+                        <Field
+                          label={copy.form.name}
+                          type="text"
+                          autoComplete="name"
+                          value={values.name}
+                          onChange={(e) => set('name', e.target.value)}
+                          error={err('name')}
+                        />
+                        <Field
+                          label={copy.form.institution}
+                          type="text"
+                          autoComplete="organization"
+                          value={values.institution}
+                          onChange={(e) => set('institution', e.target.value)}
+                          error={err('institution')}
+                        />
+                      </div>
+                      <div className={styles.pair}>
+                        <Field
+                          label={channel.copy.contactLabel}
+                          type={channel.inputType}
+                          autoComplete={channel.autoComplete}
+                          inputMode={channel.inputType === 'tel' ? 'tel' : 'email'}
+                          value={values.contact}
+                          onChange={(e) => set('contact', e.target.value)}
+                          error={err('contact')}
+                        />
+                        <Select
+                          label={copy.form.time}
+                          options={timeWindows}
+                          value={values.time}
+                          onChange={(e) => {
+                            if (isTimeWindow(e.target.value)) set('time', e.target.value);
+                          }}
+                          error={err('time')}
+                        />
+                      </div>
+                      <Field
+                        multiline
+                        label={copy.form.message}
+                        hint={copy.form.messageHint}
+                        value={values.message}
+                        onChange={(e) => set('message', e.target.value)}
+                        error={err('message')}
+                      />
+                      <p className={styles.muted}>
+                        {fill(copy.form.via, { channel: channel.copy.via })}
                       </p>
-                    ) : null}
-                    <div className={styles.pair}>
-                      <Field
-                        label={copy.form.name}
-                        type="text"
-                        autoComplete="name"
-                        value={values.name}
-                        onChange={(e) => set('name', e.target.value)}
-                        error={err('name')}
-                      />
-                      <Field
-                        label={copy.form.institution}
-                        type="text"
-                        autoComplete="organization"
-                        value={values.institution}
-                        onChange={(e) => set('institution', e.target.value)}
-                        error={err('institution')}
-                      />
                     </div>
-                    <div className={styles.pair}>
-                      <Field
-                        label={channel.copy.contactLabel}
-                        type={channel.inputType}
-                        autoComplete={channel.autoComplete}
-                        inputMode={channel.inputType === 'tel' ? 'tel' : 'email'}
-                        value={values.contact}
-                        onChange={(e) => set('contact', e.target.value)}
-                        error={err('contact')}
-                      />
-                      <Select
-                        label={copy.form.time}
-                        options={timeWindows}
-                        value={values.time}
-                        onChange={(e) => {
-                          if (isTimeWindow(e.target.value)) set('time', e.target.value);
-                        }}
-                        error={err('time')}
-                      />
-                    </div>
-                    <Field
-                      multiline
-                      label={copy.form.message}
-                      hint={copy.form.messageHint}
-                      value={values.message}
-                      onChange={(e) => set('message', e.target.value)}
-                      error={err('message')}
-                    />
-                    <p className={styles.muted}>
-                      {fill(copy.form.via, { channel: channel.copy.via })}
-                    </p>
+                    <AdvisorAside />
                   </div>
-                  <AdvisorAside />
-                </div>
-              )}
+                )}
+              </div>
               <div className={styles.actions}>
                 {step > 0 ? (
                   <Button
