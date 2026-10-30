@@ -62,6 +62,9 @@ export const intro = {
   doneAt: 2500,
 } as const;
 
+/** The Report diamond fills section by section, this many ms apart (centre outward). */
+export const diamondWaveStep = 80;
+
 /** Count-up lengths in ms, by purpose. */
 export const countDuration = {
   score: 500,

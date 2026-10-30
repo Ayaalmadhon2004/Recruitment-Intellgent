@@ -1,5 +1,4 @@
 import type { CSSProperties, ReactNode } from 'react';
-import { countDuration } from '@/design/motion';
 import type { Scored, ScoredGauge } from '@/domain/types';
 import { bandTone } from '../internal/tone';
 import { CountUp, cx } from '@/ui';
@@ -13,8 +12,8 @@ export type ScoreRingProps = {
   /** Small text under the number, for example "out of 100". */
   caption: string;
   size?: number;
-  /** Count the number up from 0 once when it first scrolls into view (the first-read reveal). */
-  reveal?: boolean;
+  /** Count the number up from 0 over this many ms, once, when it first scrolls into view. */
+  reveal?: number;
 };
 
 /** The ring is SVG. The number is real HTML text over it, never SVG text. */
@@ -53,8 +52,8 @@ export function ScoreRing({
           <CountUp
             value={result.value}
             decimals={result.kind === 'scored' ? 0 : 1}
-            from={reveal ? 0 : undefined}
-            duration={reveal ? countDuration.reveal : undefined}
+            from={reveal === undefined ? undefined : 0}
+            duration={reveal}
           />
         </span>
         <span className={styles.caption}>{caption}</span>

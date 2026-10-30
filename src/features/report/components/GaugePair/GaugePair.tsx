@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 import { en, fill } from '@/domain/copy';
 import type { QuestionId } from '@/domain/types';
 import { reportUiCopy } from '@/design/ui-copy';
@@ -6,6 +6,7 @@ import { questionLabel } from '@/features/questions';
 import { notScorableLabels, scoreCardLabels } from '@/features/shared-labels';
 import { ConfidenceMeter, NotScorableState } from '@/patterns';
 import { SectionHeader } from '@/shell';
+import { Reveal } from '@/ui';
 import type { ReportGauge } from '../../contract';
 import { gaugeName } from '../../labels';
 import styles from './GaugePair.module.css';
@@ -24,36 +25,42 @@ export function GaugePair({ gauges, questionHref }: GaugePairProps): ReactNode {
         eyebrow={en.report.gauges.eyebrow}
         title={en.report.gauges.title}
       />
-      <ul className={styles.list}>
-        {gauges.map(({ id, result }) => {
-          const name = gaugeName(id);
-          return (
-            <li key={id} className={styles.item}>
-              <h3 className={styles.name}>{name}</h3>
-              {result.kind === 'scored-gauge' ? (
-                <>
-                  <p className={styles.value}>
-                    {fill(reportUiCopy.gauges.scoreLine, { value: result.value.toFixed(1) })}
-                  </p>
-                  <ConfidenceMeter
-                    level={result.confidence}
-                    label={scoreCardLabels.confidence}
-                    levelLabel={scoreCardLabels.confidenceLevels[result.confidence]}
+      <Reveal>
+        <ul className={styles.list}>
+          {gauges.map(({ id, result }, i) => {
+            const name = gaugeName(id);
+            return (
+              <li
+                key={id}
+                className={`${styles.item} anim-dot-in`}
+                style={{ '--i': i } as CSSProperties}
+              >
+                <h3 className={styles.name}>{name}</h3>
+                {result.kind === 'scored-gauge' ? (
+                  <>
+                    <p className={styles.value}>
+                      {fill(reportUiCopy.gauges.scoreLine, { value: result.value.toFixed(1) })}
+                    </p>
+                    <ConfidenceMeter
+                      level={result.confidence}
+                      label={scoreCardLabels.confidence}
+                      levelLabel={scoreCardLabels.confidenceLevels[result.confidence]}
+                    />
+                  </>
+                ) : (
+                  <NotScorableState
+                    result={result}
+                    labels={notScorableLabels}
+                    questionLabel={questionLabel}
+                    questionHref={questionHref}
+                    headingLevel="h4"
                   />
-                </>
-              ) : (
-                <NotScorableState
-                  result={result}
-                  labels={notScorableLabels}
-                  questionLabel={questionLabel}
-                  questionHref={questionHref}
-                  headingLevel="h4"
-                />
-              )}
-            </li>
-          );
-        })}
-      </ul>
+                )}
+              </li>
+            );
+          })}
+        </ul>
+      </Reveal>
     </section>
   );
 }

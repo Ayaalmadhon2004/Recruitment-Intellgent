@@ -55,14 +55,6 @@
   stroke-width: 1.5;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .strong,
-  .medium,
-  .weak {
-    transition: fill var(--dur-enter) var(--ease-standard);
-  }
-}
-
 .sections,
 .legend {
   display: flex;

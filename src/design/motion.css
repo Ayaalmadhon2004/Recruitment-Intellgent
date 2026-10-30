@@ -68,6 +68,33 @@
   }
 }
 
+/* List dots that fill in left to right once their Reveal is shown (put --i on the item). */
+@keyframes anim-dot-in {
+  from {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+}
+
+[data-reveal='shown'] .anim-dot-in::before {
+  animation: anim-dot-in var(--dur-base) var(--ease-lift) both;
+  animation-delay: calc(min(var(--i, 0), var(--stagger-cap)) * var(--stagger));
+}
+
+/* A diamond cell filling in: it pops from a smaller size around its own centre. */
+@keyframes anim-cell-in {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+}
+
+.anim-cell-in {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: anim-cell-in var(--dur-base) var(--ease-lift) both;
+}
+
 /* A check mark appearing inside a chosen pill. */
 @keyframes anim-check-in {
   from {

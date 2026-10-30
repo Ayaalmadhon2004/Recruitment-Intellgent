@@ -1,3 +1,4 @@
+import { countDuration } from '@/design/motion';
 import type { ReactNode } from 'react';
 import { scoringConfig } from '@/domain/config';
 import { en, fill, t } from '@/domain/copy';
@@ -79,6 +80,7 @@ export function ScoreDetail({
                   value: Math.round(result.value),
                 })}
                 caption={en.scoreCard.outOf}
+                reveal={countDuration.score}
               />
               <div className={styles.resultMeta}>
                 <StatusBadge tone={bandTone(result.band)} label={en.bands[result.band]} />

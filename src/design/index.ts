@@ -4,6 +4,7 @@ export {
   REDUCED_MOTION_QUERY,
   MOBILE_MAX_WIDTH,
   countDuration,
+  diamondWaveStep,
   distance,
   duration,
   easeOutCubic,
