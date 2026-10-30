@@ -1,0 +1,65 @@
+.kite {
+  display: block;
+  height: auto;
+  overflow: visible;
+}
+
+.sm {
+  width: 28px;
+}
+.md {
+  width: 56px;
+}
+.lg {
+  width: 112px;
+}
+
+.wing {
+  transition: transform var(--dur-enter) var(--ease-out);
+}
+
+.left {
+  transform-origin: 50px 52px;
+}
+.right {
+  transform-origin: 50px 52px;
+}
+
+/* A folded wing is the paper creased flat against the centre spar. */
+.folded {
+  transform: scaleX(0.18);
+}
+
+.leftPaper {
+  fill: var(--color-navy);
+}
+.rightPaper {
+  fill: var(--color-crimson);
+}
+
+.spar {
+  fill: none;
+  stroke: var(--color-card);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+
+.tail {
+  fill: none;
+  stroke: var(--color-navy);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+
+.bow {
+  fill: none;
+  stroke: var(--color-crimson);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wing {
+    transition: none;
+  }
+}

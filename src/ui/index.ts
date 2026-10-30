@@ -41,3 +41,5 @@ export { StepLabel } from './StepLabel';
 export type { StepLabelProps } from './StepLabel';
 export { ArchSheet } from './ArchSheet';
 export type { ArchSheetProps } from './ArchSheet';
+export { Kite } from './Kite';
+export type { KiteProps, KiteSize, KiteWings } from './Kite';
