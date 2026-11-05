@@ -27,6 +27,16 @@ describe('Field', () => {
     expect(screen.getByLabelText('Message').tagName).toBe('TEXTAREA');
   });
 
+  it('is described by a message shown elsewhere', () => {
+    render(
+      <>
+        <p id="banner">Enter a valid email.</p>
+        <Field label="Work email" invalid describedById="banner" />
+      </>,
+    );
+    expect(screen.getByLabelText('Work email')).toHaveAccessibleDescription('Enter a valid email.');
+  });
+
   it('marks the field invalid without a message of its own', () => {
     render(<Field label="Work email" invalid />);
     expect(screen.getByLabelText('Work email')).toHaveAttribute('aria-invalid', 'true');

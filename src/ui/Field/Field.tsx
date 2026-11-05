@@ -12,6 +12,8 @@ type Shared = {
   hintClassName?: string;
   /** Marks the field invalid (red border, aria-invalid) when the message is shown elsewhere, for example in a banner. */
   invalid?: boolean;
+  /** Id of that message elsewhere, so the field is described by it too. */
+  describedById?: string;
 };
 
 export type FieldProps =
@@ -23,7 +25,7 @@ export type FieldProps =
 export function Field(props: FieldProps): ReactNode {
   const autoId = useId();
   const id = props.id ?? autoId;
-  const { label, hint, error, invalid, hintClassName } = props;
+  const { label, hint, error, invalid, hintClassName, describedById } = props;
 
   if (props.multiline) {
     const {
@@ -31,6 +33,7 @@ export function Field(props: FieldProps): ReactNode {
       hint: _h,
       error: _e,
       invalid: _v,
+      describedById: _d,
       hintClassName: _c,
       multiline: _m,
       id: _i,
@@ -45,7 +48,7 @@ export function Field(props: FieldProps): ReactNode {
           rows={rest.rows ?? 4}
           className={cx(styles.control, className)}
           aria-invalid={error || invalid ? true : undefined}
-          aria-describedby={describedBy(id, hint, error)}
+          aria-describedby={describedBy(id, hint, error, describedById)}
         />
       </FieldShell>
     );
@@ -56,6 +59,7 @@ export function Field(props: FieldProps): ReactNode {
     hint: _h,
     error: _e,
     invalid: _v,
+    describedById: _d,
     hintClassName: _c,
     multiline: _m,
     id: _i,
@@ -69,7 +73,7 @@ export function Field(props: FieldProps): ReactNode {
         id={id}
         className={cx(styles.control, className)}
         aria-invalid={error || invalid ? true : undefined}
-        aria-describedby={describedBy(id, hint, error)}
+        aria-describedby={describedBy(id, hint, error, describedById)}
       />
     </FieldShell>
   );
