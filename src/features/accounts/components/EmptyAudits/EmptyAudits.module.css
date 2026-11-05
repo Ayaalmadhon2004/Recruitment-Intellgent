@@ -1,15 +1,5 @@
-.empty {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-8);
-  align-items: center;
-  justify-content: center;
-  padding-block: var(--space-9);
-  border-block: 1px solid var(--color-line);
-}
-
 .ring {
-  flex: 0 0 auto;
+  display: block;
   max-width: 100%;
 }
 
@@ -29,38 +19,4 @@
   font-size: var(--text-h2-size);
   font-weight: var(--font-weight-bold);
   font-family: var(--font-sans);
-}
-
-.text {
-  display: flex;
-  flex: 1 1 320px;
-  flex-direction: column;
-  gap: var(--space-3);
-  max-width: 460px;
-}
-
-.eyebrow {
-  font-size: var(--text-eyebrow-size);
-  font-weight: var(--font-weight-semibold);
-  letter-spacing: var(--text-eyebrow-tracking);
-  color: var(--color-navy);
-}
-
-.title {
-  margin: 0;
-  font-size: var(--text-h2-size);
-  line-height: var(--text-h2-line);
-  font-weight: var(--font-weight-semibold);
-}
-
-.body {
-  margin: 0;
-  color: var(--color-text-secondary);
-}
-
-.actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-3);
-  margin-top: var(--space-2);
 }

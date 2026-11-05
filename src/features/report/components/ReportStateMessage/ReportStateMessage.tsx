@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { en } from '@/domain/copy';
-import { Button } from '@/ui';
+import { EmptyState } from '@/patterns';
+import { Button, Kite } from '@/ui';
 import styles from './ReportStateMessage.module.css';
 
 export type ReportStateMessageProps = {
@@ -12,38 +13,38 @@ export type ReportStateMessageProps = {
 
 const copy = en.reportPage;
 
-/** The page-level states that are not the report itself (loading is a skeleton, not a message). Each has one h1, so focus has a place to land. */
+/** The page-level states that are not the report itself (loading is a skeleton, not a message). Each has one h1, so focus has a place to land. Empty uses the shared EmptyState. */
 export function ReportStateMessage({
   state,
   onRetry,
   quickStartHref,
   intakeHref,
 }: ReportStateMessageProps): ReactNode {
+  if (state === 'empty') {
+    return (
+      <EmptyState
+        label={copy.emptyTitle}
+        title={copy.emptyTitle}
+        body={copy.emptyBody}
+        visual={<Kite wings="open" size="lg" />}
+        headingLevel={1}
+      >
+        <Button href={quickStartHref}>{copy.emptyQuickStart}</Button>
+        <Button variant="outline" href={intakeHref}>
+          {copy.emptyIntake}
+        </Button>
+      </EmptyState>
+    );
+  }
   return (
     <section className={styles.message}>
-      {state === 'error' ? (
-        <>
-          <h1 className={styles.title}>{copy.errorTitle}</h1>
-          <p role="alert" className={styles.body}>
-            {copy.errorBody}
-          </p>
-          <div className={styles.actions}>
-            <Button onClick={onRetry}>{copy.retry}</Button>
-          </div>
-        </>
-      ) : null}
-      {state === 'empty' ? (
-        <>
-          <h1 className={styles.title}>{copy.emptyTitle}</h1>
-          <p className={styles.body}>{copy.emptyBody}</p>
-          <div className={styles.actions}>
-            <Button href={quickStartHref}>{copy.emptyQuickStart}</Button>
-            <Button variant="secondary" href={intakeHref}>
-              {copy.emptyIntake}
-            </Button>
-          </div>
-        </>
-      ) : null}
+      <h1 className={styles.title}>{copy.errorTitle}</h1>
+      <p role="alert" className={styles.body}>
+        {copy.errorBody}
+      </p>
+      <div className={styles.actions}>
+        <Button onClick={onRetry}>{copy.retry}</Button>
+      </div>
     </section>
   );
 }

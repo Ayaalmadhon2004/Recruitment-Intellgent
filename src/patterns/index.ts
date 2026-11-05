@@ -6,6 +6,8 @@ export { ConfidenceMeter } from './ConfidenceMeter';
 export type { ConfidenceMeterProps } from './ConfidenceMeter';
 export { CtaBand } from './CtaBand';
 export type { CtaAction, CtaBandProps } from './CtaBand';
+export { EmptyState } from './EmptyState';
+export type { EmptyStateProps } from './EmptyState';
 export { EvidenceTag } from './EvidenceTag';
 export type { EvidenceTagProps } from './EvidenceTag';
 export { FlowShell, FlowShellSkeleton } from './FlowShell';
