@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
+import { ServiceGate } from '../ServiceGate';
 import { en } from '@/domain/copy';
 import { RequireSession } from '@/features/accounts';
 import { ReportPage } from '@/features/report';
@@ -12,10 +13,12 @@ export const metadata: Metadata = {
 
 export default function Page(): ReactNode {
   return (
-    <PageContainer>
-      <RequireSession>
-        <ReportPage />
-      </RequireSession>
-    </PageContainer>
+    <ServiceGate>
+      <PageContainer>
+        <RequireSession>
+          <ReportPage />
+        </RequireSession>
+      </PageContainer>
+    </ServiceGate>
   );
 }

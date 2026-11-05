@@ -1,3 +1,4 @@
+import { devServicesEnabled } from '@/domain/config';
 import type { ReportModel } from '@/features/report/contract';
 import { buildReportModel, parseReportRequest } from '@/features/report/server';
 
@@ -34,6 +35,11 @@ export async function POST(request: Request): Promise<Response> {
   const parsed = parseReportRequest(json);
   if (!parsed.ok) return invalid(parsed.message, BAD_REQUEST);
 
-  const model: ReportModel = buildReportModel(parsed.audit, { isSample: parsed.isSample });
+  // The browser's claim of "unlocked" comes from the development unlock service. A production build has no
+  // store to check it against (open item 7), so it is not believed: the audit is treated as free.
+  const audit = devServicesEnabled
+    ? parsed.audit
+    : { ...parsed.audit, entitlement: 'free' as const };
+  const model: ReportModel = buildReportModel(audit, { isSample: parsed.isSample });
   return Response.json(model);
 }

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
+import { ServiceGate } from '../ServiceGate';
 import { en } from '@/domain/copy';
 import { RequireSession } from '@/features/accounts';
 import { UnlockPage } from '@/features/unlock';
@@ -12,8 +13,10 @@ export const metadata: Metadata = {
 /** Composes the Unlock screen. The (site) layout supplies the single <main>. */
 export default function Page(): ReactNode {
   return (
-    <RequireSession>
-      <UnlockPage />
-    </RequireSession>
+    <ServiceGate>
+      <RequireSession>
+        <UnlockPage />
+      </RequireSession>
+    </ServiceGate>
   );
 }
