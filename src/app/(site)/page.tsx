@@ -5,7 +5,7 @@ import { en, fill } from '@/domain/copy';
 import { LandingPage } from '@/features/landing';
 
 export const metadata: Metadata = {
-  title: en.landing.meta.title,
+  title: { absolute: en.landing.meta.title },
   description: fill(en.landing.meta.description, { quickStart: auditScope.quickStartQuestions }),
 };
 

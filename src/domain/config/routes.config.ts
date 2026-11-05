@@ -14,3 +14,15 @@ export const routes = {
   unlock: '/unlock',
   reportArea: (area: string): string => `/report/${area}`,
 } as const;
+
+/**
+ * Pages worth listing in the sitemap: public and the same for every visitor. Left out on purpose:
+ * personal pages (report, dashboard, sign in, unlock), redirects (first read, intake) and the PDF preview.
+ */
+export const sitemapPaths = [
+  routes.home,
+  routes.quickStart,
+  routes.costCalc,
+  routes.agentStrategy,
+  routes.advisor,
+] as const;

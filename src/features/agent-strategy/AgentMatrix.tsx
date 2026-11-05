@@ -122,9 +122,7 @@ export function AgentMatrix({
           onScroll={update}
         >
           <table role="table" className={styles.table}>
-            <caption role="caption" className={styles.caption}>
-              {fill(copy.caption, { max: rating.max })}
-            </caption>
+            <caption className={styles.caption}>{fill(copy.caption, { max: rating.max })}</caption>
             <thead role="rowgroup">
               <tr role="row">
                 <th scope="col" role="columnheader" className={cx(styles.th, styles.stickyHead)}>

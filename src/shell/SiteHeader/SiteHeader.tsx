@@ -15,8 +15,10 @@ export type NavGroup = { label: string; items: readonly NavItem[] };
 
 export type HeaderAccount = {
   signIn: NavItem;
-  /** The signed-in person, or null when signed out. */
+  /** The signed-in person, or null when signed out. Ignored while `loading`. */
   user: { email: string } | null;
+  /** The session has not resolved yet: reserve the account area's box, render no auth controls. */
+  loading?: boolean;
   menuLabel: string;
   signedInAsLabel: string;
   myAudits: NavItem;
@@ -48,7 +50,7 @@ export type SiteHeaderProps = {
   cta: NavItem;
   menuOpenLabel: string;
   menuCloseLabel: string;
-  /** Leave out while the session is loading or the account feature is off: no auth controls render. */
+  /** Leave out when the account feature is off. While the session loads pass `loading`: the area keeps its size. */
   account?: HeaderAccount;
 };
 
@@ -207,7 +209,7 @@ export function SiteHeader({
               </li>
             ) : null}
           </ul>
-          {account ? (
+          {account && !account.loading ? (
             <div className={styles.drawerAccount}>
               {account.user ? (
                 <>
@@ -232,44 +234,54 @@ export function SiteHeader({
           ) : null}
         </nav>
         <div className={styles.actions}>
-          {!account ? <span className={styles.accountSlot} aria-hidden="true" /> : null}
-          {account && !account.user ? (
-            <Link href={account.signIn.href} className={styles.signIn}>
-              {account.signIn.label}
-            </Link>
-          ) : null}
           <Link href={cta.href} className={`${styles.cta} hover-nudge`}>
             {cta.label}
           </Link>
-          {account?.user ? (
-            <div ref={accountRef} className={styles.account}>
-              <button
-                ref={accountToggleRef}
-                type="button"
-                className={styles.avatar}
-                aria-expanded={accountOpen}
-                aria-controls={accountMenuId}
-                aria-label={`${account.menuLabel}: ${account.user.email}`}
-                onClick={() => setAccountOpen((value) => !value)}
-              >
-                <span aria-hidden="true">{initialsOf(account.user.email)}</span>
-              </button>
-              <div id={accountMenuId} className={styles.accountMenu} hidden={!accountOpen}>
-                <p className={styles.accountEmail}>
-                  <span className={styles.muted}>{account.signedInAsLabel}</span>
-                  {account.user.email}
-                </p>
-                <Link
-                  href={account.myAudits.href}
-                  className={styles.accountItem}
-                  onClick={() => setAccountOpen(false)}
-                >
-                  {account.myAudits.label}
+          {account ? (
+            <div
+              className={styles.accountArea}
+              data-state={account.loading ? 'loading' : account.user ? 'signed-in' : 'signed-out'}
+            >
+              {/* Same box in every state: this hidden copy of the sign-in label sets the width. */}
+              <span className={styles.accountSizer} aria-hidden="true">
+                {account.signIn.label}
+              </span>
+              {!account.loading && !account.user ? (
+                <Link href={account.signIn.href} className={styles.signIn}>
+                  {account.signIn.label}
                 </Link>
-                <button type="button" className={styles.accountItem} onClick={signOut}>
-                  {account.signOutLabel}
-                </button>
-              </div>
+              ) : null}
+              {account && !account.loading && account.user ? (
+                <div ref={accountRef} className={styles.account}>
+                  <button
+                    ref={accountToggleRef}
+                    type="button"
+                    className={styles.avatar}
+                    aria-expanded={accountOpen}
+                    aria-controls={accountMenuId}
+                    aria-label={`${account.menuLabel}: ${account.user.email}`}
+                    onClick={() => setAccountOpen((value) => !value)}
+                  >
+                    <span aria-hidden="true">{initialsOf(account.user.email)}</span>
+                  </button>
+                  <div id={accountMenuId} className={styles.accountMenu} hidden={!accountOpen}>
+                    <p className={styles.accountEmail}>
+                      <span className={styles.muted}>{account.signedInAsLabel}</span>
+                      {account.user.email}
+                    </p>
+                    <Link
+                      href={account.myAudits.href}
+                      className={styles.accountItem}
+                      onClick={() => setAccountOpen(false)}
+                    >
+                      {account.myAudits.label}
+                    </Link>
+                    <button type="button" className={styles.accountItem} onClick={signOut}>
+                      {account.signOutLabel}
+                    </button>
+                  </div>
+                </div>
+              ) : null}
             </div>
           ) : null}
           <button
