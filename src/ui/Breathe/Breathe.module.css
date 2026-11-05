@@ -15,6 +15,7 @@
   pointer-events: none;
 }
 
+/* One 3s breath, then it rests: WCAG 2.2.2 lets movement that starts by itself run at most 5 seconds. */
 @keyframes breathe {
   50% {
     opacity: 1;
@@ -22,7 +23,7 @@
 }
 
 .on::before {
-  animation: breathe var(--dur-breathe) ease-in-out infinite;
+  animation: breathe var(--dur-breathe) ease-in-out 1;
 }
 
 .on:hover::before,

@@ -3,7 +3,10 @@ import type { ReactNode } from 'react';
 import { en } from '@/domain/copy';
 import { DashboardPage } from '@/features/accounts';
 
-export const metadata: Metadata = { title: en.accounts.meta.dashboardTitle };
+export const metadata: Metadata = {
+  title: en.accounts.meta.dashboardTitle,
+  description: en.seo.pages.dashboard,
+};
 
 /** Composes the Dashboard of saved audits. */
 export default function Page(): ReactNode {

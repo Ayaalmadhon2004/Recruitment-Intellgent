@@ -6,6 +6,8 @@ export { PageContainer } from './PageContainer';
 export type { PageContainerProps } from './PageContainer';
 export { SectionHeader } from './SectionHeader';
 export type { SectionHeaderProps } from './SectionHeader';
+export { ErrorState } from './ErrorState';
+export type { ErrorStateProps } from './ErrorState';
 export { PageSkeleton } from './PageSkeleton';
 export type { PageSkeletonProps } from './PageSkeleton';
 export { WaveDivider } from './WaveDivider';

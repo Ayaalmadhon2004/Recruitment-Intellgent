@@ -189,8 +189,7 @@
 }
 
 /* Account: on small screens the controls live in the drawer; the bar shows only the CTA and burger. */
-.signIn,
-.account {
+.accountArea {
   display: none;
 }
 
@@ -365,7 +364,23 @@
     background: var(--color-pastel-blue);
   }
 
-  .signIn {
+  .accountArea {
+    display: grid;
+    align-items: center;
+    justify-items: end;
+  }
+
+  /* All states share one grid cell, so the box is the size of the sign-in link in every state. */
+  .accountArea > * {
+    grid-area: 1 / 1;
+  }
+
+  .accountSizer {
+    visibility: hidden;
+  }
+
+  .signIn,
+  .accountSizer {
     min-height: var(--tap-target);
     padding: 0 var(--space-4);
     display: inline-flex;
@@ -431,18 +446,5 @@
 @media (min-width: 1360px) {
   .product {
     display: block;
-  }
-}
-
-/* Holds the place of the sign-in link while the session loads, so the row does not shift when it appears. */
-.accountSlot {
-  display: none;
-}
-
-@media (min-width: 761px) {
-  .accountSlot {
-    display: block;
-    width: calc(var(--tap-target) * 2);
-    height: var(--tap-target);
   }
 }

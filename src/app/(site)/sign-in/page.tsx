@@ -5,7 +5,10 @@ import { en } from '@/domain/copy';
 import { SignInSkeleton } from '@/features/accounts';
 import { SignInRoute } from './SignInRoute';
 
-export const metadata: Metadata = { title: en.accounts.meta.signInTitle };
+export const metadata: Metadata = {
+  title: en.accounts.meta.signInTitle,
+  description: en.seo.pages.signIn,
+};
 
 /** Composes the Sign in screen. */
 export default function Page(): ReactNode {
