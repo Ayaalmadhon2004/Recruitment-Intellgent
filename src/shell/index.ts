@@ -14,3 +14,5 @@ export { PlainSection } from './PlainSection';
 export type { PlainSectionProps } from './PlainSection';
 export { ScrollCompanion } from './ScrollCompanion';
 export type { ScrollCompanionProps } from './ScrollCompanion';
+export { PageMessage } from './PageMessage';
+export type { PageMessageProps } from './PageMessage';

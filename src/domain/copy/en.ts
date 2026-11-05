@@ -62,6 +62,20 @@ export const en = {
     pending: 'Pending',
     sample: 'Sample data - illustrative only',
   },
+  pageError: {
+    notFound: {
+      title: 'We could not find that page',
+      body: 'The link may be old or mistyped. You can go back to the start or begin the Quick Start.',
+      home: 'Back to the home page',
+      quickStart: 'Start the Quick Start',
+    },
+    failure: {
+      title: 'Something went wrong on this page',
+      body: 'Your saved answers are kept. Please try again, or go back to the home page.',
+      retry: 'Try again',
+      home: 'Back to the home page',
+    },
+  },
   skeleton: {
     loading: 'Loading',
     report: 'Building your report',
