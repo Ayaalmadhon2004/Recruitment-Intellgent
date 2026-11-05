@@ -256,7 +256,7 @@
 .radioCard:focus-within,
 .pill:focus-within,
 .pill:focus-visible,
-.track:focus-visible,
+.switchButton:focus-visible .track,
 .notSure:focus-visible {
   outline: var(--focus-ring-width) solid var(--focus-ring-color);
   outline-offset: var(--focus-ring-offset);
@@ -293,26 +293,29 @@
   min-height: 48px;
 }
 
-.track {
-  position: relative;
+.switchButton {
+  display: inline-flex;
   flex: 0 0 56px;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  min-height: var(--tap-target);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+/* The visible track is 32px tall inside a button that is a full tap target tall. */
+.track {
+  display: flex;
+  align-items: center;
   width: 56px;
   height: 32px;
   padding: 3px;
-  border: 0;
   border-radius: var(--radius-pill);
-  display: flex;
-  align-items: center;
   background: var(--color-input-border);
-  cursor: pointer;
   transition: background var(--dur-base) var(--ease-standard);
-}
-
-/* The visible track is 32px tall; this invisible layer lifts the tappable area to 44px. */
-.track::before {
-  content: '';
-  position: absolute;
-  inset: calc((var(--tap-target) - 100%) / -2) 0;
 }
 
 .trackOn {

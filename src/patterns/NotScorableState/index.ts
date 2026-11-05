@@ -1,2 +1,6 @@
-export { NotScorableState } from './NotScorableState';
-export type { NotScorableLabels, NotScorableStateProps } from './NotScorableState';
+export { NotScorableExplained, NotScorableNote, NotScorableState } from './NotScorableState';
+export type {
+  NotScorableExplainedProps,
+  NotScorableLabels,
+  NotScorableStateProps,
+} from './NotScorableState';

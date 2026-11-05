@@ -38,6 +38,7 @@ describe('SignInPage', () => {
     await userEvent.click(screen.getByRole('button', { name: copy.cta }));
     expect(screen.getByRole('alert')).toHaveTextContent(copy.invalidEmail);
     expect(email()).toHaveAttribute('aria-invalid', 'true');
+    expect(email()).toHaveAccessibleDescription(expect.stringContaining(copy.invalidEmail));
     expect(spy).not.toHaveBeenCalled();
     expect(screen.getByRole('button', { name: copy.ctaRetry })).toBeInTheDocument();
   });

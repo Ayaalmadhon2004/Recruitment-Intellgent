@@ -46,7 +46,15 @@ export function FieldShell({
   );
 }
 
-export function describedBy(id: string, hint?: string, error?: string): string | undefined {
-  const ids = [hint ? hintId(id) : null, error ? errorId(id) : null].filter(Boolean);
+/** The ids a field is described by: its hint, its own error, and a message shown elsewhere (`extraId`). */
+export function describedBy(
+  id: string,
+  hint?: string,
+  error?: string,
+  extraId?: string,
+): string | undefined {
+  const ids = [hint ? hintId(id) : null, error ? errorId(id) : null, extraId ?? null].filter(
+    Boolean,
+  );
   return ids.length ? ids.join(' ') : undefined;
 }

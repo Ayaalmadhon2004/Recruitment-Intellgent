@@ -1,9 +1,9 @@
 import type { ReactNode } from 'react';
 import { stagesConfig } from '@/domain/config';
 import { en } from '@/domain/copy';
-import { rangeLabels, stageCardLabels } from '@/features/shared-labels';
+import { notScorableLabels, rangeLabels, stageCardLabels } from '@/features/shared-labels';
 import type { Answer } from '@/domain/types';
-import { CtaBand, StageCard } from '@/patterns';
+import { CtaBand, NotScorableExplained, NotScorableNote, StageCard } from '@/patterns';
 import { SectionHeader } from '@/shell';
 import { isOpenArea } from '../../contract';
 import type { ReportMode, ReportModel } from '../../contract';
@@ -47,7 +47,21 @@ function Stage({ model, eyebrow }: { model: ReportModel; eyebrow: string }): Rea
 }
 
 /** One report, three modes: interactive (tabs, carousel), preview (free first read) and print (static). */
-export function ReportSection({
+export function ReportSection(props: ReportSectionProps): ReactNode {
+  const { model } = props;
+  const results = [
+    model.stage,
+    ...model.areas.filter(isOpenArea).map((area) => area.result),
+    ...model.gauges.map((gauge) => gauge.result),
+  ];
+  return (
+    <NotScorableExplained results={results} labels={notScorableLabels}>
+      <ReportBody {...props} />
+    </NotScorableExplained>
+  );
+}
+
+function ReportBody({
   model,
   mode,
   links = {},
@@ -68,6 +82,7 @@ export function ReportSection({
         <div className={styles.summary} data-part="content">
           {on('scores') ? (
             <>
+              <NotScorableNote />
               <SectionHeader eyebrow={model.institutionName} title={en.report.printScoresTitle} />
               <AreaGrid areas={model.areas} mode={mode} />
               <GaugePair gauges={model.gauges} />
@@ -102,6 +117,7 @@ export function ReportSection({
     return (
       <div className={styles.root} data-mode={mode}>
         <ReportHero model={model} mode={mode} links={links} />
+        <NotScorableNote />
         <Stage model={model} eyebrow={en.firstRead.stageEyebrow} />
         <section className={styles.group} aria-labelledby="report-areas-title">
           <SectionHeader
@@ -130,6 +146,7 @@ export function ReportSection({
   return (
     <div className={styles.root} data-mode={mode}>
       <ReportBanner model={model} links={links} answers={answers} />
+      <NotScorableNote />
       <ScoreMetrics model={model} questionHref={links.questionHref} unlockHref={links.unlockHref} />
       <GaugePair gauges={model.gauges} questionHref={links.questionHref} />
       <NextSteps recommendations={model.recommendations} />
