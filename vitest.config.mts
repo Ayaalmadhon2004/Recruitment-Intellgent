@@ -19,6 +19,8 @@ export default defineConfig({
   },
   test: {
     environment: 'jsdom',
+    // vmThreads creates the jsdom environment once per worker instead of once per file, and still isolates files.
+    pool: 'vmThreads',
     setupFiles: ['./vitest.setup.ts'],
     include: ['src/**/*.test.{ts,tsx}', 'tests/**/*.test.{ts,tsx}'],
     passWithNoTests: true,
