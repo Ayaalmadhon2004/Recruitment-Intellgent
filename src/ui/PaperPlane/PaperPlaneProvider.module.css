@@ -1,13 +1,29 @@
 /* Above every page and the header; never catches a click. Only transform and opacity animate. */
 .stage {
   position: fixed;
-  top: 0;
-  left: 0;
+  inset: 0;
   z-index: var(--z-plane);
+  overflow: hidden;
   pointer-events: none;
-  will-change: transform, opacity;
 }
 
 .stage[hidden] {
   display: none;
+}
+
+.craft,
+.wind {
+  position: absolute;
+  top: 0;
+  left: 0;
+  will-change: transform, opacity;
+}
+
+/* A soft streak of wind: thin, tapering to nothing at its tail. */
+.wind {
+  height: 3px;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(to right, transparent, var(--color-navy));
+  transform-origin: 100% 50%;
+  opacity: 0;
 }

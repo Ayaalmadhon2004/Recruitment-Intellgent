@@ -2,7 +2,7 @@
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef } from 'react';
 import type { ReactNode } from 'react';
-import { MOBILE_MAX_WIDTH, plane } from '@/design/motion';
+import { MOBILE_MAX_WIDTH, plane, windStreaks } from '@/design/motion';
 import { PaperPlane } from './PaperPlane';
 import styles from './PaperPlaneProvider.module.css';
 import { prefersReducedMotion } from '../motion';
@@ -64,6 +64,8 @@ export type PaperPlaneProviderProps = {
  */
 export function PaperPlaneProvider({ navigate, children }: PaperPlaneProviderProps): ReactNode {
   const stage = useRef<HTMLDivElement>(null);
+  const craftRef = useRef<HTMLDivElement>(null);
+  const windRefs = useRef<Array<HTMLSpanElement | null>>([]);
   const busy = useRef(false);
   const timer = useRef<number | undefined>(undefined);
   const navigateRef = useRef(navigate);
@@ -76,12 +78,15 @@ export function PaperPlaneProvider({ navigate, children }: PaperPlaneProviderPro
   const flyTo = useCallback<FlyTo>((href, origin) => {
     const go = (): void => navigateRef.current(href);
     const node = stage.current;
+    const craft = craftRef.current;
+    const wind = windRefs.current;
     const active = document.activeElement;
     const source =
       origin ?? (active instanceof Element && active !== document.body ? active : null);
     if (busy.current) return;
     if (
       !node ||
+      !craft ||
       !source ||
       source === document.body ||
       prefersReducedMotion() ||
@@ -96,28 +101,40 @@ export function PaperPlaneProvider({ navigate, children }: PaperPlaneProviderPro
     const size = viewport.width <= MOBILE_MAX_WIDTH ? plane.sizeMobile : plane.size;
     const start: Point = { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
     const path = flightPath(start, viewport);
-    node.style.width = `${size}px`;
     node.hidden = false;
+    craft.style.width = `${size}px`;
+    const fade = (t: number): number => (t < 0.06 ? t / 0.06 : t > 0.9 ? (1 - t) / 0.1 : 1);
     const frames: Keyframe[] = path.map((p, i) => {
       const t = i / (path.length - 1);
       return {
         offset: t,
-        opacity: t < 0.06 ? t / 0.06 : t > 0.9 ? (1 - t) / 0.1 : 1,
+        opacity: fade(t),
         transform: `translate(${p.x - size / 2}px, ${p.y - size * 0.3}px) rotate(${p.angle}deg) scale(${0.5 + 0.5 * Math.min(1, t * 3)})`,
       };
     });
-    const flight = node.animate(frames, {
-      duration: plane.flight,
-      easing: 'ease-in',
-      fill: 'both',
+    const timing = { duration: plane.flight, easing: 'ease-in', fill: 'both' } as const;
+    const runs = [craft.animate(frames, timing)];
+    windStreaks.forEach((streak, i) => {
+      const el = wind[i];
+      if (!el) return;
+      el.style.width = `${streak.length}px`;
+      const streakFrames: Keyframe[] = path.map((p, k) => {
+        const t = k / (path.length - 1);
+        return {
+          offset: t,
+          opacity: fade(t) * streak.opacity,
+          // Rotates about the streak's front end, which sits on the path, so the tail drags behind.
+          transform: `translate(${p.x - streak.length}px, ${p.y + streak.offset}px) rotate(${p.angle}deg) scaleX(${0.4 + 0.6 * Math.min(1, t * 4)})`,
+        };
+      });
+      runs.push(el.animate(streakFrames, { ...timing, delay: streak.delay }));
     });
     timer.current = window.setTimeout(go, plane.navigateAt);
     const done = (): void => {
       node.hidden = true;
       busy.current = false;
     };
-    flight.onfinish = done;
-    flight.oncancel = done;
+    void Promise.allSettled(runs.map((run) => run.finished)).then(done);
   }, []);
 
   const value = useMemo(() => flyTo, [flyTo]);
@@ -126,7 +143,18 @@ export function PaperPlaneProvider({ navigate, children }: PaperPlaneProviderPro
     <PlaneContext.Provider value={value}>
       {children}
       <div ref={stage} className={styles.stage} aria-hidden="true" hidden>
-        <PaperPlane />
+        {windStreaks.map((streak, i) => (
+          <span
+            key={streak.delay}
+            ref={(el) => {
+              windRefs.current[i] = el;
+            }}
+            className={styles.wind}
+          />
+        ))}
+        <div ref={craftRef} className={styles.craft}>
+          <PaperPlane />
+        </div>
       </div>
     </PlaneContext.Provider>
   );

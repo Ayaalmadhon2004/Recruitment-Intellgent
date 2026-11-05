@@ -15,7 +15,7 @@ const mockReducedMotion = (reduced: boolean): void => {
 };
 
 describe('PaperPlane flight', () => {
-  const animate = vi.fn(() => ({ onfinish: null, oncancel: null }));
+  const animate = vi.fn(() => ({ finished: new Promise(() => undefined) }));
   beforeEach(() => {
     vi.useFakeTimers({ shouldAdvanceTime: true });
     mockReducedMotion(false);

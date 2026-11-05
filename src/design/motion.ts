@@ -89,3 +89,12 @@ export const plane = {
   size: 96,
   sizeMobile: 72,
 } as const;
+
+/** Wind streaks that follow the plane: each trails the same path, later and off to one side. */
+export const windStreaks = [
+  { delay: 50, offset: -4, length: 150, opacity: 0.55 },
+  { delay: 110, offset: 16, length: 110, opacity: 0.4 },
+  { delay: 170, offset: -20, length: 130, opacity: 0.35 },
+  { delay: 230, offset: 30, length: 90, opacity: 0.25 },
+  { delay: 290, offset: -34, length: 100, opacity: 0.2 },
+] as const;

@@ -15,4 +15,5 @@ export {
   loop,
   saveFlash,
   stagger,
+  windStreaks,
 } from './motion';

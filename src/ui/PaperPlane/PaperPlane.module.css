@@ -8,9 +8,18 @@
 .blue {
   fill: var(--color-navy);
 }
+.blueEdge {
+  fill: var(--color-navy-deep);
+}
 .red {
   fill: var(--color-crimson);
 }
 .redDeep {
   fill: var(--color-crimson-dark);
+}
+.crease {
+  fill: none;
+  stroke: color-mix(in srgb, var(--color-card) 70%, transparent);
+  stroke-width: 1;
+  stroke-linecap: round;
 }
