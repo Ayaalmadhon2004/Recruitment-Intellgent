@@ -12,6 +12,8 @@ export const en = {
     productName: 'Vietnam Recruitment Intelligence',
     logoAlt: 'Capstone Education',
     footerLine: 'Vietnam Recruitment Intelligence by Capstone Education',
+    /** Every page title ends with the brand: `%s` is the page's own title. The home page sets its full title itself. */
+    titleTemplate: '%s | Capstone Education',
   },
   footer: {
     tagline: 'Find out how ready your university is to recruit students in Vietnam.',

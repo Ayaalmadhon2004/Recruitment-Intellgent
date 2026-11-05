@@ -6,7 +6,7 @@ import { Providers } from './Providers';
 import '@/design/global.css';
 
 export const metadata: Metadata = {
-  title: en.brand.productName,
+  title: { default: en.landing.meta.title, template: en.brand.titleTemplate },
 };
 
 export default function RootLayout({ children }: { children: ReactNode }): ReactNode {
