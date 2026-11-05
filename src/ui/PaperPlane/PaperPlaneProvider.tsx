@@ -117,14 +117,17 @@ export function PaperPlaneProvider({ navigate, children }: PaperPlaneProviderPro
     windStreaks.forEach((streak, i) => {
       const el = wind[i];
       if (!el) return;
-      el.style.width = `${streak.length}px`;
+      // Streaks shrink with the plane on a phone so they stay in proportion.
+      const length = streak.length * (size / plane.size);
+      el.style.width = `${length}px`;
+      el.style.height = `${streak.thickness}px`;
       const streakFrames: Keyframe[] = path.map((p, k) => {
         const t = k / (path.length - 1);
         return {
           offset: t,
           opacity: fade(t) * streak.opacity,
           // Rotates about the streak's front end, which sits on the path, so the tail drags behind.
-          transform: `translate(${p.x - streak.length}px, ${p.y + streak.offset}px) rotate(${p.angle}deg) scaleX(${0.4 + 0.6 * Math.min(1, t * 4)})`,
+          transform: `translate(${p.x - length}px, ${p.y + streak.offset}px) rotate(${p.angle}deg) scaleX(${0.4 + 0.6 * Math.min(1, t * 4)})`,
         };
       });
       runs.push(el.animate(streakFrames, { ...timing, delay: streak.delay }));
