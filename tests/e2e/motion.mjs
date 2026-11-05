@@ -1,6 +1,8 @@
 // Motion checks. Start the app first (`pnpm build && pnpm start`) and run `pnpm e2e:motion`.
 // 1) reducedMotion "reduce": nothing is hidden or stuck at opacity 0, and nothing still animates.
 // 2) normal motion: layout shift (CLS) is 0 on Home, Audit, Report and Agent Strategy.
+// 3) paper plane: a plain click on an internal button link navigates with CLS 0; under reduced
+//    motion the page opens at once and no plane or wind element animates.
 import { createRequire } from 'node:module';
 
 const require = createRequire(import.meta.url);
@@ -62,6 +64,67 @@ for (const path of pages) {
   const cls = await page.evaluate(() => window.__cls);
   if (cls > 0.0001) fail(`CLS ${cls.toFixed(4)} on ${path}`);
   else console.log(`ok CLS 0 on ${path}`);
+  await page.close();
+}
+
+// Paper plane. The first internal button link on Home (the plane is hidden until it flies).
+const internalLink = 'main a[class*="button"][href^="/"]:not([href^="//"])';
+const stageAnimations = () =>
+  document
+    .getAnimations()
+    .filter((a) => a.effect?.target?.closest?.('[aria-hidden="true"][class*="stage"]')).length;
+
+{
+  const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+  await page.addInitScript(() => {
+    window.__cls = 0;
+    new PerformanceObserver((list) => {
+      for (const e of list.getEntries()) if (!e.hadRecentInput) window.__cls += e.value;
+    }).observe({ type: 'layout-shift', buffered: true });
+  });
+  await page.goto(base + '/', { waitUntil: 'networkidle' });
+  await page.waitForTimeout(3200);
+  const link = page.locator(internalLink).first();
+  const href = await link.getAttribute('href');
+  await link.scrollIntoViewIfNeeded();
+  await link.click();
+  try {
+    await page.waitForURL((url) => url.pathname === href.split(/[?#]/)[0], { timeout: 5000 });
+    console.log(`ok plane click navigates to ${href}`);
+  } catch {
+    fail(`plane click on ${href} did not navigate`);
+  }
+  await page.waitForTimeout(1500); // the flight ends 900ms in
+  const cls = await page.evaluate(() => window.__cls);
+  if (cls > 0.0001) fail(`CLS ${cls.toFixed(4)} during the plane flight`);
+  else console.log('ok CLS 0 during the plane flight');
+  await page.close();
+}
+
+for (const viewport of [
+  { width: 390, height: 844 },
+  { width: 1440, height: 900 },
+]) {
+  const page = await browser.newPage({ viewport, reducedMotion: 'reduce' });
+  await page.goto(base + '/', { waitUntil: 'networkidle' });
+  const link = page.locator(internalLink).first();
+  const href = await link.getAttribute('href');
+  await link.scrollIntoViewIfNeeded();
+  await link.click();
+  // Immediate: well before the 380ms point at which a flying plane would open the page.
+  try {
+    await page.waitForURL((url) => url.pathname === href.split(/[?#]/)[0], { timeout: 300 });
+    console.log(`ok reduced plane click opens ${href} at once @${viewport.width}`);
+  } catch {
+    fail(`reduced @${viewport.width}: ${href} did not open at once`);
+  }
+  const animating = await page.evaluate(stageAnimations);
+  if (animating) fail(`reduced @${viewport.width}: ${animating} plane animation(s) running`);
+  const shown = await page.evaluate(() => {
+    const stage = document.querySelector('[aria-hidden="true"][class*="stage"]');
+    return stage ? !stage.hidden : false;
+  });
+  if (shown) fail(`reduced @${viewport.width}: plane stage is visible`);
   await page.close();
 }
 
