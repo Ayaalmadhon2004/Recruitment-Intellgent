@@ -27,7 +27,7 @@ describe('CtaBand', () => {
     );
   });
 
-  it('uses the standard primary and secondary buttons in the light tones', () => {
+  it('uses primary, outline and accent buttons in the light tones, never crimson by position', () => {
     render(
       <CtaBand
         tone="inline"
@@ -35,10 +35,12 @@ describe('CtaBand', () => {
         actions={[
           { label: 'Save and exit', href: '/exit', variant: 'inverse' },
           { label: 'See report', href: '/report', variant: 'inverse-outline' },
+          { label: 'Unlock', href: '/unlock', variant: 'accent' },
         ]}
       />,
     );
     expect(screen.getByRole('link', { name: 'Save and exit' }).className).toMatch(/primary/);
-    expect(screen.getByRole('link', { name: 'See report' }).className).toMatch(/secondary/);
+    expect(screen.getByRole('link', { name: 'See report' }).className).toMatch(/outline/);
+    expect(screen.getByRole('link', { name: 'Unlock' }).className).toMatch(/accent/);
   });
 });

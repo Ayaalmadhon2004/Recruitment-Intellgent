@@ -36,3 +36,16 @@ describe('Button', () => {
     expect(screen.getByRole('button', { name: 'Nope' })).toBeDisabled();
   });
 });
+
+describe('Button variants', () => {
+  it('keeps crimson for the accent variant only', () => {
+    render(
+      <>
+        <Button variant="accent">Unlock</Button>
+        <Button variant="outline">Back</Button>
+      </>,
+    );
+    expect(screen.getByRole('button', { name: 'Unlock' }).className).toMatch(/accent/);
+    expect(screen.getByRole('button', { name: 'Back' }).className).not.toMatch(/accent/);
+  });
+});

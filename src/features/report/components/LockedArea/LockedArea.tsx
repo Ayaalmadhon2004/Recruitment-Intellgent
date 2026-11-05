@@ -24,7 +24,7 @@ export function LockedArea({ name, unlockHref, headingLevel = 'h3' }: LockedArea
           </span>
           <p className={styles.body}>{en.report.locked.body}</p>
           {unlockHref ? (
-            <Button href={unlockHref} size="sm" variant="secondary">
+            <Button href={unlockHref} size="sm" variant="accent">
               {en.unlock.cta.seeOptions}
             </Button>
           ) : null}

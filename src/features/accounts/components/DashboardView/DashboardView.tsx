@@ -141,7 +141,7 @@ export function DashboardView({
           </p>
         ) : null}
         <Button
-          variant="secondary"
+          variant="outline"
           onClick={onSignOut}
           loading={signingOut}
           loadingLabel={copy.privacy.signingOut}

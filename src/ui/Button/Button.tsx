@@ -6,7 +6,7 @@ import { useReducedMotion } from '../motion';
 import { isInternalHref, usePaperPlane } from '../PaperPlane';
 import styles from './Button.module.css';
 
-export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'inverse' | 'inverse-outline';
+export type ButtonVariant = 'primary' | 'accent' | 'outline' | 'inverse' | 'inverse-outline';
 export type ButtonSize = 'sm' | 'md' | 'lg';
 
 type Common = {

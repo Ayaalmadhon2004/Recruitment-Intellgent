@@ -29,7 +29,7 @@ export function IntakeNav({
     <nav aria-label={copy.label} className={styles.root}>
       <div>
         {previous ? (
-          <Button variant="secondary" onClick={onPrevious}>
+          <Button variant="outline" onClick={onPrevious}>
             {fill(copy.back, { key: previous })}
           </Button>
         ) : null}

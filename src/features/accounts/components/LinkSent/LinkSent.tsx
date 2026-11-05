@@ -61,7 +61,7 @@ export function LinkSent({
         {bodyAfter}
       </p>
       <div className={styles.resend}>
-        <Button variant={waiting ? 'secondary' : 'primary'} disabled={waiting} onClick={onResend}>
+        <Button variant={waiting ? 'outline' : 'primary'} disabled={waiting} onClick={onResend}>
           {copy.resend}
         </Button>
         <span className={styles.countdown}>
@@ -83,7 +83,7 @@ export function LinkSent({
           ) : null}
           <Button
             size="sm"
-            variant="secondary"
+            variant="outline"
             onClick={development.onOpen}
             loading={development.opening}
           >

@@ -34,7 +34,7 @@ export function UnlockedDone({
         </p>
         <div className={styles.actions}>
           <Button href={reportHref}>{copy.openReport}</Button>
-          <Button href={pdfHref} variant="secondary">
+          <Button href={pdfHref} variant="outline">
             {copy.previewPdf}
           </Button>
         </div>
