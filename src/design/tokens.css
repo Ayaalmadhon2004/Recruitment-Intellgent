@@ -29,7 +29,7 @@
   --color-line-dashed: #9aa7ba;
 
   /* Status (always paired with a word and an icon, never colour alone) */
-  --color-status-strong: #1e7a4c;
+  --color-status-strong: #1a7345; /* 4.5:1 or more on every light surface, including navy-tint and pastel blue */
   --color-status-caution: #8a5a00;
   --color-status-concern: #b4470c;
   --color-status-info: #2f5fa8;
