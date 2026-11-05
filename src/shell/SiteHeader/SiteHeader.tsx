@@ -4,8 +4,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useId, useRef, useState } from 'react';
-import type { ReactNode } from 'react';
-import { Icon } from '@/ui';
+import type { MouseEvent, ReactNode } from 'react';
+import { Icon, isInternalHref, usePaperPlane } from '@/ui';
 import styles from './SiteHeader.module.css';
 
 export type NavItem = { href: string; label: string };
@@ -65,6 +65,16 @@ export function SiteHeader({
   menuCloseLabel,
   account,
 }: SiteHeaderProps): ReactNode {
+  const flyTo = usePaperPlane();
+  // The call-to-action is a button in all but markup: a plain click sends the paper plane, other clicks stay normal.
+  const onCtaClick = (event: MouseEvent<HTMLAnchorElement>): void => {
+    const plain =
+      event.button === 0 && !(event.metaKey || event.ctrlKey || event.shiftKey || event.altKey);
+    if (!flyTo || !plain || event.defaultPrevented || !isInternalHref(cta.href)) return;
+    event.preventDefault();
+    setOpen(false);
+    flyTo(cta.href, event.currentTarget);
+  };
   const [open, setOpen] = useState(false);
   const toggleRef = useRef<HTMLButtonElement>(null);
   const [accountOpen, setAccountOpen] = useState(false);
@@ -238,7 +248,7 @@ export function SiteHeader({
               {account.signIn.label}
             </Link>
           ) : null}
-          <Link href={cta.href} className={`${styles.cta} hover-nudge`}>
+          <Link href={cta.href} className={`${styles.cta} hover-nudge`} onClick={onCtaClick}>
             {cta.label}
           </Link>
           {account?.user ? (
