@@ -17,8 +17,12 @@ export type {
   FlowShellSkeletonProps,
   FlowStep,
 } from './FlowShell';
-export { NotScorableState } from './NotScorableState';
-export type { NotScorableLabels, NotScorableStateProps } from './NotScorableState';
+export { NotScorableExplained, NotScorableNote, NotScorableState } from './NotScorableState';
+export type {
+  NotScorableExplainedProps,
+  NotScorableLabels,
+  NotScorableStateProps,
+} from './NotScorableState';
 export { ProgressBar } from './ProgressBar';
 export type { ProgressBarProps } from './ProgressBar';
 export { QuestionCard, QuestionCardSkeleton } from './QuestionCard';
