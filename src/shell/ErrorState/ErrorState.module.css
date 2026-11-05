@@ -1,0 +1,51 @@
+.state {
+  display: block;
+  padding-block: var(--space-10);
+  background: var(--color-navy-tint);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-3);
+  max-width: 640px;
+}
+
+.mark {
+  display: inline-flex;
+  color: var(--color-crimson);
+}
+
+.eyebrow {
+  margin: 0;
+  font-size: var(--text-eyebrow-size);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--text-eyebrow-tracking);
+  color: var(--color-crimson);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--text-h1-size);
+  line-height: var(--text-h1-line);
+}
+
+.body {
+  margin: 0;
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-line);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+
+@media (max-width: 760px) {
+  .state {
+    padding-block: var(--space-9);
+  }
+}
