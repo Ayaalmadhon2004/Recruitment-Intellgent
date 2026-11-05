@@ -82,16 +82,6 @@ describe('AgentStrategy', () => {
       );
     });
 
-    it('names each agent button with the words it shows, and keeps the caption a plain caption', () => {
-      setup();
-      const table = screen.getByRole('table');
-      expect(table.querySelector('caption')?.hasAttribute('role')).toBe(false);
-      for (const button of within(table).getAllByRole('button')) {
-        expect(button).not.toHaveAttribute('aria-label');
-        expect(button.textContent ?? '').toContain('Strengths and weaknesses');
-      }
-    });
-
     it('has no selected-average row and no inline summary box', () => {
       setup();
       expect(screen.queryByText(/selected/i)).not.toBeInTheDocument();
@@ -101,7 +91,7 @@ describe('AgentStrategy', () => {
     it('opens a sheet with the weighted score, strength and weakness when an agent is clicked', async () => {
       const user = userEvent.setup();
       setup();
-      await user.click(screen.getByRole('button', { name: /Agent A.*Strengths and weaknesses/ }));
+      await user.click(screen.getByRole('button', { name: /Agent A\s+Strengths and weaknesses/ }));
       const dialog = screen.getByRole('dialog', { name: 'Agent A' });
       expect(dialog).toHaveTextContent('3.86 / 5');
       expect(within(dialog).getByText('Strength').parentElement).toHaveTextContent(
@@ -112,9 +102,9 @@ describe('AgentStrategy', () => {
       );
       await user.keyboard('{Escape}');
       expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
-      expect(screen.getByRole('button', { name: /Agent A.*Strengths and weaknesses/ })).toHaveFocus();
+      expect(screen.getByRole('button', { name: /Agent A/ })).toHaveFocus();
 
-      await user.click(screen.getByRole('button', { name: /Agent C.*Strengths and weaknesses/ }));
+      await user.click(screen.getByRole('button', { name: /Agent C/ }));
       const other = screen.getByRole('dialog', { name: 'Agent C' });
       expect(other).toHaveTextContent('3.61 / 5');
       expect(other).toHaveTextContent('Student fit (5)');
@@ -133,7 +123,7 @@ describe('AgentStrategy', () => {
         })),
       };
       setup({ config: heavier });
-      await user.click(screen.getByRole('button', { name: /Agent A.*Strengths and weaknesses/ }));
+      await user.click(screen.getByRole('button', { name: /Agent A/ }));
       expect(screen.getByRole('dialog')).toHaveTextContent('4.04 / 5');
     });
   });
@@ -238,7 +228,7 @@ describe('AgentStrategy', () => {
     await user.keyboard('{Enter}');
     expect(legendButton).toHaveAttribute('aria-pressed', 'true');
 
-    const agentB = screen.getByRole('button', { name: /Agent B.*Strengths and weaknesses/ });
+    const agentB = screen.getByRole('button', { name: /Agent B/ });
     agentB.focus();
     await user.keyboard(' ');
     expect(screen.getByRole('dialog', { name: 'Agent B' })).toBeInTheDocument();

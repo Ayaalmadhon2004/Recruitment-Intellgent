@@ -158,7 +158,7 @@ export function AgentMatrix({
                       onClick={() => setOpenId(agent.id)}
                     >
                       <span className={styles.agentText}>
-                        <span className={styles.agentName}>{agent.name}</span>
+                        <span className={styles.agentName}>{agent.name}</span>{' '}
                         <span className={styles.agentState}>{strategyCopy.agentDetails}</span>
                       </span>
                       <Icon name="chevron-right" size={20} strokeWidth={2.4} />
