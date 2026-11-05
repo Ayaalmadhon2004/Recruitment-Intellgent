@@ -1,7 +1,13 @@
-// Browser smoke test: every page at 390px and 1440px has exactly one <main>, one <h1>, no horizontal scroll and
-// no console errors, the Quick Start flow reaches the First Read, and the data pages show a skeleton while loading. Start the app first (`pnpm build && pnpm start`,
-// or `pnpm dev`) and run `pnpm e2e`. Set BASE_URL for a port other than 3000.
+// Browser smoke test. Sign-in is required for /quick-start, /report, /report/[area], /report/pdf, /unlock and
+// /dashboard (docs/DECISIONS.md, decision 6), so the script covers both sides of that gate:
+// 1) signed out: each gated route ends at /sign-in?next=<route>;
+// 2) signing in through the real screen (development account service) returns to the page that was asked for;
+// 3) signed in: every page at 390px and 1440px has exactly one <main>, one <h1>, no horizontal scroll and no
+//    console errors, the Quick Start flow reaches the First Read, and the data pages show a skeleton while loading.
+// Start the app first (`pnpm build && pnpm start`, or `pnpm dev`) and run `pnpm e2e`. Set BASE_URL for a port
+// other than 3000.
 import { createRequire } from 'node:module';
+import { signIn } from './auth.mjs';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require('playwright');
@@ -17,8 +23,31 @@ const fail = (msg) => {
   console.error(`FAIL ${msg}`);
 };
 
+// Gate: a signed-out visit to each gated route ends at /sign-in with ?next= set to that route, and after
+// signing in the person is back on the page they asked for. A fresh context per route = a signed-out browser.
+const gated = ['/quick-start', '/report', '/report/readiness', '/report/pdf', '/unlock', '/dashboard'];
+for (const route of gated) {
+  const context = await browser.newContext({ viewport: viewports[0] });
+  const page = await context.newPage();
+  const label = `gate ${route}`;
+  await page.goto(base + route, { waitUntil: 'domcontentloaded' });
+  try {
+    await page.waitForURL((url) => url.pathname === '/sign-in', { timeout: 15000 });
+    const next = new URL(page.url()).searchParams.get('next');
+    if (next !== route) fail(`${label}: ?next= is ${JSON.stringify(next)}, expected ${JSON.stringify(route)}`);
+    await signIn(page, base, route);
+    if (new URL(page.url()).pathname !== route) fail(`${label}: after sign-in landed on ${page.url()}`);
+    if ((await page.locator('main').count()) !== 1) fail(`${label}: no page after sign-in`);
+  } catch (error) {
+    fail(`${label}: ${page.url()} (${String(error).split('\n')[0]})`);
+  }
+  await context.close();
+}
+
 for (const viewport of viewports) {
-  const page = await browser.newPage({ viewport });
+  const context = await browser.newContext({ viewport });
+  const page = await context.newPage();
+  await signIn(page, base);
   await page.emulateMedia({ reducedMotion: 'reduce' });
   const errors = [];
   page.on('console', (m) => m.type() === 'error' && errors.push(m.text()));
@@ -35,20 +64,26 @@ for (const viewport of viewports) {
     if (overflow) fail(`${label}: horizontal scroll`);
   }
   if (errors.length) fail(`@${viewport.width} console errors: ${errors.join(' | ')}`);
-  await page.close();
+  await context.close();
 }
 
 // Quick Start: answer "Not sure" on every step (valid for any question type), then see the First Read.
-const flow = await browser.newPage({ viewport: viewports[0] });
+const flowContext = await browser.newContext({ viewport: viewports[0] });
+const flow = await flowContext.newPage();
+await signIn(flow, base, '/quick-start');
 await flow.goto(`${base}/quick-start`, { waitUntil: 'networkidle' });
 for (let step = 0; step < 5; step += 1) {
   await flow.getByRole('button', { name: 'Not sure' }).click();
   const next = flow.getByRole('button', { name: /^(Next|See my first read)$/ });
   await next.click();
 }
-await flow.waitForURL('**/first-read', { timeout: 15000 }).catch(() => fail('quick-start: did not reach /first-read'));
-if (flow.url().endsWith('/first-read') && (await flow.locator('main').count()) !== 1) fail('first-read: expected one <main>');
-await flow.close();
+// The First Read is the "read" phase of the audit flow: /quick-start?phase=read.
+await flow
+  .waitForURL('**/quick-start?phase=read', { timeout: 15000 })
+  .catch(() => fail('quick-start: did not reach the First Read (?phase=read)'));
+if (flow.url().endsWith('?phase=read') && (await flow.locator('main').count()) !== 1)
+  fail('first-read: expected one <main>');
+await flowContext.close();
 
 // Loading states: with the server held back, each data page shows one busy skeleton (no horizontal scroll),
 // and the skeleton gives way to the real page once the server answers.
@@ -73,7 +108,9 @@ const loadingCases = [
   { path: '/first-read', api: '**/api/first-read' },
 ];
 for (const viewport of viewports) {
-  const page = await browser.newPage({ viewport });
+  const context = await browser.newContext({ viewport });
+  const page = await context.newPage();
+  await signIn(page, base);
   await page.addInitScript((intake) => {
     localStorage.setItem('vri.intake.v1', JSON.stringify(intake));
     sessionStorage.setItem('vri.quick-start', JSON.stringify({ answers: intake.answers }));
@@ -110,7 +147,7 @@ for (const viewport of viewports) {
       fail(`${label}: skeleton still shown after the server answered`);
     await page.unroute(api);
   }
-  await page.close();
+  await context.close();
 }
 
 await browser.close();
