@@ -67,3 +67,22 @@
   color: var(--color-navy);
   font-weight: var(--font-weight-semibold);
 }
+
+/* The one note per page: the same mark and tone as a single state, in a quiet panel. */
+.note {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  border: 1px dashed var(--color-line-dashed);
+  border-radius: var(--radius-card-lg);
+  background: var(--color-card);
+}
+
+.noteLead {
+  margin: 0;
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-line);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-navy);
+}
