@@ -42,6 +42,22 @@ describe('PaperPlane flight', () => {
     expect(navigate).toHaveBeenCalledWith('/quick-start');
   });
 
+  it('sizes each wind streak from its token, smaller on a phone', async () => {
+    const original = window.innerWidth;
+    Object.defineProperty(window, 'innerWidth', { configurable: true, value: 390 });
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const { container } = render(
+      <PaperPlaneProvider navigate={vi.fn()}>
+        <Button href="/quick-start">Start</Button>
+      </PaperPlaneProvider>,
+    );
+    await user.click(screen.getByRole('link', { name: 'Start' }));
+    const first = container.ownerDocument.querySelector<HTMLElement>('[aria-hidden="true"] > span');
+    expect(first?.style.height).toBe(`${windStreaks[0].thickness}px`);
+    expect(parseFloat(first?.style.width ?? '0')).toBeLessThan(windStreaks[0].length);
+    Object.defineProperty(window, 'innerWidth', { configurable: true, value: original });
+  });
+
   it('opens the page at once under reduced motion', async () => {
     mockReducedMotion(true);
     const navigate = vi.fn();

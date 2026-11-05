@@ -86,15 +86,15 @@ export const plane = {
   /** The next page opens this many ms into the flight, so it arrives under the plane. */
   navigateAt: 380,
   /** Plane width in px at its biggest, on a desktop and below 480px. */
-  size: 96,
-  sizeMobile: 72,
+  size: 100,
+  sizeMobile: 84,
 } as const;
 
 /** Wind streaks that follow the plane: each trails the same path, later and off to one side. */
 export const windStreaks = [
-  { delay: 50, offset: -4, length: 150, opacity: 0.55 },
-  { delay: 110, offset: 16, length: 110, opacity: 0.4 },
-  { delay: 170, offset: -20, length: 130, opacity: 0.35 },
-  { delay: 230, offset: 30, length: 90, opacity: 0.25 },
-  { delay: 290, offset: -34, length: 100, opacity: 0.2 },
+  { delay: 40, offset: -4, length: 160, thickness: 5, opacity: 0.85 },
+  { delay: 100, offset: 18, length: 120, thickness: 4, opacity: 0.7 },
+  { delay: 160, offset: -22, length: 140, thickness: 4, opacity: 0.6 },
+  { delay: 220, offset: 32, length: 100, thickness: 3, opacity: 0.5 },
+  { delay: 280, offset: -36, length: 110, thickness: 3, opacity: 0.4 },
 ] as const;

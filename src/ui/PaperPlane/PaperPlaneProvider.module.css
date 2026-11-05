@@ -4,6 +4,7 @@
   inset: 0;
   z-index: var(--z-plane);
   overflow: hidden;
+  contain: paint;
   pointer-events: none;
 }
 
@@ -19,9 +20,8 @@
   will-change: transform, opacity;
 }
 
-/* A soft streak of wind: thin, tapering to nothing at its tail. */
+/* A streak of wind, tapering to nothing at its tail. Height is set from the motion token. */
 .wind {
-  height: 3px;
   border-radius: var(--radius-pill);
   background: linear-gradient(to right, transparent, var(--color-navy));
   transform-origin: 100% 50%;
