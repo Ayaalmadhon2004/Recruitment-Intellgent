@@ -4,7 +4,7 @@ One motion system for the whole app: **wind and kite**. Everything lifts, settle
 
 ## Tokens
 
-Source of truth: `src/design/motion.ts` (numbers for JS) and the `--dur-*`, `--ease-*`, `--stagger*`, `--enter-distance` variables in `src/design/tokens.css`. `src/design/motion.test.ts` fails if the two drift apart. No magic numbers elsewhere.
+Source of truth: `src/design/motion.ts` (numbers for JS, including `plane` and `windStreaks`) and the `--dur-*`, `--ease-*`, `--stagger*`, `--enter-distance` variables in `src/design/tokens.css`. `src/design/motion.test.ts` fails if the two drift apart. No magic numbers elsewhere.
 
 | Token | Value | Use |
 | --- | --- | --- |
@@ -15,6 +15,11 @@ Source of truth: `src/design/motion.ts` (numbers for JS) and the `--dur-*`, `--e
 | `lift` | `cubic-bezier(.2,.7,.2,1)` | every entrance |
 | `settle` | `cubic-bezier(.3,1.25,.5,1)` | the kite only (one light overshoot) |
 | `linear` | `linear` | dashed-line drawing only |
+| `plane.flight` | 900ms | the paper plane's whole flight, button to off screen |
+| `plane.navigateAt` | 380ms | the next page opens this far into the flight |
+| `plane.size`, `plane.sizeMobile` | 96px, 72px (below 480px) | plane width at its biggest |
+| `windStreaks` | 5 streaks | `delay`, `offset`, `length`, `opacity` of each trailing streak (50ms to 290ms behind the plane) |
+| `--z-plane` | 80 | the plane overlay sits above everything, including the header |
 | stagger | 60ms, max 6 items (3 below 480px) | the rest appear together |
 | rise | 12px (8px below 480px), opacity 0 to 1 | entrances |
 
@@ -26,6 +31,8 @@ Source of truth: `src/design/motion.ts` (numbers for JS) and the `--dur-*`, `--e
 - Continuous loops (`KiteBob`, `Breathe`) run only while on screen and the tab is visible (`useActive`).
 - Focus rings only fade in (`focus-in`), they are never animated away. Keyboard and focus behaviour is unchanged.
 - Scroll handlers are passive and throttled with `requestAnimationFrame`; the scroll kite reads geometry once per layout, never in the loop.
+- The paper plane animates only `transform` and `opacity`, on a fixed overlay (`--z-plane`) that never takes clicks and is `aria-hidden`, so it cannot shift layout. Under `prefers-reduced-motion` there is no plane: the page opens at once.
+- The plane flies only for internal links (`href` starts with `/`, not `//`) and only on plain clicks: left button, no Ctrl, Meta, Shift or Alt, no `target` other than this tab, no `download`. Everything else keeps normal browser behaviour. A second press during a flight is ignored.
 - Phones (390px): shorter rise, at most 3 staggered items.
 
 ## Primitives (`src/ui`)
@@ -42,6 +49,7 @@ Source of truth: `src/design/motion.ts` (numbers for JS) and the `--dur-*`, `--e
 | `StepTransition` | old step leaves up, new rises in; back reverses; the old one is out of flow, inert and hidden from assistive tech |
 | `SwapText` | label or number cross-fade with a 6px slide (used by `StepLabel`) |
 | `SaveDot` | autosave dot: pastel, then navy with a check for 1.5s |
+| `PaperPlaneProvider`, `usePaperPlane` (`PaperPlane`) | wrap the app once with the router's `navigate`; `usePaperPlane()` returns `flyTo(href, origin?)`, or `undefined` without a provider. A red and blue folded plane with five wind streaks flies from the pressed button up and out past the top-right corner; the next page opens 380ms in and arrives under it. `Button` calls it for internal links, so pages never wire it themselves. `isInternalHref` is the link test |
 
 Shared classes in `src/design/motion.css`: `anim-up`, `anim-stagger`, `anim-grow`, `anim-ring`, `anim-fade`, `anim-pop-in`, `anim-step-next/back`, `anim-exit-next/back`, `anim-text-in/out`, `anim-check-in`, `anim-cell-in`, `anim-dot-in`, `anim-fly`, `anim-ring-pulse`, `anim-kite-in`, `anim-after-build`, `hover-underline`. Sections use these; new keyframes belong here or inside a `ui` primitive, not in a section.
 
@@ -49,8 +57,8 @@ Shared classes in `src/design/motion.css`: `anim-up`, `anim-stagger`, `anim-grow
 
 | Section | Motion |
 | --- | --- |
-| Global | page content rises on each route (`(site)/template.tsx`); pills lift 2px, darken, press to .98; focus ring fades in; nav dot grows 0 to full and the active label goes blue to red; toasts drop in, stay 4s, slide up out, max 2; skeletons pulse in pastel; spinners are `KiteBob` |
-| Home | intro: kite spins in, wings unfold, headline block written line by line (2.5s, Skip button, once per session, never under reduced motion); wave divider static; "What you get" rises staggered and its figures count in; scroll kite follows a path that draws as you scroll and leans up to 8 degrees with direction; how-it-works kites build one after another with captions after; final CTA breathes, kite lifts 500ms on start |
+| Global | page content rises on each route (`(site)/template.tsx`); pills lift 2px, darken, press to .98; focus ring fades in; nav dot grows 0 to full and the active label goes blue to red; toasts drop in, stay 4s, slide up out, max 2; skeletons pulse in pastel; spinners are `KiteBob`; every plain click on an internal button link sends the paper plane (900ms flight, page opens at 380ms, instant under reduced motion) |
+| Home | intro: kite spins in, wings unfold, headline block written line by line (2.5s, Skip button, once per session, never under reduced motion); wave divider static; "What you get" rises staggered and its figures count in; scroll kite follows a path that draws as you scroll and leans up to 8 degrees with direction; how-it-works kites build one after another with captions after; final CTA breathes (the old kite lift on start is gone; the Start button now sends the paper plane, see Global) |
 | Sign-in | active step circle pulses a ring once; connecting line scales as steps advance; send button shows a kite flying across, then a check; sent message fades in; no shake on errors; privacy note static |
 | Audit | step label cross-fades; questions and sections leave up and arrive from below (back reverses); chosen pills fill navy with a check; "how sure" pills appear staggered; progress kite glides with `settle` and dips when a section completes; autosave dot; first read counts scores up (800ms) |
 | My Report | diamond fills by section from the centre (80ms each), a new answer pops alone; score detail counts up (500ms) and its ring draws; gauge dots fill left to right |
@@ -61,7 +69,7 @@ Shared classes in `src/design/motion.css`: `anim-up`, `anim-stagger`, `anim-grow
 
 ## Layout stability
 
-`main` is at least one screen tall (`base.css`) and the header holds a slot for the sign-in link, so swapping a loading state for the page, or the session resolving, never moves anything in view. `pnpm e2e:motion` checks CLS is 0 on Home, Audit, Report and Agent Strategy, and that reduced motion leaves nothing at opacity 0 or still animating.
+`main` is at least one screen tall (`base.css`) and the header holds a slot for the sign-in link, so swapping a loading state for the page, or the session resolving, never moves anything in view. `pnpm e2e:motion` checks CLS is 0 on Home, Audit, Report and Agent Strategy, that reduced motion leaves nothing at opacity 0 or still animating, that a plain click on an internal button link navigates with CLS 0 through the plane flight, and that under reduced motion the page opens at once with no plane animation running.
 
 ## Not done, and why
 
