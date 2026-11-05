@@ -75,6 +75,18 @@ describe('ranges', () => {
     expect(bands.at(-1)?.maxUsd).toBeNull();
   });
 
+  it('price band labels in the copy say the same numbers as the config', () => {
+    const USD_PER_K = 1000;
+    const k = (usd: number): string => `${usd / USD_PER_K}k`;
+    const labelFor = (min: number, max: number | null): string => {
+      if (max === null) return `$${k(min)}+`;
+      return min === 0 ? `Under $${k(max)}` : `$${min / USD_PER_K}-${k(max)}`;
+    };
+    scoringConfig.priceBands.forEach((band) => {
+      expect(t(band.labelKey), band.id).toBe(labelFor(band.minUsd, band.maxUsd));
+    });
+  });
+
   it('score areas and gauges are all listed', () => {
     expect(scoringConfig.areas.map((a) => a.id)).toEqual(scoreAreaIds);
     expect(scoringConfig.gauges.map((g) => g.id)).toEqual(gaugeIds);
@@ -93,6 +105,7 @@ describe('placeholders are never taken for real values', () => {
     expect(agentsConfig.factorsStatus).toBe('sample');
     expect(stagesConfig.sourceStatus).toBe('temporary');
     expect(scoringConfig.affordabilityWeightsStatus).toBe('confirmed');
+    expect(scoringConfig.priceBandsStatus).toBe('confirmed');
     expect(questionsConfig.every((q) => q.temporary)).toBe(true);
   });
 
