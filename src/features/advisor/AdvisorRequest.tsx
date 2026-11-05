@@ -13,6 +13,7 @@ import { ChannelChoice } from './ChannelChoice';
 import { WhenToTalk } from './WhenToTalk';
 import { channelById, fill, timeWindows } from './channels';
 import { errorMessages } from './errors';
+import { advisorAbuseConfig } from './api/abuse.config';
 import { isChannel, isTimeWindow, validateAdvisorRequest } from './validate';
 import type { AdvisorRequestInput, FieldErrors } from './validate';
 import type { AdvisorResponseBody } from './api/handler';
@@ -46,12 +47,17 @@ const steps = [
   { id: 'details', label: copy.flow.stepDetails },
 ] as const;
 
-async function send(values: AdvisorRequestInput): Promise<AdvisorResponseBody | null> {
+const honeypotField = advisorAbuseConfig.honeypotField;
+
+async function send(
+  values: AdvisorRequestInput,
+  trap: string,
+): Promise<AdvisorResponseBody | null> {
   try {
     const res = await fetch(endpoint, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(values),
+      body: JSON.stringify({ ...values, [honeypotField]: trap }),
     });
     return (await res.json()) as AdvisorResponseBody;
   } catch {
@@ -77,7 +83,8 @@ export function AdvisorRequest({
   const [values, setValues] = useState<AdvisorRequestInput>({ ...emptyValues, ...initialValues });
   const [errors, setErrors] = useState<FieldErrors>(initialErrors);
   const [status, setStatus] = useState(initialStatus);
-  const [serverError, setServerError] = useState(false);
+  const [trap, setTrap] = useState('');
+  const [serverError, setServerError] = useState<'server' | 'rate-limited' | null>(null);
   const [focusTick, setFocusTick] = useState(0);
   const [sent, setSent] = useState<AdvisorRequestInput | null>(
     initialStatus === 'success' ? { ...emptyValues, ...initialValues } : null,
@@ -121,9 +128,9 @@ export function AdvisorRequest({
       setFocusTick((n) => n + 1);
       return;
     }
-    setServerError(false);
+    setServerError(null);
     setStatus('submitting');
-    const body = await send(result.value);
+    const body = await send(result.value, trap);
     if (body?.ok) {
       setSent(result.value);
       setStatus('success');
@@ -134,7 +141,9 @@ export function AdvisorRequest({
       setErrors(body.errors);
       setFocusTick((n) => n + 1);
     } else {
-      setServerError(true);
+      setServerError(
+        body && 'error' in body && body.error === 'rate-limited' ? 'rate-limited' : 'server',
+      );
     }
   };
 
@@ -142,7 +151,8 @@ export function AdvisorRequest({
     setValues(emptyValues);
     setErrors({});
     setSent(null);
-    setServerError(false);
+    setServerError(null);
+    setTrap('');
     setStep(firstStep);
     setStatus('editing');
   };
@@ -205,7 +215,9 @@ export function AdvisorRequest({
                       {serverError ? (
                         <p role="alert" className={styles.serverError}>
                           <Icon name="concern" size={16} strokeWidth={2.4} />
-                          {copy.errors.server}
+                          {serverError === 'rate-limited'
+                            ? copy.errors.rateLimited
+                            : copy.errors.server}
                         </p>
                       ) : null}
                       <div className={styles.pair}>
@@ -254,6 +266,20 @@ export function AdvisorRequest({
                         onChange={(e) => set('message', e.target.value)}
                         error={err('message')}
                       />
+                      {/* Honeypot: hidden from sight, screen readers and the tab order. */}
+                      <div aria-hidden="true" className="visually-hidden">
+                        <label>
+                          {copy.form.honeypot}
+                          <input
+                            type="text"
+                            name={honeypotField}
+                            tabIndex={-1}
+                            autoComplete="off"
+                            value={trap}
+                            onChange={(e) => setTrap(e.target.value)}
+                          />
+                        </label>
+                      </div>
                       <p className={styles.muted}>
                         {fill(copy.form.via, { channel: channel.copy.via })}
                       </p>

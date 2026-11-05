@@ -1,9 +1,17 @@
 import {
+  advisorAbuseConfig,
+  createRateLimiter,
   createResendAdvisorSink,
   handleAdvisorRequest,
   resendSettingsFromEnv,
   stubAdvisorRequestSink,
 } from '@/features/advisor';
+
+/**
+ * One limiter per server instance. It is NOT shared between serverless instances and resets on a cold
+ * start (see the open item "Advisor abuse protection").
+ */
+const limiter = createRateLimiter(advisorAbuseConfig.rateLimit);
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -12,5 +20,5 @@ export const dynamic = 'force-dynamic';
 export function POST(request: Request): Promise<Response> {
   const settings = resendSettingsFromEnv(process.env);
   const sink = settings ? createResendAdvisorSink(settings) : stubAdvisorRequestSink;
-  return handleAdvisorRequest(request, sink);
+  return handleAdvisorRequest(request, sink, { limiter });
 }
