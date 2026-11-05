@@ -94,7 +94,6 @@ export const strategyCopy = {
   monthNames: ['Month one', 'Month two', 'Month three', 'Month four', 'Month five', 'Month six'],
   monthFallback: 'Month {n}',
   agentDetails: 'Strengths and weaknesses',
-  agentDetailsAria: 'Strengths and weaknesses of {name}',
   sheetScore: 'Overall score',
   sheetStrength: 'Strength',
   sheetWeakness: 'Weakness',

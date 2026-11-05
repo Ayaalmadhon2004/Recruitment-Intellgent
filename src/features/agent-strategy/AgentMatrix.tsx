@@ -122,9 +122,7 @@ export function AgentMatrix({
           onScroll={update}
         >
           <table role="table" className={styles.table}>
-            <caption role="caption" className={styles.caption}>
-              {fill(copy.caption, { max: rating.max })}
-            </caption>
+            <caption className={styles.caption}>{fill(copy.caption, { max: rating.max })}</caption>
             <thead role="rowgroup">
               <tr role="row">
                 <th scope="col" role="columnheader" className={cx(styles.th, styles.stickyHead)}>
@@ -156,12 +154,11 @@ export function AgentMatrix({
                     <button
                       type="button"
                       aria-haspopup="dialog"
-                      aria-label={fill(strategyCopy.agentDetailsAria, { name: agent.name })}
                       className={styles.agentButton}
                       onClick={() => setOpenId(agent.id)}
                     >
                       <span className={styles.agentText}>
-                        <span className={styles.agentName}>{agent.name}</span>
+                        <span className={styles.agentName}>{agent.name}</span>{' '}
                         <span className={styles.agentState}>{strategyCopy.agentDetails}</span>
                       </span>
                       <Icon name="chevron-right" size={20} strokeWidth={2.4} />

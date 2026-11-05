@@ -4,7 +4,10 @@ import { en } from '@/domain/copy';
 import { RequireSession } from '@/features/accounts';
 import { UnlockPage } from '@/features/unlock';
 
-export const metadata: Metadata = { title: en.unlock.meta.title };
+export const metadata: Metadata = {
+  title: en.unlock.meta.title,
+  description: en.seo.pages.unlock,
+};
 
 /** Composes the Unlock screen. The (site) layout supplies the single <main>. */
 export default function Page(): ReactNode {

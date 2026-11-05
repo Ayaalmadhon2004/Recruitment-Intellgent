@@ -12,8 +12,9 @@ export type BreatheProps = {
 };
 
 /**
- * A slow glow around its child (a pill button): opacity only, a 3s loop. It stops on hover and focus,
- * while off screen or in a hidden tab, and under reduced motion.
+ * A slow glow around its child (a pill button): opacity only, one 3s breath each time it scrolls into
+ * view, then it rests (WCAG 2.2.2: nothing that starts by itself runs past 5s). It also stops on hover and
+ * focus, while off screen or in a hidden tab, and under reduced motion.
  */
 export function Breathe({ children, className }: BreatheProps): ReactNode {
   const ref = useRef<HTMLSpanElement>(null);
