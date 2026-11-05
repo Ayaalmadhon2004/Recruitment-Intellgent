@@ -1,13 +1,24 @@
 import { describe, expect, it } from 'vitest';
-import { maxBodyBytes } from '@/features/advisor';
+import { advisorAbuseConfig, maxBodyBytes } from '@/features/advisor';
 import { POST, dynamic, runtime } from './route';
+
+// The route keeps one limiter for the life of the module, so each test posts from its own address.
+let nextAddress = 0;
+const freshAddress = (): string => {
+  nextAddress += 1;
+  return `10.0.${Math.floor(nextAddress / 250)}.${(nextAddress % 250) + 1}`;
+};
 
 const post = (body: string, headers: Record<string, string> = {}): Promise<Response> =>
   POST(
     new Request('http://localhost/api/advisor-request', {
       method: 'POST',
       body,
-      headers: { 'Content-Type': 'application/json', ...headers },
+      headers: {
+        'Content-Type': 'application/json',
+        'x-forwarded-for': freshAddress(),
+        ...headers,
+      },
     }),
   );
 
@@ -62,5 +73,27 @@ describe('POST /api/advisor-request', () => {
   it('returns 413 from the declared length without reading the body', async () => {
     const res = await post('{}', { 'content-length': String(maxBodyBytes + 1) });
     expect(res.status).toBe(413);
+  });
+
+  it('silently accepts and drops a request whose honeypot is filled', async () => {
+    const res = await post(JSON.stringify({ ...valid, [advisorAbuseConfig.honeypotField]: 'x' }));
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual({ ok: true });
+  });
+
+  it('answers 429 with Retry-After after the configured number of requests from one address', async () => {
+    const headers = { 'x-forwarded-for': '203.0.113.50, 10.1.1.1' };
+    const { maxRequests, windowMs } = advisorAbuseConfig.rateLimit;
+    for (let i = 0; i < maxRequests; i += 1) {
+      expect((await post(JSON.stringify(valid), headers)).status).toBe(200);
+    }
+    const res = await post(JSON.stringify(valid), headers);
+    expect(res.status).toBe(429);
+    expect(await res.json()).toEqual({ ok: false, error: 'rate-limited' });
+    const retryAfter = Number(res.headers.get('Retry-After'));
+    expect(retryAfter).toBeGreaterThan(0);
+    expect(retryAfter).toBeLessThanOrEqual(windowMs / 1000);
+    // A different address is not affected.
+    expect((await post(JSON.stringify(valid))).status).toBe(200);
   });
 });

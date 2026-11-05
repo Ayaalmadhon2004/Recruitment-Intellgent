@@ -103,6 +103,38 @@ describe('SiteHeader', () => {
       expect(screen.queryByRole('button', { name: /Account menu/ })).not.toBeInTheDocument();
     });
 
+    it('renders no auth controls while loading but keeps the reserved account box', () => {
+      const { container } = render(
+        <SiteHeader {...props} account={{ ...account(null), loading: true }} />,
+      );
+      expect(screen.queryByRole('link', { name: 'Sign in' })).not.toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: /Account menu/ })).not.toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: 'Sign out' })).not.toBeInTheDocument();
+      const area = container.querySelector('[data-state]');
+      expect(area).toHaveAttribute('data-state', 'loading');
+      // The hidden sizer is not exposed to assistive tech.
+      expect(area?.firstElementChild).toHaveAttribute('aria-hidden', 'true');
+      expect(area?.firstElementChild).toHaveTextContent('Sign in');
+    });
+
+    it('uses the same account box in the loading, signed-out and signed-in states', () => {
+      const states = [
+        { ...account(null), loading: true },
+        account(null),
+        account({ email: 'jane.doe@uni.edu' }),
+      ];
+      const sizers = states.map((state) => {
+        const { container, unmount } = render(<SiteHeader {...props} account={state} />);
+        const area = container.querySelector('[data-state]')!;
+        const first = area.firstElementChild!;
+        const snapshot = { tag: first.tagName, cls: first.className, text: first.textContent };
+        unmount();
+        return snapshot;
+      });
+      expect(sizers[1]).toEqual(sizers[0]);
+      expect(sizers[2]).toEqual(sizers[0]);
+    });
+
     it('links to sign in when signed out', () => {
       render(<SiteHeader {...props} account={account(null)} />);
       for (const link of screen.getAllByRole('link', { name: 'Sign in' })) {

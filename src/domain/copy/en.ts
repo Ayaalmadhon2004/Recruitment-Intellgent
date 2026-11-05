@@ -6,6 +6,8 @@ import { reportPage } from './sections/reportPage';
 import { unlock } from './sections/unlock';
 import { costCalc } from './sections/costCalc';
 import { pdfExport } from './sections/pdfExport';
+import { errorPages } from './sections/errorPages';
+import { seo } from './sections/seo';
 /** English UI copy. Components never hard-code text; they receive these values by key. */
 export const en = {
   brand: {
@@ -444,6 +446,8 @@ export const en = {
   landing,
   advisor,
   agentStrategy,
+  errorPages,
+  seo,
   questions: {
     A1: {
       text: 'What type of institution are you?',
