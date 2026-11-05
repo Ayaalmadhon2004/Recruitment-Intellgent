@@ -31,7 +31,7 @@ Not built yet: a real database and auth provider (accounts are a development sta
 
 ## Loading states
 
-Every page that waits shows a skeleton (`ui/Skeleton`) instead of a message. Pattern and feature skeletons sit beside the component they stand in for and reuse its CSS, so nothing jumps when the page arrives. A page's skeleton is used in two places: by the component while it loads, and by the route's `loading.tsx`. The `(site)/loading.tsx` fallback (`shell/PageSkeleton`) covers pages that wait for no data. Text for screen readers is in `en.skeleton`. The skeleton fades in after 150ms, so a load that finishes at once does not flash one. `pnpm e2e` holds the server back and checks the report, score detail, PDF and First Read pages.
+Every page that waits shows a skeleton (`ui/Skeleton`) instead of a message. Pattern and feature skeletons sit beside the component they stand in for and reuse its CSS, so nothing jumps when the page arrives. A page's skeleton is used in two places: by the component while it loads, and by the route's `loading.tsx`. The `(site)/loading.tsx` fallback (`shell/PageSkeleton`) covers pages that wait for no data. Text for screen readers is in `en.skeleton`. The skeleton fades in after 150ms, so a load that finishes at once does not flash one. `pnpm e2e` (signed in) holds the server back and checks the report, score detail, PDF and First Read pages.
 
 ## Routes
 
@@ -68,7 +68,7 @@ Run `find src/app -name page.tsx -o -name route.ts` to refresh this list.
 - `pnpm install`
 - `pnpm dev` starts the app on http://localhost:3000
 - `pnpm check` runs typecheck, lint, token check, boundaries and tests. It must pass before every commit.
-- `pnpm build && pnpm start`, then `pnpm e2e` runs the browser smoke test (every page at 390px and 1440px: one `<main>`, no horizontal scroll, no console errors; Quick Start reaches the First Read). Set `BASE_URL` for another port.
+- `pnpm build && pnpm start`, then `pnpm e2e` runs the browser smoke test. Sign-in is required for the audit, report, PDF, unlock and dashboard routes, so the script first checks that a signed-out visit to each ends at `/sign-in?next=<route>` and that signing in returns to that route. It then signs in through the real Sign in screen (development account service, `tests/e2e/auth.mjs`) and checks every page at 390px and 1440px (one `<main>`, no horizontal scroll, no console errors), Quick Start to the First Read, and the loading skeletons. `pnpm e2e:motion` signs in the same way. Set `BASE_URL` for another port.
 - `pnpm storybook` starts Storybook on http://localhost:6006
 - `pnpm build-storybook && pnpm a11y` builds Storybook and runs axe on every story (needs Chromium: `npx playwright install chromium`)
 

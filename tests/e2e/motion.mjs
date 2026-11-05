@@ -1,7 +1,10 @@
-// Motion checks. Start the app first (`pnpm build && pnpm start`) and run `pnpm e2e:motion`.
+// Motion checks. The report is behind sign-in, so each browser signs in first through the real Sign in screen
+// with the development account service (see auth.mjs). Start the app first (`pnpm build && pnpm start`) and
+// run `pnpm e2e:motion`.
 // 1) reducedMotion "reduce": nothing is hidden or stuck at opacity 0, and nothing still animates.
 // 2) normal motion: layout shift (CLS) is 0 on Home, Audit, Report and Agent Strategy.
 import { createRequire } from 'node:module';
+import { signIn } from './auth.mjs';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require('playwright');
@@ -19,7 +22,9 @@ for (const viewport of [
   { width: 390, height: 844 },
   { width: 1440, height: 900 },
 ]) {
-  const page = await browser.newPage({ viewport, reducedMotion: 'reduce' });
+  const context = await browser.newContext({ viewport, reducedMotion: 'reduce' });
+  const page = await context.newPage();
+  await signIn(page, base);
   for (const path of pages) {
     await page.goto(base + path, { waitUntil: 'networkidle' });
     await page.mouse.wheel(0, 3000);
@@ -42,11 +47,13 @@ for (const viewport of [
     });
     for (const p of problems) fail(`reduced ${path} @${viewport.width}: ${p}`);
   }
-  await page.close();
+  await context.close();
 }
 
 for (const path of pages) {
-  const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+  const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+  const page = await context.newPage();
+  await signIn(page, base);
   await page.addInitScript(() => {
     window.__cls = 0;
     new PerformanceObserver((list) => {
@@ -62,7 +69,7 @@ for (const path of pages) {
   const cls = await page.evaluate(() => window.__cls);
   if (cls > 0.0001) fail(`CLS ${cls.toFixed(4)} on ${path}`);
   else console.log(`ok CLS 0 on ${path}`);
-  await page.close();
+  await context.close();
 }
 
 await browser.close();
