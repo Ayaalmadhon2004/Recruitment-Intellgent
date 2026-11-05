@@ -17,7 +17,7 @@ import type { SiteHeaderProps } from '@/shell';
 const noSubscription = (): (() => void) => () => undefined;
 const readSearch = (): string => window.location.search;
 
-/** The site header with the sign-in state read from the account session. Shows no auth control while it loads. */
+/** The site header with the sign-in state read from the account session. While it loads the account area keeps its size and shows no control. */
 export function SiteHeaderWithAccount(props: Omit<SiteHeaderProps, 'account'>): ReactNode {
   const router = useRouter();
   const [runtime] = useState(() => getDefaultRuntime());
@@ -44,19 +44,16 @@ export function SiteHeaderWithAccount(props: Omit<SiteHeaderProps, 'account'>): 
     <SiteHeader
       {...props}
       cta={signedOut ? { ...props.cta, href: signInHrefFor(props.cta.href) } : props.cta}
-      account={
-        ready
-          ? {
-              signIn: { href: signInHref, label: en.header.signIn },
-              user: session.user ?? null,
-              menuLabel: en.header.accountMenu,
-              signedInAsLabel: en.header.signedInAs,
-              myAudits: { href: routes.dashboard, label: en.header.myAudits },
-              signOutLabel: en.header.signOut,
-              onSignOut,
-            }
-          : undefined
-      }
+      account={{
+        signIn: { href: signInHref, label: en.header.signIn },
+        user: ready ? (session.user ?? null) : null,
+        loading: !ready,
+        menuLabel: en.header.accountMenu,
+        signedInAsLabel: en.header.signedInAs,
+        myAudits: { href: routes.dashboard, label: en.header.myAudits },
+        signOutLabel: en.header.signOut,
+        onSignOut,
+      }}
     />
   );
 }
