@@ -96,3 +96,15 @@ dependency-cruiser does not support TypeScript 7 yet (it needs the compiler API,
 **Screen.** One `FlowShell` (steps Choose, Confirm; then the success state). The design's "Preview state" switch is design tooling and is not built. Locked areas link to `/unlock` from the Report, the First Read and the preview grid.
 
 **Not decided here.** Whether PDF export is a locked feature (the design lists it as full-only; `lockedWhenFree` holds areas, not features), what "unlocked" costs or how long it lasts, refunds, whether an unlock transfers when anonymous work joins an account (today it does not), and whether an unlock can be revoked.
+
+## 8. HTTP security headers: nonce-less CSP
+
+**Decision.** `next.config.ts` sends security headers on every route. The values live in `src/server/security-headers.ts` (pure, unit tested), so `next.config.ts` only wires them.
+
+- `Content-Security-Policy`: `default-src 'self'`, `script-src` and `style-src` also allow `'unsafe-inline'`, `img-src`/`font-src` add `data:` (and `blob:` for images), `object-src 'none'`, `base-uri` and `form-action` `'self'`, `frame-ancestors 'none'`, `upgrade-insecure-requests`. No external hosts: `next/font` self-hosts its files and `next/image` serves from `/_next/image`.
+- `X-Frame-Options: DENY` (older browsers), `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy` with camera, microphone, geolocation and payment off, `Strict-Transport-Security` for one year with subdomains (no `preload`: that is a hard-to-undo commitment for the owner of the domain).
+- Development only adds `'unsafe-eval'` (React debugging) and `ws:`/`wss:` (hot reload), and drops `upgrade-insecure-requests`.
+
+**Why not a nonce.** A nonce needs middleware and forces every page to render dynamically, which gives up static rendering for most of this app. Next.js inline bootstrap scripts and React's inline style attributes need `'unsafe-inline'` without one. The policy still blocks third-party scripts, plugins, framing, other origins for forms and connections.
+
+**Revisit** when the app has a stricter need (user-generated HTML, third-party embeds). Adding any external host (analytics, maps, payment) means adding it here deliberately. Verified with `pnpm build && pnpm start` and every route loaded in Chromium with no CSP console errors.

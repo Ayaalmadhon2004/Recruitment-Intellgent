@@ -66,6 +66,72 @@ describe('validateAdvisorRequest', () => {
     });
   });
 
+  it.each([
+    'a@b.co,c@d.co',
+    'Linh <linh@example.edu>',
+    'a@@b.co',
+    'a@b..co',
+    '.a@b.co',
+    'a.@b.co',
+    'a@-b.co',
+    'a@b.co-',
+    'a@b.c o',
+    'a@b.co;c@d.co',
+    '(x)a@b.co',
+    '"a b"@c.co',
+  ])('rejects the malformed or multi-address email %s', (contact) => {
+    expect(validateAdvisorRequest({ ...valid, contact })).toEqual({
+      ok: false,
+      errors: { contact: 'contact-invalid-email' },
+    });
+  });
+
+  it.each(['a.b+tag@mail.example.edu', "o'neil@school.ac.uk", 'x_y-z@sub.domain.example.org'])(
+    'accepts the valid email %s',
+    (contact) => {
+      expect(validateAdvisorRequest({ ...valid, contact })).toMatchObject({ ok: true });
+    },
+  );
+
+  it.each([
+    ['CR', 'a@b.co\rBcc: x@y.co'],
+    ['LF', 'a@b.co\nBcc: x@y.co'],
+    ['CRLF', 'a@b.co\r\nBcc: x@y.co'],
+    ['NUL', 'a@b.co\u0000'],
+    ['tab', 'a@b.co\tc'],
+    ['DEL', 'a@b.co\u007f'],
+    ['CRLF before the @', 'a\r\n@b.co'],
+  ])('rejects %s inside an email contact', (_name, contact) => {
+    expect(validateAdvisorRequest({ ...valid, contact })).toEqual({
+      ok: false,
+      errors: { contact: 'contact-invalid-email' },
+    });
+  });
+
+  it.each(['+84 90\n123 4567', '+84 90\r123 4567', '+84 90 123 4567\r\nBcc: x'])(
+    'rejects a line break inside a phone contact (%j)',
+    (contact) => {
+      expect(validateAdvisorRequest({ ...valid, channel: 'whatsapp', contact })).toEqual({
+        ok: false,
+        errors: { contact: 'contact-invalid-phone' },
+      });
+    },
+  );
+
+  it('trims a trailing line break, so the stored contact never contains one', () => {
+    expect(validateAdvisorRequest({ ...valid, contact: 'linh@example.edu\r\n' })).toMatchObject({
+      ok: true,
+      value: { contact: 'linh@example.edu' },
+    });
+  });
+
+  it('treats a non-string contact as missing on the email channel', () => {
+    expect(validateAdvisorRequest({ ...valid, contact: ['a@b.co'] })).toEqual({
+      ok: false,
+      errors: { contact: 'contact-required' },
+    });
+  });
+
   it.each(['plain', 'a@b', 'a b@c.com', '@c.com'])('rejects the email %s', (contact) => {
     expect(validateAdvisorRequest({ ...valid, contact })).toEqual({
       ok: false,

@@ -5,7 +5,10 @@ import { RequireSession } from '@/features/accounts';
 import { ScoreDetailPage } from '@/features/report';
 import { PageContainer } from '@/shell';
 
-export const metadata: Metadata = { title: en.reportPage.scoreDetailPageTitle };
+export const metadata: Metadata = {
+  title: en.reportPage.scoreDetailPageTitle,
+  description: en.seo.pages.scoreDetail,
+};
 
 type PageProps = { params: Promise<{ area: string }> };
 

@@ -1,6 +1,7 @@
-import { render, screen, waitFor, within } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { advisorAbuseConfig } from './api/abuse.config';
 import { handleAdvisorRequest } from './api/handler';
 import { stubAdvisorRequestSink } from './api/sink';
 import { AdvisorRequest } from './AdvisorRequest';
@@ -173,6 +174,76 @@ describe('AdvisorRequest', () => {
       ),
     );
     expect(screen.getByLabelText('Name')).toHaveValue('Linh Tran');
+  });
+
+  it('shows the rate-limit message, keeps the typed values and lets the person retry', async () => {
+    fetchMock.mockResolvedValueOnce(
+      Response.json({ ok: false, error: 'rate-limited' }, { status: 429 }),
+    );
+    render(<AdvisorRequest />);
+    await fillAndSend();
+    await waitFor(() =>
+      expect(screen.getByRole('alert')).toHaveTextContent(
+        'Too many requests from your connection. Please wait a few minutes and try again.',
+      ),
+    );
+    expect(screen.getByLabelText('Name')).toHaveValue('Linh Tran');
+    await send();
+    await waitFor(() => expect(screen.getByText(/Thank you, Linh/)).toBeInTheDocument());
+  });
+
+  describe('honeypot', () => {
+    const trapName = advisorAbuseConfig.honeypotField;
+    const trapInput = (): HTMLInputElement => {
+      const input = document.querySelector<HTMLInputElement>(`input[name="${trapName}"]`);
+      if (!input) throw new Error('honeypot input not found');
+      return input;
+    };
+    const sentBody = (): Record<string, unknown> => {
+      const [, init] = fetchMock.mock.calls[0] as [string, RequestInit];
+      return JSON.parse(init.body as string) as Record<string, unknown>;
+    };
+
+    it('hides the trap from assistive technology and the tab order', async () => {
+      render(<AdvisorRequest />);
+      await next();
+      const input = trapInput();
+      expect(input).toHaveAttribute('tabindex', '-1');
+      expect(input).toHaveAttribute('autocomplete', 'off');
+      expect(input.closest('[aria-hidden="true"]')).not.toBeNull();
+      expect(screen.queryByRole('textbox', { name: /Leave this field empty/ })).toBeNull();
+    });
+
+    it('is not reached by tabbing through the form', async () => {
+      const user = userEvent.setup();
+      render(<AdvisorRequest />);
+      await next();
+      screen.getByLabelText('Name').focus();
+      const visited: Element[] = [];
+      for (let i = 0; i < 8; i += 1) {
+        await user.tab();
+        visited.push(document.activeElement ?? document.body);
+      }
+      expect(visited).not.toContain(trapInput());
+    });
+
+    it('sends the trap empty for a real person', async () => {
+      render(<AdvisorRequest />);
+      await fillAndSend();
+      await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1));
+      expect(sentBody()).toMatchObject({ [trapName]: '' });
+    });
+
+    it('sends what a bot typed into the trap', async () => {
+      render(<AdvisorRequest />);
+      await next();
+      await userEvent.type(screen.getByLabelText('Name'), 'Bot');
+      await userEvent.type(screen.getByLabelText('WhatsApp number'), '+84 90 123 4567');
+      fireEvent.change(trapInput(), { target: { value: 'http://spam.example' } });
+      await send();
+      await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1));
+      expect(sentBody()).toMatchObject({ [trapName]: 'http://spam.example' });
+    });
   });
 
   it('can be completed by keyboard alone', async () => {
