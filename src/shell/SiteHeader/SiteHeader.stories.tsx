@@ -59,3 +59,11 @@ export const SignedInMobile: Story = {
   args: { account: { ...account, user: { email: 'jane.doe@university.edu' } } },
   globals: { viewport: { value: 'mobile', isRotated: false } },
 };
+export const LoadingDesktop: Story = {
+  args: { account: { ...account, user: null, loading: true } },
+  globals: { viewport: { value: 'desktop', isRotated: false } },
+};
+export const LoadingMobile: Story = {
+  args: { account: { ...account, user: null, loading: true } },
+  globals: { viewport: { value: 'mobile', isRotated: false } },
+};
