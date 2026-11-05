@@ -5,7 +5,10 @@ import { RequireSession } from '@/features/accounts';
 import { ReportPage } from '@/features/report';
 import { PageContainer } from '@/shell';
 
-export const metadata: Metadata = { title: en.reportPage.pageTitle };
+export const metadata: Metadata = {
+  title: en.reportPage.pageTitle,
+  description: en.seo.pages.report,
+};
 
 export default function Page(): ReactNode {
   return (
