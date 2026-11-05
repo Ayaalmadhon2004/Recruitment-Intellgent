@@ -43,8 +43,16 @@ export type FieldErrors = Partial<Record<FieldName, ErrorCode>>;
 export type ValidationResult =
   { ok: true; value: AdvisorRequestInput } | { ok: false; errors: FieldErrors };
 
-/** Accepts "ana@school.edu", rejects "ana@school" or "ana school@x.edu". */
-const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+/**
+ * The contact becomes the email `replyTo`, so it must be exactly one plain address: no spaces, no commas,
+ * no "Name <a@b.c>" form, no second address. ASCII only (no internationalised addresses yet).
+ * Accepts "ana@school.edu", rejects "ana@school", "ana school@x.edu" and "a@b.co,c@d.co".
+ */
+const atext = "[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+";
+const label = '[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?';
+const emailPattern = new RegExp(`^${atext}(?:\\.${atext})*@${label}(?:\\.${label})+$`);
+/** Any control character, which includes CR and LF. A line break in a contact could inject mail headers. */
+const controlCharacters = /[\u0000-\u001f\u007f]/;
 /** Accepts "+84 (90) 123-4567", rejects "90abc123". */
 const phoneCharacters = /^[0-9 +().-]+$/;
 
@@ -60,6 +68,9 @@ const digitCount = (s: string): number => s.replace(/\D/g, '').length;
 function contactError(channel: ChannelId, contact: string): ErrorCode | null {
   if (contact === '') return 'contact-required';
   if (contact.length > limits.contact) return 'contact-too-long';
+  if (controlCharacters.test(contact)) {
+    return channel === 'email' ? 'contact-invalid-email' : 'contact-invalid-phone';
+  }
   if (channel === 'email') return emailPattern.test(contact) ? null : 'contact-invalid-email';
   const digits = digitCount(contact);
   const ok =

@@ -4,7 +4,10 @@ import { en } from '@/domain/copy';
 import { CostCalculator } from '@/features/cost-calc';
 import { costSample } from '@/fixtures/costSample';
 
-export const metadata: Metadata = { title: en.costCalc.meta.title };
+export const metadata: Metadata = {
+  title: en.costCalc.meta.title,
+  description: en.seo.pages.costCalc,
+};
 
 /** Composes the feature only. Start values and peers are labelled sample data. */
 export default function Page(): ReactNode {

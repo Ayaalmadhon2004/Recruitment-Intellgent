@@ -8,7 +8,7 @@ import { evidenceConfig } from './evidence.config';
 import { questionsConfig } from './questions.config';
 import { scoringConfig } from './scoring.config';
 import { stagesConfig } from './stages.config';
-import { routes } from './routes.config';
+import { routes, sitemapPaths } from './routes.config';
 import { tbcConfig } from './tbc.config';
 import { unlockConfig } from './unlock.config';
 import { CONFIG_VERSION } from './version';
@@ -22,6 +22,7 @@ export {
   isDevelopmentBuild,
   questionsConfig,
   routes,
+  sitemapPaths,
   scoringConfig,
   stagesConfig,
   tbcConfig,

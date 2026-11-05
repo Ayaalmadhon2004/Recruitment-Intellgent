@@ -23,7 +23,7 @@ Source of truth: `src/design/motion.ts` (numbers for JS) and the `--dur-*`, `--e
 - Animate only `transform`, `opacity` and `stroke-dashoffset`. Bars scale (`scaleX`), kites glide with `transform`, rings and lines draw with dash offset. No animated width, height, top or left, so no layout shift.
 - Scroll entrances run once. One hero motion per screen.
 - `prefers-reduced-motion`: no movement. The global rule in `motion.css` removes animations and transitions, and every primitive reads `useReducedMotion` and renders its final state (rings and counters still show their value, the scroll kite is not rendered, the intro is a still kite plus the headline).
-- Continuous loops (`KiteBob`, `Breathe`) run only while on screen and the tab is visible (`useActive`).
+- WCAG 2.2.2: nothing decorative loops. `Breathe` does one 3s breath each time it comes into view. The only endless animations are loading indicators (`KiteBob`, the busy button kite, skeleton pulse); they end when loading ends, run only while on screen and the tab is visible (`useActive`), and are removed under reduced motion. `src/design/motion-limits.test.ts` fails if any other CSS adds an `infinite` animation.
 - Focus rings only fade in (`focus-in`), they are never animated away. Keyboard and focus behaviour is unchanged.
 - Scroll handlers are passive and throttled with `requestAnimationFrame`; the scroll kite reads geometry once per layout, never in the loop.
 - Phones (390px): shorter rise, at most 3 staggered items.
@@ -38,7 +38,7 @@ Source of truth: `src/design/motion.ts` (numbers for JS) and the `--dur-*`, `--e
 | `CountUp` | counts to a value (on change, or `from` on first sight); reserves its final width |
 | `DrawLine` | draws a (dashed) SVG line with a dash-offset mask; controlled by `progress` for scroll lines |
 | `KiteBob` | the loading kite (replaces spinners) |
-| `Breathe` | slow opacity glow around a pill (3s) |
+| `Breathe` | slow opacity glow around a pill: one 3s breath, then rest |
 | `StepTransition` | old step leaves up, new rises in; back reverses; the old one is out of flow, inert and hidden from assistive tech |
 | `SwapText` | label or number cross-fade with a 6px slide (used by `StepLabel`) |
 | `SaveDot` | autosave dot: pastel, then navy with a check for 1.5s |
@@ -50,7 +50,7 @@ Shared classes in `src/design/motion.css`: `anim-up`, `anim-stagger`, `anim-grow
 | Section | Motion |
 | --- | --- |
 | Global | page content rises on each route (`(site)/template.tsx`); pills lift 2px, darken, press to .98; focus ring fades in; nav dot grows 0 to full and the active label goes blue to red; toasts drop in, stay 4s, slide up out, max 2; skeletons pulse in pastel; spinners are `KiteBob` |
-| Home | intro: kite spins in, wings unfold, headline block written line by line (2.5s, Skip button, once per session, never under reduced motion); wave divider static; "What you get" rises staggered and its figures count in; scroll kite follows a path that draws as you scroll and leans up to 8 degrees with direction; how-it-works kites build one after another with captions after; final CTA breathes, kite lifts 500ms on start |
+| Home | intro: kite spins in, wings unfold, headline block written line by line (2.5s, Skip button, once per session, never under reduced motion); wave divider static; "What you get" rises staggered and its figures count in; scroll kite follows a path that draws as you scroll and leans up to 8 degrees with direction; how-it-works kites build one after another with captions after; final CTA breathes once, kite lifts 500ms on start |
 | Sign-in | active step circle pulses a ring once; connecting line scales as steps advance; send button shows a kite flying across, then a check; sent message fades in; no shake on errors; privacy note static |
 | Audit | step label cross-fades; questions and sections leave up and arrive from below (back reverses); chosen pills fill navy with a check; "how sure" pills appear staggered; progress kite glides with `settle` and dips when a section completes; autosave dot; first read counts scores up (800ms) |
 | My Report | diamond fills by section from the centre (80ms each), a new answer pops alone; score detail counts up (500ms) and its ring draws; gauge dots fill left to right |

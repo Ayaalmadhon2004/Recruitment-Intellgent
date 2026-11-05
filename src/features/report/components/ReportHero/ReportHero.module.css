@@ -34,6 +34,8 @@
 
 .title {
   margin: 0;
+  /* Headings default to navy, which vanishes on the navy-deep cover; take the cover's own colour. */
+  color: inherit;
   font-size: var(--text-h1-size);
   line-height: var(--text-h1-line);
   font-weight: var(--font-weight-bold);
