@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import type { FormEvent, ReactNode } from 'react';
 import { duration } from '@/design/motion';
 import { accountsConfig, routes } from '@/domain/config';
@@ -53,6 +53,7 @@ export function SignInPage({
   const [runtime] = useState(() => runtimeProp ?? getDefaultRuntime());
   const [step, setStep] = useState(initialStep);
   const [email, setEmail] = useState(initialEmail);
+  const problemId = useId();
   const [problem, setProblem] = useState<Problem | undefined>(initialProblem);
   const [sending, setSending] = useState(false);
   const [confirmed, setConfirmed] = useState(false);
@@ -167,7 +168,7 @@ export function SignInPage({
           ) : (
             <form className={styles.form} noValidate onSubmit={(e) => void onSubmit(e)}>
               {problem !== undefined ? (
-                <div role="alert" className={styles.problem}>
+                <div id={problemId} role="alert" className={styles.problem}>
                   <Icon name="concern" size={22} strokeWidth={2.2} />
                   <span>
                     <strong>{copy.problem}</strong>{' '}
@@ -186,6 +187,7 @@ export function SignInPage({
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 invalid={problem === 'invalid'}
+                describedById={problem === 'invalid' ? problemId : undefined}
               />
               <Button
                 type="submit"
