@@ -1,0 +1,13 @@
+/* Above every page and the header; never catches a click. Only transform and opacity animate. */
+.stage {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: var(--z-plane);
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.stage[hidden] {
+  display: none;
+}

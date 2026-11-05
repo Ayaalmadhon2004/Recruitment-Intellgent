@@ -7,7 +7,7 @@ import { routes } from '@/domain/config';
 import { en, t } from '@/domain/copy';
 import type { StageResult } from '@/domain/types';
 import { PageContainer } from '@/shell';
-import { Button } from '@/ui';
+import { Button, usePaperPlane } from '@/ui';
 import { fetchAuditSummaries } from '../../api';
 import { stageViewOf, toCardModel } from '../../model';
 import type { StageView } from '../../model';
@@ -39,6 +39,10 @@ type Data =
 /** Loads the signed-in person's audits (moving anonymous work in first), then asks the server for stages. */
 export function DashboardPage({ runtime: runtimeProp }: DashboardPageProps): ReactNode {
   const router = useRouter();
+  const flyTo = usePaperPlane();
+  /** Buttons here open the next page with the paper plane; guards and sign-out keep the plain router. */
+  const fly = (href: string, origin?: Element | null): void =>
+    flyTo ? flyTo(href, origin) : router.push(href);
   const [runtime] = useState(() => runtimeProp ?? getDefaultRuntime());
   const { session, refresh } = useAccountSession(runtime);
   const [data, setData] = useState<Data>({ status: 'loading' });
@@ -92,10 +96,12 @@ export function DashboardPage({ runtime: runtimeProp }: DashboardPageProps): Rea
   }, [data, runtime.config]);
 
   const onOpen = (id: string, target: OpenTarget): void => {
+    // The pressed button is disabled while the audit loads, so remember it now.
+    const origin = document.activeElement;
     setOpeningId(id);
     setFailedId(undefined);
     resumeAudit(runtime, id).then(
-      () => router.push(target === 'intake' ? routes.intake : routes.report),
+      () => fly(target === 'intake' ? routes.intake : routes.report, origin),
       () => {
         setOpeningId(undefined);
         setFailedId(id);
@@ -105,7 +111,7 @@ export function DashboardPage({ runtime: runtimeProp }: DashboardPageProps): Rea
 
   const onStartNew = (): void => {
     startNewAudit(runtime);
-    router.push(routes.intake);
+    fly(routes.intake);
   };
 
   const onSignOut = (): void => {

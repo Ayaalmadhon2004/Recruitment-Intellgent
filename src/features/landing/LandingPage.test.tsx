@@ -1,4 +1,4 @@
-import { flight, intro } from '@/design/motion';
+import { intro } from '@/design/motion';
 import { act, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
@@ -202,26 +202,10 @@ describe('Final call to action', () => {
     );
   });
 
-  it('lifts the kite, then opens the audit after the short flight', async () => {
-    vi.useFakeTimers({ shouldAdvanceTime: true });
-    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
-    const { container } = render(<LandingPage />);
-    await user.click(within(region()).getByRole('link', { name: copy.finalCta.primary }));
-    expect(container.querySelector('[data-flying="true"]')).not.toBeNull();
-    expect(push).not.toHaveBeenCalled();
-    act(() => {
-      vi.advanceTimersByTime(flight + 50);
-    });
-    expect(push).toHaveBeenCalledWith('/quick-start');
-  });
-
-  it('does not delay navigation for reduced motion', async () => {
-    mockReducedMotion(true);
-    const user = userEvent.setup();
-    const { container } = render(<LandingPage />);
-    await user.click(within(region()).getByRole('link', { name: copy.finalCta.primary }));
-    expect(container.querySelector('[data-flying="true"]')).toBeNull();
-    expect(push).not.toHaveBeenCalled();
+  it('keeps the final call to action a plain link (the paper plane is added by the app)', () => {
+    render(<LandingPage />);
+    const link = within(region()).getByRole('link', { name: copy.finalCta.primary });
+    expect(link).toHaveAttribute('href', '/quick-start');
   });
 });
 

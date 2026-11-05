@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import { fontVariables } from '@/design';
 import { en } from '@/domain/copy';
-import { ToastProvider } from '@/ui';
+import { Providers } from './Providers';
 import '@/design/global.css';
 
 export const metadata: Metadata = {
@@ -13,7 +13,7 @@ export default function RootLayout({ children }: { children: ReactNode }): React
   return (
     <html lang="en" className={fontVariables}>
       <body>
-        <ToastProvider>{children}</ToastProvider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

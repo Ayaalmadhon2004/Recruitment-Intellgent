@@ -7,15 +7,6 @@
 
 .kite {
   flex: 0 0 112px;
-  transition:
-    transform var(--dur-flight) var(--ease-lift),
-    opacity var(--dur-flight) var(--ease-lift);
-}
-
-/* Lift-off: straight up, so it never adds width to the page. */
-.kite[data-flying='true'] {
-  transform: translateY(-120px) rotate(-12deg);
-  opacity: 0;
 }
 
 .text {

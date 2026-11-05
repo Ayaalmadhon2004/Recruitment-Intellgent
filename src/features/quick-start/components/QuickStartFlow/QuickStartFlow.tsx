@@ -17,6 +17,7 @@ import {
   toQuestionView,
 } from '@/features/questions';
 import { FlowShell, QuestionCard } from '@/patterns';
+import { usePaperPlane } from '@/ui';
 import type { FirstReadResponse } from '../../contract';
 import { saveFirstRead } from '../../session';
 import { useStoredAnswers } from '../../useStoredAnswers';
@@ -90,6 +91,7 @@ export function QuickStartFlow({
   resultHref = routes.firstRead,
 }: QuickStartFlowProps): ReactNode {
   const router = useRouter();
+  const flyTo = usePaperPlane();
   const [step, setStep] = useState(initialStep);
   const [status, setStatus] = useState(initialStatus);
   // Returning via "Change my answers": start from what this tab stored until the person edits.
@@ -120,6 +122,8 @@ export function QuickStartFlow({
   };
 
   const submit = async (): Promise<void> => {
+    // The button is busy while the read is requested, so remember it as the plane's launch point.
+    const origin = document.activeElement;
     setStatus('submitting');
     const outcome = await requestFirstRead(answers);
     if (!outcome.ok) {
@@ -127,7 +131,8 @@ export function QuickStartFlow({
       return;
     }
     saveFirstRead(answers, outcome.result);
-    router.push(resultHref);
+    if (flyTo) flyTo(resultHref, origin);
+    else router.push(resultHref);
   };
 
   const next = (): void => {

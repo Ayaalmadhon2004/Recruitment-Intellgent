@@ -1,8 +1,9 @@
-import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from 'react';
+import type { AnchorHTMLAttributes, ButtonHTMLAttributes, MouseEvent, ReactNode } from 'react';
 import { cx } from '../internal/cx';
 import { Kite } from '../Kite';
 import { KiteBob } from '../KiteBob';
 import { useReducedMotion } from '../motion';
+import { isInternalHref, usePaperPlane } from '../PaperPlane';
 import styles from './Button.module.css';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'inverse' | 'inverse-outline';
@@ -31,6 +32,7 @@ export type ButtonProps = AsButton | AsLink;
 
 export function Button(props: ButtonProps): ReactNode {
   const reduced = useReducedMotion();
+  const flyTo = usePaperPlane();
   const { variant = 'primary', size = 'md', fullWidth, children, className } = props;
   const classes = cx(
     styles.button,
@@ -41,9 +43,29 @@ export function Button(props: ButtonProps): ReactNode {
   );
 
   if (props.href !== undefined) {
-    const { variant: _v, size: _s, fullWidth: _f, children: _c, className: _cn, ...rest } = props;
+    const {
+      variant: _v,
+      size: _s,
+      fullWidth: _f,
+      children: _c,
+      className: _cn,
+      onClick,
+      ...rest
+    } = props;
+    // A plain click on a link to another page of this site sends the paper plane first; modified
+    // clicks, new-tab and download links keep their normal browser behaviour.
+    const onLinkClick = (event: MouseEvent<HTMLAnchorElement>): void => {
+      onClick?.(event);
+      const plain =
+        event.button === 0 && !(event.metaKey || event.ctrlKey || event.shiftKey || event.altKey);
+      const here = rest.target === undefined || rest.target === '_self';
+      if (!flyTo || !plain || !here || rest.download !== undefined) return;
+      if (event.defaultPrevented || !isInternalHref(props.href)) return;
+      event.preventDefault();
+      flyTo(props.href, event.currentTarget);
+    };
     return (
-      <a {...rest} className={classes}>
+      <a {...rest} className={classes} onClick={onLinkClick}>
         {children}
       </a>
     );
