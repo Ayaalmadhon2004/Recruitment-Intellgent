@@ -106,7 +106,7 @@ export function CostCalculator({
         <section aria-labelledby="cc-inputs" className={styles.section}>
           <SectionHeader eyebrow={c.inputs.eyebrow} title={c.inputs.title} id="cc-inputs" />
           <div className={styles.split}>
-            <section className={styles.form} aria-label={c.inputs.title}>
+            <div className={styles.form}>
               <Field
                 label={c.inputs.tuition}
                 type="number"
@@ -155,7 +155,7 @@ export function CostCalculator({
                 </div>
                 <span className={styles.vndNote}>{c.inputs.vndNote}</span>
               </div>
-            </section>
+            </div>
             <ResultCard
               tuition={tuition}
               living={living}
