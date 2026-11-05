@@ -1,7 +1,7 @@
 import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { plane } from '@/design/motion';
+import { plane, windStreaks } from '@/design/motion';
 import { Button } from '../Button';
 import { PaperPlaneProvider, flightPath, isInternalHref } from './PaperPlaneProvider';
 
@@ -15,7 +15,7 @@ const mockReducedMotion = (reduced: boolean): void => {
 };
 
 describe('PaperPlane flight', () => {
-  const animate = vi.fn(() => ({ onfinish: null, oncancel: null }));
+  const animate = vi.fn(() => ({ finished: new Promise(() => undefined) }));
   beforeEach(() => {
     vi.useFakeTimers({ shouldAdvanceTime: true });
     mockReducedMotion(false);
@@ -33,7 +33,8 @@ describe('PaperPlane flight', () => {
       </PaperPlaneProvider>,
     );
     await user.click(screen.getByRole('link', { name: 'Start' }));
-    expect(animate).toHaveBeenCalledTimes(1);
+    // The plane and each streak of wind behind it.
+    expect(animate).toHaveBeenCalledTimes(1 + windStreaks.length);
     expect(navigate).not.toHaveBeenCalled();
     act(() => {
       vi.advanceTimersByTime(plane.navigateAt + 20);
