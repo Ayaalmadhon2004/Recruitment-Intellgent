@@ -89,7 +89,7 @@ export function ReportSection({
     const actions = [
       links.continueHref ? { label: en.firstRead.ctaContinue, href: links.continueHref } : null,
       links.unlockHref && !model.unlocked
-        ? { label: en.report.unlock.cta, href: links.unlockHref }
+        ? { label: en.report.unlock.cta, href: links.unlockHref, variant: 'accent' as const }
         : null,
       links.changeAnswersHref
         ? {

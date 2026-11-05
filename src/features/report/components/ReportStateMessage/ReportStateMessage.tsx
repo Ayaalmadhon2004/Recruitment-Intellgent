@@ -38,7 +38,7 @@ export function ReportStateMessage({
           <p className={styles.body}>{copy.emptyBody}</p>
           <div className={styles.actions}>
             <Button href={quickStartHref}>{copy.emptyQuickStart}</Button>
-            <Button variant="secondary" href={intakeHref}>
+            <Button variant="outline" href={intakeHref}>
               {copy.emptyIntake}
             </Button>
           </div>

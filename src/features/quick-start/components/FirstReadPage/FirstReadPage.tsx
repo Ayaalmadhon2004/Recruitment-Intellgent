@@ -136,7 +136,7 @@ export function FirstReadPage({
             </p>
             <div className={styles.actions}>
               <Button onClick={() => setAttempt(attempt + 1)}>{copy.firstReadRetry}</Button>
-              <Button variant="secondary" href={changeAnswersHref}>
+              <Button variant="outline" href={changeAnswersHref}>
                 {en.firstRead.ctaChange}
               </Button>
             </div>

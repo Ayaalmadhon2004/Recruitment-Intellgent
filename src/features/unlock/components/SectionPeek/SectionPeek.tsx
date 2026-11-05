@@ -58,7 +58,7 @@ export function SectionPeek({
           <div className={styles.unlockedBar}>
             <Icon name="check-circle" size={20} strokeWidth={2.4} />
             <span>{copy.unlockedNote}</span>
-            <Button href={reportHref} size="sm" variant="secondary">
+            <Button href={reportHref} size="sm" variant="outline">
               {copy.openReport}
             </Button>
           </div>

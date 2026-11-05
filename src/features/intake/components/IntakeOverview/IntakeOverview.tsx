@@ -85,7 +85,7 @@ export function IntakeOverview({
             <Icon name={saveIcon[saveStatus]} size={18} strokeWidth={2.4} />
             <span>{saveText[saveStatus]}</span>
           </div>
-          <Button variant="secondary" size="sm" onClick={onSaveNow}>
+          <Button variant="outline" size="sm" onClick={onSaveNow}>
             {copy.save.saveNow}
           </Button>
         </div>

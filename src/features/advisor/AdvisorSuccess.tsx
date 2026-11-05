@@ -71,7 +71,7 @@ export function AdvisorSuccess({ request, backHref, onAgain }: AdvisorSuccessPro
         </div>
         <div className={styles.actions}>
           <Button href={backHref}>{copy.backToReport}</Button>
-          <Button variant="secondary" onClick={onAgain}>
+          <Button variant="outline" onClick={onAgain}>
             {copy.again}
           </Button>
         </div>

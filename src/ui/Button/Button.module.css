@@ -44,11 +44,11 @@
   color: var(--color-text-inverse);
 }
 
-.secondary {
+.accent {
   background: var(--color-crimson);
   color: var(--color-text-inverse);
 }
-.secondary:hover {
+.accent:hover {
   background: var(--color-crimson-dark);
   color: var(--color-text-inverse);
 }
@@ -78,7 +78,7 @@
   background: var(--color-navy-deep);
 }
 
-.secondary:active {
+.accent:active {
   background: var(--color-crimson-dark);
 }
 

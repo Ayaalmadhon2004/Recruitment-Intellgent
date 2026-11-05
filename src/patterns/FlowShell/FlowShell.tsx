@@ -110,7 +110,7 @@ export function FlowShell({
       </div>
       <div className={styles.actions}>
         {current > 0 ? (
-          <Button variant="secondary" onClick={onBack}>
+          <Button variant="outline" onClick={onBack}>
             {labels.back}
           </Button>
         ) : (

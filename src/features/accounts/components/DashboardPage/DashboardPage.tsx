@@ -138,7 +138,7 @@ export function DashboardPage({ runtime: runtimeProp }: DashboardPageProps): Rea
         </p>
         <div>
           <Button
-            variant="secondary"
+            variant="outline"
             onClick={() => {
               setData({ status: 'loading' });
               refresh();

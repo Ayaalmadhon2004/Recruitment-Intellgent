@@ -66,7 +66,7 @@ export function ScoreDetailPage({
           {found.locked ? (
             <div className={styles.locked}>
               <LockedArea name={areaName(found.id)} unlockHref={unlockHref} />
-              <Button href={reportHref} variant="secondary">
+              <Button href={reportHref} variant="outline">
                 {en.scoreDetail.back}
               </Button>
             </div>

@@ -6,7 +6,8 @@ import styles from './CtaBand.module.css';
 export type CtaAction = {
   label: string;
   href: string;
-  variant?: 'inverse' | 'inverse-outline';
+  /** `inverse` and `inverse-outline` for the navy band. `accent` marks the one conversion action in a light band. */
+  variant?: 'inverse' | 'inverse-outline' | 'accent';
 };
 
 /**
@@ -26,10 +27,12 @@ export type CtaBandProps = {
   actions: readonly CtaAction[];
 };
 
-/** Light tones swap the inverse buttons for the standard pair: the first action is primary, the rest secondary. */
+/** Light tones swap the inverse buttons for the standard set: the first action is primary, the rest outline, and the conversion action (if marked) accent. */
 function buttonVariant(tone: CtaBandTone, action: CtaAction, index: number): ButtonVariant {
-  if (tone === 'band') return action.variant ?? 'inverse';
-  return index === 0 && action.variant !== 'inverse-outline' ? 'primary' : 'secondary';
+  if (tone === 'band')
+    return action.variant === 'accent' ? 'inverse' : (action.variant ?? 'inverse');
+  if (action.variant === 'accent') return 'accent';
+  return index === 0 && action.variant !== 'inverse-outline' ? 'primary' : 'outline';
 }
 
 export function CtaBand({

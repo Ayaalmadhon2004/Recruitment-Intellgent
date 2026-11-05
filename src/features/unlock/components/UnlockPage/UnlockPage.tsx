@@ -149,7 +149,7 @@ export function UnlockPage({
               <span>{copy.state.errorBody}</span>
             </div>
             <Button
-              variant="secondary"
+              variant="outline"
               onClick={() => {
                 setLoad({ status: 'checking' });
                 setAttempt((n) => n + 1);

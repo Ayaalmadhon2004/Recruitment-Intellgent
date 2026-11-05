@@ -35,7 +35,7 @@ export function EmptyAudits({ total, onStart }: EmptyAuditsProps): ReactNode {
         <p className={styles.body}>{copy.body}</p>
         <div className={styles.actions}>
           <Button onClick={onStart}>{copy.start}</Button>
-          <Button href={routes.quickStart} variant="secondary">
+          <Button href={routes.quickStart} variant="outline">
             {copy.quickStart}
           </Button>
         </div>

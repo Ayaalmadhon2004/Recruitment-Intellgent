@@ -144,7 +144,9 @@ export function FirstReadView({
         body={copy.ctaBody}
         actions={[
           { label: copy.ctaContinue, href: continueHref },
-          ...(unlockHref ? [{ label: en.report.unlock.cta, href: unlockHref }] : []),
+          ...(unlockHref
+            ? [{ label: en.report.unlock.cta, href: unlockHref, variant: 'accent' as const }]
+            : []),
           { label: copy.ctaChange, href: changeAnswersHref },
         ]}
       />

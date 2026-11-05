@@ -114,7 +114,7 @@ export function PdfExportPage({
         <h1 className={styles.title}>{copy.hero.title}</h1>
         <p className={styles.lead}>{copy.hero.lead}</p>
         <div>
-          <Button href={reportHref} variant="secondary">
+          <Button href={reportHref} variant="outline">
             {copy.nav.backToReport}
           </Button>
         </div>

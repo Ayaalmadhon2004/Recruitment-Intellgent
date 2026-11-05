@@ -93,7 +93,7 @@ export function AuditCard({
         </Button>
         <Button
           size="sm"
-          variant="secondary"
+          variant="outline"
           disabled={opening}
           aria-label={fill(copy.viewAria, { name })}
           onClick={() => onOpen(audit.id, 'report')}
