@@ -79,6 +79,7 @@ export const advisor = {
     institution: 'Institution',
     time: 'Preferred time (Vietnam time)',
     message: 'Message',
+    honeypot: 'Leave this field empty',
     messageHint: 'Optional. One or two lines is plenty.',
     via: 'Via {channel}',
   },
@@ -93,6 +94,7 @@ export const advisor = {
     messageTooLong: 'Please shorten your message.',
     channelInvalid: 'Please choose a channel.',
     timeInvalid: 'Please choose a time.',
+    rateLimited: 'Too many requests from your connection. Please wait a few minutes and try again.',
     server: 'We could not send your request. Please try again in a moment.',
   },
   aside: {

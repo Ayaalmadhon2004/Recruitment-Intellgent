@@ -13,6 +13,15 @@ const net = (): string => screen.getByTestId('net-cost').textContent ?? '';
 const here = (): HTMLElement => screen.getByTestId('price-band');
 
 describe('CostCalculator', () => {
+  it('has no two landmarks with the same name', () => {
+    renderSample();
+    const names = screen
+      .getAllByRole('region')
+      .map((region) => region.getAttribute('aria-label') ?? region.getAttribute('aria-labelledby'));
+    expect(new Set(names).size).toBe(names.length);
+    expect(screen.queryAllByRole('region', { name: en.costCalc.inputs.title })).toHaveLength(1);
+  });
+
   it('shows the net cost from the starting numbers', () => {
     renderSample();
     expect(net()).toBe('$37,000');
