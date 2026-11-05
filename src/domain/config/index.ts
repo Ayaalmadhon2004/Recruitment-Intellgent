@@ -3,7 +3,7 @@ import { accountsConfig } from './accounts.config';
 import { accessConfig } from './access.config';
 import { agentsConfig } from './agents.config';
 import { auditScope } from './audit.config';
-import { isDevelopmentBuild } from './environment';
+import { devServicesEnabled, devServicesEnabledFor, isDevelopmentBuild } from './environment';
 import { evidenceConfig } from './evidence.config';
 import { questionsConfig } from './questions.config';
 import { scoringConfig } from './scoring.config';
@@ -19,6 +19,8 @@ export {
   agentsConfig,
   auditScope,
   evidenceConfig,
+  devServicesEnabled,
+  devServicesEnabledFor,
   isDevelopmentBuild,
   questionsConfig,
   routes,

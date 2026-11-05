@@ -15,6 +15,13 @@ export const errorPages = {
     home: 'Go to the home page',
     documentTitle: 'Something went wrong',
   },
+  serviceNotReady: {
+    eyebrow: 'NOT OPEN YET',
+    title: 'This part is not open yet',
+    body: 'Accounts and saved audits are not switched on yet. You can look around the rest of the site, or talk to an advisor about the audit.',
+    home: 'Go to the home page',
+    advisor: 'Talk to an advisor',
+  },
   notFound: {
     eyebrow: 'PAGE NOT FOUND',
     title: 'We could not find that page',
