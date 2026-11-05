@@ -67,3 +67,5 @@ export { SaveDot } from './SaveDot';
 export type { SaveDotProps } from './SaveDot';
 export { SwapText } from './SwapText';
 export type { SwapTextProps } from './SwapText';
+export { PaperPlane, PaperPlaneProvider, isInternalHref, usePaperPlane } from './PaperPlane';
+export type { FlyTo, PaperPlaneProps, PaperPlaneProviderProps, PlaneNavigate } from './PaperPlane';

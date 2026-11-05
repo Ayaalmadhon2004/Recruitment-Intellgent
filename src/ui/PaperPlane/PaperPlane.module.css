@@ -1,0 +1,16 @@
+.plane {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.blue {
+  fill: var(--color-navy);
+}
+.red {
+  fill: var(--color-crimson);
+}
+.redDeep {
+  fill: var(--color-crimson-dark);
+}

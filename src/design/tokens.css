@@ -168,6 +168,7 @@
   --z-header: 10;
   --z-bubble: 20;
   --z-toast: 60;
+  --z-plane: 80; /* the paper plane flying to the next page: above everything */
   --z-companion: 5;
   --color-wave: var(--color-pastel-blue);
   --color-companion-line: var(--color-line-dashed);

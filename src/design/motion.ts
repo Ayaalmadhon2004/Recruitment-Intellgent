@@ -78,3 +78,14 @@ export const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)';
 
 /** Ease-out used by JS count-ups (matches the lift curve's feel). */
 export const easeOutCubic = (t: number): number => 1 - Math.pow(1 - t, 3);
+
+/** The paper plane that carries a button press to the next page. */
+export const plane = {
+  /** Whole flight, from the button to off screen. */
+  flight: 900,
+  /** The next page opens this many ms into the flight, so it arrives under the plane. */
+  navigateAt: 380,
+  /** Plane width in px at its biggest, on a desktop and below 480px. */
+  size: 96,
+  sizeMobile: 72,
+} as const;

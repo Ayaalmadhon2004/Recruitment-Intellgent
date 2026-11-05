@@ -10,6 +10,7 @@ export {
   easeOutCubic,
   easing,
   flight,
+  plane,
   intro,
   loop,
   saveFlash,
