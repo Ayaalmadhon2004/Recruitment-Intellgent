@@ -52,6 +52,8 @@ export function useToast(): ToastApi {
 
 function ToastPill({ item, onDone }: { item: ToastItem; onDone: (id: number) => void }): ReactNode {
   const [leaving, setLeaving] = useState(false);
+  // WCAG 2.2.1: while the pointer or keyboard focus is on a toast it stays, so it can be read at any pace.
+  const [held, setHeld] = useState(false);
   const reduced = useReducedMotion();
 
   // Closing slides the pill up and out first, then removes it. Reduced motion removes it at once.
@@ -61,9 +63,10 @@ function ToastPill({ item, onDone }: { item: ToastItem; onDone: (id: number) => 
   }, [reduced, onDone, item.id]);
 
   useEffect(() => {
+    if (held) return;
     const timer = window.setTimeout(close, item.durationMs);
     return () => window.clearTimeout(timer);
-  }, [item.durationMs, close]);
+  }, [item.durationMs, close, held]);
 
   useEffect(() => {
     if (!leaving) return;
@@ -72,7 +75,17 @@ function ToastPill({ item, onDone }: { item: ToastItem; onDone: (id: number) => 
   }, [leaving, onDone, item.id]);
 
   return (
-    <div className={styles.toast} data-status={item.status} data-leaving={leaving || undefined}>
+    <div
+      className={styles.toast}
+      data-status={item.status}
+      data-leaving={leaving || undefined}
+      onPointerEnter={() => setHeld(true)}
+      onPointerLeave={() => setHeld(false)}
+      onFocus={() => setHeld(true)}
+      onBlur={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget)) setHeld(false);
+      }}
+    >
       <Icon name={icons[item.status]} size={20} />
       <span className={styles.text}>
         <strong className={styles.word}>{uiCopy.toast.status[item.status]}</strong>
@@ -120,6 +133,8 @@ export function ToastProvider({ children }: { children: ReactNode }): ReactNode 
         className={styles.region}
         role="status"
         aria-live="polite"
+        aria-atomic="false"
+        aria-relevant="additions"
         aria-label={uiCopy.toast.regionLabel}
         data-print="hide"
       >
