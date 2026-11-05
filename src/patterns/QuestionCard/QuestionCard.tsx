@@ -217,10 +217,12 @@ function ToggleControl({ value, onChange, labels, titleId }: ControlProps): Reac
         role="switch"
         aria-checked={on}
         aria-labelledby={titleId}
-        className={cx(styles.track, on && styles.trackOn)}
+        className={styles.switchButton}
         onClick={() => onChange(!on)}
       >
-        <span className={styles.knob} />
+        <span className={cx(styles.track, on && styles.trackOn)}>
+          <span className={styles.knob} />
+        </span>
       </button>
       <span className={styles.toggleText}>{text}</span>
     </div>
